@@ -4,6 +4,7 @@
  */
 package test;
 
+import com.boxcf.store.Store;
 import com.boxcf.components.Background;
 import com.boxcf.components.ButtonRound;
 import com.boxcf.models.Box;

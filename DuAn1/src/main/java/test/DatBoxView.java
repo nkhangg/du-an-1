@@ -4,6 +4,7 @@
  */
 package test;
 
+import com.boxcf.store.Store;
 import com.box.utils.XDate;
 import com.boxcf.models.Box;
 import com.boxcf.models.DatBox;

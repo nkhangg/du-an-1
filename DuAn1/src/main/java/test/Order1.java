@@ -12,11 +12,11 @@ import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.SwingUtilities;
-import test.EventIncrease;
-import test.EventItem;
-import test.Items;
-import test.PanelBill;
-import test.Store;
+import com.boxcf.events.interfaces.EventIncrease;
+import com.boxcf.events.interfaces.EventItem;
+import com.boxcf.components.material.ProductItem;
+import com.boxcf.components.material.PanelBill;
+import com.boxcf.store.Store;
 
 /**
  *
@@ -35,7 +35,7 @@ public class Order1 extends javax.swing.JPanel {
         panelBill = new PanelBill1();
         jPanel1.setLayout(new FlowLayout());
         jPanel1.add(panelBill);
-        Store.globelPanelBill = panelBill;
+        Store.globelPanelBill1 = panelBill;
 
     }
 

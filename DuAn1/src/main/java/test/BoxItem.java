@@ -4,6 +4,7 @@
  */
 package test;
 
+import com.boxcf.components.Spiner;
 import com.boxcf.models.Box;
 import java.awt.Color;
 import java.awt.Component;
@@ -112,7 +113,7 @@ System.out.println("click");
     private void initComponents() {
 
         lblMaBox = new javax.swing.JLabel();
-        soLuong = new test.Spiner();
+        soLuong = new com.boxcf.components.Spiner();
         lblLoaiBox = new javax.swing.JLabel();
         lblTrangThai = new javax.swing.JLabel();
         lblGio = new javax.swing.JLabel();
@@ -163,6 +164,6 @@ System.out.println("click");
     private javax.swing.JLabel lblLoaiBox;
     private javax.swing.JLabel lblMaBox;
     private javax.swing.JLabel lblTrangThai;
-    private test.Spiner soLuong;
+    private com.boxcf.components.Spiner soLuong;
     // End of variables declaration//GEN-END:variables
 }
