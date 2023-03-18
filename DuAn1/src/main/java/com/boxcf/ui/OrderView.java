@@ -4,6 +4,7 @@
  */
 package com.boxcf.ui;
 
+import com.box.utils.Formats;
 import com.boxcf.components.ScrollBar;
 import com.boxcf.events.StoreEvents;
 import java.awt.FlowLayout;
@@ -15,19 +16,22 @@ import com.boxcf.events.interfaces.EventItem;
 import com.boxcf.components.material.ProductItem;
 import com.boxcf.models.ModelItem;
 import com.boxcf.components.material.PanelBill;
+import com.boxcf.dao.SanPhamDao;
+import com.boxcf.models.SanPham;
 import com.boxcf.store.Store;
+import java.text.DecimalFormat;
 
 /**
  *
  * @author HP
  */
 public class OrderView extends javax.swing.JFrame {
-
+    
     private EventItem event;
     private boolean selected;
     private PanelBill panelBill;
     private ModelItem itemSelected;
-
+    
     public OrderView() {
         initComponents();
         // tạo panel chứa bill
@@ -36,14 +40,14 @@ public class OrderView extends javax.swing.JFrame {
         initStyle();
         init();
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblTotal = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         buttonRound6 = new com.boxcf.components.ButtonRound();
         ContainBill = new javax.swing.JPanel();
@@ -72,16 +76,29 @@ public class OrderView extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Tổng tiền");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(16, 108, 130));
-        jLabel3.setText("100.000");
+        lblTotal.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblTotal.setForeground(new java.awt.Color(16, 108, 130));
+        lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTotal.setText("0 VND");
 
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/Trash.png"))); // NOI18N
+        jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
 
         buttonRound6.setBackground(new java.awt.Color(50, 130, 179));
         buttonRound6.setForeground(new java.awt.Color(255, 255, 255));
         buttonRound6.setText("THU TIỀN");
         buttonRound6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        buttonRound6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRound6ActionPerformed(evt);
+            }
+        });
 
         ContainBill.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -93,7 +110,7 @@ public class OrderView extends javax.swing.JFrame {
         );
         ContainBillLayout.setVerticalGroup(
             ContainBillLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 660, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -111,17 +128,18 @@ public class OrderView extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(ContainBill, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(ContainBill, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addComponent(lblTotal))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -291,6 +309,13 @@ public class OrderView extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_buttonRound2ActionPerformed
 
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        handleClearBill();
+    }//GEN-LAST:event_jLabel4MouseClicked
+
+    private void buttonRound6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound6ActionPerformed
+    }//GEN-LAST:event_buttonRound6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -338,13 +363,13 @@ public class OrderView extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JLabel lblTotal;
     private com.boxcf.components.PanelItem panelItem;
     private javax.swing.JScrollPane scroll;
     // End of variables declaration//GEN-END:variables
@@ -361,22 +386,22 @@ public class OrderView extends javax.swing.JFrame {
                 }
             }
         });
-
+        
         panelItem.add(item);
         panelItem.repaint();
         panelItem.revalidate();
         panelBill.setPanelItem(panelItem);
-
+        
     }
-
+    
     public EventItem getEvent() {
         return event;
     }
-
+    
     public void setEvent(EventItem event) {
         this.event = event;
     }
-
+    
     public void showItemBill(ModelItem data) {
         if (selected) {
             if (data.getSoLuong() <= 0) {
@@ -386,17 +411,17 @@ public class OrderView extends javax.swing.JFrame {
         } else {
             panelBill.removeItem(data);
         }
-
+        
     }
-
+    
     public boolean isSelected() {
         return selected;
     }
-
+    
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
-
+    
     public void setEventIncreace(java.awt.Component item, ModelItem data) {
         ProductItem i = ((ProductItem) item);
 
@@ -406,25 +431,26 @@ public class OrderView extends javax.swing.JFrame {
         // đưa sự kiện tăng sang class khác
         StoreEvents.increaseProduct(i.getSoLuong(), panelBill, i, data);
     }
-
+    
     public void setSelected(java.awt.Component item) {
         ProductItem i = ((ProductItem) item);
         if (i.isSelected()) {
             i.setSoLuong(0);
             i.setSelected(false);
-
+            
         } else {
             i.setSoLuong(1);
             i.setSelected(true);
         }
         setSelected(i.isSelected());
-
+        
     }
-
+    
     public void initStyle() {
 
         // gán biến
         Store.globelPanelBill = panelBill;
+        Store.orderView = this;
 
         // set style for scollbar
         scroll.setVerticalScrollBar(new ScrollBar());
@@ -438,23 +464,34 @@ public class OrderView extends javax.swing.JFrame {
         // add panel chứa bill
         ContainBill.add(panelBill);
     }
-
+    
     private void init() {
 
         // thử dữ liệu
-        testData();
-
+        adData();
+        
     }
-
-    private void testData() {
+    
+    private void adData() {
 
         // đưa sang class khác xử lí
         StoreEvents.product(this);
-
-        for (int i = 1; i <= 5; i++) {
-            this.addData(new ModelItem(i, new ImageIcon(getClass().getResource("/com/boxcf/images/sp" + i + ".jpg")), i * 1000, "Trà đào " + i, 0));
+        
+        for (SanPham sp : SanPhamDao.getInstant().selectAll()) {
+            this.addData(new ModelItem(sp.getMaSP(), new ImageIcon(getClass().getResource(sp.getHinhAnh())), sp.getGia(), sp.getTenSP(), 0));
         }
-
+        
     }
 
+    // xử lí nút xóa tất cả
+    private void handleClearBill() {
+        panelBill.clearList();
+    }
+    
+    public void handleTotal() {
+
+        // hiển thị kiểu tiền tệ
+        lblTotal.setText(Formats.toCurency(panelBill.total()));
+    }
+    
 }

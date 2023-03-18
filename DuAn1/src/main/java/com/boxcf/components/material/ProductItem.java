@@ -4,6 +4,7 @@
  */
 package com.boxcf.components.material;
 
+import com.box.utils.Formats;
 import com.boxcf.models.ModelItem;
 import java.awt.Color;
 import java.awt.Component;
@@ -20,50 +21,50 @@ import com.boxcf.store.Store;
  * @author PC
  */
 public class ProductItem extends javax.swing.JPanel {
-
+    
     private boolean selected;
     private ModelItem data;
-
+    
     public ProductItem() {
         initComponents();
         setOpaque(false);
         init();
     }
-
+    
     public boolean isSelected() {
         return selected;
     }
-
+    
     public Spiner getSoLuong() {
         return soLuong;
     }
-
+    
     public void setSoLuong(Spiner soLuong) {
         this.soLuong = soLuong;
     }
-
+    
     public void setSelected(boolean selected) {
         this.selected = selected;
         repaint();
     }
-
+    
     public void setSoLuong(int soLuong) {
         this.data.setSoLuong(soLuong);
         this.soLuong.setSoLuong(soLuong);
     }
-
+    
     public ModelItem getData() {
         return data;
     }
-
+    
     public void setData(ModelItem data) {
         this.data = data;
-        lblGia.setText(data.getGia() + "");
+        lblGia.setText(Formats.toCurency(data.getGia()));
         lblTen.setText(data.getTen());
         picHinh.setImage(data.getHing());
-
+        
     }
-
+    
     public void clearSelected() {
         this.data.setSoLuong(0);
         soLuong.setSoLuong(0);
@@ -71,10 +72,10 @@ public class ProductItem extends javax.swing.JPanel {
         repaint();
         revalidate();
     }
-
+    
     private void init() {
         PanelBill panelbill = Store.globelPanelBill;
-
+        
         soLuong.setEvenDecrease(new EventIncrease() {
             @Override
             public void itemClick(Component com, int quantity) {
@@ -83,7 +84,7 @@ public class ProductItem extends javax.swing.JPanel {
                     setSelected(false);
                     panelbill.removeItem(data);
                 }
-
+                
                 for (ItemBill itemBill : panelbill.getList()) {
                     if (itemBill.getData().getMaItem() == data.getMaItem()) {
                         ModelItem oldData = itemBill.getData();
@@ -103,13 +104,13 @@ public class ProductItem extends javax.swing.JPanel {
                         return;
                     }
                 }
-
+                
             }
-
+            
         });
-
+        
         soLuong.setEvenIncrease(new EventIncrease() {
-
+            
             @Override
             public void itemClick(Component com, int quantity) {
                 data.setSoLuong(quantity);
@@ -135,14 +136,14 @@ public class ProductItem extends javax.swing.JPanel {
                         return;
                     }
                 }
-
+                
                 data.setSoLuong(quantity + 1);
                 panelbill.setList(data);
             }
-
+            
         });
     }
-
+    
     @Override
     public void paint(Graphics grphcs) {
         super.paint(grphcs);
@@ -157,7 +158,7 @@ public class ProductItem extends javax.swing.JPanel {
         g2.dispose();
         super.paint(grphcs);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -183,16 +184,22 @@ public class ProductItem extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGap(4, 4, 4)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(picHinh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblTen, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblGia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(soLuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(4, 4, 4))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(lblGia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(lblTen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(soLuong, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                            .addComponent(picHinh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(4, 4, 4))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

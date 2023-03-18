@@ -4,6 +4,7 @@
  */
 package com.boxcf.components.material;
 
+import com.box.utils.Formats;
 import com.boxcf.events.interfaces.EventItem;
 import com.boxcf.models.ModelItem;
 import java.awt.Color;
@@ -55,7 +56,7 @@ public class ItemBill extends javax.swing.JPanel {
     
     public void setData(ModelItem data) {
         this.data = data;
-        lblGia.setText(data.getGia() + "");
+        lblGia.setText(Formats.toCurency(data.getGia()));
         lblSoluong.setText(data.getSoLuong() + "");
         lblTen.setText(data.getTen());
     }

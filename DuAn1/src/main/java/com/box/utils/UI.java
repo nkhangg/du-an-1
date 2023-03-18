@@ -5,8 +5,6 @@
 package com.box.utils;
 
 import java.awt.Color;
-import java.awt.Component;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**

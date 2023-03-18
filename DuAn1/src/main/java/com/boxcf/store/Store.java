@@ -5,6 +5,7 @@
 package com.boxcf.store;
 
 import com.boxcf.components.material.PanelBill;
+import com.boxcf.ui.OrderView;
 import test.Order1;
 import test.PanelBill1;
 
@@ -13,6 +14,8 @@ import test.PanelBill1;
  * @author PC
  */
 public class Store {
+
+    public static OrderView orderView = null;
 
     public static PanelBill1 globelPanelBill1 = null;
     public static PanelBill globelPanelBill = null;

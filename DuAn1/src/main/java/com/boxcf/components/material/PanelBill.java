@@ -4,10 +4,15 @@
  */
 package com.boxcf.components.material;
 
-
+import com.box.utils.Sort;
 import com.boxcf.models.ModelItem;
 import com.boxcf.components.PanelItem;
 import com.boxcf.events.StoreEvents;
+import com.boxcf.store.Store;
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,7 +22,7 @@ import java.util.Set;
  */
 public class PanelBill extends javax.swing.JPanel {
 
-    private Set<ItemBill> list = new HashSet<>();
+    private ArrayList<ItemBill> list = new ArrayList<>();
     private PanelItem panelItem;
 
     public PanelBill() {
@@ -33,9 +38,23 @@ public class PanelBill extends javax.swing.JPanel {
     }
 
     public void render() {
+
+        // sấp xếp theo mã tăng dần
+        Sort.sortIncreased(list);
+        Store.orderView.handleTotal();
         for (ItemBill itemBill : list) {
             this.add(itemBill);
         }
+    }
+
+    public ArrayList<ItemBill> getList() {
+        return list;
+    }
+
+    public void setList(ArrayList<ItemBill> list) {
+        this.list = list;
+        this.repaint();
+        this.revalidate();
     }
 
     public void setList(ModelItem data) {
@@ -47,16 +66,6 @@ public class PanelBill extends javax.swing.JPanel {
         item.setData(data);
         list.add(item);
         render();
-        this.repaint();
-        this.revalidate();
-    }
-
-    public Set<ItemBill> getList() {
-        return list;
-    }
-
-    public void setList(Set<ItemBill> list) {
-        this.list = list;
         this.repaint();
         this.revalidate();
     }
@@ -78,11 +87,35 @@ public class PanelBill extends javax.swing.JPanel {
 
         for (ItemBill itemBill : list) {
 
-            if (data.getGia() == itemBill.getData().getGia()) {
+            if (data.getMaItem()== itemBill.getData().getMaItem()) {
                 itemBill.tangLen(quantity);
                 return;
             }
         }
+    }
+
+    public void clearList() {
+        list.removeAll(list);
+        render();
+        this.removeAll();
+        panelItem.clearActiveProduct();
+        this.repaint();
+        this.revalidate();
+    }
+
+    public long total() {
+
+        long reuslt = 0;
+
+        if (list.size() <= 0) {
+            return reuslt;
+        }
+
+        for (ItemBill itemBill : list) {
+            reuslt += itemBill.getData().getSoLuong() * itemBill.getData().getGia();
+        }
+
+        return reuslt;
     }
 
     @SuppressWarnings("unchecked")
