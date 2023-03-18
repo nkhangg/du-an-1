@@ -150,7 +150,10 @@ public class OrderTest extends javax.swing.JFrame {
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(order);
         testData();
-
+        
+        for (int i = 1; i <= 5; i++) {
+            order.addData(new ModelItem("SP" + i, new ImageIcon(getClass().getResource("/com/boxcf/images/sp" + i + ".jpg")), i * 1000, "Trà đào " + i, 0));
+        }
     }
 
     private void testData() {
@@ -166,9 +169,7 @@ public class OrderTest extends javax.swing.JFrame {
         });
 
         // chổ này để kéo dữ liệu dô
-        for (int i = 1; i <= 5; i++) {
-            order.addData(new ModelItem("SP" + i, new ImageIcon(getClass().getResource("/com/boxcf/images/sp" + i + ".jpg")), i * 1000, "Trà đào " + i, 0));
-        }
+        
 
     }
 

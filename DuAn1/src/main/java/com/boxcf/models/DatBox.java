@@ -17,28 +17,32 @@ public class DatBox {
     Date GioBD;
     Date GioKT;
     String TrangThai;
+    int soLuong;
     int MaBox;
 
     public DatBox() {
     }
 
-    public DatBox(int MaDat, String TenKH, Date GioBD, Date GioKT, String TrangThai, int MaBox) {
+    public DatBox(int MaDat, String TenKH, Date GioBD, Date GioKT, String TrangThai, int soLuong, int MaBox) {
         this.MaDat = MaDat;
         this.TenKH = TenKH;
         this.GioBD = GioBD;
         this.GioKT = GioKT;
         this.TrangThai = TrangThai;
+        this.soLuong = soLuong;
+        this.MaBox = MaBox;
+    }
+    
+    public DatBox(int MaDat, String TenKH, String TrangThai, int soLuong, int MaBox) {
+        this.MaDat = MaDat;
+        this.TenKH = TenKH;
+//        this.GioBD = GioBD;
+//        this.GioKT = GioKT;
+        this.TrangThai = TrangThai;
+        this.soLuong = soLuong;
         this.MaBox = MaBox;
     }
 
-    
-    public DatBox( String TenKH, Date GioBD, Date GioKT, String TrangThai, int MaBox) {
-        this.TenKH = TenKH;
-        this.GioBD = GioBD;
-        this.GioKT = GioKT;
-        this.TrangThai = TrangThai;
-        this.MaBox = MaBox;
-    }
 
     public int getMaDat() {
         return MaDat;
@@ -72,6 +76,10 @@ public class DatBox {
         this.GioKT = GioKT;
     }
 
+    public void setSoLuong(int soLuong) {
+        this.soLuong = soLuong;
+    }
+
     public String getTrangThai() {
         return TrangThai;
     }
@@ -88,4 +96,7 @@ public class DatBox {
         this.MaBox = MaBox;
     }
 
+    public int getSoLuong() {
+        return soLuong;
+    }
 }

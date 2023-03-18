@@ -12,10 +12,12 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class Main extends javax.swing.JFrame {
     
     NhanVienView nvView = new NhanVienView();
+    SanPhamView spView = new SanPhamView();
     
     public Main() {
         initComponents();
@@ -55,7 +57,6 @@ public class Main extends javax.swing.JFrame {
         lblMenu3.setFont(new java.awt.Font("UTM BryantLG", 1, 18)); // NOI18N
         lblMenu3.setForeground(new java.awt.Color(51, 51, 51));
         lblMenu3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/staff.png"))); // NOI18N
         lblMenu3.setText("Nhân viên");
         lblMenu3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 36, 1, 1));
         lblMenu3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -65,7 +66,7 @@ public class Main extends javax.swing.JFrame {
                 lblMenu3MouseClicked(evt);
             }
         });
-        gradientPanel2.add(lblMenu3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 190, 50));
+        gradientPanel2.add(lblMenu3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 220, 50));
 
         lblMenu4.setFont(new java.awt.Font("UTM BryantLG", 1, 18)); // NOI18N
         lblMenu4.setForeground(new java.awt.Color(51, 51, 51));
@@ -77,7 +78,7 @@ public class Main extends javax.swing.JFrame {
                 lblMenu4MouseClicked(evt);
             }
         });
-        gradientPanel2.add(lblMenu4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 190, 50));
+        gradientPanel2.add(lblMenu4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 220, 50));
 
         lblMenu5.setFont(new java.awt.Font("UTM BryantLG", 1, 18)); // NOI18N
         lblMenu5.setForeground(new java.awt.Color(51, 51, 51));
@@ -89,7 +90,7 @@ public class Main extends javax.swing.JFrame {
                 lblMenu5MouseClicked(evt);
             }
         });
-        gradientPanel2.add(lblMenu5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 190, 50));
+        gradientPanel2.add(lblMenu5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 220, 50));
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(234, 206, 146));
@@ -112,11 +113,11 @@ public class Main extends javax.swing.JFrame {
         pnlContent.setLayout(pnlContentLayout);
         pnlContentLayout.setHorizontalGroup(
             pnlContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 981, Short.MAX_VALUE)
         );
         pnlContentLayout.setVerticalGroup(
             pnlContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 721, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout gradientPanel4Layout = new javax.swing.GroupLayout(gradientPanel4);
@@ -126,30 +127,26 @@ public class Main extends javax.swing.JFrame {
             .addGroup(gradientPanel4Layout.createSequentialGroup()
                 .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(gradientPanel4Layout.createSequentialGroup()
-                        .addComponent(gradientPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel4Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
                         .addComponent(jLabel2)
-                        .addGap(18, 18, 18)))
-                .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(gradientPanel4Layout.createSequentialGroup()
-                        .addGap(0, 844, Short.MAX_VALUE)
+                        .addComponent(gradientPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(1, 1, 1)))
+                .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel4Layout.createSequentialGroup()
                         .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24))
-                    .addComponent(pnlContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(pnlContent, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         gradientPanel4Layout.setVerticalGroup(
             gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel4Layout.createSequentialGroup()
-                .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, gradientPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+            .addGroup(gradientPanel4Layout.createSequentialGroup()
+                .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(gradientPanel4Layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -158,10 +155,15 @@ public class Main extends javax.swing.JFrame {
                                 .addComponent(jLabel4)
                                 .addGap(4, 4, 4)
                                 .addComponent(jLabel5)))
-                        .addGap(17, 17, 17)))
-                .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(gradientPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
-                    .addComponent(pnlContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(21, 21, 21))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(1, 1, 1)))
+                .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(gradientPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlContent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(gradientPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1200, 810));
@@ -176,6 +178,8 @@ public class Main extends javax.swing.JFrame {
 
     private void lblMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMenu4MouseClicked
         // TODO add your handling code here:
+        hidden(nvView);
+        active(spView);
     }//GEN-LAST:event_lblMenu4MouseClicked
 
     private void lblMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMenu3MouseClicked
@@ -247,6 +251,7 @@ public class Main extends javax.swing.JFrame {
 
     private void init() {
         this.prepareUI();
+        System.out.println(pnlContent.getWidth() + " " + pnlContent.getHeight());
         
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -271,5 +276,15 @@ public class Main extends javax.swing.JFrame {
     private void openNhanVienView() {
         nvView.setSize(this.getWidth(), this.getWidth());
         nvView.setVisible(true);
+    }
+
+    private void hidden(JPanel jpanel) {
+        jpanel.setVisible(false);
+    }
+
+    private void active(JPanel jpanel) {
+        pnlContent.add(jpanel);
+        jpanel.setSize(this.getWidth(), this.getHeight());
+        jpanel.setVisible(true);
     }
 }

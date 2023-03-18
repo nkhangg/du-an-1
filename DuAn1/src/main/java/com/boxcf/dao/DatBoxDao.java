@@ -16,14 +16,16 @@ public class DatBoxDao implements BoxCfDAO<DatBox, Integer> {
     @Override
     public DatBox createObjecet(ResultSet responce) {
         try {
-            return new DatBox(
-                    responce.getInt(1), 
-                    responce.getString(2),
-                    responce.getDate(3),
-                    responce.getDate(4),
-                    responce.getString(5),
-                    responce.getInt(6)
-                );
+//            return new DatBox(
+//                    responce.getInt(1), 
+//                    responce.getString(2),
+//                    responce.getDate(3),
+//                    responce.getDate(4),
+//                    responce.getString(5),
+//                    responce.getInt(6)
+//                );
+            
+            return new DatBox();
         } catch (Exception e) {
             throw new Error("The Error in createObjecet DATBOX !");
         }

@@ -347,7 +347,7 @@ public class SanPhamView extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAdd1ActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-
+        new ThongTinNV().setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void buttonRound1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound1ActionPerformed

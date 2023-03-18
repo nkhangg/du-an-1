@@ -33,7 +33,7 @@ public class Order extends javax.swing.JPanel {
         panelBill = new PanelBill();
         jPanel1.setLayout(new FlowLayout());
         jPanel1.add(panelBill);
-        Store.globelPanelBill = panelBill;
+//        Store.globelPanelBill = panelBill;
 
     }
 

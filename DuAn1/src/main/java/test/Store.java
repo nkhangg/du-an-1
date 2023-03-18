@@ -10,5 +10,7 @@ package test;
  */
 public class Store {
 
-    public static PanelBill globelPanelBill = null;
+    public static PanelBill1 globelPanelBill = null;
+    public static Order1 globelOrderBox = null;
+
 }
