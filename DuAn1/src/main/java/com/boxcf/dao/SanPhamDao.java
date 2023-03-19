@@ -9,8 +9,7 @@ import com.box.utils.JdbcHelper;
 
 public class SanPhamDao implements BoxCfDAO<SanPham, Integer> {
 
-
-    public static SanPhamDao getInstant () {
+    public static SanPhamDao getInstant() {
         return new SanPhamDao();
     }
 
@@ -18,13 +17,13 @@ public class SanPhamDao implements BoxCfDAO<SanPham, Integer> {
     public SanPham createObjecet(ResultSet responce) {
         try {
             return new SanPham(
-                    responce.getInt(1), 
+                    responce.getInt(1),
                     responce.getString(2),
                     responce.getLong(3),
                     responce.getString(4),
                     responce.getString(5),
                     responce.getString(6)
-                );
+            );
         } catch (Exception e) {
             throw new Error("The Error in createObjecet SanPham !");
         }
@@ -33,17 +32,17 @@ public class SanPhamDao implements BoxCfDAO<SanPham, Integer> {
     @Override
     public void delete(Integer id) {
         String sql = "delete SanPham where MaSP = ?";
-        
+
         try {
             int responce = JdbcHelper.update(sql, id);
 
-            if(responce == 0){
+            if (responce == 0) {
                 throw new Error("The Error in delete SanPham !");
             }
         } catch (Exception e) {
             throw new Error("The Error in delete SanPham !");
         }
-        
+
     }
 
     @Override
@@ -53,7 +52,7 @@ public class SanPhamDao implements BoxCfDAO<SanPham, Integer> {
         try {
             int responce = JdbcHelper.update(sql, e.getTenSP(), e.getGia(), e.getHinhAnh(), e.getMoTa(), e.getMaLoai());
 
-            if(responce == 0){
+            if (responce == 0) {
                 throw new Error("The Error in insert SanPham !");
             }
         } catch (Exception ex) {
@@ -63,18 +62,17 @@ public class SanPhamDao implements BoxCfDAO<SanPham, Integer> {
 
     @Override
     public List<SanPham> selectAll() {
-        List<SanPham> list  = new ArrayList<>();
+        List<SanPham> list = new ArrayList<>();
         String sql = "select * from SanPham";
 
         try {
             ResultSet responce = JdbcHelper.query(sql);
 
-
-            while(responce.next()){
+            while (responce.next()) {
                 list.add(createObjecet(responce));
             }
-            
 
+            responce.getStatement().getConnection().close();
 
         } catch (Exception e) {
             throw new Error("The Error in selectAll SanPham !");
@@ -91,10 +89,11 @@ public class SanPhamDao implements BoxCfDAO<SanPham, Integer> {
             ResultSet responce = JdbcHelper.query(sql, id);
 
             // admission a ResultSet return a Box
-            if(responce.next()){
+            if (responce.next()) {
                 return createObjecet(responce);
             }
 
+            responce.getStatement().getConnection().close();
 
         } catch (Exception e) {
             throw new Error("The Error in selectById SanPham !");
@@ -104,18 +103,16 @@ public class SanPhamDao implements BoxCfDAO<SanPham, Integer> {
 
     @Override
     public List<SanPham> selectBySql(String sql, Object... args) {
-        List<SanPham> list  = new ArrayList<>();
+        List<SanPham> list = new ArrayList<>();
 
         try {
             ResultSet responce = JdbcHelper.query(sql, args);
 
-
-            while(responce.next()){
+            while (responce.next()) {
                 list.add(createObjecet(responce));
             }
-            
 
-
+            responce.getStatement().getConnection().close();
         } catch (Exception e) {
             throw new Error("The Error in selectBySql SanPham !");
         }
@@ -127,15 +124,15 @@ public class SanPhamDao implements BoxCfDAO<SanPham, Integer> {
         String sql = "update SanPham set TenSP = ?, Gia = ?, HinhAnh = ?, MoTa = ?, MaLoai = ? where MaSP = ?";
 
         try {
-            int responce = JdbcHelper.update(sql, e.getTenSP(), e.getGia(), e.getHinhAnh(),e.getMoTa(), e.getMaLoai(), e.getMaSP());
+            int responce = JdbcHelper.update(sql, e.getTenSP(), e.getGia(), e.getHinhAnh(), e.getMoTa(), e.getMaLoai(), e.getMaSP());
 
-            if(responce == 0){
+            if (responce == 0) {
                 throw new Error("The Error in update SanPham !");
             }
         } catch (Exception ex) {
             throw new Error("The Error in update SanPham !");
         }
-        
+
     }
-    
+
 }

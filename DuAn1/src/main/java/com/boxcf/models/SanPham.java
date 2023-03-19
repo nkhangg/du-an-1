@@ -69,7 +69,6 @@ public class SanPham {
         this.MoTa = MoTa;
     }
 
-
     public String getMaLoai() {
         return MaLoai;
     }
@@ -77,6 +76,10 @@ public class SanPham {
     public void setMaLoai(String MaLoai) {
         this.MaLoai = MaLoai;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "SanPham{" + "MaSP=" + MaSP + ", TenSP=" + TenSP + ", Gia=" + Gia + ", HinhAnh=" + HinhAnh + ", MoTa=" + MoTa + ", MaLoai=" + MaLoai + '}';
+    }
+
 }

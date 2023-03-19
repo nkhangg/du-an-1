@@ -9,19 +9,18 @@ import com.box.utils.JdbcHelper;
 
 public class LoaiSPDao implements BoxCfDAO<LoaiSP, String> {
 
-    public static LoaiSPDao getInstant () {
+    public static LoaiSPDao getInstant() {
         return new LoaiSPDao();
     }
-
 
     @Override
     public LoaiSP createObjecet(ResultSet responce) {
         try {
             return new LoaiSP(
-                    responce.getString(1), 
+                    responce.getString(1),
                     responce.getString(2),
                     responce.getString(3)
-                );
+            );
         } catch (Exception e) {
             throw new Error("The Error in createObjecet LoaiSP !");
         }
@@ -30,17 +29,17 @@ public class LoaiSPDao implements BoxCfDAO<LoaiSP, String> {
     @Override
     public void delete(String id) {
         String sql = "delete DanhMuc where MaLoai = ?";
-        
+
         try {
             int responce = JdbcHelper.update(sql, id);
 
-            if(responce == 0){
+            if (responce == 0) {
                 throw new Error("The Error in delete LoaiSP !");
             }
         } catch (Exception e) {
             throw new Error("The Error in delete LoaiSP !");
         }
-        
+
     }
 
     @Override
@@ -50,30 +49,28 @@ public class LoaiSPDao implements BoxCfDAO<LoaiSP, String> {
         try {
             int responce = JdbcHelper.update(sql, e.getMaLoai(), e.getTenLoai(), e.getMaDM());
 
-            if(responce == 0){
+            if (responce == 0) {
                 throw new Error("The Error in insert LoaiSP !");
             }
         } catch (Exception ex) {
             throw new Error("The Error in insert LoaiSP !");
         }
-        
+
     }
 
     @Override
     public List<LoaiSP> selectAll() {
-        List<LoaiSP> list  = new ArrayList<>();
+        List<LoaiSP> list = new ArrayList<>();
         String sql = "select * from LoaiSP";
 
         try {
             ResultSet responce = JdbcHelper.query(sql);
 
-
-            while(responce.next()){
+            while (responce.next()) {
                 list.add(createObjecet(responce));
             }
-            
 
-
+            responce.getStatement().getConnection().close();
         } catch (Exception e) {
             throw new Error("The Error in selectAll LoaiSP !");
         }
@@ -89,11 +86,11 @@ public class LoaiSPDao implements BoxCfDAO<LoaiSP, String> {
             ResultSet responce = JdbcHelper.query(sql, id);
 
             // admission a ResultSet return a Box
-            if(responce.next()){
+            if (responce.next()) {
                 return createObjecet(responce);
             }
 
-
+            responce.getStatement().getConnection().close();
         } catch (Exception e) {
             throw new Error("The Error in selectById LoaiSP !");
         }
@@ -102,18 +99,16 @@ public class LoaiSPDao implements BoxCfDAO<LoaiSP, String> {
 
     @Override
     public List<LoaiSP> selectBySql(String sql, Object... args) {
-        List<LoaiSP> list  = new ArrayList<>();
+        List<LoaiSP> list = new ArrayList<>();
 
         try {
             ResultSet responce = JdbcHelper.query(sql, args);
 
-
-            while(responce.next()){
+            while (responce.next()) {
                 list.add(createObjecet(responce));
             }
-            
 
-
+            responce.getStatement().getConnection().close();
         } catch (Exception e) {
             throw new Error("The Error in selectBySql LoaiSP !");
         }
@@ -127,12 +122,12 @@ public class LoaiSPDao implements BoxCfDAO<LoaiSP, String> {
         try {
             int responce = JdbcHelper.update(sql, e.getTenLoai(), e.getMaDM(), e.getMaLoai());
 
-            if(responce == 0){
+            if (responce == 0) {
                 throw new Error("The Error in update LoaiSP !");
             }
         } catch (Exception ex) {
             throw new Error("The Error in update LoaiSP !");
         }
     }
-    
+
 }

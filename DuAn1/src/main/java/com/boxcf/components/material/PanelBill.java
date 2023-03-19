@@ -9,12 +9,7 @@ import com.boxcf.models.ModelItem;
 import com.boxcf.components.PanelItem;
 import com.boxcf.events.StoreEvents;
 import com.boxcf.store.Store;
-import java.awt.Component;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  *
@@ -87,7 +82,7 @@ public class PanelBill extends javax.swing.JPanel {
 
         for (ItemBill itemBill : list) {
 
-            if (data.getMaItem()== itemBill.getData().getMaItem()) {
+            if (data.getMaItem() == itemBill.getData().getMaItem()) {
                 itemBill.tangLen(quantity);
                 return;
             }

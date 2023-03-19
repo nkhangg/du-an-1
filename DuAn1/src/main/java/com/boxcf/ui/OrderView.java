@@ -5,7 +5,10 @@
 package com.boxcf.ui;
 
 import com.box.utils.Formats;
+import com.boxcf.components.ButtonRound;
+import com.boxcf.components.PanelItem;
 import com.boxcf.components.ScrollBar;
+import com.boxcf.components.material.Category;
 import com.boxcf.events.StoreEvents;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
@@ -16,10 +19,16 @@ import com.boxcf.events.interfaces.EventItem;
 import com.boxcf.components.material.ProductItem;
 import com.boxcf.models.ModelItem;
 import com.boxcf.components.material.PanelBill;
+import com.boxcf.dao.DanhMucDao;
+import com.boxcf.dao.LoaiSPDao;
 import com.boxcf.dao.SanPhamDao;
+import com.boxcf.models.DanhMuc;
+import com.boxcf.models.LoaiSP;
 import com.boxcf.models.SanPham;
 import com.boxcf.store.Store;
-import java.text.DecimalFormat;
+import java.awt.Component;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -51,17 +60,17 @@ public class OrderView extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         buttonRound6 = new com.boxcf.components.ButtonRound();
         ContainBill = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        panelButton = new javax.swing.JPanel();
         buttonRound1 = new com.boxcf.components.ButtonRound();
         buttonRound3 = new com.boxcf.components.ButtonRound();
         buttonRound4 = new com.boxcf.components.ButtonRound();
         buttonRound5 = new com.boxcf.components.ButtonRound();
-        buttonRound9 = new com.boxcf.components.ButtonRound();
-        buttonRound2 = new com.boxcf.components.ButtonRound();
+        btnAll = new com.boxcf.components.ButtonRound();
+        windowButton2 = new com.boxcf.components.WindowButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
+        panelCategory = new javax.swing.JPanel();
         scroll = new javax.swing.JScrollPane();
         panelItem = new com.boxcf.components.PanelItem();
         jPanel5 = new javax.swing.JPanel();
@@ -106,11 +115,11 @@ public class OrderView extends javax.swing.JFrame {
         ContainBill.setLayout(ContainBillLayout);
         ContainBillLayout.setHorizontalGroup(
             ContainBillLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 425, Short.MAX_VALUE)
         );
         ContainBillLayout.setVerticalGroup(
             ContainBillLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 660, Short.MAX_VALUE)
+            .addGap(0, 676, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -134,8 +143,8 @@ public class OrderView extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(ContainBill, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(ContainBill, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -147,7 +156,7 @@ public class OrderView extends javax.swing.JFrame {
                 .addGap(30, 30, 30))
         );
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        panelButton.setBackground(new java.awt.Color(255, 255, 255));
 
         buttonRound1.setBackground(new java.awt.Color(77, 119, 254));
         buttonRound1.setForeground(new java.awt.Color(255, 255, 255));
@@ -169,26 +178,23 @@ public class OrderView extends javax.swing.JFrame {
         buttonRound5.setText("ĐỒ UỐNG");
         buttonRound5.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
 
-        buttonRound9.setBackground(new java.awt.Color(56, 187, 156));
-        buttonRound9.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound9.setText("TẤT CẢ");
-        buttonRound9.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-
-        buttonRound2.setBackground(new java.awt.Color(255, 255, 255));
-        buttonRound2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/icons8_close_30px_1.png"))); // NOI18N
-        buttonRound2.addActionListener(new java.awt.event.ActionListener() {
+        btnAll.setBackground(new java.awt.Color(56, 187, 156));
+        btnAll.setForeground(new java.awt.Color(255, 255, 255));
+        btnAll.setText("TẤT CẢ");
+        btnAll.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btnAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonRound2ActionPerformed(evt);
+                btnAllActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelButtonLayout = new javax.swing.GroupLayout(panelButton);
+        panelButton.setLayout(panelButtonLayout);
+        panelButtonLayout.setHorizontalGroup(
+            panelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelButtonLayout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addComponent(buttonRound9, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAll, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(buttonRound5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -197,22 +203,22 @@ public class OrderView extends javax.swing.JFrame {
                 .addComponent(buttonRound3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(buttonRound4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 254, Short.MAX_VALUE)
-                .addComponent(buttonRound2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(windowButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        panelButtonLayout.setVerticalGroup(
+            panelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelButtonLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonRound3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonRound4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonRound5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonRound9, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAll, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(27, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(buttonRound2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(panelButtonLayout.createSequentialGroup()
+                .addComponent(windowButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -221,29 +227,25 @@ public class OrderView extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Loại");
+
+        panelCategory.setBackground(new java.awt.Color(255, 255, 255));
+        panelCategory.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 5));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(panelCategory, javax.swing.GroupLayout.DEFAULT_SIZE, 938, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+            .addComponent(panelCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         scroll.setBorder(null);
@@ -261,7 +263,7 @@ public class OrderView extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE))
+                .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE))
         );
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
@@ -288,14 +290,13 @@ public class OrderView extends javax.swing.JFrame {
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 1003, Short.MAX_VALUE)
+                    .addComponent(panelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addComponent(panelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 815, Short.MAX_VALUE)
             .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -305,16 +306,17 @@ public class OrderView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonRound2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound2ActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_buttonRound2ActionPerformed
-
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
         handleClearBill();
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void buttonRound6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound6ActionPerformed
     }//GEN-LAST:event_buttonRound6ActionPerformed
+
+    private void btnAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllActionPerformed
+        
+        handleCategory(buttonRound1.getText());
+    }//GEN-LAST:event_btnAllActionPerformed
 
     /**
      * @param args the command line arguments
@@ -353,25 +355,25 @@ public class OrderView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ContainBill;
+    private com.boxcf.components.ButtonRound btnAll;
     private com.boxcf.components.ButtonRound buttonRound1;
-    private com.boxcf.components.ButtonRound buttonRound2;
     private com.boxcf.components.ButtonRound buttonRound3;
     private com.boxcf.components.ButtonRound buttonRound4;
     private com.boxcf.components.ButtonRound buttonRound5;
     private com.boxcf.components.ButtonRound buttonRound6;
-    private com.boxcf.components.ButtonRound buttonRound9;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel lblTotal;
+    private javax.swing.JPanel panelButton;
+    private javax.swing.JPanel panelCategory;
     private com.boxcf.components.PanelItem panelItem;
     private javax.swing.JScrollPane scroll;
+    private com.boxcf.components.WindowButton windowButton2;
     // End of variables declaration//GEN-END:variables
 
     // add item vào panelItem
@@ -448,10 +450,6 @@ public class OrderView extends javax.swing.JFrame {
     
     public void initStyle() {
 
-        // gán biến
-        Store.globelPanelBill = panelBill;
-        Store.orderView = this;
-
         // set style for scollbar
         scroll.setVerticalScrollBar(new ScrollBar());
 
@@ -466,13 +464,34 @@ public class OrderView extends javax.swing.JFrame {
     }
     
     private void init() {
+        
+        windowButton2.initEvent(this);
 
-        // thử dữ liệu
-        adData();
+        // gán biến
+        Store.globelPanelBill = panelBill;
+        Store.orderView = this;
+
+        // dữ liệu ban đầu của loại
+        new Thread() {
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(OrderView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                initCategory();
+            }
+        }.start();
+
+        // add sự kiện cho nút danh muc
+        addEventCategory();
+
+        // add dữ liệu
+        initData();
         
     }
     
-    private void adData() {
+    private void initData() {
 
         // đưa sang class khác xử lí
         StoreEvents.product(this);
@@ -492,6 +511,72 @@ public class OrderView extends javax.swing.JFrame {
 
         // hiển thị kiểu tiền tệ
         lblTotal.setText(Formats.toCurency(panelBill.total()));
+    }
+    
+    private void addEventCategory() {
+
+        // sự kiện các nút danh mục
+        for (java.awt.Component component : panelButton.getComponents()) {
+            if (component instanceof ButtonRound) {
+                ButtonRound b = (ButtonRound) component;
+                b.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        handleCategory(b.getText());
+                    }
+                    
+                });
+            }
+        }
+        
+    }
+    
+    private void initCategory() {
+        for (LoaiSP lsp : LoaiSPDao.getInstant().selectAll()) {
+            Category ctgr = new Category();
+            StoreEvents.categoryActive(ctgr, panelCategory);
+            ctgr.setActive(false);
+            ctgr.addData(lsp);
+            panelCategory.add(ctgr);
+        }
+        panelCategory.repaint();
+        panelCategory.revalidate();
+        
+    }
+    
+    public PanelItem getPanelItem() {
+        return panelItem;
+    }
+    
+    public void setPanelItem(PanelItem panelItem) {
+        this.panelItem = panelItem;
+    }
+    
+    private void handleCategory(String name) {
+        panelCategory.removeAll();
+        String sql = "select * from LoaiSP\n"
+                + "where MaDM = ?";
+        
+        for (DanhMuc danhMuc : DanhMucDao.getInstant().selectAll()) {
+            if (name.equals(btnAll.getText())) {
+                initCategory();
+                return;
+            }
+            if (danhMuc.getTenDM().toLowerCase().equals(name.toLowerCase())) {
+                for (LoaiSP lsp : LoaiSPDao.getInstant().selectBySql(sql, danhMuc.getMaDM())) {
+                    Category ctgr = new Category();
+                    
+                    StoreEvents.categoryActive(ctgr, panelCategory);
+                    ctgr.setActive(false);
+                    ctgr.addData(lsp);
+                    panelCategory.add(ctgr);
+                }
+                panelCategory.repaint();
+                panelCategory.revalidate();
+                return;
+            }
+        }
+        
     }
     
 }

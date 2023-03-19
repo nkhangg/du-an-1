@@ -1,4 +1,5 @@
 com\boxcf\ui\OrderView.class
+com\boxcf\ui\OrderView$6.class
 com\boxcf\ui\ThongTinNV$2.class
 com\boxcf\ui\SanPhamView.class
 com\boxcf\dao\BoxDao.class
@@ -8,7 +9,9 @@ com\boxcf\ui\ThongTinNV.class
 test\BoxItem$1.class
 com\box\utils\MsgBox.class
 com\boxcf\models\DichVu.class
+com\box\utils\Formats.class
 com\boxcf\components\Spiner.class
+com\boxcf\components\WindowButton.class
 com\boxcf\ui\ThongTinBox$2.class
 test\EventItem1.class
 test\DatBoxView.class
@@ -48,6 +51,7 @@ com\boxcf\ui\ThongTinNV$7.class
 test\MainPanel.class
 com\boxcf\ui\ThongTinSP$5.class
 com\boxcf\ui\ThongTinBox.class
+com\boxcf\components\WindowButton$4.class
 com\boxcf\ui\NhanVienView$1.class
 com\boxcf\dao\ComboDao.class
 com\boxcf\dao\NhanVienDao.class
@@ -61,6 +65,7 @@ com\box\utils\Sort$1.class
 com\boxcf\ui\Main$5.class
 com\boxcf\ui\ThongTinNV$1.class
 com\boxcf\components\material\ProductItem.class
+com\boxcf\ui\OrderView$7.class
 com\boxcf\components\FormHome$2.class
 com\boxcf\ui\NhanVienView$2.class
 com\box\utils\Sort.class
@@ -72,6 +77,7 @@ com\boxcf\events\StoreEvents.class
 com\boxcf\models\DanhMuc.class
 com\boxcf\components\ModernScrollBarUI.class
 com\boxcf\ui\ThongTinBox$1.class
+com\boxcf\components\WindowButton$3.class
 com\boxcf\ui\SanPhamView$3.class
 com\boxcf\components\material\PanelBill.class
 com\box\utils\XImage.class
@@ -95,9 +101,11 @@ com\boxcf\components\Spiner$1.class
 com\boxcf\models\NhanVien.class
 test\BoxItem.class
 com\boxcf\ui\OrderView$5.class
+com\boxcf\components\material\Category.class
 test\OrderTest1.class
 com\boxcf\ui\NhanVienView.class
 com\boxcf\ui\ThongTinNV$3.class
+com\boxcf\components\WindowButton$2.class
 com\boxcf\dao\LoaiSPDao.class
 com\boxcf\components\ScrollBar.class
 com\boxcf\models\ComboCT.class
@@ -113,6 +121,7 @@ com\boxcf\models\SanPham.class
 com\boxcf\models\LoaiBox.class
 com\boxcf\ui\ThongTinSP$4.class
 test\PanelBill1$1.class
+com\boxcf\components\WindowButton$1.class
 com\boxcf\components\PanelItem.class
 com\boxcf\ui\ThongTinSP$2.class
 com\box\utils\Validator.class
@@ -131,6 +140,7 @@ com\boxcf\ui\ThongTinBox$5.class
 com\boxcf\components\ImageAvatar.class
 com\boxcf\dao\BoxCfDAO.class
 com\boxcf\ui\OrderView$3.class
+com\boxcf\events\StoreEvents$5.class
 com\boxcf\ui\Main$2.class
 com\boxcf\components\material\MainPanelOrder.class
 com\box\utils\UI.class

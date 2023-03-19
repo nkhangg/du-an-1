@@ -9,7 +9,7 @@ import com.box.utils.JdbcHelper;
 
 public class DanhMucDao implements BoxCfDAO<DanhMuc, String> {
 
-    public static DanhMucDao getInstant () {
+    public static DanhMucDao getInstant() {
         return new DanhMucDao();
     }
 
@@ -17,9 +17,9 @@ public class DanhMucDao implements BoxCfDAO<DanhMuc, String> {
     public DanhMuc createObjecet(ResultSet responce) {
         try {
             return new DanhMuc(
-                    responce.getString(1), 
+                    responce.getString(1),
                     responce.getString(2)
-                );
+            );
         } catch (Exception e) {
             throw new Error("The Error in createObjecet DanhMuc !");
         }
@@ -28,11 +28,11 @@ public class DanhMucDao implements BoxCfDAO<DanhMuc, String> {
     @Override
     public void delete(String id) {
         String sql = "delete DanhMuc where MaDM = ?";
-        
+
         try {
             int responce = JdbcHelper.update(sql, id);
 
-            if(responce == 0){
+            if (responce == 0) {
                 throw new Error("The Error in delete DanhMuc !");
             }
         } catch (Exception e) {
@@ -47,29 +47,28 @@ public class DanhMucDao implements BoxCfDAO<DanhMuc, String> {
         try {
             int responce = JdbcHelper.update(sql, e.getMaDM(), e.getTenDM());
 
-            if(responce == 0){
+            if (responce == 0) {
                 throw new Error("The Error in insert DanhMuc !");
             }
         } catch (Exception ex) {
             throw new Error("The Error in insert DanhMuc !");
         }
-         
+
     }
 
     @Override
     public List<DanhMuc> selectAll() {
-        List<DanhMuc> list  = new ArrayList<>();
+        List<DanhMuc> list = new ArrayList<>();
         String sql = "select * from DanhMuc";
 
         try {
             ResultSet responce = JdbcHelper.query(sql);
 
-
-            while(responce.next()){
+            while (responce.next()) {
                 list.add(createObjecet(responce));
             }
-            
 
+            responce.getStatement().getConnection().close();
 
         } catch (Exception e) {
             throw new Error("The Error in selectAll DanhMuc !");
@@ -86,10 +85,9 @@ public class DanhMucDao implements BoxCfDAO<DanhMuc, String> {
             ResultSet responce = JdbcHelper.query(sql, id);
 
             // admission a ResultSet return a Box
-            if(responce.next()){
+            if (responce.next()) {
                 return createObjecet(responce);
             }
-
 
         } catch (Exception e) {
             throw new Error("The Error in selectById DanhMuc !");
@@ -99,17 +97,14 @@ public class DanhMucDao implements BoxCfDAO<DanhMuc, String> {
 
     @Override
     public List<DanhMuc> selectBySql(String sql, Object... args) {
-        List<DanhMuc> list  = new ArrayList<>();
+        List<DanhMuc> list = new ArrayList<>();
 
         try {
             ResultSet responce = JdbcHelper.query(sql, args);
 
-
-            while(responce.next()){
+            while (responce.next()) {
                 list.add(createObjecet(responce));
             }
-            
-
 
         } catch (Exception e) {
             throw new Error("The Error in selectBySql DanhMuc !");
@@ -124,13 +119,13 @@ public class DanhMucDao implements BoxCfDAO<DanhMuc, String> {
         try {
             int responce = JdbcHelper.update(sql, e.getTenDM(), e.getMaDM());
 
-            if(responce == 0){
+            if (responce == 0) {
                 throw new Error("The Error in update DanhMuc !");
             }
         } catch (Exception ex) {
             throw new Error("The Error in update DanhMuc !");
         }
-        
+
     }
 
     public static void main(String[] args) {
@@ -138,11 +133,9 @@ public class DanhMucDao implements BoxCfDAO<DanhMuc, String> {
         // System.out.println(DanhMucDao.getInstant().selectBySql("Select * from DanhMuc where MaDM = ?", "DM01"));
         // System.out.println(DanhMucDao.getInstant().selectAll().size());
         // System.out.println(DanhMucDao.getInstant().selectById("DM011"));
-
         // DanhMucDao.getInstant().insert(new DanhMuc("CB05", "abcceee"));
         // DanhMucDao.getInstant().update(new DanhMuc("CB05", "abc"));
         // DanhMucDao.getInstant().delete("CB05");
-
     }
-    
+
 }

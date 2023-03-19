@@ -6,15 +6,23 @@ package com.boxcf.events;
 
 import com.boxcf.components.PanelItem;
 import com.boxcf.components.Spiner;
+import com.boxcf.components.material.Category;
 import com.boxcf.components.material.ItemBill;
 import com.boxcf.components.material.PanelBill;
 import com.boxcf.components.material.ProductItem;
+import com.boxcf.dao.SanPhamDao;
 import com.boxcf.events.interfaces.EventIncrease;
 import com.boxcf.models.SanPham;
 import com.boxcf.ui.OrderView;
 import java.awt.Component;
 import com.boxcf.events.interfaces.EventItem;
 import com.boxcf.models.ModelItem;
+import com.boxcf.store.Store;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 /**
  *
@@ -73,7 +81,7 @@ public class StoreEvents {
                 panelBill.removeItem(item);
                 for (Component component : panelItem.getComponents()) {
                     ProductItem i = (ProductItem) component;
-                    if (i.getData().getGia() == item.getGia()) {
+                    if (i.getData().getMaItem() == item.getMaItem()) {
                         i.clearSelected();
                         i.repaint();
                         i.revalidate();
@@ -82,6 +90,46 @@ public class StoreEvents {
 
                 }
             }
+        });
+    }
+
+    // xử lý sự kiện active loại sản phẩm
+    public static void categoryActive(Category ctgr, JPanel panelCategory) {
+
+        OrderView order = Store.orderView;
+        PanelItem panelItem = order.getPanelItem();
+        String sql = "select * from SanPham\n"
+                + "where MaLoai = ?";
+        ctgr.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                for (Component component : panelCategory.getComponents()) {
+                    Category c = (Category) component;
+                    if (c != null) {
+                        c.setActive(false);
+                    }
+                }
+                ctgr.toggleActive();
+                List<SanPham> listProduct = SanPhamDao.getInstant().selectBySql(sql, ctgr.getData().getMaLoai());
+
+                if (listProduct.isEmpty()) {
+                    panelItem.removeAll();
+                    panelItem.repaint();
+                    panelItem.revalidate();
+                    return;
+                }
+
+                panelItem.removeAll();
+                for (SanPham sp : listProduct) {
+                    order.addData(new ModelItem(sp.getMaSP(),
+                            new ImageIcon(getClass().getResource(sp.getHinhAnh())),
+                            sp.getGia(),
+                            sp.getTenSP(), 0));
+                }
+
+            }
+
         });
     }
 

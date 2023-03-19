@@ -56,7 +56,7 @@ public class JdbcHelper {
     public static int update(String sql, Object... objs) {
         try {
             PreparedStatement pst = getPS(sql, objs);
-            
+
             try {
                 return pst.executeUpdate();
             } finally {
@@ -69,7 +69,6 @@ public class JdbcHelper {
 
     public static ResultSet query(String sql, Object... objs) throws SQLException {
         PreparedStatement pst = getPS(sql, objs);
-
         return pst.executeQuery();
     }
 
@@ -114,4 +113,3 @@ public class JdbcHelper {
 //        }
 //    }
 }
-
