@@ -27,6 +27,7 @@ import com.boxcf.models.LoaiSP;
 import com.boxcf.models.SanPham;
 import com.boxcf.store.Store;
 import java.awt.Component;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,21 +36,25 @@ import java.util.logging.Logger;
  * @author HP
  */
 public class OrderView extends javax.swing.JFrame {
-    
+
     private EventItem event;
     private boolean selected;
     private PanelBill panelBill;
     private ModelItem itemSelected;
-    
+
     public OrderView() {
         initComponents();
+
         // tạo panel chứa bill
         panelBill = new PanelBill();
+
         // tạo style cho components
         initStyle();
+
+        // init
         init();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -314,7 +319,7 @@ public class OrderView extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonRound6ActionPerformed
 
     private void btnAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllActionPerformed
-        
+
         handleCategory(buttonRound1.getText());
     }//GEN-LAST:event_btnAllActionPerformed
 
@@ -376,78 +381,6 @@ public class OrderView extends javax.swing.JFrame {
     private com.boxcf.components.WindowButton windowButton2;
     // End of variables declaration//GEN-END:variables
 
-    // add item vào panelItem
-    public void addData(ModelItem data) {
-        ProductItem item = new ProductItem();
-        item.setData(data);
-        item.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent me) {
-                if (SwingUtilities.isLeftMouseButton(me)) {
-                    event.itemClick(item, data);
-                }
-            }
-        });
-        
-        panelItem.add(item);
-        panelItem.repaint();
-        panelItem.revalidate();
-        panelBill.setPanelItem(panelItem);
-        
-    }
-    
-    public EventItem getEvent() {
-        return event;
-    }
-    
-    public void setEvent(EventItem event) {
-        this.event = event;
-    }
-    
-    public void showItemBill(ModelItem data) {
-        if (selected) {
-            if (data.getSoLuong() <= 0) {
-                panelBill.removeItem(data);
-            }
-            panelBill.setList(data);
-        } else {
-            panelBill.removeItem(data);
-        }
-        
-    }
-    
-    public boolean isSelected() {
-        return selected;
-    }
-    
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-    
-    public void setEventIncreace(java.awt.Component item, ModelItem data) {
-        ProductItem i = ((ProductItem) item);
-
-        // đưa sự kiện giảm sang class khác
-        StoreEvents.decreaseProduct(i.getSoLuong(), panelBill, i, data);
-
-        // đưa sự kiện tăng sang class khác
-        StoreEvents.increaseProduct(i.getSoLuong(), panelBill, i, data);
-    }
-    
-    public void setSelected(java.awt.Component item) {
-        ProductItem i = ((ProductItem) item);
-        if (i.isSelected()) {
-            i.setSoLuong(0);
-            i.setSelected(false);
-            
-        } else {
-            i.setSoLuong(1);
-            i.setSelected(true);
-        }
-        setSelected(i.isSelected());
-        
-    }
-    
     public void initStyle() {
 
         // set style for scollbar
@@ -462,9 +395,9 @@ public class OrderView extends javax.swing.JFrame {
         // add panel chứa bill
         ContainBill.add(panelBill);
     }
-    
+
     private void init() {
-        
+
         windowButton2.initEvent(this);
 
         // gán biến
@@ -479,7 +412,7 @@ public class OrderView extends javax.swing.JFrame {
                 } catch (InterruptedException ex) {
                     Logger.getLogger(OrderView.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                initCategory();
+                initCategory(true);
             }
         }.start();
 
@@ -488,31 +421,104 @@ public class OrderView extends javax.swing.JFrame {
 
         // add dữ liệu
         initData();
-        
+
     }
-    
+
     private void initData() {
 
         // đưa sang class khác xử lí
         StoreEvents.product(this);
-        
+
         for (SanPham sp : SanPhamDao.getInstant().selectAll()) {
             this.addData(new ModelItem(sp.getMaSP(), new ImageIcon(getClass().getResource(sp.getHinhAnh())), sp.getGia(), sp.getTenSP(), 0));
         }
-        
+
     }
 
-    // xử lí nút xóa tất cả
-    private void handleClearBill() {
-        panelBill.clearList();
-    }
-    
-    public void handleTotal() {
+    private void initCategory(boolean categoryAll) {
 
-        // hiển thị kiểu tiền tệ
-        lblTotal.setText(Formats.toCurency(panelBill.total()));
+        if (categoryAll) {
+            // loai tat ca
+            panelCategory.add(Store.categoryAll(panelCategory));
+        }
+
+        for (LoaiSP lsp : LoaiSPDao.getInstant().selectAll()) {
+            Category ctgr = new Category();
+            StoreEvents.categoryActive(ctgr, panelCategory);
+            ctgr.setActive(false);
+            ctgr.addData(lsp);
+            panelCategory.add(ctgr);
+        }
+        panelCategory.repaint();
+        panelCategory.revalidate();
+
     }
-    
+
+    // add item vào panelItem
+    public void addData(ModelItem data) {
+        ProductItem item = new ProductItem();
+        item.setData(data);
+        item.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent me) {
+                if (SwingUtilities.isLeftMouseButton(me)) {
+                    event.itemClick(item, data);
+                }
+            }
+        });
+
+        panelItem.add(item);
+        panelItem.repaint();
+        panelItem.revalidate();
+        panelBill.setPanelItem(panelItem);
+
+    }
+
+    public void renderData(List<SanPham> listProduct) {
+        for (SanPham sp : listProduct) {
+            this.addData(new ModelItem(sp.getMaSP(),
+                    new ImageIcon(getClass().getResource(sp.getHinhAnh())),
+                    sp.getGia(),
+                    sp.getTenSP(), 1));
+        }
+    }
+
+    public void showItemBill(ModelItem data) {
+        if (selected) {
+            if (data.getSoLuong() <= 0) {
+                panelBill.removeItem(data);
+            }
+            panelBill.setList(data);
+        } else {
+            panelBill.removeItem(data);
+        }
+
+    }
+
+    public void setEventIncreace(java.awt.Component item, ModelItem data) {
+        ProductItem i = ((ProductItem) item);
+
+        // đưa sự kiện giảm sang class khác
+        StoreEvents.decreaseProduct(i.getSoLuong(), panelBill, i, data);
+
+        // đưa sự kiện tăng sang class khác
+        StoreEvents.increaseProduct(i.getSoLuong(), panelBill, i, data);
+    }
+
+    public void setSelected(java.awt.Component item) {
+        ProductItem i = ((ProductItem) item);
+        if (i.isSelected()) {
+            i.setSoLuong(0);
+            i.setSelected(false);
+
+        } else {
+            i.setSoLuong(1);
+            i.setSelected(true);
+        }
+        setSelected(i.isSelected());
+
+    }
+
     private void addEventCategory() {
 
         // sự kiện các nút danh mục
@@ -524,48 +530,29 @@ public class OrderView extends javax.swing.JFrame {
                     public void mouseClicked(MouseEvent e) {
                         handleCategory(b.getText());
                     }
-                    
+
                 });
             }
         }
-        
+
     }
-    
-    private void initCategory() {
-        for (LoaiSP lsp : LoaiSPDao.getInstant().selectAll()) {
-            Category ctgr = new Category();
-            StoreEvents.categoryActive(ctgr, panelCategory);
-            ctgr.setActive(false);
-            ctgr.addData(lsp);
-            panelCategory.add(ctgr);
-        }
-        panelCategory.repaint();
-        panelCategory.revalidate();
-        
-    }
-    
-    public PanelItem getPanelItem() {
-        return panelItem;
-    }
-    
-    public void setPanelItem(PanelItem panelItem) {
-        this.panelItem = panelItem;
-    }
-    
+
     private void handleCategory(String name) {
         panelCategory.removeAll();
         String sql = "select * from LoaiSP\n"
                 + "where MaDM = ?";
-        
+
+        panelCategory.add(Store.categoryAll(panelCategory));
+
         for (DanhMuc danhMuc : DanhMucDao.getInstant().selectAll()) {
             if (name.equals(btnAll.getText())) {
-                initCategory();
+                initCategory(false);
                 return;
             }
             if (danhMuc.getTenDM().toLowerCase().equals(name.toLowerCase())) {
                 for (LoaiSP lsp : LoaiSPDao.getInstant().selectBySql(sql, danhMuc.getMaDM())) {
                     Category ctgr = new Category();
-                    
+
                     StoreEvents.categoryActive(ctgr, panelCategory);
                     ctgr.setActive(false);
                     ctgr.addData(lsp);
@@ -576,7 +563,42 @@ public class OrderView extends javax.swing.JFrame {
                 return;
             }
         }
-        
+
     }
-    
+
+    // xử lí nút xóa tất cả
+    private void handleClearBill() {
+        panelBill.clearList();
+    }
+
+    public void handleTotal() {
+
+        // hiển thị kiểu tiền tệ
+        lblTotal.setText(Formats.toCurency(panelBill.total()));
+    }
+
+    public EventItem getEvent() {
+        return event;
+    }
+
+    public void setEvent(EventItem event) {
+        this.event = event;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public PanelItem getPanelItem() {
+        return panelItem;
+    }
+
+    public void setPanelItem(PanelItem panelItem) {
+        this.panelItem = panelItem;
+    }
+
 }

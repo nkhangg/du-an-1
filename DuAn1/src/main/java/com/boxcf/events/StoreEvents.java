@@ -98,21 +98,44 @@ public class StoreEvents {
 
         OrderView order = Store.orderView;
         PanelItem panelItem = order.getPanelItem();
+        PanelBill panelBill = Store.globelPanelBill;
         String sql = "select * from SanPham\n"
                 + "where MaLoai = ?";
         ctgr.addMouseListener(new MouseAdapter() {
+            List<SanPham> listProduct;
+
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                // xóa hết các active trước đó
                 for (Component component : panelCategory.getComponents()) {
                     Category c = (Category) component;
                     if (c != null) {
                         c.setActive(false);
                     }
                 }
-                ctgr.toggleActive();
-                List<SanPham> listProduct = SanPhamDao.getInstant().selectBySql(sql, ctgr.getData().getMaLoai());
 
+                // toggle active :))
+                ctgr.toggleActive();
+
+                // xóa các sản phẩm trước khi add vào mới không bị trùng sản phẩm
+                panelItem.removeAll();
+
+                if (ctgr.getData().getMaLoai().equals(Store.idAllCategory)) {
+                    listProduct = SanPhamDao.getInstant().selectAll();
+
+                    // add sản phẩm vào panelItem;
+                    order.renderData(listProduct);
+
+                    // active các sản phẩm có trên bill
+                    panelBill.activeProductOnBill(panelItem);
+                    return;
+                }
+
+                // lấy sản phẩm tương ứng với mã loại
+                listProduct = SanPhamDao.getInstant().selectBySql(sql, ctgr.getData().getMaLoai());
+
+                // kiểm tra nếu không chứa sản phẩm thì không cần thêm vào panelItem
                 if (listProduct.isEmpty()) {
                     panelItem.removeAll();
                     panelItem.repaint();
@@ -120,17 +143,28 @@ public class StoreEvents {
                     return;
                 }
 
-                panelItem.removeAll();
-                for (SanPham sp : listProduct) {
-                    order.addData(new ModelItem(sp.getMaSP(),
-                            new ImageIcon(getClass().getResource(sp.getHinhAnh())),
-                            sp.getGia(),
-                            sp.getTenSP(), 0));
-                }
+                // add sản phẩm vào panelItem;
+                order.renderData(listProduct);
+
+                // active các sản phẩm có trên bill
+                panelBill.activeProductOnBill(panelItem);
 
             }
 
         });
     }
 
+    // active các sản phẩm có trên bill
+//    private void activeProductOnBill(PanelBill panelBill, PanelItem panelItem) {
+//
+//        for (Component component : panelBill.getComponents()) {
+//            ItemBill itemBill = (ItemBill) component;
+//            for (Component component1 : panelItem.getComponents()) {
+//                ProductItem product = (ProductItem) component1;
+//                if (itemBill.getData().getMaItem() == product.getData().getMaItem()) {
+//                    product.reserved(itemBill.getData());
+//                }
+//            }
+//        }
+//    }
 }

@@ -274,7 +274,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void openNhanVienView() {
-        nvView.setSize(this.getWidth(), this.getWidth());
+        nvView.setSize(this.getWidth(), this.getHeight());
         nvView.setVisible(true);
     }
 

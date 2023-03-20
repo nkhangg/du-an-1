@@ -73,6 +73,14 @@ public class ProductItem extends javax.swing.JPanel {
         revalidate();
     }
     
+    public void reserved(ModelItem data) {
+        this.data = data;
+        this.soLuong.setSoLuong(data.getSoLuong());
+        this.setSelected(true);
+        this.repaint();
+        this.revalidate();
+    }
+    
     private void init() {
         PanelBill panelbill = Store.globelPanelBill;
         

@@ -9,6 +9,7 @@ import com.boxcf.models.ModelItem;
 import com.boxcf.components.PanelItem;
 import com.boxcf.events.StoreEvents;
 import com.boxcf.store.Store;
+import java.awt.Component;
 import java.util.ArrayList;
 
 /**
@@ -111,6 +112,19 @@ public class PanelBill extends javax.swing.JPanel {
         }
 
         return reuslt;
+    }
+
+    public void activeProductOnBill(PanelItem panelItem) {
+
+        for (Component component : this.getComponents()) {
+            ItemBill itemBill = (ItemBill) component;
+            for (Component component1 : panelItem.getComponents()) {
+                ProductItem product = (ProductItem) component1;
+                if (itemBill.getData().getMaItem() == product.getData().getMaItem()) {
+                    product.reserved(itemBill.getData());
+                }
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
