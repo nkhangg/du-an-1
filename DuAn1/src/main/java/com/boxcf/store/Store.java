@@ -10,6 +10,7 @@ import com.boxcf.events.StoreEvents;
 import com.boxcf.models.LoaiSP;
 import com.boxcf.ui.OrderView;
 import javax.swing.JPanel;
+import test.Order1;
 import test.PanelBill1;
 
 /**
@@ -32,5 +33,7 @@ public class Store {
 
     public static PanelBill1 globelPanelBill1 = null;
     public static PanelBill globelPanelBill = null;
+
+    public static Order1 globelOrderBox = null;
 
 }

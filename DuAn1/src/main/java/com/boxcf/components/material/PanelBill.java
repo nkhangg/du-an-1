@@ -7,9 +7,7 @@ package com.boxcf.components.material;
 import com.box.utils.Sort;
 import com.boxcf.models.ModelItem;
 import com.boxcf.components.PanelItem;
-import com.boxcf.events.BoxStoreEvents;
 import com.boxcf.events.StoreEvents;
-import com.boxcf.models.BoxModelItem;
 import com.boxcf.store.Store;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -22,7 +20,6 @@ public class PanelBill extends javax.swing.JPanel {
 
     private ArrayList<ItemBill> list = new ArrayList<>();
     private PanelItem panelItem;
-    private ArrayList<BoxItemBill> boxList = new ArrayList<>();
 
     public PanelBill() {
         initComponents();
@@ -43,12 +40,6 @@ public class PanelBill extends javax.swing.JPanel {
         Store.orderView.handleTotal();
         for (ItemBill itemBill : list) {
             this.add(itemBill);
-        }
-        
-        //----------code Ha-------------------------
-        Store.orderView.handleTotal();
-        for (BoxItemBill boxItemBill : boxList) {
-            this.add(boxItemBill);
         }
     }
 
@@ -132,46 +123,6 @@ public class PanelBill extends javax.swing.JPanel {
                 if (itemBill.getData().getMaItem() == product.getData().getMaItem()) {
                     product.reserved(itemBill.getData());
                 }
-            }
-        }
-    }
-    
-    //-----------------------------------------------
-    
-    public void setBoxList(BoxModelItem boxData) {
-        BoxItemBill boxItem = new BoxItemBill();
-
-        BoxStoreEvents.closeBillBox(boxItem, this, panelItem);
-
-        boxItem.setData(boxData);
-        boxList.add(boxItem);
-        render();
-        this.repaint();
-        this.revalidate();
-    }
-    
-    public void removeBoxIB(BoxModelItem boxData) {
-        for (BoxItemBill itemBill : boxList) {
-            if (boxData.getTenBox().equalsIgnoreCase(itemBill.getData().getTenBox())) {
-                boxList.remove(itemBill);
-                this.removeAll();
-                render();
-                this.repaint();
-                this.revalidate();
-                return;
-            }
-        }
-    }
-    
-    public void removeBoxItem(BoxModelItem boxData) {
-        for (BoxItemBill item : boxList) {
-            if (boxData.getTenBox().equalsIgnoreCase(item.getData().getTenBox())) {
-                boxList.remove(item);
-                this.removeAll();
-                render();
-                this.repaint();
-                this.revalidate();
-                return;
             }
         }
     }

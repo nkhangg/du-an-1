@@ -13,10 +13,9 @@ import java.sql.ResultSet;
 public class JdbcHelper {
 
     private static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    private static String url = "jdbc:sqlserver://localhost:1433;encrypt=true;database=BoxCF;trustServerCertificate=true;sslProtocol=TLSv1.2";
+    private static String url = "jdbc:sqlserver://localhost:1434;encrypt=true;database=BoxCF;trustServerCertificate=true;sslProtocol=TLSv1.2";
     private static String user = "sa";
-//    private static String pass = "";
-    private static String pass = "123";
+    private static String pass = "";
 
     static {
         try {
