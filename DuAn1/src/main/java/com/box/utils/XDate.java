@@ -38,4 +38,9 @@ public class XDate {
         date.setTime(date.getTime() + days*24*6*6*1000);
         return date;
     }
+    
+    public static Date addHours(Date date, int hours) {
+        date.setTime(date.getTime() + hours * 60 * 60 * 1000);
+        return date;
+    }
 }

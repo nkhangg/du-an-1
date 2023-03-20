@@ -253,6 +253,9 @@
               <Font name="SansSerif" size="14" style="1"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonRound3ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="com.boxcf.components.ButtonRound" name="buttonRound4">
           <Properties>
