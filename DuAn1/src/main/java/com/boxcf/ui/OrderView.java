@@ -8,6 +8,7 @@ import com.box.utils.Formats;
 import com.boxcf.components.ButtonRound;
 import com.boxcf.components.PanelItem;
 import com.boxcf.components.ScrollBar;
+import com.boxcf.components.material.BoxItem;
 import com.boxcf.components.material.Category;
 import com.boxcf.events.StoreEvents;
 import java.awt.FlowLayout;
@@ -19,10 +20,17 @@ import com.boxcf.events.interfaces.EventItem;
 import com.boxcf.components.material.ProductItem;
 import com.boxcf.models.ModelItem;
 import com.boxcf.components.material.PanelBill;
+import com.boxcf.dao.BoxDao;
 import com.boxcf.dao.DanhMucDao;
+import com.boxcf.dao.LoaiBoxDao;
 import com.boxcf.dao.LoaiSPDao;
 import com.boxcf.dao.SanPhamDao;
+import com.boxcf.events.BoxStoreEvents;
+import com.boxcf.events.interfaces.BoxEvents;
+import com.boxcf.models.Box;
+import com.boxcf.models.BoxModelItem;
 import com.boxcf.models.DanhMuc;
+import com.boxcf.models.LoaiBox;
 import com.boxcf.models.LoaiSP;
 import com.boxcf.models.SanPham;
 import com.boxcf.store.Store;
@@ -38,6 +46,7 @@ import java.util.logging.Logger;
 public class OrderView extends javax.swing.JFrame {
 
     private EventItem event;
+    private BoxEvents eventBox;
     private boolean selected;
     private PanelBill panelBill;
     private ModelItem itemSelected;
@@ -172,6 +181,11 @@ public class OrderView extends javax.swing.JFrame {
         buttonRound3.setForeground(new java.awt.Color(255, 255, 255));
         buttonRound3.setText("BOX");
         buttonRound3.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        buttonRound3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRound3ActionPerformed(evt);
+            }
+        });
 
         buttonRound4.setBackground(new java.awt.Color(255, 150, 0));
         buttonRound4.setForeground(new java.awt.Color(255, 255, 255));
@@ -302,6 +316,7 @@ public class OrderView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 815, Short.MAX_VALUE)
             .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -322,6 +337,11 @@ public class OrderView extends javax.swing.JFrame {
 
         handleCategory(buttonRound1.getText());
     }//GEN-LAST:event_btnAllActionPerformed
+
+    private void buttonRound3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound3ActionPerformed
+        // TODO add your handling code here:
+        this.initBoxData();
+    }//GEN-LAST:event_buttonRound3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -601,4 +621,69 @@ public class OrderView extends javax.swing.JFrame {
         this.panelItem = panelItem;
     }
 
+    
+    //-------------------------code Ha----------------------------------
+    
+    List<LoaiBox> loaiBoxList;
+    public void initBoxData() {
+        panelItem.removeAll();
+        BoxStoreEvents.boxClick(this);
+        
+        for (Box box : BoxDao.getInstant().selectAll()) {
+            this.addBoxData(new BoxModelItem(box.getTenBox(), box.getTrangThai(), LoaiBoxDao.getInstant().selectById(box.getMaLoaiBox())));
+        }
+    }
+
+    private void addBoxData(BoxModelItem boxData) {
+        BoxItem boxItem = new BoxItem();
+        boxItem.setData(boxData);
+        
+        boxItem.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent me) {
+                if (SwingUtilities.isLeftMouseButton(me)) {
+                    eventBox.boxClick(boxItem, boxData);
+                    if(!boxData.isSelected()) {
+                        new DatBoxView(boxData).setVisible(true);
+                    }else {
+                        new ThongTinBoxDat().setVisible(true);
+                    }
+                }
+            }
+        });
+        
+        panelItem.add(boxItem);
+        panelItem.repaint();
+        panelItem.revalidate();
+        panelBill.setPanelItem(panelItem);
+    }
+    
+
+    public BoxEvents getEventBox() {
+        return eventBox;
+    }
+
+    public void setEventBox(BoxEvents eventBox) {
+        this.eventBox = eventBox;
+    }
+    
+    public void setBoxSelected(java.awt.Component item) {
+        BoxItem boxItem = ((BoxItem) item);
+        
+        if (boxItem.isSelected()) {
+            boxItem.setSelected(false);
+        } else {
+            boxItem.setSelected(true);
+        }
+        setSelected(boxItem.isSelected());
+    }
+    
+    public void showBoxItemBill(BoxModelItem boxData) {
+        if (selected) {
+            panelBill.setBoxList(boxData);
+        } else {
+            panelBill.removeBoxIB(boxData);
+        }
+        
+    }
 }
