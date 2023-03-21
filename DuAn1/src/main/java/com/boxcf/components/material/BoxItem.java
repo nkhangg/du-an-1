@@ -89,13 +89,10 @@ public class BoxItem extends javax.swing.JPanel {
         super.paint(grphcs);
         Graphics2D g2 = (Graphics2D) grphcs.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(Color.decode("#12A5BC"));
+        g2.setColor(Color.decode("#6dbfb8"));
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
+        System.out.println(getWidth() + " " + getHeight());
         if (selected) {
-//            g2.setColor(Color.decode("#283054"));
-////            g2.setColor(new Color(94, 156, 255));
-//            g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 20, 20);
-                System.out.println("click");
                 g2.setColor(Color.decode("#29c2aa"));
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
         }
@@ -110,8 +107,13 @@ public class BoxItem extends javax.swing.JPanel {
         lblTenBox = new javax.swing.JLabel();
         lblGia = new javax.swing.JLabel();
         lblLoaiBox1 = new javax.swing.JLabel();
+        buttonRound1 = new com.boxcf.components.ButtonRound();
+        lblGia1 = new javax.swing.JLabel();
+        lblGia2 = new javax.swing.JLabel();
+        lblGia3 = new javax.swing.JLabel();
+        lblGia4 = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(16, 108, 130));
+        setBackground(new java.awt.Color(109, 191, 184));
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         setMinimumSize(new java.awt.Dimension(230, 280));
         setPreferredSize(new java.awt.Dimension(230, 200));
@@ -122,21 +124,48 @@ public class BoxItem extends javax.swing.JPanel {
         });
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblTenBox.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        lblTenBox.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
         lblTenBox.setForeground(new java.awt.Color(255, 255, 255));
         lblTenBox.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblTenBox.setText("Mã box");
-        add(lblTenBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 13, 110, -1));
+        lblTenBox.setText("Box 1");
+        add(lblTenBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 13, 90, -1));
 
-        lblGia.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        lblGia.setForeground(new java.awt.Color(255, 255, 255));
-        lblGia.setText("Giá");
-        add(lblGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
+        lblGia.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        lblGia.setForeground(new java.awt.Color(0, 51, 51));
+        lblGia.setText("01:30");
+        add(lblGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, 110, 30));
 
-        lblLoaiBox1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        lblLoaiBox1.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         lblLoaiBox1.setForeground(new java.awt.Color(255, 255, 255));
-        lblLoaiBox1.setText("Loại box");
-        add(lblLoaiBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
+        lblLoaiBox1.setText("Đơn");
+        add(lblLoaiBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 40, 30));
+
+        buttonRound1.setBackground(new java.awt.Color(255, 255, 255));
+        buttonRound1.setForeground(new java.awt.Color(0, 51, 51));
+        buttonRound1.setText("Đặt trước");
+        buttonRound1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 13)); // NOI18N
+        add(buttonRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 160, 80, 30));
+
+        lblGia1.setBackground(new java.awt.Color(255, 255, 255));
+        lblGia1.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        lblGia1.setForeground(new java.awt.Color(0, 51, 51));
+        lblGia1.setText("20.000 / 1h");
+        add(lblGia1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 41, -1, 30));
+
+        lblGia2.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        lblGia2.setForeground(new java.awt.Color(0, 51, 51));
+        lblGia2.setText("Còn lại");
+        add(lblGia2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, 30));
+
+        lblGia3.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        lblGia3.setForeground(new java.awt.Color(0, 51, 51));
+        lblGia3.setText("Đặt trước");
+        add(lblGia3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 100, 40));
+
+        lblGia4.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        lblGia4.setForeground(new java.awt.Color(0, 51, 51));
+        lblGia4.setText("10:40");
+        add(lblGia4, new org.netbeans.lib.awtextra.AbsoluteConstraints(111, 70, 80, 40));
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
@@ -145,7 +174,12 @@ public class BoxItem extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.boxcf.components.ButtonRound buttonRound1;
     private javax.swing.JLabel lblGia;
+    private javax.swing.JLabel lblGia1;
+    private javax.swing.JLabel lblGia2;
+    private javax.swing.JLabel lblGia3;
+    private javax.swing.JLabel lblGia4;
     private javax.swing.JLabel lblLoaiBox1;
     private javax.swing.JLabel lblTenBox;
     // End of variables declaration//GEN-END:variables
