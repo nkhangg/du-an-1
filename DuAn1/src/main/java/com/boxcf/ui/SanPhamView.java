@@ -5,6 +5,7 @@
 package com.boxcf.ui;
 
 import com.box.utils.UI;
+import com.boxcf.store.Store;
 import java.awt.Color;
 
 /**

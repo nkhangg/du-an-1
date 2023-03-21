@@ -450,7 +450,8 @@ public class OrderView extends javax.swing.JFrame {
         StoreEvents.product(this);
 
         for (SanPham sp : SanPhamDao.getInstant().selectAll()) {
-            this.addData(new ModelItem(sp.getMaSP(), new ImageIcon(getClass().getResource(sp.getHinhAnh())), sp.getGia(), sp.getTenSP(), 0));
+//            System.out.println(getClass().getResource(sp.getHinhAnh()));
+            this.addData(new ModelItem(sp.getMaSP(), new ImageIcon(getClass().getResource("/com/boxcf/images/bo.jpg")), sp.getGia(), sp.getTenSP(), 0));
         }
 
     }
