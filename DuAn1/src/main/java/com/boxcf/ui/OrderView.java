@@ -25,16 +25,12 @@ import com.boxcf.dao.DanhMucDao;
 import com.boxcf.dao.LoaiBoxDao;
 import com.boxcf.dao.LoaiSPDao;
 import com.boxcf.dao.SanPhamDao;
-import com.boxcf.events.BoxStoreEvents;
 import com.boxcf.events.interfaces.BoxEvents;
 import com.boxcf.models.Box;
-import com.boxcf.models.BoxModelItem;
 import com.boxcf.models.DanhMuc;
-import com.boxcf.models.LoaiBox;
 import com.boxcf.models.LoaiSP;
 import com.boxcf.models.SanPham;
 import com.boxcf.store.Store;
-import java.awt.Component;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -331,6 +327,7 @@ public class OrderView extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void buttonRound6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound6ActionPerformed
+        openBillView();
     }//GEN-LAST:event_buttonRound6ActionPerformed
 
     private void btnAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllActionPerformed
@@ -440,19 +437,29 @@ public class OrderView extends javax.swing.JFrame {
         addEventCategory();
 
         // add dữ liệu
-        initData();
+        initProductData();
 
     }
 
-    private void initData() {
+    private void initProductData() {
 
         // đưa sang class khác xử lí
         StoreEvents.product(this);
 
         for (SanPham sp : SanPhamDao.getInstant().selectAll()) {
-//            System.out.println(getClass().getResource(sp.getHinhAnh()));
-            this.addData(new ModelItem(sp.getMaSP(), new ImageIcon(getClass().getResource("/com/boxcf/images/bo.jpg")), sp.getGia(), sp.getTenSP(), 0));
+            this.addProductData(new ModelItem(sp.getMaSP(), new ImageIcon(getClass().getResource(sp.getHinhAnh())), sp.getGia(), sp.getTenSP(), 0));
         }
+
+    }
+
+    public void initBoxData() {
+        panelItem.removeAll();
+        StoreEvents.product(this);
+
+        for (Box box : BoxDao.getInstant().selectAll()) {
+            this.addBoxData(new ModelItem(box.getMaBox(), box.getTenBox(), box.getTrangThai(), LoaiBoxDao.getInstant().selectById(box.getMaLoaiBox())));
+        }
+        panelBill.activeBoxOnBill(panelItem);
 
     }
 
@@ -476,8 +483,28 @@ public class OrderView extends javax.swing.JFrame {
     }
 
     // add item vào panelItem
-    public void addData(ModelItem data) {
+    public void addProductData(ModelItem data) {
         ProductItem item = new ProductItem();
+        item.setData(data);
+        item.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent me) {
+                if (SwingUtilities.isLeftMouseButton(me)) {
+                    event.itemClick(item, data);
+                }
+            }
+        });
+
+        panelItem.add(item);
+        panelItem.repaint();
+        panelItem.revalidate();
+        panelBill.setPanelItem(panelItem);
+
+    }
+
+    // add item vào panelItem
+    public void addBoxData(ModelItem data) {
+        BoxItem item = new BoxItem();
         item.setData(data);
         item.addMouseListener(new MouseAdapter() {
             @Override
@@ -497,7 +524,7 @@ public class OrderView extends javax.swing.JFrame {
 
     public void renderData(List<SanPham> listProduct) {
         for (SanPham sp : listProduct) {
-            this.addData(new ModelItem(sp.getMaSP(),
+            this.addProductData(new ModelItem(sp.getMaSP(),
                     new ImageIcon(getClass().getResource(sp.getHinhAnh())),
                     sp.getGia(),
                     sp.getTenSP(), 1));
@@ -622,69 +649,11 @@ public class OrderView extends javax.swing.JFrame {
         this.panelItem = panelItem;
     }
 
-    
-    //-------------------------code Ha----------------------------------
-    
-    List<LoaiBox> loaiBoxList;
-    public void initBoxData() {
-        panelItem.removeAll();
-        BoxStoreEvents.boxClick(this);
-        
-        for (Box box : BoxDao.getInstant().selectAll()) {
-            this.addBoxData(new BoxModelItem(box.getTenBox(), box.getTrangThai(), LoaiBoxDao.getInstant().selectById(box.getMaLoaiBox())));
+    private void openBillView() {
+        if (panelBill.getComponents().length <= 0) {
+            return;
         }
+        new HoaDonView().setVisible(true);
     }
 
-    private void addBoxData(BoxModelItem boxData) {
-        BoxItem boxItem = new BoxItem();
-        boxItem.setData(boxData);
-        
-        boxItem.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent me) {
-                if (SwingUtilities.isLeftMouseButton(me)) {
-                    eventBox.boxClick(boxItem, boxData);
-                    if(!boxData.isSelected()) {
-                        new DatBoxView(boxData).setVisible(true);
-                    }else {
-                        new ThongTinBoxDat().setVisible(true);
-                    }
-                }
-            }
-        });
-        
-        panelItem.add(boxItem);
-        panelItem.repaint();
-        panelItem.revalidate();
-        panelBill.setPanelItem(panelItem);
-    }
-    
-
-    public BoxEvents getEventBox() {
-        return eventBox;
-    }
-
-    public void setEventBox(BoxEvents eventBox) {
-        this.eventBox = eventBox;
-    }
-    
-    public void setBoxSelected(java.awt.Component item) {
-        BoxItem boxItem = ((BoxItem) item);
-        
-        if (boxItem.isSelected()) {
-            boxItem.setSelected(false);
-        } else {
-            boxItem.setSelected(true);
-        }
-        setSelected(boxItem.isSelected());
-    }
-    
-    public void showBoxItemBill(BoxModelItem boxData) {
-        if (selected) {
-            panelBill.setBoxList(boxData);
-        } else {
-            panelBill.removeBoxIB(boxData);
-        }
-        
-    }
 }

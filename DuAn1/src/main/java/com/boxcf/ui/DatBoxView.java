@@ -4,21 +4,16 @@
  */
 package com.boxcf.ui;
 
-import test.*;
 import com.boxcf.store.Store;
 import com.box.utils.XDate;
-import com.boxcf.models.Box;
-import com.boxcf.models.BoxModelItem;
-import com.boxcf.models.DatBox;
-import com.boxcf.ui.OrderView;
-import com.toedter.components.JSpinField;
+import com.boxcf.components.material.ItemBill;
+import com.boxcf.components.material.PanelBill;
+import com.boxcf.models.ModelItem;
+import java.awt.Component;
 import java.awt.HeadlessException;
 import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.Date;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 /**
  *
@@ -26,18 +21,17 @@ import javax.swing.JTextField;
  */
 public class DatBoxView extends javax.swing.JFrame {
 
-//    Box box;
-    BoxModelItem box;
-//    Order1 order = Store.globelOrderBox;
-//    OrderTest1 order2 = new OrderTest1();
-    OrderView orderView = Store.orderView;
+    private ModelItem box;
+    private int time;
+    private OrderView orderView = Store.orderView;
+    private PanelBill panelBill = Store.globelPanelBill;
 
     public DatBoxView() {
         initComponents();
         init();
     }
 
-    public DatBoxView(BoxModelItem box) throws HeadlessException {
+    public DatBoxView(ModelItem box) throws HeadlessException {
         this.box = box;
         initComponents();
         init();
@@ -66,10 +60,16 @@ public class DatBoxView extends javax.swing.JFrame {
         txtTenBox = new com.boxcf.components.TextField();
         txtLoaiBox = new com.boxcf.components.TextField();
         buttonRound4 = new com.boxcf.components.ButtonRound();
+        clsoeButton1 = new com.boxcf.components.ClsoeButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(245, 250, 255));
         setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         gradientPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(241, 241, 241)));
         gradientPanel1.setColor1(new java.awt.Color(3, 155, 216));
@@ -82,7 +82,6 @@ public class DatBoxView extends javax.swing.JFrame {
         jLabel8.setText("Giờ KT");
 
         lblGioKT.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        lblGioKT.setText("jLabel2");
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel3.setText("Box");
@@ -125,6 +124,8 @@ public class DatBoxView extends javax.swing.JFrame {
             }
         });
 
+        clsoeButton1.setBackground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout gradientPanel2Layout = new javax.swing.GroupLayout(gradientPanel2);
         gradientPanel2.setLayout(gradientPanel2Layout);
         gradientPanel2Layout.setHorizontalGroup(
@@ -160,13 +161,17 @@ public class DatBoxView extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(193, 193, 193))
+                .addGap(143, 143, 143)
+                .addComponent(clsoeButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         gradientPanel2Layout.setVerticalGroup(
             gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(gradientPanel2Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel1)
+                .addContainerGap()
+                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(clsoeButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(gradientPanel2Layout.createSequentialGroup()
@@ -237,20 +242,23 @@ public class DatBoxView extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonRound4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound4ActionPerformed
-        this.dispose();
-        box.setSoGio(Integer.parseInt(cboSoGio.getSelectedItem().toString()));
-        orderView.showBoxItemBill(box);
+        handleCreateBillItem();
     }//GEN-LAST:event_buttonRound4ActionPerformed
 
     private void cboSoGioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboSoGioActionPerformed
         int soGio = Integer.parseInt(cboSoGio.getSelectedItem().toString());
         Date ngayBD = XDate.toDate(lblGioBD.getText(), "MM/dd/yyyy HH:mm:ss");
-        box.setSelected(true);
+//        box.setSelected(true);
         setGioKT(ngayBD, soGio);
     }//GEN-LAST:event_cboSoGioActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        handleResetData();
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -278,39 +286,7 @@ public class DatBoxView extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(DatBoxView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new DatBoxView().setVisible(true);
@@ -321,6 +297,7 @@ public class DatBoxView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.boxcf.components.ButtonRound buttonRound4;
     private com.boxcf.components.Combobox cboSoGio;
+    private com.boxcf.components.ClsoeButton clsoeButton1;
     private com.boxcf.components.GradientPanel gradientPanel1;
     private com.boxcf.components.GradientPanel gradientPanel2;
     private javax.swing.JLabel jLabel1;
@@ -336,42 +313,72 @@ public class DatBoxView extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void init() {
+        this.clsoeButton1.initEvent(this);
         prepareUI();
         setBox(box);
     }
 
-    private void setBox(BoxModelItem box) {
+    private void setBox(ModelItem box) {
         txtLoaiBox.setText(box.getLoaiBox().getTenLoaiBox() + "");
-        txtTenBox.setText(box.getTenBox());
-        
+        txtTenBox.setText(box.getTen());
+
         box.setGioBD(new Date());
-        
+
         lblGioBD.setText(XDate.toString(new Date(), "MM/dd/yyyy HH:mm:ss"));
     }
 
-//    private BoxModelItem getBoxDat() {
-//        BoxModelItem boxDat = new BoxModelItem();
-//
-//        boxDat.setMaDat(1);
-//        boxDat.setMaBox(box.getMaBox());
-//        boxDat.setTenBox(lblTenBox.getText());
-//        boxDat.setGioBD(XDate.toDate(lblGioBD.getText(), "MM/dd/yyyy hh:mm:ss"));
-//        boxDat.setSoGio((Integer) cboSoGio.getSelectedItem());
-////        boxDat.setGioKT(XDate.toDate(lblGioBD.getText(), "MM/dd/yyyy hh:mm:ss"));
-//        boxDat.setTrangThai("Đã đặt");
-//        boxDat.setSelected(true);
-//
-//        return boxDat;
-//    }
-    
+    private ModelItem getBoxBooked() {
+
+        return new ModelItem(box.getMaItem(), box.getTen(), box.getGioBD(), box.getGioKT(), box.getLoaiBox(), time <= 0 ? 1 : time, box.getLoaiBox().getGiaLoai());
+    }
+
     private void setGioKT(Date gioBD, int soGio) {
         Date gioKT = XDate.addHours(gioBD, soGio);
         lblGioKT.setText(XDate.toString(gioKT, "MM/dd/yyyy HH:mm:ss"));
+        this.box.setGioKT(gioKT);
+        time = soGio;
     }
 
     private void prepareUI() {
         this.setLocationRelativeTo(null);
         Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
         this.setShape(shape);
+    }
+
+    // xử lí hiển thị bill item
+    private void handleCreateBillItem() {
+        ModelItem data = getBoxBooked();
+        if (data.getGioKT() == null) {
+            return;
+        }
+
+        for (Component component : panelBill.getComponents()) {
+            ItemBill itemBill = (ItemBill) component;
+            if (itemBill.getData().getMaItem() == data.getMaItem()) {
+                itemBill.setData(data);
+                orderView.handleTotal();
+                this.dispose();
+                return;
+            }
+
+        }
+
+        panelBill.setList(data);
+        panelBill.repaint();
+        this.dispose();
+
+    }
+
+    // xử lí viêc khi tồn tại một billitem trùng với box thì sẽ lấy thông tin trên bill đó xuống
+    private void handleResetData() {
+        // so luong la gio do :))
+        for (Component component : panelBill.getComponents()) {
+            ItemBill itemBill = (ItemBill) component;
+            if (itemBill.getData().getMaItem() == this.box.getMaItem()) {
+                this.cboSoGio.setSelectedItem(itemBill.getData().getSoLuong() + "");
+                return;
+            }
+
+        }
     }
 }

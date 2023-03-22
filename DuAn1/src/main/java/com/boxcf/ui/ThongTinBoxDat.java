@@ -256,7 +256,7 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
     private void buttonRound4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound4ActionPerformed
         this.dispose();
         box.setSoGio(Integer.parseInt(cboSoGio.getSelectedItem().toString()));
-        orderView.showBoxItemBill(box);
+//        orderView.showBoxItemBill(box);
     }//GEN-LAST:event_buttonRound4ActionPerformed
 
     private void cboSoGioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboSoGioActionPerformed

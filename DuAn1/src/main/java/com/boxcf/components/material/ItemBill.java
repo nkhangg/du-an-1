@@ -56,8 +56,12 @@ public class ItemBill extends javax.swing.JPanel {
     
     public void setData(ModelItem data) {
         this.data = data;
+        String suffixes = "";
         lblGia.setText(Formats.toCurency(data.getGia()));
-        lblSoluong.setText(data.getSoLuong() + "");
+        if(data.getLoaiBox() != null){
+            suffixes = " h";
+        }
+        lblSoluong.setText(data.getSoLuong() + suffixes);
         lblTen.setText(data.getTen());
     }
     

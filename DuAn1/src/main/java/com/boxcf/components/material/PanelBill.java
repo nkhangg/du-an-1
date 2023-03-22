@@ -7,9 +7,8 @@ package com.boxcf.components.material;
 import com.box.utils.Sort;
 import com.boxcf.models.ModelItem;
 import com.boxcf.components.PanelItem;
-import com.boxcf.events.BoxStoreEvents;
+import com.boxcf.constands.BoxState;
 import com.boxcf.events.StoreEvents;
-import com.boxcf.models.BoxModelItem;
 import com.boxcf.store.Store;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -44,12 +43,9 @@ public class PanelBill extends javax.swing.JPanel {
         for (ItemBill itemBill : list) {
             this.add(itemBill);
         }
-        
-        //----------code Ha-------------------------
-        Store.orderView.handleTotal();
-        for (BoxItemBill boxItemBill : boxList) {
-            this.add(boxItemBill);
-        }
+
+        this.activeBoxOnBill(panelItem);
+
     }
 
     public ArrayList<ItemBill> getList() {
@@ -103,7 +99,7 @@ public class PanelBill extends javax.swing.JPanel {
         list.removeAll(list);
         render();
         this.removeAll();
-        panelItem.clearActiveProduct();
+        panelItem.clearActive();
         this.repaint();
         this.revalidate();
     }
@@ -128,52 +124,32 @@ public class PanelBill extends javax.swing.JPanel {
         for (Component component : this.getComponents()) {
             ItemBill itemBill = (ItemBill) component;
             for (Component component1 : panelItem.getComponents()) {
-                ProductItem product = (ProductItem) component1;
-                if (itemBill.getData().getMaItem() == product.getData().getMaItem()) {
-                    product.reserved(itemBill.getData());
+                if (component1 instanceof ProductItem) {
+                    ProductItem product = (ProductItem) component1;
+                    if (itemBill.getData().getMaItem() == product.getData().getMaItem()) {
+                        product.reserved(itemBill.getData());
+                    }
                 }
             }
         }
     }
-    
-    //-----------------------------------------------
-    
-    public void setBoxList(BoxModelItem boxData) {
-        BoxItemBill boxItem = new BoxItemBill();
 
-        BoxStoreEvents.closeBillBox(boxItem, this, panelItem);
+    public void activeBoxOnBill(PanelItem panelItem) {
+        for (Component component : this.getComponents()) {
+            ItemBill itemBill = (ItemBill) component;
+            for (Component component1 : panelItem.getComponents()) {
+                if (component1 instanceof BoxItem) {
+                    BoxItem product = (BoxItem) component1;
+                    if (itemBill.getData().getMaItem() == product.getData().getMaItem()) {
+                        product.setActive(itemBill.getData(), BoxState.waiting);
 
-        boxItem.setData(boxData);
-        boxList.add(boxItem);
-        render();
-        this.repaint();
-        this.revalidate();
-    }
-    
-    public void removeBoxIB(BoxModelItem boxData) {
-        for (BoxItemBill itemBill : boxList) {
-            if (boxData.getTenBox().equalsIgnoreCase(itemBill.getData().getTenBox())) {
-                boxList.remove(itemBill);
-                this.removeAll();
-                render();
-                this.repaint();
-                this.revalidate();
-                return;
+                    }
+                }
+
             }
         }
-    }
-    
-    public void removeBoxItem(BoxModelItem boxData) {
-        for (BoxItemBill item : boxList) {
-            if (boxData.getTenBox().equalsIgnoreCase(item.getData().getTenBox())) {
-                boxList.remove(item);
-                this.removeAll();
-                render();
-                this.repaint();
-                this.revalidate();
-                return;
-            }
-        }
+        panelItem.repaint();
+        panelItem.revalidate();
     }
 
     @SuppressWarnings("unchecked")

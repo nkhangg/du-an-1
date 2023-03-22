@@ -4,6 +4,8 @@
  */
 package com.boxcf.models;
 
+import com.boxcf.constands.BoxState;
+import java.util.Date;
 import javax.swing.Icon;
 
 /**
@@ -12,10 +14,20 @@ import javax.swing.Icon;
  */
 public class ModelItem {
 
+    // product
     private int maItem;
     private Icon hing;
     private double gia;
     private String ten;
+
+    // box 
+    Date gioBD;
+    Date gioKT;
+    int MaDat;
+    BoxState trangThai;
+    LoaiBox loaiBox;
+
+    // cả hai đều có
     private int soLuong;
 
     public int getMaItem() {
@@ -59,6 +71,65 @@ public class ModelItem {
         this.ten = ten;
     }
 
+    public Date getGioBD() {
+        return gioBD;
+    }
+
+    public void setGioBD(Date gioBD) {
+        this.gioBD = gioBD;
+    }
+
+    public Date getGioKT() {
+        return gioKT;
+    }
+
+    public void setGioKT(Date gioKT) {
+        this.gioKT = gioKT;
+    }
+
+    public int getMaDat() {
+        return MaDat;
+    }
+
+    public void setMaDat(int MaDat) {
+        this.MaDat = MaDat;
+    }
+
+    public BoxState getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(BoxState trangThai) {
+        this.trangThai = trangThai;
+    }
+
+    public LoaiBox getLoaiBox() {
+        return loaiBox;
+    }
+
+    public void setLoaiBox(LoaiBox loaiBox) {
+        this.loaiBox = loaiBox;
+    }
+
+    // box
+    public ModelItem(int maItem, String ten, BoxState trangThai, LoaiBox loaiBox) {
+        this.maItem = maItem;
+        this.ten = ten;
+        this.trangThai = trangThai;
+        this.loaiBox = loaiBox;
+    }
+
+    public ModelItem(int maItem, String ten, Date gioBD, Date gioKT, LoaiBox loaiBox, int soLuong, double gia) {
+        this.maItem = maItem;
+        this.ten = ten;
+        this.gioBD = gioBD;
+        this.gioKT = gioKT;
+        this.loaiBox = loaiBox;
+        this.soLuong = soLuong;
+        this.gia = gia;
+    }
+
+    // product
     public ModelItem(int maItem, Icon hing, double gia, String ten, int soLuong) {
         this.maItem = maItem;
         this.hing = hing;
@@ -72,7 +143,7 @@ public class ModelItem {
 
     @Override
     public String toString() {
-        return "ModelItem{" + "maItem=" + maItem + ", hing=" + hing + ", gia=" + gia + ", ten=" + ten + ", soLuong=" + soLuong + '}';
+        return "ModelItem{" + "maItem=" + maItem + ", hing=" + hing + ", gia=" + gia + ", ten=" + ten + ", gioBD=" + gioBD + ", gioKT=" + gioKT + ", MaDat=" + MaDat + ", trangThai=" + trangThai + ", loaiBox=" + loaiBox + ", soLuong=" + soLuong + '}';
     }
 
 }

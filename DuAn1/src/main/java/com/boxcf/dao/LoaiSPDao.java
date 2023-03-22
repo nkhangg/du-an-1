@@ -81,20 +81,21 @@ public class LoaiSPDao implements BoxCfDAO<LoaiSP, String> {
     public LoaiSP selectById(String id) {
         String sql = "select * from LoaiSP where MaLoai = ?";
 
+        LoaiSP loaiSP = null;
         try {
 
             ResultSet responce = JdbcHelper.query(sql, id);
 
             // admission a ResultSet return a Box
             if (responce.next()) {
-                return createObjecet(responce);
+                loaiSP = createObjecet(responce);
             }
 
             responce.getStatement().getConnection().close();
         } catch (Exception e) {
             throw new Error("The Error in selectById LoaiSP !");
         }
-        return null;
+        return loaiSP;
     }
 
     @Override

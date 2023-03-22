@@ -4,6 +4,8 @@
  */
 package com.boxcf.models;
 
+import com.boxcf.constands.BoxState;
+
 /**
  *
  * @author ji
@@ -13,13 +15,13 @@ public class Box {
     int MaBox;
     String TenBox;
     String HinhAnh;
-    String TrangThai;
+    BoxState TrangThai;
     String MaLoaiBox;
 
     public Box() {
     }
 
-    public Box(int MaBox, String TenBox, String HinhAnh, String TrangThai, String MaLoaiBox) {
+    public Box(int MaBox, String TenBox, String HinhAnh, BoxState TrangThai, String MaLoaiBox) {
         this.MaBox = MaBox;
         this.TenBox = TenBox;
         this.HinhAnh = HinhAnh;
@@ -27,7 +29,7 @@ public class Box {
         this.MaLoaiBox = MaLoaiBox;
     }
 
-    public Box( String TenBox, String HinhAnh, String TrangThai, String MaLoaiBox) {
+    public Box( String TenBox, String HinhAnh, BoxState TrangThai, String MaLoaiBox) {
         this.TenBox = TenBox;
         this.HinhAnh = HinhAnh;
         this.TrangThai = TrangThai;
@@ -58,11 +60,11 @@ public class Box {
         this.HinhAnh = HinhAnh;
     }
 
-    public String getTrangThai() {
+    public BoxState getTrangThai() {
         return TrangThai;
     }
 
-    public void setTrangThai(String TrangThai) {
+    public void setTrangThai(BoxState TrangThai) {
         this.TrangThai = TrangThai;
     }
 

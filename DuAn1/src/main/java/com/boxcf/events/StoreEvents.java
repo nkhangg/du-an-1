@@ -6,6 +6,7 @@ package com.boxcf.events;
 
 import com.boxcf.components.PanelItem;
 import com.boxcf.components.Spiner;
+import com.boxcf.components.material.BoxItem;
 import com.boxcf.components.material.Category;
 import com.boxcf.components.material.ItemBill;
 import com.boxcf.components.material.PanelBill;
@@ -18,6 +19,7 @@ import java.awt.Component;
 import com.boxcf.events.interfaces.EventItem;
 import com.boxcf.models.ModelItem;
 import com.boxcf.store.Store;
+import com.boxcf.ui.DatBoxView;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -35,10 +37,18 @@ public class StoreEvents {
         order.setEvent(new EventItem() {
             @Override
             public void itemClick(Component com, ModelItem item) {
-                order.setEventIncreace(com, item);
-                order.setSelected(com);
-                order.showItemBill(item);
-                order.repaint();
+                if (com instanceof ProductItem) {
+                    order.setEventIncreace(com, item);
+                    order.setSelected(com);
+                    order.showItemBill(item);
+                    order.repaint();
+                }
+
+                if (com instanceof BoxItem) {
+                    BoxItem box = (BoxItem) com;
+                    new DatBoxView(item).setVisible(true);
+                    order.repaint();
+                }
 
             }
         });
@@ -80,12 +90,23 @@ public class StoreEvents {
             public void itemClick(Component com, ModelItem item) {
                 panelBill.removeItem(item);
                 for (Component component : panelItem.getComponents()) {
-                    ProductItem i = (ProductItem) component;
-                    if (i.getData().getMaItem() == item.getMaItem()) {
-                        i.clearSelected();
-                        i.repaint();
-                        i.revalidate();
-                        return;
+                    if (component instanceof ProductItem) {
+                        ProductItem i = (ProductItem) component;
+                        if (i.getData().getMaItem() == item.getMaItem()) {
+                            i.clearSelected();
+                            i.repaint();
+                            i.revalidate();
+                            return;
+                        }
+                    }
+                    
+                    if(component instanceof BoxItem){
+                        BoxItem i = (BoxItem) component;
+                        if (i.getData().getMaItem() == item.getMaItem()) {
+                            i.clearSelected();
+                            i.revalidate();
+                            return;
+                        }
                     }
 
                 }
@@ -154,17 +175,4 @@ public class StoreEvents {
         });
     }
 
-    // active các sản phẩm có trên bill
-//    private void activeProductOnBill(PanelBill panelBill, PanelItem panelItem) {
-//
-//        for (Component component : panelBill.getComponents()) {
-//            ItemBill itemBill = (ItemBill) component;
-//            for (Component component1 : panelItem.getComponents()) {
-//                ProductItem product = (ProductItem) component1;
-//                if (itemBill.getData().getMaItem() == product.getData().getMaItem()) {
-//                    product.reserved(itemBill.getData());
-//                }
-//            }
-//        }
-//    }
 }

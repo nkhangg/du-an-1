@@ -1,85 +1,93 @@
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\dao\HoaDonDao.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\models\HoaDon.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\ButtonRound.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\TextField.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\box\utils\Auth.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\test\EventItem1.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\ui\OrderView.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\models\DatBox.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\material\NewJPanel.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\dao\KhuyenMaiDao.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\ScrollBar.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\ui\SanPhamView.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\FormHome.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\models\Combo.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\dao\DatBoxDao.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\ui\ThongTinSP.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\ui\Component.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\dao\BoxDao.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\dao\NhanVienDao.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\ui\ThongTinBoxDat.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\models\DichVu.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\models\ComboCT.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\test\ItemBill1.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\WrapLayout.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\models\DanhMuc.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\box\utils\MsgBox.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\MainPanel.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\models\ModelItem.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\material\PanelBill.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\ui\ThongTinNV.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\events\interfaces\BoxEvents.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\box\utils\XImage.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\material\Category.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\events\StoreEvents.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\material\BoxItem.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\dao\LoaiBoxDao.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\ui\BoxView.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\store\Store.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\dao\HoaDonChiTietDao.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\events\interfaces\EventIncrease.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\models\SanPham.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\material\ItemBill.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\GradientPanel.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\models\NhanVien.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\dao\ComboCTDao.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\events\BoxStoreEvents.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\models\HoaDonCT.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\models\Box.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\ui\Main.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\box\utils\UI.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\WindowButton.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\box\utils\Validator.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\ModelItem.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\events\interfaces\EventItem.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\material\ProductItem.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\ModernScrollBarUI.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\Item.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\box\utils\JdbcHelper.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\dao\DanhMucDao.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\dao\SanPhamDao.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\material\PanelItemBill.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\dao\LoaiSPDao.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\models\BoxModelItem.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\test\PanelBill1.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\Background.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\material\MainPanelOrder.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\models\LoaiBox.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\box\utils\Formats.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\dao\BoxCfDAO.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\Combobox.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\test\MainPanel.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\models\LoaiSP.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\box\utils\Sort.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\PictureBox.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\ui\DatBoxView.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\ui\NhanVienView.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\EventItem.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\models\KhuyenMai.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\ImageAvatar.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\material\BoxItemBill.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\PanelItem.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\box\utils\XDate.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\dao\ComboDao.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\components\Spiner.java
-C:\Users\HP\Desktop\gitTest\du-an-1\DuAn1\src\main\java\com\boxcf\ui\ThongTinBox.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\ImageAvatar.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\material\PanelBill.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\material\BoxItemBill.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\NhanVienView.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\dao\DatBoxDao.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\ThongTinBox.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\dao\BoxDao.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\events\interfaces\EventIncrease.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\material\test.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\material\ProductItem.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\MainPanel.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\box\utils\Auth.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\material\NewJPanel.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\dao\DanhMucDao.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\LoaiSP.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\BoxView.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\DangNhapView.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\HoaDonCT.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\box\utils\XDate.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\dao\LoaiSPDao.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\DatBox.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\dao\ComboDao.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\box\utils\XImage.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\ThongTinNV.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\test\MainPanel.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\ButtonRound.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\PictureBox.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\ModelItem.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\store\Store.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\dao\KhuyenMaiDao.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\Background.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\EventItem.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\enumtypes\BoxState.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\ThongTinSP.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\SanPham.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\Combo.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\FormHome.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\test\PanelBill1.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\box\utils\JdbcHelper.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\ScrollBar.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\box\utils\UI.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\Item.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\dao\ComboCTDao.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\events\interfaces\BoxEvents.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\test\Instand.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\dao\HoaDonDao.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\material\Category.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\material\MainPanelOrder.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\PasswordField.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\DoiMatKhauView.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\box\utils\MsgBox.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\PanelItem.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\ModernScrollBarUI.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\DanhMuc.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\Main.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\BoxModelItem.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\dao\BoxCfDAO.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\ModelItem.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\Combobox.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\LoaiBox.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\KhuyenMai.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\material\PanelItemBill.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\Spiner.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\dao\SanPhamDao.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\material\BoxItem.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\test\EventItem1.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\material\ItemBill.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\DichVu.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\box\utils\Formats.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\box\utils\Sort.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\box\utils\Validator.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\ClsoeButton.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\SanPhamView.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\WindowButton.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\DatBoxView.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\Box.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\GradientPanel.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\events\StoreEvents.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\OrderView.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\material\BoxStatus.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\events\interfaces\EventItem.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\WrapLayout.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\NhanVien.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\dao\LoaiBoxDao.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\test\ItemBill1.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\dao\NhanVienDao.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\ComboCT.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\KhuyenMaiView.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\HoaDonView.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\dao\HoaDonChiTietDao.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\HoaDon.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\TextField.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\ThongTinBoxDat.java

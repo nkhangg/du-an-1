@@ -83,14 +83,14 @@ public class SanPhamDao implements BoxCfDAO<SanPham, Integer> {
     @Override
     public SanPham selectById(Integer id) {
         String sql = "select * from SanPham where MaSp = ?";
-
+        SanPham sanPham = null;
         try {
 
             ResultSet responce = JdbcHelper.query(sql, id);
 
             // admission a ResultSet return a Box
             if (responce.next()) {
-                return createObjecet(responce);
+                sanPham = createObjecet(responce);
             }
 
             responce.getStatement().getConnection().close();
@@ -98,7 +98,7 @@ public class SanPhamDao implements BoxCfDAO<SanPham, Integer> {
         } catch (Exception e) {
             throw new Error("The Error in selectById SanPham !");
         }
-        return null;
+        return sanPham;
     }
 
     @Override
