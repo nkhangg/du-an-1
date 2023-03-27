@@ -57,4 +57,9 @@ public class LoaiBox {
         this.MoTa = MoTa;
     }
 
+    @Override
+    public String toString() {
+        return "LoaiBox{" + "MaLoaiBox=" + MaLoaiBox + ", TenLoaiBox=" + TenLoaiBox + ", GiaLoai=" + GiaLoai + ", MoTa=" + MoTa + '}';
+    }
+
 }

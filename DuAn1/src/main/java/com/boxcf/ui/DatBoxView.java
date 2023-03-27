@@ -252,7 +252,6 @@ public class DatBoxView extends javax.swing.JFrame {
     private void cboSoGioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboSoGioActionPerformed
         int soGio = Integer.parseInt(cboSoGio.getSelectedItem().toString());
         Date ngayBD = XDate.toDate(lblGioBD.getText(), "MM/dd/yyyy HH:mm:ss");
-//        box.setSelected(true);
         setGioKT(ngayBD, soGio);
     }//GEN-LAST:event_cboSoGioActionPerformed
 
@@ -333,7 +332,9 @@ public class DatBoxView extends javax.swing.JFrame {
     }
 
     private void setGioKT(Date gioBD, int soGio) {
-        Date gioKT = XDate.addHours(gioBD, soGio);
+//        Date gioKT = XDate.addHours(gioBD, soGio);
+        Date gioKT = XDate.addMinus(gioBD, soGio);
+
         lblGioKT.setText(XDate.toString(gioKT, "MM/dd/yyyy HH:mm:ss"));
         this.box.setGioKT(gioKT);
         time = soGio;

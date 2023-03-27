@@ -7,26 +7,23 @@ import java.util.List;
 import com.boxcf.models.HoaDonCT;
 import com.box.utils.JdbcHelper;
 
-public class HoaDonChiTietDao implements BoxCfDAO<HoaDonCT, Integer>{
+public class HoaDonChiTietDao implements BoxCfDAO<HoaDonCT, Integer> {
 
-
-    public static HoaDonChiTietDao getInstant () {
+    public static HoaDonChiTietDao getInstant() {
         return new HoaDonChiTietDao();
     }
 
-
     @Override
     public HoaDonCT createObjecet(ResultSet responce) {
-       try {
+        try {
             return new HoaDonCT(
-                    responce.getInt(1), 
+                    responce.getInt(1),
                     responce.getInt(2),
                     responce.getInt(3),
-                    responce.getInt(4),
-                    responce.getString(5),
-                    responce.getLong(6),
-                    responce.getInt(7)
-                );
+                    responce.getString(4),
+                    responce.getLong(5),
+                    responce.getInt(6)
+            );
         } catch (Exception e) {
             throw new Error("The Error in createObjecet HoaDonCT !");
         }
@@ -35,17 +32,17 @@ public class HoaDonChiTietDao implements BoxCfDAO<HoaDonCT, Integer>{
     @Override
     public void delete(Integer id) {
         String sql = "delete HoaDonCT where MaHDCT = ?";
-        
+
         try {
             int responce = JdbcHelper.update(sql, id);
 
-            if(responce == 0){
+            if (responce == 0) {
                 throw new Error("The Error in delete HoaDonCT !");
             }
         } catch (Exception e) {
             throw new Error("The Error in delete HoaDonCT !");
         }
-        
+
     }
 
     @Override
@@ -53,31 +50,34 @@ public class HoaDonChiTietDao implements BoxCfDAO<HoaDonCT, Integer>{
         String sql = "Insert into HoaDonCT values ( ?, ?, ?, ?, ?, ?)";
 
         try {
-            int responce = JdbcHelper.update(sql, e.getMaHD(), e.getMaSP(), e.getSoLuong(), e.getGhiChu(), e.getThanhTien(), e.getMaDat());
+            int responce = JdbcHelper.update(sql, e.getMaHD(),
+                    e.getMaSP() == 0 ? null : e.getMaSP(),
+                    e.getSoLuong(),
+                    e.getGhiChu(),
+                    e.getThanhTien(),
+                    e.getMaDat() == 0 ? null : e.getMaDat());
 
-            if(responce == 0){
+            if (responce == 0) {
                 throw new Error("The Error in insert HoaDonCT !");
             }
         } catch (Exception ex) {
+            System.out.println(ex);
             throw new Error("The Error in insert HoaDonCT !");
         }
-        
+
     }
 
     @Override
     public List<HoaDonCT> selectAll() {
-        List<HoaDonCT> list  = new ArrayList<>();
+        List<HoaDonCT> list = new ArrayList<>();
         String sql = "select * from HoaDonCT";
 
         try {
             ResultSet responce = JdbcHelper.query(sql);
 
-
-            while(responce.next()){
+            while (responce.next()) {
                 list.add(createObjecet(responce));
             }
-            
-
 
         } catch (Exception e) {
             throw new Error("The Error in selectAll HoaDonCT !");
@@ -94,10 +94,9 @@ public class HoaDonChiTietDao implements BoxCfDAO<HoaDonCT, Integer>{
             ResultSet responce = JdbcHelper.query(sql, id);
 
             // admission a ResultSet return a Box
-            if(responce.next()){
+            if (responce.next()) {
                 return createObjecet(responce);
             }
-
 
         } catch (Exception e) {
             throw new Error("The Error in selectById HoaDonCT !");
@@ -107,17 +106,14 @@ public class HoaDonChiTietDao implements BoxCfDAO<HoaDonCT, Integer>{
 
     @Override
     public List<HoaDonCT> selectBySql(String sql, Object... args) {
-        List<HoaDonCT> list  = new ArrayList<>();
+        List<HoaDonCT> list = new ArrayList<>();
 
         try {
             ResultSet responce = JdbcHelper.query(sql, args);
 
-
-            while(responce.next()){
+            while (responce.next()) {
                 list.add(createObjecet(responce));
             }
-            
-
 
         } catch (Exception e) {
             throw new Error("The Error in selectBySql HoaDonCT !");
@@ -130,15 +126,15 @@ public class HoaDonChiTietDao implements BoxCfDAO<HoaDonCT, Integer>{
         String sql = "update HoaDonCT set MaHD = ?, MaSP = ?, SoLuong = ?, GhiChu = ? , ThanhTien = ?, MaDat = ? where MaHDCT = ?";
 
         try {
-            int responce = JdbcHelper.update(sql, e.getMaHD(), e.getMaSP(), e.getSoLuong(), e.getGhiChu(), e.getThanhTien(), e.getMaHDCT());
+            int responce = JdbcHelper.update(sql, e.getMaHD(), e.getMaSP(), e.getSoLuong(), e.getGhiChu(), e.getThanhTien());
 
-            if(responce == 0){
+            if (responce == 0) {
                 throw new Error("The Error in update HoaDonCT !");
             }
         } catch (Exception ex) {
             throw new Error("The Error in update HoaDonCT !");
         }
-        
+
     }
-    
+
 }

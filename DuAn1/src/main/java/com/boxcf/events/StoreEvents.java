@@ -11,12 +11,15 @@ import com.boxcf.components.material.Category;
 import com.boxcf.components.material.ItemBill;
 import com.boxcf.components.material.PanelBill;
 import com.boxcf.components.material.ProductItem;
+import com.boxcf.dao.BoxDao;
+import com.boxcf.dao.LoaiBoxDao;
 import com.boxcf.dao.SanPhamDao;
 import com.boxcf.events.interfaces.EventIncrease;
 import com.boxcf.models.SanPham;
 import com.boxcf.ui.OrderView;
 import java.awt.Component;
 import com.boxcf.events.interfaces.EventItem;
+import com.boxcf.models.Box;
 import com.boxcf.models.ModelItem;
 import com.boxcf.store.Store;
 import com.boxcf.ui.DatBoxView;
@@ -99,8 +102,8 @@ public class StoreEvents {
                             return;
                         }
                     }
-                    
-                    if(component instanceof BoxItem){
+
+                    if (component instanceof BoxItem) {
                         BoxItem i = (BoxItem) component;
                         if (i.getData().getMaItem() == item.getMaItem()) {
                             i.clearSelected();
@@ -115,15 +118,18 @@ public class StoreEvents {
     }
 
     // xử lý sự kiện active loại sản phẩm
-    public static void categoryActive(Category ctgr, JPanel panelCategory) {
+    public static void categoryActive(Category ctgr, JPanel panelCategory, String name) {
 
         OrderView order = Store.orderView;
         PanelItem panelItem = order.getPanelItem();
         PanelBill panelBill = Store.globelPanelBill;
-        String sql = "select * from SanPham\n"
+        String sqlProduct = "select * from SanPham\n"
                 + "where MaLoai = ?";
+
+        String sqlBox = "select * from box\n"
+                + "where MaLoaiBox = ?";
+
         ctgr.addMouseListener(new MouseAdapter() {
-            List<SanPham> listProduct;
 
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -142,34 +148,32 @@ public class StoreEvents {
                 // xóa các sản phẩm trước khi add vào mới không bị trùng sản phẩm
                 panelItem.removeAll();
 
-                if (ctgr.getData().getMaLoai().equals(Store.idAllCategory)) {
-                    listProduct = SanPhamDao.getInstant().selectAll();
+                if (name.equals("BOX") && ctgr.getDataBox() != null) {
 
-                    // add sản phẩm vào panelItem;
-                    order.renderData(listProduct);
+                    if (ctgr.getDataBox().getMaLoaiBox().equalsIgnoreCase(Store.idAllCategory)) {
+                        order.initBoxData(BoxDao.getInstant().selectAll());
+                        return;
+                    }
 
-                    // active các sản phẩm có trên bill
-                    panelBill.activeProductOnBill(panelItem);
+                    order.initBoxData(BoxDao.getInstant().selectBySql(sqlBox, ctgr.getDataBox().getMaLoaiBox()));
                     return;
                 }
 
-                // lấy sản phẩm tương ứng với mã loại
-                listProduct = SanPhamDao.getInstant().selectBySql(sql, ctgr.getData().getMaLoai());
+                if (ctgr.getDataProduct() != null) {
+                    if (ctgr.getDataProduct().getMaLoai().equalsIgnoreCase(Store.idAllCategory)) {
+                        order.initProductData(SanPhamDao.getInstant().selectAll());
+                        return;
+                    }
 
-                // kiểm tra nếu không chứa sản phẩm thì không cần thêm vào panelItem
-                if (listProduct.isEmpty()) {
-                    panelItem.removeAll();
-                    panelItem.repaint();
-                    panelItem.revalidate();
-                    return;
+                    List<SanPham> list = SanPhamDao.getInstant().selectBySql(sqlProduct, ctgr.getDataProduct().getMaLoai());
+
+                    if (list.isEmpty()) {
+                        order.removeAllPanelItem();
+                        return;
+                    }
+
+                    order.initProductData(list);
                 }
-
-                // add sản phẩm vào panelItem;
-                order.renderData(listProduct);
-
-                // active các sản phẩm có trên bill
-                panelBill.activeProductOnBill(panelItem);
-
             }
 
         });

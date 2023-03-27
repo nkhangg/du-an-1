@@ -8,8 +8,6 @@ import com.boxcf.models.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  *
@@ -47,12 +45,19 @@ public class XDate {
         return date;
     }
 
-    public static Time getCurTime(String myDate) {
+    public static Date addMinus(Date date, int minus) {
+        date.setTime(date.getTime() + minus * 60 * 1000);
+        return date;
+    }
+
+    public static Time getCurTime(String kt) {
         Time t = null;
         try {
-            System.out.println("in get curent time: " + myDate);
-            Date date = XDate.toDate(myDate, "MM/dd/yyyy HH:mm:ss");
-            long millis = date.getTime();
+            if (kt.equals("")) {
+                return null;
+            }
+            Date dateKt = XDate.toDate(kt, "MM/dd/yyyy HH:mm:ss");
+            long millis = dateKt.getTime();
             long next = millis - XDate.now().getTime();
             double totalTime = Math.floor(next) / 1000;
             int munite = (int) (Math.floor(totalTime / 60) % 60);
@@ -68,17 +73,6 @@ public class XDate {
 
     public static void main(String[] args) throws ParseException {
 
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                Time t = XDate.getCurTime("03/22/2023 02:52:26");
-                System.out.println(t.getHour() + "gio");
-                System.out.println(t.getMuntite() + 1 + "phut");
-
-            }
-        };
-        timer.scheduleAtFixedRate(task, 0, 1000);
     }
 
 }

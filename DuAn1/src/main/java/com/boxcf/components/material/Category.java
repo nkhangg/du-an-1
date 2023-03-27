@@ -4,6 +4,7 @@
  */
 package com.boxcf.components.material;
 
+import com.boxcf.models.LoaiBox;
 import com.boxcf.models.LoaiSP;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -15,7 +16,8 @@ import javax.swing.border.MatteBorder;
  */
 public class Category extends javax.swing.JPanel {
 
-    private LoaiSP data;
+    private LoaiSP dataProduct;
+    private LoaiBox dataBox;
     private boolean active;
 
     public boolean isActive() {
@@ -35,11 +37,32 @@ public class Category extends javax.swing.JPanel {
     }
 
     public LoaiSP getData() {
-        return data;
+        return dataProduct;
     }
 
+    public LoaiSP getDataProduct() {
+        return dataProduct;
+    }
+
+    public void setDataProduct(LoaiSP dataProduct) {
+        this.dataProduct = dataProduct;
+    }
+
+    public LoaiBox getDataBox() {
+        return dataBox;
+    }
+
+    public void setDataBox(LoaiBox dataBox) {
+        this.dataBox = dataBox;
+    }
+    
+
     public void setData(LoaiSP data) {
-        this.data = data;
+        this.dataProduct = data;
+    }
+
+    public void setData(LoaiBox data) {
+        this.dataBox = data;
     }
 
     public JLabel getLblTitle() {
@@ -53,10 +76,21 @@ public class Category extends javax.swing.JPanel {
     public Category() {
         initComponents();
     }
+    
+        public void addData(LoaiSP dataProduct, LoaiBox dataBox) {
+        this.dataProduct = dataProduct;
+        this.dataBox = dataBox;
+        lblTitle.setText(dataProduct.getTenLoai());
+    }
 
     public void addData(LoaiSP data) {
-        this.data = data;
+        this.dataProduct = data;
         lblTitle.setText(data.getTenLoai());
+    }
+
+    public void addData(LoaiBox data) {
+        this.dataBox = data;
+        lblTitle.setText(data.getTenLoaiBox());
     }
 
     private boolean toggleResult(boolean value) {
@@ -65,6 +99,11 @@ public class Category extends javax.swing.JPanel {
 
     public void toggleActive() {
         setActive(toggleResult(active));
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" + "dataProduct=" + dataProduct + ", dataBox=" + dataBox + ", active=" + active + '}';
     }
 
     /**

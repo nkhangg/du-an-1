@@ -4,23 +4,19 @@
  */
 package com.boxcf.components.material;
 
-import com.box.utils.XDate;
 import com.boxcf.constands.BoxState;
 import com.boxcf.constands.Messages;
+import com.boxcf.dao.DatBoxDao;
+import com.boxcf.models.DatBox;
 import com.boxcf.models.ModelItem;
 import com.boxcf.models.Time;
-import com.boxcf.store.Store;
+import com.boxcf.models.Timer;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 public class BoxItem extends javax.swing.JPanel {
 
@@ -39,6 +35,7 @@ public class BoxItem extends javax.swing.JPanel {
 
     public void setSelected(BoxState selected) {
         this.selected = selected;
+        this.box.setTrangThai(selected);
         lblTime.setText(box.getSoLuong() + "");
         repaint();
     }
@@ -57,13 +54,33 @@ public class BoxItem extends javax.swing.JPanel {
 
     public void setData(ModelItem box) {
         this.box = box;
+        this.selected = box.getTrangThai();
+        this.box.setTrangThai(box.getTrangThai());
+
         lblTenBox.setText(box.getTen());
         lblLoai.setText(box.getLoaiBox().getTenLoaiBox());
         lblTime.setText(box.getSoLuong() + "");
         lblGia.setText(box.getLoaiBox().getGiaLoai() + " / 1h");
 
-        this.box.setTrangThai(box.getTrangThai());
+        initTimer();
+
         this.repaint();
+    }
+
+    public void initTimer() {
+        if (selected == BoxState.isActive) {
+            DatBox db = DatBoxDao.getInstant().selectByBox(box.getMaItem());
+
+            if (db == null) {
+                return;
+            }
+            
+            this.box.setMaDat(db.getMaBox());
+            this.box.setGioBD(db.getGioBD());
+            this.box.setGioKT(db.getGioKT());
+            
+            this.timer();
+        }
     }
 
     public void clearSelected() {
@@ -98,7 +115,7 @@ public class BoxItem extends javax.swing.JPanel {
     public void paint(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        if (selected != null && (selected.equals(BoxState.reserved) || selected.equals(BoxState.waiting))) {
+        if (selected != null && (selected.equals(BoxState.reserved))) {
             g2.setColor(new Color(251, 210, 105));
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
         } else if (selected != null && selected.equals(BoxState.isActive)) {
@@ -209,35 +226,7 @@ public class BoxItem extends javax.swing.JPanel {
     }
 
     public void timer() {
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                setSelected(BoxState.isActive);
-                System.out.println(box);
-
-                if (box.getGioKT() == null || box.getGioKT().equals("")) {
-                    return;
-                }
-                Time t = XDate.getCurTime(XDate.toString(box.getGioKT(), "MM/dd/yyyy HH:mm:ss"));
-
-                if (t == null) {
-                    return;
-                }
-
-                if (t.getMuntite() < 0 && t.getHour() < 0) {
-                    clearSelected();
-                    JOptionPane.showMessageDialog(Store.orderView, "Box " + getData().getTen() + " da het thoi gian");
-                    timer.cancel();
-                    return;
-                }
-
-                setLblTime(t);
-
-            }
-
-        };
-        timer.scheduleAtFixedRate(task, 0, 1000);
-
+        Timer timer = new Timer(this, box);
+        timer.setTime();
     }
 }

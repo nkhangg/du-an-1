@@ -4,6 +4,8 @@
  */
 package com.boxcf.models;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -15,34 +17,48 @@ public class DatBox {
     int MaDat;
     String TenKH;
     Date GioBD;
-    Date GioKT;
+    java.sql.Timestamp GioKT;
     String TrangThai;
-    int soLuong;
     int MaBox;
 
     public DatBox() {
     }
 
-    public DatBox(int MaDat, String TenKH, Date GioBD, Date GioKT, String TrangThai, int soLuong, int MaBox) {
+    public DatBox(int MaDat, String TenKH, Date GioBD, Timestamp GioKT, String TrangThai, int MaBox) {
         this.MaDat = MaDat;
         this.TenKH = TenKH;
         this.GioBD = GioBD;
         this.GioKT = GioKT;
         this.TrangThai = TrangThai;
-        this.soLuong = soLuong;
         this.MaBox = MaBox;
     }
-    
+
+//    public DatBox(int MaDat, String TenKH, Date GioBD, Date GioKT, String TrangThai, int soLuong, int MaBox) {
+//        this.MaDat = MaDat;
+//        this.TenKH = TenKH;
+//        this.GioBD = GioBD;
+//        this.GioKT = GioKT;
+//        this.TrangThai = TrangThai;
+//        this.soLuong = soLuong;
+//        this.MaBox = MaBox;
+//    }
+//
+//    public DatBox(int MaDat, String TenKH, Date GioBD, Date GioKT, String TrangThai, int MaBox) {
+//        this.MaDat = MaDat;
+//        this.TenKH = TenKH;
+//        this.GioBD = GioBD;
+//        this.GioKT = GioKT;
+//        this.TrangThai = TrangThai;
+//        this.MaBox = MaBox;
+//    }
     public DatBox(int MaDat, String TenKH, String TrangThai, int soLuong, int MaBox) {
         this.MaDat = MaDat;
         this.TenKH = TenKH;
 //        this.GioBD = GioBD;
 //        this.GioKT = GioKT;
         this.TrangThai = TrangThai;
-        this.soLuong = soLuong;
         this.MaBox = MaBox;
     }
-
 
     public int getMaDat() {
         return MaDat;
@@ -72,14 +88,6 @@ public class DatBox {
         return GioKT;
     }
 
-    public void setGioKT(Date GioKT) {
-        this.GioKT = GioKT;
-    }
-
-    public void setSoLuong(int soLuong) {
-        this.soLuong = soLuong;
-    }
-
     public String getTrangThai() {
         return TrangThai;
     }
@@ -96,7 +104,9 @@ public class DatBox {
         this.MaBox = MaBox;
     }
 
-    public int getSoLuong() {
-        return soLuong;
+    @Override
+    public String toString() {
+        return "DatBox{" + "MaDat=" + MaDat + ", TenKH=" + TenKH + ", GioBD=" + GioBD + ", GioKT=" + GioKT + ", TrangThai=" + TrangThai + ", MaBox=" + MaBox + '}';
     }
+
 }

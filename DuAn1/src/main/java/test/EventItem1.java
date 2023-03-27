@@ -1,7 +1,6 @@
 package test;
 
 import com.boxcf.models.Box;
-import com.boxcf.models.DatBox;
 import java.awt.Component;
 
 public interface EventItem1 {

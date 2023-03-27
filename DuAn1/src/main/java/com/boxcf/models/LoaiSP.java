@@ -46,5 +46,10 @@ public class LoaiSP {
     public void setMaDM(String MaDM) {
         this.MaDM = MaDM;
     }
-    
+
+    @Override
+    public String toString() {
+        return "LoaiSP{" + "MaLoai=" + MaLoai + ", TenLoai=" + TenLoai + ", MaDM=" + MaDM + '}';
+    }
+
 }

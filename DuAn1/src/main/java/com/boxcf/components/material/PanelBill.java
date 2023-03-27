@@ -54,6 +54,7 @@ public class PanelBill extends javax.swing.JPanel {
 
     public void setList(ArrayList<ItemBill> list) {
         this.list = list;
+        render();
         this.repaint();
         this.revalidate();
     }
@@ -95,11 +96,11 @@ public class PanelBill extends javax.swing.JPanel {
         }
     }
 
-    public void clearList() {
+    public void clearList(boolean all) {
+        this.removeAll();
+        panelItem.clearActive(all);
         list.removeAll(list);
         render();
-        this.removeAll();
-        panelItem.clearActive();
         this.repaint();
         this.revalidate();
     }

@@ -3,14 +3,12 @@ com\boxcf\models\HoaDon.class
 com\boxcf\models\Box.class
 com\box\utils\MsgBox.class
 com\boxcf\models\DichVu.class
-test\Instand.class
 com\box\utils\Formats.class
 com\boxcf\components\Spiner.class
 com\boxcf\components\TextField$3.class
 com\boxcf\components\WindowButton.class
 com\boxcf\ui\ThongTinBox$2.class
 test\EventItem1.class
-com\boxcf\ui\OrderView$9.class
 com\boxcf\ui\Main$1.class
 com\boxcf\components\FormHome$1.class
 com\boxcf\ui\BoxView.class
@@ -67,7 +65,6 @@ com\boxcf\dao\LoaiSPDao.class
 com\boxcf\components\PasswordField$3.class
 com\boxcf\components\PasswordField.class
 com\boxcf\ui\DatBoxView$1.class
-test\PanelBill1.class
 com\boxcf\models\Combo.class
 com\boxcf\ui\Main$3.class
 com\boxcf\ui\DangNhapView.class
@@ -109,7 +106,6 @@ com\boxcf\ui\ThongTinNV.class
 com\boxcf\ui\ThongTinBoxDat$1.class
 com\boxcf\ui\Main$4.class
 com\boxcf\ui\ThongTinSP$3.class
-test\ItemBill1.class
 com\boxcf\components\material\BoxItem.class
 com\boxcf\ui\BoxView$4.class
 com\boxcf\models\ModelItem.class
@@ -119,7 +115,6 @@ com\boxcf\dao\LoaiBoxDao.class
 com\boxcf\events\StoreEvents$3.class
 com\boxcf\store\Store.class
 com\boxcf\events\interfaces\EventItem.class
-com\boxcf\enumtypes\BoxState.class
 com\boxcf\ui\SanPhamView$1.class
 com\boxcf\components\material\PanelItemBill.class
 com\boxcf\components\Combobox$ComboUI$4.class
@@ -175,7 +170,6 @@ com\boxcf\ui\DoiMatKhauView.class
 com\boxcf\components\material\BoxItemBill$1.class
 com\boxcf\models\LoaiBox.class
 com\boxcf\ui\ThongTinSP$4.class
-test\PanelBill1$1.class
 com\boxcf\ui\ThongTinSP$2.class
 com\boxcf\components\Spiner$2.class
 com\boxcf\ui\OrderView$4.class

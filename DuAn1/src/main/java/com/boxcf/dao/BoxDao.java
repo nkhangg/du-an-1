@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.boxcf.dao;
 
 import com.boxcf.models.Box;
@@ -12,10 +8,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author PC
- */
 public class BoxDao implements BoxCfDAO<Box, Integer> {
 
     public static BoxDao getInstant() {
@@ -124,6 +116,23 @@ public class BoxDao implements BoxCfDAO<Box, Integer> {
             }
         } catch (Exception ex) {
             throw new Error("The Error in update Box !");
+        }
+
+    }
+
+    public void updateBoxState(Box box) {
+        String sql = "update Box\n"
+                + "set TrangThai = ?\n"
+                + "where MaBox = ?";
+
+        try {
+            int responce = JdbcHelper.update(sql, box.getTrangThai());
+
+            if (responce == 0) {
+                throw new Error("The Error in updateBoxState !");
+            }
+        } catch (Exception e) {
+            throw new Error("The Error in updateBoxState !");
         }
 
     }

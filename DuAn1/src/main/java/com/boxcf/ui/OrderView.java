@@ -20,6 +20,7 @@ import com.boxcf.events.interfaces.EventItem;
 import com.boxcf.components.material.ProductItem;
 import com.boxcf.models.ModelItem;
 import com.boxcf.components.material.PanelBill;
+import com.boxcf.constands.BoxState;
 import com.boxcf.dao.BoxDao;
 import com.boxcf.dao.DanhMucDao;
 import com.boxcf.dao.LoaiBoxDao;
@@ -28,6 +29,7 @@ import com.boxcf.dao.SanPhamDao;
 import com.boxcf.events.interfaces.BoxEvents;
 import com.boxcf.models.Box;
 import com.boxcf.models.DanhMuc;
+import com.boxcf.models.LoaiBox;
 import com.boxcf.models.LoaiSP;
 import com.boxcf.models.SanPham;
 import com.boxcf.store.Store;
@@ -75,8 +77,7 @@ public class OrderView extends javax.swing.JFrame {
         buttonRound3 = new com.boxcf.components.ButtonRound();
         buttonRound4 = new com.boxcf.components.ButtonRound();
         buttonRound5 = new com.boxcf.components.ButtonRound();
-        btnAll = new com.boxcf.components.ButtonRound();
-        windowButton2 = new com.boxcf.components.WindowButton();
+        windowButton1 = new com.boxcf.components.WindowButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -193,24 +194,12 @@ public class OrderView extends javax.swing.JFrame {
         buttonRound5.setText("ĐỒ UỐNG");
         buttonRound5.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
 
-        btnAll.setBackground(new java.awt.Color(56, 187, 156));
-        btnAll.setForeground(new java.awt.Color(255, 255, 255));
-        btnAll.setText("TẤT CẢ");
-        btnAll.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        btnAll.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAllActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout panelButtonLayout = new javax.swing.GroupLayout(panelButton);
         panelButton.setLayout(panelButtonLayout);
         panelButtonLayout.setHorizontalGroup(
             panelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelButtonLayout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(btnAll, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addContainerGap()
                 .addComponent(buttonRound5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(buttonRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -219,7 +208,7 @@ public class OrderView extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(buttonRound4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(windowButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(windowButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         panelButtonLayout.setVerticalGroup(
             panelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,11 +218,10 @@ public class OrderView extends javax.swing.JFrame {
                     .addComponent(buttonRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonRound3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonRound4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonRound5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAll, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(buttonRound5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(27, Short.MAX_VALUE))
             .addGroup(panelButtonLayout.createSequentialGroup()
-                .addComponent(windowButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(windowButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -330,14 +318,8 @@ public class OrderView extends javax.swing.JFrame {
         openBillView();
     }//GEN-LAST:event_buttonRound6ActionPerformed
 
-    private void btnAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllActionPerformed
-
-        handleCategory(buttonRound1.getText());
-    }//GEN-LAST:event_btnAllActionPerformed
-
     private void buttonRound3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound3ActionPerformed
-        // TODO add your handling code here:
-        this.initBoxData();
+
     }//GEN-LAST:event_buttonRound3ActionPerformed
 
     /**
@@ -377,7 +359,6 @@ public class OrderView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ContainBill;
-    private com.boxcf.components.ButtonRound btnAll;
     private com.boxcf.components.ButtonRound buttonRound1;
     private com.boxcf.components.ButtonRound buttonRound3;
     private com.boxcf.components.ButtonRound buttonRound4;
@@ -395,7 +376,7 @@ public class OrderView extends javax.swing.JFrame {
     private javax.swing.JPanel panelCategory;
     private com.boxcf.components.PanelItem panelItem;
     private javax.swing.JScrollPane scroll;
-    private com.boxcf.components.WindowButton windowButton2;
+    private com.boxcf.components.WindowButton windowButton1;
     // End of variables declaration//GEN-END:variables
 
     public void initStyle() {
@@ -415,7 +396,7 @@ public class OrderView extends javax.swing.JFrame {
 
     private void init() {
 
-        windowButton2.initEvent(this);
+        windowButton1.initEvent(this);
 
         // gán biến
         Store.globelPanelBill = panelBill;
@@ -429,15 +410,12 @@ public class OrderView extends javax.swing.JFrame {
                 } catch (InterruptedException ex) {
                     Logger.getLogger(OrderView.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                initCategory(true);
+                initCategory(true, LoaiSPDao.getInstant().selectAll(), "");
             }
         }.start();
 
         // add sự kiện cho nút danh muc
         addEventCategory();
-
-        // add dữ liệu
-        initProductData();
 
     }
 
@@ -452,27 +430,65 @@ public class OrderView extends javax.swing.JFrame {
 
     }
 
-    public void initBoxData() {
+    public void initProductData(List<SanPham> list) {
+
+        panelItem.removeAll();
+        // đưa sang class khác xử lí
+        StoreEvents.product(this);
+
+        for (SanPham sp : list) {
+            this.addProductData(new ModelItem(sp.getMaSP(), new ImageIcon(getClass().getResource(sp.getHinhAnh())), sp.getGia(), sp.getTenSP(), 1));
+        }
+        panelBill.activeProductOnBill(panelItem);
+
+    }
+
+    public void initBoxData(List<Box> list) {
         panelItem.removeAll();
         StoreEvents.product(this);
 
-        for (Box box : BoxDao.getInstant().selectAll()) {
+        for (Box box : list) {
             this.addBoxData(new ModelItem(box.getMaBox(), box.getTenBox(), box.getTrangThai(), LoaiBoxDao.getInstant().selectById(box.getMaLoaiBox())));
         }
         panelBill.activeBoxOnBill(panelItem);
 
     }
 
-    private void initCategory(boolean categoryAll) {
+    private void initCategory(boolean categoryAll, List<LoaiSP> list, String name) {
+
+        panelCategory.removeAll();
 
         if (categoryAll) {
             // loai tat ca
-            panelCategory.add(Store.categoryAll(panelCategory));
+            panelCategory.add(Store.categoryAll(panelCategory, name, true));
+            initProductData(SanPhamDao.getInstant().selectAll());
         }
 
-        for (LoaiSP lsp : LoaiSPDao.getInstant().selectAll()) {
+        for (LoaiSP lsp : list) {
             Category ctgr = new Category();
-            StoreEvents.categoryActive(ctgr, panelCategory);
+            StoreEvents.categoryActive(ctgr, panelCategory, name);
+            ctgr.setActive(false);
+            ctgr.addData(lsp);
+            panelCategory.add(ctgr);
+        }
+        panelCategory.repaint();
+        panelCategory.revalidate();
+
+    }
+
+    private void initCategoryBox(boolean categoryAll, List<LoaiBox> list, String name) {
+
+        panelCategory.removeAll();
+
+        if (categoryAll) {
+            // loai tat ca
+            panelCategory.add(Store.categoryAll(panelCategory, name, true));
+            initBoxData(BoxDao.getInstant().selectAll());
+        }
+
+        for (LoaiBox lsp : list) {
+            Category ctgr = new Category();
+            StoreEvents.categoryActive(ctgr, panelCategory, name);
             ctgr.setActive(false);
             ctgr.addData(lsp);
             panelCategory.add(ctgr);
@@ -522,12 +538,9 @@ public class OrderView extends javax.swing.JFrame {
 
     }
 
-    public void renderData(List<SanPham> listProduct) {
-        for (SanPham sp : listProduct) {
-            this.addProductData(new ModelItem(sp.getMaSP(),
-                    new ImageIcon(getClass().getResource(sp.getHinhAnh())),
-                    sp.getGia(),
-                    sp.getTenSP(), 1));
+    public void renderData(List<ModelItem> listProduct) {
+        for (ModelItem item : listProduct) {
+            this.addProductData(item);
         }
     }
 
@@ -590,33 +603,31 @@ public class OrderView extends javax.swing.JFrame {
         String sql = "select * from LoaiSP\n"
                 + "where MaDM = ?";
 
-        panelCategory.add(Store.categoryAll(panelCategory));
-
         for (DanhMuc danhMuc : DanhMucDao.getInstant().selectAll()) {
-            if (name.equals(btnAll.getText())) {
-                initCategory(false);
+
+            // loai box
+            if (danhMuc.getTenDM().equalsIgnoreCase("Box")) {
+                initCategoryBox(true, LoaiBoxDao.getInstant().selectAll(), name);
                 return;
             }
-            if (danhMuc.getTenDM().toLowerCase().equals(name.toLowerCase())) {
-                for (LoaiSP lsp : LoaiSPDao.getInstant().selectBySql(sql, danhMuc.getMaDM())) {
-                    Category ctgr = new Category();
 
-                    StoreEvents.categoryActive(ctgr, panelCategory);
-                    ctgr.setActive(false);
-                    ctgr.addData(lsp);
-                    panelCategory.add(ctgr);
-                }
-                panelCategory.repaint();
-                panelCategory.revalidate();
+            //  // loai san pham
+            if (danhMuc.getTenDM().toLowerCase().equals(name.toLowerCase())) {
+                initCategory(true, LoaiSPDao.getInstant().selectBySql(sql, danhMuc.getMaDM()), name);
                 return;
             }
         }
 
     }
 
+    public void removeAllPanelItem() {
+        panelItem.removeAll();
+        panelItem.repaint();
+    }
+
     // xử lí nút xóa tất cả
     private void handleClearBill() {
-        panelBill.clearList();
+        panelBill.clearList(true);
     }
 
     public void handleTotal() {

@@ -42,9 +42,9 @@ public class WindowButton extends javax.swing.JPanel {
         btnClose = new com.boxcf.components.ButtonRound();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setMinimumSize(new java.awt.Dimension(88, 34));
+        setMinimumSize(new java.awt.Dimension(78, 34));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(88, 34));
+        setPreferredSize(new java.awt.Dimension(78, 34));
 
         btnScale.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/icons8_square_20px.png"))); // NOI18N
         btnScale.setMaximumSize(new java.awt.Dimension(34, 34));
@@ -62,7 +62,7 @@ public class WindowButton extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(btnScale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addGap(10, 10, 10)
                 .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
