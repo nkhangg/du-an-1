@@ -23,7 +23,7 @@ public class Store {
     public final static Category categoryAll(JPanel panelCategory, String name, boolean active) {
         Category ctgrAll = new Category();
         StoreEvents.categoryActive(ctgrAll, panelCategory, name);
-        
+
         ctgrAll.setActive(active);
         LoaiSP lsp = new LoaiSP(Store.idAllCategory, "Tất cả", Store.idAllCategory);
         LoaiBox lb = new LoaiBox(Store.idAllCategory, "Tất cả", 0, "");
@@ -34,5 +34,7 @@ public class Store {
     public static OrderView orderView = null;
 
     public static PanelBill globelPanelBill = null;
+
+    public static String partten = "MM/dd/yyyy HH:mm:ss";
 
 }

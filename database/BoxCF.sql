@@ -319,14 +319,27 @@ exec sp_DatBox N'khang', '10:34:09 AM', '11:34:09 AM', 'isactive', 1
 
 Go
 
---create proc sp_create_hoadon @NgayTao DATETIME, @TenKH NVARCHAR(50), @MaNV VARCHAR(20), @GhiChu NVARCHAR(100), @TongTien INT, @MaKM VARCHAR(10)
---as
---begin
---	Insert into HoaDon values('2023/03/10', N'Trần Phước Vinh', 'NV02', null, 270000, 'KM02')
---end
+drop table DatTruoc
+create table DatTruoc(
+	MaDT int identity primary key not null,
+	MaBox int REFERENCES Box(MaBox) ON DELETE CASCADE,
+	TenKH nvarchar(50),
+	GioBD datetime,
+	GioKT datetime,
+	TranThai bit default 1
+)
+
+select * from DatTruoc
+
+update DatTruoc
+set TranThai = 1
+where MaDT = 6
 
 
+insert into DatTruoc 
+values(1, N'Phạm Nhứt Khang', '10:34:09 AM', '11:34:09 AM', 1)
 
-select top 1 * from HoaDon
-order by MaHD desc
+select * from DATBOX where MaBox = 1 and TrangThai = 'isActive'
+
+
 

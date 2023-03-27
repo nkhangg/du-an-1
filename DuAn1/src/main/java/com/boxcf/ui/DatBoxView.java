@@ -332,8 +332,7 @@ public class DatBoxView extends javax.swing.JFrame {
     }
 
     private void setGioKT(Date gioBD, int soGio) {
-//        Date gioKT = XDate.addHours(gioBD, soGio);
-        Date gioKT = XDate.addMinus(gioBD, soGio);
+        Date gioKT = XDate.addHours(gioBD, soGio);
 
         lblGioKT.setText(XDate.toString(gioKT, "MM/dd/yyyy HH:mm:ss"));
         this.box.setGioKT(gioKT);

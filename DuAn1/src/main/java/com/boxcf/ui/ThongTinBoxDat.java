@@ -4,21 +4,23 @@
  */
 package com.boxcf.ui;
 
-import test.*;
 import com.boxcf.store.Store;
 import com.box.utils.XDate;
-import com.boxcf.models.Box;
+import com.boxcf.dao.DatBoxDao;
+import com.boxcf.dao.DatTruocDao;
 import com.boxcf.models.BoxModelItem;
 import com.boxcf.models.DatBox;
-import com.boxcf.ui.OrderView;
-import com.toedter.components.JSpinField;
+import com.boxcf.models.DatTruoc;
+import com.boxcf.models.ModelCboDatTruoc;
+import com.boxcf.models.ModelItem;
 import java.awt.HeadlessException;
 import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 import java.util.Date;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -27,17 +29,18 @@ import javax.swing.JTextField;
 public class ThongTinBoxDat extends javax.swing.JFrame {
 
 //    Box box;
-    BoxModelItem box;
-//    Order1 order = Store.globelOrderBox;
-//    OrderTest1 order2 = new OrderTest1();
+    ModelItem box;
+    private ArrayList<DatTruoc> list = new ArrayList<>();
+    DefaultTableModel model;
+
     OrderView orderView = Store.orderView;
 
     public ThongTinBoxDat() {
         initComponents();
-        init();
+//        init();
     }
 
-    public ThongTinBoxDat(BoxModelItem box) throws HeadlessException {
+    public ThongTinBoxDat(ModelItem box) throws HeadlessException {
         this.box = box;
         initComponents();
         init();
@@ -58,7 +61,6 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
         lblGioKT = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        lblGioBD = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -68,7 +70,11 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
         buttonRound4 = new com.boxcf.components.ButtonRound();
         buttonRound5 = new com.boxcf.components.ButtonRound();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblDatTruoc = new javax.swing.JTable();
+        clsoeButton1 = new com.boxcf.components.ClsoeButton();
+        cboGioBD = new com.boxcf.components.Combobox();
+        lblNameCustomer = new com.boxcf.components.TextField();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(245, 250, 255));
@@ -92,9 +98,6 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel5.setText("Giờ BD");
-
-        lblGioBD.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        lblGioBD.setText("jLabel2");
 
         jLabel7.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel7.setText("Số giờ");
@@ -130,7 +133,7 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
 
         buttonRound5.setBackground(new java.awt.Color(255, 150, 0));
         buttonRound5.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound5.setText("THÊM GIỜ");
+        buttonRound5.setText("Đặt");
         buttonRound5.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         buttonRound5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,7 +141,7 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblDatTruoc.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -146,10 +149,21 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Tên Khách Hàng", "Giờ Bắt Đầu", "Giờ Kết Thúc", "Trạng Thái"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblDatTruoc);
+
+        clsoeButton1.setBackground(new java.awt.Color(255, 255, 255));
+        clsoeButton1.setPreferredSize(new java.awt.Dimension(30, 30));
+
+        cboGioBD.setLabeText("");
+
+        lblNameCustomer.setText("Phạm Nhứt Khang");
+        lblNameCustomer.setLabelText("");
+
+        jLabel6.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jLabel6.setText("Tên khách hàng");
 
         javax.swing.GroupLayout gradientPanel2Layout = new javax.swing.GroupLayout(gradientPanel2);
         gradientPanel2.setLayout(gradientPanel2Layout);
@@ -158,80 +172,92 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
             .addGroup(gradientPanel2Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(gradientPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56)
-                        .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(gradientPanel2Layout.createSequentialGroup()
-                                .addComponent(buttonRound4, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(30, 30, 30)
-                                .addComponent(buttonRound5, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblGioKT, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(gradientPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(56, 56, 56)
-                        .addComponent(txtLoaiBox, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(gradientPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56)
-                        .addComponent(lblGioBD, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(gradientPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56)
-                        .addComponent(cboSoGio, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, gradientPanel2Layout.createSequentialGroup()
+                            .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(75, 75, 75)
+                            .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(cboGioBD, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cboSoGio, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, gradientPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblGioKT, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, gradientPanel2Layout.createSequentialGroup()
+                            .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel4))
+                            .addGap(26, 26, 26)
+                            .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtLoaiBox, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblNameCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(gradientPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56)
                         .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTenBox, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                            .addGroup(gradientPanel2Layout.createSequentialGroup()
+                                .addGap(75, 75, 75)
+                                .addComponent(txtTenBox, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(gradientPanel2Layout.createSequentialGroup()
+                                .addGap(56, 56, 56)
+                                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(gradientPanel2Layout.createSequentialGroup()
+                                        .addComponent(buttonRound4, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(30, 30, 30)
+                                        .addComponent(buttonRound5, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel2Layout.createSequentialGroup()
+                        .addComponent(clsoeButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         gradientPanel2Layout.setVerticalGroup(
             gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(gradientPanel2Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(gradientPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(gradientPanel2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel3))
+                        .addGap(19, 19, 19)
+                        .addComponent(jLabel1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel2Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(clsoeButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(21, 21, 21)
+                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel2Layout.createSequentialGroup()
+                        .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
                             .addComponent(txtTenBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(17, 17, 17)
-                        .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(gradientPanel2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel4))
+                        .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
                             .addComponent(txtLoaiBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(17, 17, 17)
-                        .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(gradientPanel2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel5))
-                            .addComponent(lblGioBD, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20)
-                        .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(gradientPanel2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel7))
+                        .addGap(15, 15, 15)
+                        .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblNameCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addGap(18, 18, 18)
+                        .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(cboGioBD, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(15, 15, 15)
+                        .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
                             .addComponent(cboSoGio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(25, 25, 25)
-                        .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(gradientPanel2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel8))
+                        .addGap(29, 29, 29)
+                        .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
                             .addComponent(lblGioKT, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(buttonRound4, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonRound5, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(28, Short.MAX_VALUE))
+                            .addComponent(buttonRound5, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout gradientPanel1Layout = new javax.swing.GroupLayout(gradientPanel1);
@@ -242,10 +268,9 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
         );
         gradientPanel1Layout.setVerticalGroup(
             gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel1Layout.createSequentialGroup()
-                .addGap(1, 1, 1)
+            .addGroup(gradientPanel1Layout.createSequentialGroup()
                 .addComponent(gradientPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -256,10 +281,7 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(gradientPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(gradientPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -268,18 +290,16 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
 
     private void buttonRound4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound4ActionPerformed
         this.dispose();
-        box.setSoGio(Integer.parseInt(cboSoGio.getSelectedItem().toString()));
-//        orderView.showBoxItemBill(box);
+        box.setSoLuong(Integer.parseInt(cboSoGio.getSelectedItem().toString()));
     }//GEN-LAST:event_buttonRound4ActionPerformed
 
     private void cboSoGioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboSoGioActionPerformed
-        int soGio = Integer.parseInt(cboSoGio.getSelectedItem().toString());
-        Date ngayBD = XDate.toDate(lblGioBD.getText(), "MM/dd/yyyy HH:mm:ss");
-        setGioKT(ngayBD, soGio);
+        setGioKT();
+
     }//GEN-LAST:event_cboSoGioActionPerformed
 
     private void buttonRound5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound5ActionPerformed
-        // TODO add your handling code here:
+        handleBook();
     }//GEN-LAST:event_buttonRound5ActionPerformed
 
     /**
@@ -308,135 +328,7 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(ThongTinBoxDat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ThongTinBoxDat().setVisible(true);
@@ -447,60 +339,149 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.boxcf.components.ButtonRound buttonRound4;
     private com.boxcf.components.ButtonRound buttonRound5;
+    private com.boxcf.components.Combobox cboGioBD;
     private com.boxcf.components.Combobox cboSoGio;
+    private com.boxcf.components.ClsoeButton clsoeButton1;
     private com.boxcf.components.GradientPanel gradientPanel1;
     private com.boxcf.components.GradientPanel gradientPanel2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JLabel lblGioBD;
     private javax.swing.JLabel lblGioKT;
+    private com.boxcf.components.TextField lblNameCustomer;
+    private javax.swing.JTable tblDatTruoc;
     private com.boxcf.components.TextField txtLoaiBox;
     private com.boxcf.components.TextField txtTenBox;
     // End of variables declaration//GEN-END:variables
 
     private void init() {
+        clsoeButton1.initEvent(this);
+        model = (DefaultTableModel) tblDatTruoc.getModel();
         prepareUI();
         setBox(box);
+        renderDataTable();
+        renderFitTime();
+//        setGioKT();
     }
 
-    private void setBox(BoxModelItem box) {
+    private void setBox(ModelItem box) {
         txtLoaiBox.setText(box.getLoaiBox().getTenLoaiBox() + "");
-        txtTenBox.setText(box.getTenBox());
-        
-        box.setGioBD(new Date());
-        
-        lblGioBD.setText(XDate.toString(new Date(), "MM/dd/yyyy HH:mm:ss"));
-    }
-
-//    private BoxModelItem getBoxDat() {
-//        BoxModelItem boxDat = new BoxModelItem();
-//
-//        boxDat.setMaDat(1);
-//        boxDat.setMaBox(box.getMaBox());
-//        boxDat.setTenBox(lblTenBox.getText());
-//        boxDat.setGioBD(XDate.toDate(lblGioBD.getText(), "MM/dd/yyyy hh:mm:ss"));
-//        boxDat.setSoGio((Integer) cboSoGio.getSelectedItem());
-////        boxDat.setGioKT(XDate.toDate(lblGioBD.getText(), "MM/dd/yyyy hh:mm:ss"));
-//        boxDat.setTrangThai("Đã đặt");
-//        boxDat.setSelected(true);
-//
-//        return boxDat;
-//    }
-    
-    private void setGioKT(Date gioBD, int soGio) {
-        Date gioKT = XDate.addHours(gioBD, soGio);
-        lblGioKT.setText(XDate.toString(gioKT, "MM/dd/yyyy HH:mm:ss"));
+        txtTenBox.setText(box.getTen());
     }
 
     private void prepareUI() {
         this.setLocationRelativeTo(null);
         Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
         this.setShape(shape);
+    }
+
+    private void renderFitTime() {
+        DatBox db = DatBoxDao.getInstant().selectByBox(box.getMaItem());
+        if (db == null && list.isEmpty()) {
+            for (int i = 1; i <= 10; i++) {
+                Date gioTh = XDate.addHours(XDate.now(), i);
+                cboGioBD.addItem(XDate.toString(gioTh, Store.partten));
+            }
+
+            return;
+        }
+
+        if (!list.isEmpty()) {
+            ArrayList<ModelCboDatTruoc> listCbo = new ArrayList<>();
+            for (int i = 0; i < list.size() - 1; i++) {
+                long second = list.get(i + 1).getGioBD().getTime() - list.get(i).getGioKT().getTime();
+                long hour = (second / 60 / 60 / 1000);
+                System.out.println("gio bat dau : " + (list.get(i).getGioKT() + "gio ket thuc: " + list.get(i + 1).getGioBD()));
+                System.out.println("giay: " + hour);
+                if (second > 6000000) {
+                    ModelCboDatTruoc mcbb = new ModelCboDatTruoc(XDate.addMinus(new Date(list.get(i).getGioKT().getTime()), 15), (int) hour <= 1 ? 1 : (int) hour - 1);
+                    listCbo.add(mcbb);
+                }
+            }
+
+            for (ModelCboDatTruoc md : listCbo) {
+                cboGioBD.addItem(md);
+            }
+
+            cboSoGio.removeAllItems();
+            if (cboGioBD.getSelectedItem() instanceof ModelCboDatTruoc) {
+                ModelCboDatTruoc md = (ModelCboDatTruoc) cboGioBD.getSelectedItem();
+                for (int i = 1; i <= md.getLimit(); i++) {
+                    cboSoGio.addItem(i);
+                }
+            }
+
+            cboGioBD.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    cboSoGio.removeAllItems();
+                    if (cboGioBD.getSelectedItem() instanceof ModelCboDatTruoc) {
+                        ModelCboDatTruoc md = (ModelCboDatTruoc) cboGioBD.getSelectedItem();
+                        for (int i = 1; i <= md.getLimit(); i++) {
+                            cboSoGio.addItem(i);
+                        }
+                    }
+                }
+            });
+
+            cboGioBD.revalidate();
+            return;
+        }
+
+        // + 10 phut
+//        Date gioBD = XDate.addMinus(new Date(db.getGioKT().getTime()), 10);
+//
+//        System.out.println("Data dat box: " + db);
+    }
+
+    private void setGioKT() {
+        if (cboSoGio.getSelectedItem() == null) {
+            return;
+        }
+        int soGio = Integer.parseInt(cboSoGio.getSelectedItem().toString());
+
+        Date gioKT = XDate.addHours(XDate.toDate(cboGioBD.getSelectedItem().toString(), Store.partten), soGio);
+        lblGioKT.setText(XDate.toString(gioKT, Store.partten));
+    }
+
+    private void setGioKT(Date gioBD, int soGio) {
+        Date gioKT = XDate.addHours(XDate.toDate(cboGioBD.getSelectedItem().toString(), Store.partten), soGio);
+        lblGioKT.setText(XDate.toString(gioKT, Store.partten));
+    }
+
+    private void handleBook() {
+        Date gioBd = XDate.toDate(cboGioBD.getSelectedItem().toString(), Store.partten);
+        Date GioKt = XDate.toDate(lblGioKT.getText(), Store.partten);
+
+        DatTruoc dt = new DatTruoc(box.getMaItem(), lblNameCustomer.getText(), gioBd, GioKt);
+
+        System.out.println("handle book : " + dt);
+
+        DatTruocDao.getInstant().insert(dt);
+    }
+
+    private void renderDataTable() {
+        model.setRowCount(0);
+        for (DatTruoc data : DatTruocDao.getInstant().selectAllWithIdBox(box.getMaItem())) {
+            if (data.isTranThai()) {
+                list.add(data);
+            }
+            Object[] row = new Object[]{data.getTenKH(),
+                XDate.toString(data.getGioBD(), Store.partten),
+                XDate.toString(data.getGioKT(), Store.partten),
+                data.isTranThai() ? "Đang chờ" : "Đã hủy"};
+            model.addRow(row);
+        }
+
+        // test
+        for (DatTruoc datTruoc : list) {
+            System.out.println("dat truoc: " + datTruoc);
+        }
+
     }
 }

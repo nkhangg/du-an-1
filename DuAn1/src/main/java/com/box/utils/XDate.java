@@ -46,7 +46,9 @@ public class XDate {
     }
 
     public static Date addMinus(Date date, int minus) {
-        date.setTime(date.getTime() + minus * 60 * 1000);
+        
+        date.setTime(date.getTime() + (minus * 60 * 1000));
+        
         return date;
     }
 

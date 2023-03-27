@@ -11,6 +11,7 @@ import com.boxcf.models.DatBox;
 import com.boxcf.models.ModelItem;
 import com.boxcf.models.Time;
 import com.boxcf.models.Timer;
+import com.boxcf.ui.ThongTinBoxDat;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -74,11 +75,11 @@ public class BoxItem extends javax.swing.JPanel {
             if (db == null) {
                 return;
             }
-            
+
             this.box.setMaDat(db.getMaBox());
             this.box.setGioBD(db.getGioBD());
             this.box.setGioKT(db.getGioKT());
-            
+
             this.timer();
         }
     }
@@ -168,6 +169,11 @@ public class BoxItem extends javax.swing.JPanel {
         btnDatTruoc.setForeground(new java.awt.Color(0, 51, 51));
         btnDatTruoc.setText("Đặt trước");
         btnDatTruoc.setFont(new java.awt.Font("Segoe UI Semibold", 0, 13)); // NOI18N
+        btnDatTruoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDatTruocActionPerformed(evt);
+            }
+        });
         add(btnDatTruoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 160, 80, 30));
 
         lblGia.setBackground(new java.awt.Color(255, 255, 255));
@@ -191,6 +197,10 @@ public class BoxItem extends javax.swing.JPanel {
         lblGia4.setText("10:40");
         add(lblGia4, new org.netbeans.lib.awtextra.AbsoluteConstraints(111, 70, 80, 40));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnDatTruocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatTruocActionPerformed
+        new ThongTinBoxDat(box).setVisible(true);
+    }//GEN-LAST:event_btnDatTruocActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
