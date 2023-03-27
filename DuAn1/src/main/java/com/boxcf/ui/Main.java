@@ -10,6 +10,7 @@ import java.awt.Shape;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,6 +19,7 @@ public class Main extends javax.swing.JFrame {
     
     NhanVienView nvView = new NhanVienView();
     SanPhamView spView = new SanPhamView();
+    BoxView boxView = new BoxView();
     
     public Main() {
         initComponents();
@@ -30,9 +32,15 @@ public class Main extends javax.swing.JFrame {
 
         gradientPanel4 = new com.boxcf.components.GradientPanel();
         gradientPanel2 = new com.boxcf.components.GradientPanel();
-        lblMenu3 = new javax.swing.JLabel();
-        lblMenu4 = new javax.swing.JLabel();
-        lblMenu5 = new javax.swing.JLabel();
+        btnSanPham = new com.boxcf.components.ButtonRound();
+        buttonRound2 = new com.boxcf.components.ButtonRound();
+        btnBox = new com.boxcf.components.ButtonRound();
+        buttonRound4 = new com.boxcf.components.ButtonRound();
+        buttonRound5 = new com.boxcf.components.ButtonRound();
+        btnNhanVien = new com.boxcf.components.ButtonRound();
+        buttonRound8 = new com.boxcf.components.ButtonRound();
+        buttonRound9 = new com.boxcf.components.ButtonRound();
+        buttonRound10 = new com.boxcf.components.ButtonRound();
         jLabel2 = new javax.swing.JLabel();
         imageAvatar1 = new com.boxcf.components.ImageAvatar();
         jLabel4 = new javax.swing.JLabel();
@@ -44,58 +52,99 @@ public class Main extends javax.swing.JFrame {
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        gradientPanel4.setColor1(new java.awt.Color(27, 51, 61));
-        gradientPanel4.setColor2(new java.awt.Color(27, 51, 61));
+        gradientPanel4.setColor1(new java.awt.Color(109, 191, 184));
+        gradientPanel4.setColor2(new java.awt.Color(109, 191, 184));
         gradientPanel4.setPreferredSize(new java.awt.Dimension(1200, 750));
 
-        gradientPanel2.setColor1(new java.awt.Color(229, 201, 151));
-        gradientPanel2.setColor2(new java.awt.Color(229, 201, 151));
+        gradientPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        gradientPanel2.setColor1(new java.awt.Color(109, 191, 184));
+        gradientPanel2.setColor2(new java.awt.Color(109, 191, 184));
         gradientPanel2.setOpaque(true);
         gradientPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblMenu3.setBackground(new java.awt.Color(255, 255, 255));
-        lblMenu3.setFont(new java.awt.Font("UTM BryantLG", 1, 18)); // NOI18N
-        lblMenu3.setForeground(new java.awt.Color(51, 51, 51));
-        lblMenu3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblMenu3.setText("Nhân viên");
-        lblMenu3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 36, 1, 1));
-        lblMenu3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lblMenu3.setIconTextGap(12);
-        lblMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblMenu3MouseClicked(evt);
+        btnSanPham.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/iftar.png"))); // NOI18N
+        btnSanPham.setText("Sản phẩm");
+        btnSanPham.setFocusPainted(false);
+        btnSanPham.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSanPham.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSanPham.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSanPhamActionPerformed(evt);
             }
         });
-        gradientPanel2.add(lblMenu3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 220, 50));
+        gradientPanel2.add(btnSanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 90, 70));
 
-        lblMenu4.setFont(new java.awt.Font("UTM BryantLG", 1, 18)); // NOI18N
-        lblMenu4.setForeground(new java.awt.Color(51, 51, 51));
-        lblMenu4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblMenu4.setText("Sản phẩm");
-        lblMenu4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lblMenu4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblMenu4MouseClicked(evt);
-            }
-        });
-        gradientPanel2.add(lblMenu4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 220, 50));
+        buttonRound2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/coffee-menu (1).png"))); // NOI18N
+        buttonRound2.setText("Order");
+        buttonRound2.setFocusPainted(false);
+        buttonRound2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonRound2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        gradientPanel2.add(buttonRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 90, 70));
 
-        lblMenu5.setFont(new java.awt.Font("UTM BryantLG", 1, 18)); // NOI18N
-        lblMenu5.setForeground(new java.awt.Color(51, 51, 51));
-        lblMenu5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblMenu5.setText("Bán hàng");
-        lblMenu5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lblMenu5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblMenu5MouseClicked(evt);
+        btnBox.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/cardboard.png"))); // NOI18N
+        btnBox.setText("Box");
+        btnBox.setFocusPainted(false);
+        btnBox.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnBox.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBoxActionPerformed(evt);
             }
         });
-        gradientPanel2.add(lblMenu5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 220, 50));
+        gradientPanel2.add(btnBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 90, 70));
+
+        buttonRound4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/combo.png"))); // NOI18N
+        buttonRound4.setText("Combo");
+        buttonRound4.setFocusPainted(false);
+        buttonRound4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonRound4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        gradientPanel2.add(buttonRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, 90, 70));
+
+        buttonRound5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/price-tag.png"))); // NOI18N
+        buttonRound5.setText("Khuyến mãi");
+        buttonRound5.setFocusPainted(false);
+        buttonRound5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonRound5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        gradientPanel2.add(buttonRound5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 90, 70));
+
+        btnNhanVien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/barista.png"))); // NOI18N
+        btnNhanVien.setText("Nhân viên");
+        btnNhanVien.setFocusPainted(false);
+        btnNhanVien.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNhanVien.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnNhanVien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNhanVienActionPerformed(evt);
+            }
+        });
+        gradientPanel2.add(btnNhanVien, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, 90, 70));
+
+        buttonRound8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/back.png"))); // NOI18N
+        buttonRound8.setText("Đăng xuất");
+        buttonRound8.setFocusPainted(false);
+        buttonRound8.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        buttonRound8.setIconTextGap(12);
+        gradientPanel2.add(buttonRound8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 660, 190, 40));
+
+        buttonRound9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/growth.png"))); // NOI18N
+        buttonRound9.setText("Thống kê");
+        buttonRound9.setFocusPainted(false);
+        buttonRound9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonRound9.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        gradientPanel2.add(buttonRound9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 90, 70));
+
+        buttonRound10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/growth.png"))); // NOI18N
+        buttonRound10.setText("Thống kê");
+        buttonRound10.setFocusPainted(false);
+        buttonRound10.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonRound10.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        gradientPanel2.add(buttonRound10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 90, 70));
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(234, 206, 146));
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("BOX COFFEE");
 
+        imageAvatar1.setForeground(new java.awt.Color(51, 51, 51));
         imageAvatar1.setGradientColor1(new java.awt.Color(255, 255, 255));
         imageAvatar1.setGradientColor2(new java.awt.Color(255, 255, 255));
 
@@ -113,7 +162,7 @@ public class Main extends javax.swing.JFrame {
         pnlContent.setLayout(pnlContentLayout);
         pnlContentLayout.setHorizontalGroup(
             pnlContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 981, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         pnlContentLayout.setVerticalGroup(
             pnlContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,20 +177,20 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(gradientPanel4Layout.createSequentialGroup()
                         .addGap(31, 31, 31)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(gradientPanel4Layout.createSequentialGroup()
-                        .addComponent(gradientPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(1, 1, 1)))
+                        .addComponent(jLabel2))
+                    .addComponent(gradientPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel4Layout.createSequentialGroup()
+                    .addGroup(gradientPanel4Layout.createSequentialGroup()
+                        .addGap(0, 901, Short.MAX_VALUE)
                         .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24))
-                    .addComponent(pnlContent, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(gradientPanel4Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(pnlContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         gradientPanel4Layout.setVerticalGroup(
             gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,25 +215,27 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(gradientPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1200, 810));
+        getContentPane().add(gradientPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1300, 810));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lblMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMenu5MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblMenu5MouseClicked
+    private void btnNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhanVienActionPerformed
+        this.hidden(spView, boxView);
+        this.active(nvView);
+    }//GEN-LAST:event_btnNhanVienActionPerformed
 
-    private void lblMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMenu4MouseClicked
-        // TODO add your handling code here:
-        hidden(nvView);
-        active(spView);
-    }//GEN-LAST:event_lblMenu4MouseClicked
+    private void btnSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSanPhamActionPerformed
+        this.hidden(boxView, nvView);
+        this.active(spView);
+    }//GEN-LAST:event_btnSanPhamActionPerformed
 
-    private void lblMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMenu3MouseClicked
-        this.openNhanVienView();
-    }//GEN-LAST:event_lblMenu3MouseClicked
+    private void btnBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBoxActionPerformed
+        // TODO add your handling code here:
+        this.hidden(spView, nvView);
+        this.active(boxView);
+    }//GEN-LAST:event_btnBoxActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -209,6 +260,13 @@ public class Main extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -218,24 +276,23 @@ public class Main extends javax.swing.JFrame {
         });
     }
 
+    
     //hover
     public void hover() {
         Component[] cpns = gradientPanel2.getComponents();
         for (Component cpn : cpns) {
-            if (cpn instanceof JLabel) {
+            if (cpn instanceof JButton) {
                 cpn.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        ((JLabel) cpn).setOpaque(true);
-                        cpn.setBackground(Color.decode("#aa8761"));
-                        cpn.setForeground(Color.WHITE);
+                        ((JButton) cpn).setOpaque(true);
+                        cpn.setBackground(Color.decode("#9ce2c6"));
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        ((JLabel) cpn).setOpaque(false);
-                        cpn.setBackground(Color.decode("#29C2AA"));
-                        cpn.setForeground(Color.decode("#333333"));
+                        ((JButton) cpn).setOpaque(false);
+                        cpn.setBackground(Color.decode("#F0F0F0"));
                     }
                 });
             }
@@ -247,25 +304,31 @@ public class Main extends javax.swing.JFrame {
         this.setShape(shape);
         pnlContent.add(nvView);
         this.hover();
+        
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private void init() {
         this.prepareUI();
         System.out.println(pnlContent.getWidth() + " " + pnlContent.getHeight());
-        
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.boxcf.components.ButtonRound btnBox;
+    private com.boxcf.components.ButtonRound btnNhanVien;
+    private com.boxcf.components.ButtonRound btnSanPham;
+    private com.boxcf.components.ButtonRound buttonRound10;
+    private com.boxcf.components.ButtonRound buttonRound2;
+    private com.boxcf.components.ButtonRound buttonRound4;
+    private com.boxcf.components.ButtonRound buttonRound5;
+    private com.boxcf.components.ButtonRound buttonRound8;
+    private com.boxcf.components.ButtonRound buttonRound9;
     private com.boxcf.components.GradientPanel gradientPanel2;
     private com.boxcf.components.GradientPanel gradientPanel4;
     private com.boxcf.components.ImageAvatar imageAvatar1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel lblMenu3;
-    private javax.swing.JLabel lblMenu4;
-    private javax.swing.JLabel lblMenu5;
     private javax.swing.JPanel pnlContent;
     // End of variables declaration//GEN-END:variables
 
@@ -273,18 +336,20 @@ public class Main extends javax.swing.JFrame {
         jframe.setVisible(true);
     }
 
-    private void openNhanVienView() {
-        nvView.setSize(this.getWidth(), this.getHeight());
-        nvView.setVisible(true);
-    }
+//    private void openNhanVienView() {
+//        nvView.setSize(this.getWidth(), this.getHeight());
+//        nvView.setVisible(true);
+//    }
 
-    private void hidden(JPanel jpanel) {
-        jpanel.setVisible(false);
+    private void hidden(JPanel... jpanel) {
+        for (JPanel pnl : jpanel) {
+            pnl.setVisible(false);
+        }
     }
 
     private void active(JPanel jpanel) {
         pnlContent.add(jpanel);
-        jpanel.setSize(this.getWidth(), this.getHeight());
+        jpanel.setSize(getWidth(), getHeight());
         jpanel.setVisible(true);
     }
 }

@@ -330,14 +330,19 @@ create table DatTruoc(
 )
 
 select * from DatTruoc
+order by GioKT 
 
+
+delete from DatTruoc
 update DatTruoc
 set TranThai = 1
 where MaDT = 6
 
 
 insert into DatTruoc 
-values(1, N'Phạm Nhứt Khang', '10:34:09 AM', '11:34:09 AM', 1)
+values	(1, N'Phạm Nhứt Khang', '2023/3/28 18:00:00', '2023/3/28 22:00:00', 1),
+		(1, N'Phạm Nhứt Khang', '2023/3/28 23:00:00', '2023/3/29 00:00:00', 1),
+		(1, N'Phạm Nhứt Khang', '2023/3/29 4:00:00', '2023/3/29 6:00:00', 1)
 
 select * from DATBOX where MaBox = 1 and TrangThai = 'isActive'
 

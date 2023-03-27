@@ -6,6 +6,9 @@ package com.boxcf.ui;
 
 import com.box.utils.UI;
 import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.RoundRectangle2D;
+import javax.swing.JFrame;
 
 /**
  *
@@ -32,15 +35,12 @@ public class ThongTinSP extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         gradientPanel1 = new com.boxcf.components.GradientPanel();
-        gradientPanel2 = new com.boxcf.components.GradientPanel();
-        txtMaNV = new javax.swing.JTextField();
+        pnlNhanVien = new com.boxcf.components.GradientPanel();
         lblMaNV = new javax.swing.JLabel();
         lblMaNV1 = new javax.swing.JLabel();
-        txtMaNV1 = new javax.swing.JTextField();
         lblMaNV2 = new javax.swing.JLabel();
-        txtMaNV2 = new javax.swing.JTextField();
         lblMaNV3 = new javax.swing.JLabel();
-        lblMaNV7 = new javax.swing.JLabel();
+        lblMaNV8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
@@ -51,81 +51,66 @@ public class ThongTinSP extends javax.swing.JFrame {
         buttonRound4 = new com.boxcf.components.ButtonRound();
         buttonRound5 = new com.boxcf.components.ButtonRound();
         buttonRound6 = new com.boxcf.components.ButtonRound();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        textField1 = new com.boxcf.components.TextField();
+        textField3 = new com.boxcf.components.TextField();
+        combobox1 = new com.boxcf.components.Combobox();
+        textField4 = new com.boxcf.components.TextField();
+        btnClose = new com.boxcf.components.ButtonRound();
+        lblMaNV9 = new javax.swing.JLabel();
+        combobox2 = new com.boxcf.components.Combobox();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        gradientPanel1.setColor1(new java.awt.Color(204, 204, 204));
-        gradientPanel1.setColor2(new java.awt.Color(204, 204, 204));
+        gradientPanel1.setColor1(new java.awt.Color(102, 102, 102));
+        gradientPanel1.setColor2(new java.awt.Color(102, 102, 102));
 
-        gradientPanel2.setBackground(new java.awt.Color(204, 204, 204));
-        gradientPanel2.setColor1(new java.awt.Color(245, 250, 255));
-        gradientPanel2.setColor2(new java.awt.Color(245, 250, 255));
-        gradientPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtMaNV.setBackground(new java.awt.Color(51, 51, 51));
-        txtMaNV.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtMaNV.setForeground(new java.awt.Color(51, 51, 51));
-        txtMaNV.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 153, 153)));
-        txtMaNV.setOpaque(false);
-        gradientPanel2.add(txtMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 379, 32));
+        pnlNhanVien.setBackground(new java.awt.Color(102, 102, 102));
+        pnlNhanVien.setColor1(new java.awt.Color(245, 250, 255));
+        pnlNhanVien.setColor2(new java.awt.Color(245, 250, 255));
+        pnlNhanVien.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblMaNV.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblMaNV.setForeground(new java.awt.Color(27, 51, 61));
         lblMaNV.setText("Mã SP");
-        gradientPanel2.add(lblMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 50, -1));
+        pnlNhanVien.add(lblMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, 50, -1));
 
         lblMaNV1.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV1.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblMaNV1.setForeground(new java.awt.Color(27, 51, 61));
         lblMaNV1.setText("Tên SP");
-        gradientPanel2.add(lblMaNV1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 50, -1));
-
-        txtMaNV1.setBackground(new java.awt.Color(51, 51, 51));
-        txtMaNV1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtMaNV1.setForeground(new java.awt.Color(51, 51, 51));
-        txtMaNV1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 153, 153)));
-        txtMaNV1.setOpaque(false);
-        gradientPanel2.add(txtMaNV1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 379, 32));
+        pnlNhanVien.add(lblMaNV1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, 50, -1));
 
         lblMaNV2.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV2.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblMaNV2.setForeground(new java.awt.Color(27, 51, 61));
-        lblMaNV2.setText("Giá (VND)");
-        gradientPanel2.add(lblMaNV2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, -1, -1));
-
-        txtMaNV2.setBackground(new java.awt.Color(51, 51, 51));
-        txtMaNV2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtMaNV2.setForeground(new java.awt.Color(51, 51, 51));
-        txtMaNV2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 153, 153)));
-        txtMaNV2.setOpaque(false);
-        gradientPanel2.add(txtMaNV2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 379, 32));
+        lblMaNV2.setText("Giá (VNĐ)");
+        pnlNhanVien.add(lblMaNV2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 370, 70, -1));
 
         lblMaNV3.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV3.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblMaNV3.setForeground(new java.awt.Color(27, 51, 61));
         lblMaNV3.setText("Mô tả");
-        gradientPanel2.add(lblMaNV3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, 50, -1));
+        pnlNhanVien.add(lblMaNV3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 460, 50, -1));
 
-        lblMaNV7.setBackground(new java.awt.Color(102, 0, 204));
-        lblMaNV7.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        lblMaNV7.setForeground(new java.awt.Color(27, 51, 61));
-        lblMaNV7.setText("Loại SP");
-        gradientPanel2.add(lblMaNV7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 59, -1));
+        lblMaNV8.setBackground(new java.awt.Color(102, 0, 204));
+        lblMaNV8.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        lblMaNV8.setForeground(new java.awt.Color(27, 51, 61));
+        lblMaNV8.setText("Loại SP");
+        pnlNhanVien.add(lblMaNV8, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 100, 77, -1));
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(2);
         jScrollPane1.setViewportView(jTextArea1);
 
-        gradientPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 380, 272, 48));
+        pnlNhanVien.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 500, 570, 70));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(40, 48, 84));
         jLabel1.setText("THÔNG TIN SẢN PHẨM");
-        gradientPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(228, 19, -1, -1));
+        pnlNhanVien.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, -1, -1));
 
         buttonRound1.setBackground(new java.awt.Color(2, 172, 171));
         buttonRound1.setForeground(new java.awt.Color(255, 255, 255));
@@ -204,7 +189,7 @@ public class ThongTinSP extends javax.swing.JFrame {
                 .addComponent(buttonRound5, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(buttonRound6, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,15 +202,42 @@ public class ThongTinSP extends javax.swing.JFrame {
                     .addComponent(buttonRound4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonRound5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonRound6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        gradientPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 460, -1, -1));
+        pnlNhanVien.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 620, 540, -1));
 
-        gradientPanel2.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 320, 161, -1));
+        textField1.setLabelText("");
+        textField1.setOpaque(false);
+        pnlNhanVien.add(textField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 220, 568, 38));
+
+        textField3.setLabelText("");
+        textField3.setOpaque(false);
+        pnlNhanVien.add(textField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 568, 38));
+        pnlNhanVien.add(combobox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 130, 230, -1));
+
+        textField4.setLabelText("");
+        textField4.setOpaque(false);
+        pnlNhanVien.add(textField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 390, 280, 38));
+
+        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/exit (1).png"))); // NOI18N
+        btnClose.setFocusPainted(false);
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+        pnlNhanVien.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 20, 50, 50));
+
+        lblMaNV9.setBackground(new java.awt.Color(102, 0, 204));
+        lblMaNV9.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        lblMaNV9.setForeground(new java.awt.Color(27, 51, 61));
+        lblMaNV9.setText("Danh mục");
+        pnlNhanVien.add(lblMaNV9, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 77, -1));
+        pnlNhanVien.add(combobox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, 230, -1));
 
         jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
-        gradientPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 150, 150, 150));
+        pnlNhanVien.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 170, 150, 150));
 
         javax.swing.GroupLayout gradientPanel1Layout = new javax.swing.GroupLayout(gradientPanel1);
         gradientPanel1.setLayout(gradientPanel1Layout);
@@ -233,15 +245,14 @@ public class ThongTinSP extends javax.swing.JFrame {
             gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(gradientPanel1Layout.createSequentialGroup()
                 .addGap(2, 2, 2)
-                .addComponent(gradientPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(2, 2, 2))
+                .addComponent(pnlNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, 901, Short.MAX_VALUE)
+                .addGap(1, 1, 1))
         );
         gradientPanel1Layout.setVerticalGroup(
             gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(gradientPanel1Layout.createSequentialGroup()
-                .addGap(2, 2, 2)
-                .addComponent(gradientPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE)
-                .addGap(2, 2, 2))
+                .addComponent(pnlNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, 738, Short.MAX_VALUE)
+                .addGap(1, 1, 1))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -283,6 +294,10 @@ public class ThongTinSP extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonRound6ActionPerformed
 
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        this.exit();
+    }//GEN-LAST:event_btnCloseActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -309,39 +324,7 @@ public class ThongTinSP extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(ThongTinSP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ThongTinSP().setVisible(true);
@@ -350,6 +333,7 @@ public class ThongTinSP extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.boxcf.components.ButtonRound btnClose;
     private javax.swing.ButtonGroup buttonGroup1;
     private com.boxcf.components.ButtonRound buttonRound1;
     private com.boxcf.components.ButtonRound buttonRound2;
@@ -357,9 +341,9 @@ public class ThongTinSP extends javax.swing.JFrame {
     private com.boxcf.components.ButtonRound buttonRound4;
     private com.boxcf.components.ButtonRound buttonRound5;
     private com.boxcf.components.ButtonRound buttonRound6;
+    private com.boxcf.components.Combobox combobox1;
+    private com.boxcf.components.Combobox combobox2;
     private com.boxcf.components.GradientPanel gradientPanel1;
-    private com.boxcf.components.GradientPanel gradientPanel2;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -369,10 +353,12 @@ public class ThongTinSP extends javax.swing.JFrame {
     private javax.swing.JLabel lblMaNV1;
     private javax.swing.JLabel lblMaNV2;
     private javax.swing.JLabel lblMaNV3;
-    private javax.swing.JLabel lblMaNV7;
-    private javax.swing.JTextField txtMaNV;
-    private javax.swing.JTextField txtMaNV1;
-    private javax.swing.JTextField txtMaNV2;
+    private javax.swing.JLabel lblMaNV8;
+    private javax.swing.JLabel lblMaNV9;
+    private com.boxcf.components.GradientPanel pnlNhanVien;
+    private com.boxcf.components.TextField textField1;
+    private com.boxcf.components.TextField textField3;
+    private com.boxcf.components.TextField textField4;
     // End of variables declaration//GEN-END:variables
 
     private void init() {
@@ -380,6 +366,15 @@ public class ThongTinSP extends javax.swing.JFrame {
     }
 
     private void prepareUI() {
-        UI.changeTransBG(new Color(0, 0, 0, 0), txtMaNV, txtMaNV1, txtMaNV2);
+        Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
+        this.setShape(shape);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        UI.changeTransBG(new Color(0, 0, 0, 0), txtMaNV, txtTenNV, txtSDT, txtMatKhau);
+
     }
+
+    private void exit() {
+        this.dispose();
+    }
+
 }

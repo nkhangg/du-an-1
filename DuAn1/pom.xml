@@ -39,5 +39,11 @@
             <artifactId>timingframework</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>at.swimmesberger</groupId>
+            <artifactId>swingx-all</artifactId>
+            <version>1.6.8</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 </project>

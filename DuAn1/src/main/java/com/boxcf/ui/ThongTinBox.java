@@ -52,6 +52,7 @@ public class ThongTinBox extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         lblMaNV3 = new javax.swing.JLabel();
         txtMaNV3 = new javax.swing.JTextField();
+        btnClose = new com.boxcf.components.ButtonRound();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -112,7 +113,7 @@ public class ThongTinBox extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(40, 48, 84));
         jLabel1.setText("THÔNG TIN BOX");
-        gradientPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(228, 19, -1, -1));
+        gradientPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
 
         buttonRound1.setBackground(new java.awt.Color(2, 172, 171));
         buttonRound1.setForeground(new java.awt.Color(255, 255, 255));
@@ -191,7 +192,7 @@ public class ThongTinBox extends javax.swing.JFrame {
                 .addComponent(buttonRound5, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(buttonRound6, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,12 +208,12 @@ public class ThongTinBox extends javax.swing.JFrame {
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
-        gradientPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 460, -1, -1));
+        gradientPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 560, -1));
 
         gradientPanel2.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 380, 161, -1));
 
         jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
-        gradientPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 170, 150, 150));
+        gradientPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 170, 150, 150));
 
         lblMaNV3.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV3.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
@@ -227,13 +228,22 @@ public class ThongTinBox extends javax.swing.JFrame {
         txtMaNV3.setOpaque(false);
         gradientPanel2.add(txtMaNV3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 379, 32));
 
+        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/exit (1).png"))); // NOI18N
+        btnClose.setFocusPainted(false);
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+        gradientPanel2.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 20, 50, 50));
+
         javax.swing.GroupLayout gradientPanel1Layout = new javax.swing.GroupLayout(gradientPanel1);
         gradientPanel1.setLayout(gradientPanel1Layout);
         gradientPanel1Layout.setHorizontalGroup(
             gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(gradientPanel1Layout.createSequentialGroup()
                 .addGap(2, 2, 2)
-                .addComponent(gradientPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(gradientPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
                 .addGap(2, 2, 2))
         );
         gradientPanel1Layout.setVerticalGroup(
@@ -282,6 +292,10 @@ public class ThongTinBox extends javax.swing.JFrame {
     private void buttonRound6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonRound6ActionPerformed
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        this.exit();
+    }//GEN-LAST:event_btnCloseActionPerformed
 
     /**
      * @param args the command line arguments
@@ -436,6 +450,134 @@ public class ThongTinBox extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -446,6 +588,7 @@ public class ThongTinBox extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.boxcf.components.ButtonRound btnClose;
     private javax.swing.ButtonGroup buttonGroup1;
     private com.boxcf.components.ButtonRound buttonRound1;
     private com.boxcf.components.ButtonRound buttonRound2;
@@ -476,5 +619,9 @@ public class ThongTinBox extends javax.swing.JFrame {
 
     private void prepareUI() {
         UI.changeTransBG(new Color(0, 0, 0, 0), txtMaNV, txtMaNV1, txtMaNV2, txtMaNV3);
+    }
+
+    private void exit() {
+        this.dispose();
     }
 }

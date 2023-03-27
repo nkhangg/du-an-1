@@ -34,17 +34,20 @@ public class NhanVienView extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(102, 102, 102));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtMaNV.setBackground(new java.awt.Color(0, 153, 153));
         txtMaNV.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtMaNV.setForeground(new java.awt.Color(51, 51, 51));
         txtMaNV.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(2, 172, 171)));
         txtMaNV.setOpaque(false);
+        add(txtMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(284, 136, 520, 32));
 
         lblMaNV.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblMaNV.setForeground(new java.awt.Color(51, 51, 51));
         lblMaNV.setText("Nhân viên");
+        add(lblMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(193, 144, 86, -1));
 
         tblNhanVien.setFont(new java.awt.Font("UTM BryantLG", 0, 12)); // NOI18N
         tblNhanVien.setModel(new javax.swing.table.DefaultTableModel(
@@ -63,6 +66,8 @@ public class NhanVienView extends javax.swing.JPanel {
         tblNhanVien.setRowHeight(30);
         jScrollPane1.setViewportView(tblNhanVien);
 
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 304, 985, 382));
+
         buttonRound1.setBackground(new java.awt.Color(2, 172, 171));
         buttonRound1.setForeground(new java.awt.Color(255, 255, 255));
         buttonRound1.setText("XÓA");
@@ -72,11 +77,13 @@ public class NhanVienView extends javax.swing.JPanel {
                 buttonRound1ActionPerformed(evt);
             }
         });
+        add(buttonRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 216, 96, 40));
 
         buttonRound2.setBackground(new java.awt.Color(2, 172, 171));
         buttonRound2.setForeground(new java.awt.Color(255, 255, 255));
         buttonRound2.setText("Tìm kiếm");
         buttonRound2.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        add(buttonRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 135, -1, -1));
 
         btnAdd.setBackground(new java.awt.Color(2, 172, 171));
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
@@ -87,61 +94,13 @@ public class NhanVienView extends javax.swing.JPanel {
                 btnAddActionPerformed(evt);
             }
         });
+        add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 216, 96, 40));
 
         jLabel1.setFont(new java.awt.Font("UTM Aptima", 1, 28)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(102, 102, 102));
         jLabel1.setText("QUẢN LÝ NHÂN VIÊN");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 938, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(buttonRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 938, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(lblMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
-                                .addComponent(buttonRound2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(93, 93, 93))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(340, 340, 340)
-                        .addComponent(jLabel1)))
-                .addContainerGap(31, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel1)
-                .addGap(24, 24, 24)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblMaNV))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(buttonRound2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 22, -1, -1));
+        add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 985, 10));
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonRound1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound1ActionPerformed
@@ -174,6 +133,7 @@ public class NhanVienView extends javax.swing.JPanel {
     }
 
     private void openThemNV() {
+//        ThongTinNV themNV = new ThongTinNV();
         ThongTinNV themNV = new ThongTinNV();
         themNV.setVisible(true);
     }
