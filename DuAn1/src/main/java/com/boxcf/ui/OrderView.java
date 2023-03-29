@@ -92,7 +92,7 @@ public class OrderView extends javax.swing.JFrame {
         panelItem = new com.boxcf.components.PanelItem();
         jPanel5 = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setUndecorated(true);
 
@@ -407,11 +407,7 @@ public class OrderView extends javax.swing.JFrame {
         // dữ liệu ban đầu của loại
         new Thread() {
             public void run() {
-//                try {
-//                    Thread.sleep(200);
-//                } catch (InterruptedException ex) {
-//                    Logger.getLogger(OrderView.class.getName()).log(Level.SEVERE, null, ex);
-//                }
+
                 initCategory(true, LoaiSPDao.getInstant().selectAll(), "");
             }
         }.start();

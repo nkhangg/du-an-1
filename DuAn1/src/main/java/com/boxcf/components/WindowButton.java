@@ -117,7 +117,7 @@ public class WindowButton extends javax.swing.JPanel {
         btnClose.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                System.exit(0);
+                fram.dispose();
             }
         });
 

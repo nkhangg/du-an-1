@@ -32,14 +32,14 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
     ModelItem box;
     private ArrayList<DatTruoc> list = new ArrayList<>();
     DefaultTableModel model;
-
+    
     OrderView orderView = Store.orderView;
-
+    
     public ThongTinBoxDat() {
         initComponents();
 //        init();
     }
-
+    
     public ThongTinBoxDat(ModelItem box) throws HeadlessException {
         this.box = box;
         initComponents();
@@ -368,27 +368,27 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
         renderFitTime();
 //        setGioKT();
     }
-
+    
     private void setBox(ModelItem box) {
         txtLoaiBox.setText(box.getLoaiBox().getTenLoaiBox() + "");
         txtTenBox.setText(box.getTen());
     }
-
+    
     private void prepareUI() {
         this.setLocationRelativeTo(null);
         Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
         this.setShape(shape);
     }
-
+    
     private void renderFitTime() {
-        DatBox db = DatBoxDao.getInstant().selectByBox(box.getMaItem());
+        DatBox db = DatBoxDao.getInstant().selectByBox(Integer.parseInt(box.getMaItem() + ""));
         ArrayList<ModelCboDatTruoc> listCbo = new ArrayList<>();
-
+        
         if (db == null && list.isEmpty()) {
             int i = 0;
             while (true) {
                 Date gioTh = XDate.addHours(XDate.now(), i);
-
+                
                 if (XDate.beforeTimeClose(gioTh)) {
                     break;
                 }
@@ -397,35 +397,35 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
             }
             renderCboStartHour(listCbo);
         }
-
+        
         if (db == null && !list.isEmpty()) {
             handlePeriod(listCbo);
             return;
         }
-
+        
         if (db != null && !list.isEmpty()) {
             DatTruoc firstBook = list.get(0);
             long secondDb = firstBook.getGioBD().getTime() - db.getGioKT().getTime();
-
+            
             long hour = (secondDb / 60 / 60 / 1000);
-
+            
             if (secondDb > 6000000) {
                 ModelCboDatTruoc mcbb = new ModelCboDatTruoc(XDate.addMinus(new Date(db.getGioKT().getTime()), Store.breaks), hour <= 1 ? 1 : (int) hour - 1);
                 listCbo.add(mcbb);
             }
-
+            
             handlePeriod(listCbo);
             return;
-
+            
         }
-
+        
         if (db != null && list.isEmpty()) {
             ModelCboDatTruoc mcbb = new ModelCboDatTruoc(XDate.addMinus(new Date(db.getGioKT().getTime()), Store.breaks), XDate.fitHourWithTime(db.getGioKT()));
-
+            
             int i = 0;
             while (true) {
                 Date gioTh = XDate.addHours(new Date(mcbb.getTime().getTime()), i);
-
+                
                 if (XDate.beforeTimeClose(gioTh)) {
                     break;
                 }
@@ -435,28 +435,28 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
             renderCboStartHour(listCbo);
             return;
         }
-
+        
     }
-
+    
     private void handlePeriod(ArrayList<ModelCboDatTruoc> listCbo) {
         for (int i = 0; i < list.size(); i++) {
             System.out.println(list.get(i));
             long second = 0;
             if (i < list.size() - 1) {
                 second = list.get(i + 1).getGioBD().getTime() - list.get(i).getGioKT().getTime();
-
+                
             }
             long hour = (second / 60 / 60 / 1000);
             if (second > 6000000) {
                 ModelCboDatTruoc mcbb = new ModelCboDatTruoc(XDate.addMinus(new Date(list.get(i).getGioKT().getTime()), Store.breaks), (int) hour <= 1 ? 1 : (int) hour - 1);
                 listCbo.add(mcbb);
             }
-
+            
         }
-
+        
         DatTruoc dt = list.get(list.size() - 1);
         ModelCboDatTruoc mcbb = new ModelCboDatTruoc(XDate.addMinus(new Date(dt.getGioKT().getTime()), Store.breaks), XDate.fitHourWithTime(dt.getGioKT()) - 1);
-
+        
         if (!XDate.beforeTimeClose(mcbb.getTime())) {
             listCbo.add(mcbb);
             int i = 1;
@@ -470,16 +470,16 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
                 i++;
             }
         }
-
+        
         renderCboStartHour(listCbo);
     }
-
+    
     private void renderCboStartHour(ArrayList< ModelCboDatTruoc> listCbo) {
         cboGioBD.removeAllItems();
         for (ModelCboDatTruoc md : listCbo) {
             cboGioBD.addItem(md);
         }
-
+        
         cboSoGio.removeAllItems();
         if (cboGioBD.getSelectedItem() instanceof ModelCboDatTruoc) {
             ModelCboDatTruoc md = (ModelCboDatTruoc) cboGioBD.getSelectedItem();
@@ -487,7 +487,7 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
                 cboSoGio.addItem(i);
             }
         }
-
+        
         cboGioBD.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -501,38 +501,38 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
             }
         });
     }
-
+    
     private void setGioKT() {
         if (cboSoGio.getSelectedItem() == null) {
             return;
         }
         int soGio = Integer.parseInt(cboSoGio.getSelectedItem().toString());
-
+        
         Date gioKT = XDate.addHours(XDate.toDate(cboGioBD.getSelectedItem().toString(), Store.partten), soGio);
         lblGioKT.setText(XDate.toString(gioKT, Store.partten));
     }
-
+    
     private void setGioKT(Date gioBD, int soGio) {
         Date gioKT = XDate.addHours(XDate.toDate(cboGioBD.getSelectedItem().toString(), Store.partten), soGio);
         lblGioKT.setText(XDate.toString(gioKT, Store.partten));
     }
-
+    
     private void handleBook() {
         Date gioBd = XDate.toDate(cboGioBD.getSelectedItem().toString(), Store.partten);
         Date GioKt = XDate.toDate(lblGioKT.getText(), Store.partten);
-
-        DatTruoc dt = new DatTruoc(box.getMaItem(), lblNameCustomer.getText(), gioBd, GioKt);
-
+        
+        DatTruoc dt = new DatTruoc(Integer.parseInt(box.getMaItem() + ""), lblNameCustomer.getText(), gioBd, GioKt);
+        
         System.out.println("handle book : " + dt);
-
+        
         DatTruocDao.getInstant().insert(dt);
         renderDataTable();
         renderFitTime();
     }
-
+    
     private void renderDataTable() {
         model.setRowCount(0);
-        for (DatTruoc data : DatTruocDao.getInstant().selectAllWithIdBox(box.getMaItem())) {
+        for (DatTruoc data : DatTruocDao.getInstant().selectAllWithIdBox(Integer.parseInt(box.getMaItem() + ""))) {
             if (data.isTranThai()) {
                 list.add(data);
             }
@@ -542,6 +542,6 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
                 data.isTranThai() ? "Đang chờ" : "Đã hủy"};
             model.addRow(row);
         }
-
+        
     }
 }

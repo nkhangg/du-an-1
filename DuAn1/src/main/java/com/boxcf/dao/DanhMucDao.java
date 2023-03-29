@@ -79,20 +79,21 @@ public class DanhMucDao implements BoxCfDAO<DanhMuc, String> {
     @Override
     public DanhMuc selectById(String id) {
         String sql = "select * from DanhMuc where MaDM = ?";
-
+        DanhMuc dm = null;
         try {
 
             ResultSet responce = JdbcHelper.query(sql, id);
 
             // admission a ResultSet return a Box
             if (responce.next()) {
-                return createObjecet(responce);
+                dm = createObjecet(responce);
             }
 
+            responce.getStatement().getConnection().close();
         } catch (Exception e) {
             throw new Error("The Error in selectById DanhMuc !");
         }
-        return null;
+        return dm;
     }
 
     @Override
@@ -105,7 +106,7 @@ public class DanhMucDao implements BoxCfDAO<DanhMuc, String> {
             while (responce.next()) {
                 list.add(createObjecet(responce));
             }
-
+            responce.getStatement().getConnection().close();
         } catch (Exception e) {
             throw new Error("The Error in selectBySql DanhMuc !");
         }
@@ -128,14 +129,32 @@ public class DanhMucDao implements BoxCfDAO<DanhMuc, String> {
 
     }
 
-    public static void main(String[] args) {
+    public DanhMuc selectByName(String name) {
+        String sql = "select * from DanhMuc where TenDM = ?";
+        DanhMuc dm = null;
+        try {
 
-        // System.out.println(DanhMucDao.getInstant().selectBySql("Select * from DanhMuc where MaDM = ?", "DM01"));
-        // System.out.println(DanhMucDao.getInstant().selectAll().size());
-        // System.out.println(DanhMucDao.getInstant().selectById("DM011"));
-        // DanhMucDao.getInstant().insert(new DanhMuc("CB05", "abcceee"));
-        // DanhMucDao.getInstant().update(new DanhMuc("CB05", "abc"));
-        // DanhMucDao.getInstant().delete("CB05");
+            ResultSet responce = JdbcHelper.query(sql, name);
+
+            // admission a ResultSet return a Box
+            if (responce.next()) {
+                dm = createObjecet(responce);
+            }
+            responce.getStatement().getConnection().close();
+        } catch (Exception e) {
+            throw new Error("The Error in selectById DanhMuc !");
+        }
+        return dm;
+    }
+
+    public List<DanhMuc> selectByKeyWord(String keyWord, int type) {
+        String sql = "";
+        if (type == 0) {
+            sql = "select * from DanhMuc where TenDM like ?";
+        } else if (type == 1) {
+            sql = "select * from DanhMuc where MaDM like ?";
+        }
+        return selectBySql(sql, "%" + keyWord + "%");
     }
 
 }

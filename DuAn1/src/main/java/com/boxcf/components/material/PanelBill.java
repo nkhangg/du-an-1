@@ -74,7 +74,7 @@ public class PanelBill extends javax.swing.JPanel {
 
     public void removeItem(ModelItem data) {
         for (ItemBill itemBill : list) {
-            if (data.getMaItem() == itemBill.getData().getMaItem()) {
+            if (data.getMaItem().equals(itemBill.getData().getMaItem())) {
                 list.remove(itemBill);
                 this.removeAll();
                 render();
@@ -89,7 +89,7 @@ public class PanelBill extends javax.swing.JPanel {
 
         for (ItemBill itemBill : list) {
 
-            if (data.getMaItem() == itemBill.getData().getMaItem()) {
+            if (data.getMaItem().equals(itemBill.getData().getMaItem())) {
                 itemBill.tangLen(quantity);
                 return;
             }
@@ -127,7 +127,7 @@ public class PanelBill extends javax.swing.JPanel {
             for (Component component1 : panelItem.getComponents()) {
                 if (component1 instanceof ProductItem) {
                     ProductItem product = (ProductItem) component1;
-                    if (itemBill.getData().getMaItem() == product.getData().getMaItem()) {
+                    if (itemBill.getData().getMaItem().equals(product.getData().getMaItem())) {
                         product.reserved(itemBill.getData());
                     }
                 }
@@ -141,7 +141,7 @@ public class PanelBill extends javax.swing.JPanel {
             for (Component component1 : panelItem.getComponents()) {
                 if (component1 instanceof BoxItem) {
                     BoxItem product = (BoxItem) component1;
-                    if (itemBill.getData().getMaItem() == product.getData().getMaItem()) {
+                    if (Integer.parseInt(itemBill.getData().getMaItem().toString()) == Integer.parseInt(product.getData().getMaItem().toString())) {
                         product.setActive(itemBill.getData(), BoxState.waiting);
 
                     }

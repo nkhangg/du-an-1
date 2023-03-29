@@ -6,6 +6,9 @@ package com.box.utils;
 
 //import com.edusys.model.NhanVien;
 
+import com.boxcf.models.NhanVien;
+
+
 
 /**
  *
@@ -13,17 +16,17 @@ package com.box.utils;
  */
 public class Auth {
     
-//    public static NhanVien user = null;
+    public static NhanVien user = null;
     
-//    public static void clear() {
-//        Auth.user = null;
-//    }
-//    
-//    public static boolean isLogin() {
-//        return Auth.user != null;
-//    }
-//    
-//    public static boolean isManager() {
-//        return Auth.isLogin() && user.getVaiTro();
-//    }
+    public static void clear() {
+        Auth.user = null;
+    }
+    
+    public static boolean isLogin() {
+        return Auth.user != null;
+    }
+    
+    public static boolean isManager() {
+        return Auth.isLogin() && user.getVaiTro().equals("Admin");
+    }
 }

@@ -24,24 +24,24 @@ import java.util.List;
  * @author HP
  */
 public class DatBoxView extends javax.swing.JFrame {
-
+    
     private ModelItem box;
     private int time;
     private OrderView orderView = Store.orderView;
     private PanelBill panelBill = Store.globelPanelBill;
-
+    
     public DatBoxView() {
         this.box = new ModelItem(1, "Box 1", null, null, new LoaiBox("BX01", "Đơn", 100000, null), 0, 9);
         initComponents();
         init();
     }
-
+    
     public DatBoxView(ModelItem box) throws HeadlessException {
         this.box = box;
         initComponents();
         init();
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -245,7 +245,7 @@ public class DatBoxView extends javax.swing.JFrame {
         if (cboSoGio.getSelectedItem() == null) {
             return;
         }
-
+        
         int soGio = Integer.parseInt(cboSoGio.getSelectedItem().toString());
         Date ngayBD = XDate.getHour(lblGioBd.getText());
         setGioKT(ngayBD, soGio);
@@ -324,31 +324,31 @@ public class DatBoxView extends javax.swing.JFrame {
         setBox(box);
         renderHour();
     }
-
+    
     private void prepareUI() {
         this.setLocationRelativeTo(null);
         Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
         this.setShape(shape);
     }
-
+    
     private void setBox(ModelItem box) {
         txtLoaiBox.setText(box.getLoaiBox().getTenLoaiBox());
         txtTenBox.setText(box.getTen());
         lblGioBd.setText(XDate.toString(new Date(), "HH:mm:ss"));
-
+        
         box.setGioBD(new Date());
-
+        
     }
-
+    
     private ModelItem getBoxBooked() {
-
+        
         return new ModelItem(box.getMaItem(), box.getTen(), box.getGioBD(), box.getGioKT(), box.getLoaiBox(), time <= 0 ? 1 : time, box.getLoaiBox().getGiaLoai());
     }
-
+    
     private void setGioKT(Date gioBD, int soGio) {
-
+        
         Date gioKT = XDate.addHours(gioBD, soGio);
-
+        
         lblGioKT.setText(XDate.toString(gioKT, "HH:mm:ss"));
         this.box.setGioKT(gioKT);
         time = soGio;
@@ -360,7 +360,7 @@ public class DatBoxView extends javax.swing.JFrame {
         if (data.getGioKT() == null) {
             return;
         }
-
+        
         for (Component component : panelBill.getComponents()) {
             ItemBill itemBill = (ItemBill) component;
             if (itemBill.getData().getMaItem() == data.getMaItem()) {
@@ -369,13 +369,13 @@ public class DatBoxView extends javax.swing.JFrame {
                 this.dispose();
                 return;
             }
-
+            
         }
-
+        
         panelBill.setList(data);
         panelBill.repaint();
         this.dispose();
-
+        
     }
 
     // xử lí viêc khi tồn tại một billitem trùng với box thì sẽ lấy thông tin trên bill đó xuống
@@ -387,14 +387,15 @@ public class DatBoxView extends javax.swing.JFrame {
                 this.cboSoGio.setSelectedItem(itemBill.getData().getSoLuong() + "");
                 return;
             }
-
+            
         }
     }
-
+    
     private void renderHour() {
-        List<DatTruoc> list = DatTruocDao.getInstant().selectAllWithIdBoxActive( box.getMaItem());
+        // sua thu
+        List<DatTruoc> list = DatTruocDao.getInstant().selectAllWithIdBoxActive(Integer.parseInt(box.getMaItem() + ""));
         Date ngayBD = XDate.getHour(lblGioBd.getText());
-
+        
         if (list.isEmpty()) {
             cboSoGio.removeAllItems();
             for (int i = 1; i <= XDate.fitHourWithTime(ngayBD); i++) {
@@ -402,12 +403,11 @@ public class DatBoxView extends javax.swing.JFrame {
             }
             return;
         }
-
+        
         DatTruoc dt = list.get(0);
-
-
+        
         long second = dt.getGioBD().getTime() - ngayBD.getTime();
-
+        
         long hour = (second / 60 / 60 / 1000);
         if (second > 6000000) {
             cboSoGio.removeAllItems();
@@ -415,6 +415,6 @@ public class DatBoxView extends javax.swing.JFrame {
                 cboSoGio.addItem(i);
             }
         }
-
+        
     }
 }

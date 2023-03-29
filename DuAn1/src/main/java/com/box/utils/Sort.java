@@ -14,19 +14,19 @@ import java.util.Comparator;
  * @author PC
  */
 public class Sort {
-
+    
     public static void sortIncreased(ArrayList list) {
-
+        
         Comparator<ItemBill> compar = new Comparator<ItemBill>() {
             @Override
             public int compare(ItemBill o1, ItemBill o2) {
-
-                return o1.getData().getMaItem() - o2.getData().getMaItem();
-
+                
+                return o1.getData().getMaItem().toString().compareTo(o2.getData().getMaItem().toString());
+                
             }
-
+            
         };
-
+        
         Collections.sort(list, compar);
     }
 }

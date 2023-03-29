@@ -10,7 +10,7 @@ package com.boxcf.models;
  */
 public class SanPham {
 
-    int MaSP;
+    String MaSP;
     String TenSP;
     long Gia;
     String HinhAnh;
@@ -20,7 +20,7 @@ public class SanPham {
     public SanPham() {
     }
 
-    public SanPham(int MaSP, String TenSP, long Gia, String HinhAnh, String MoTa, String MaLoai) {
+    public SanPham(String MaSP, String TenSP, long Gia, String HinhAnh, String MoTa, String MaLoai) {
         this.MaSP = MaSP;
         this.TenSP = TenSP;
         this.Gia = Gia;
@@ -29,11 +29,11 @@ public class SanPham {
         this.MaLoai = MaLoai;
     }
 
-    public int getMaSP() {
+    public String getMaSP() {
         return MaSP;
     }
 
-    public void setMaSP(int MaSP) {
+    public void setMaSP(String MaSP) {
         this.MaSP = MaSP;
     }
 

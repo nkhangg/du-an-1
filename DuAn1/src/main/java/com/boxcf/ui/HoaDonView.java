@@ -35,7 +35,7 @@ public class HoaDonView extends javax.swing.JFrame {
         clsoeButton1.initEvent(this);
         init();
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -305,7 +305,7 @@ public class HoaDonView extends javax.swing.JFrame {
     private void buttonRound1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound1ActionPerformed
         handlePrintBill();
     }//GEN-LAST:event_buttonRound1ActionPerformed
-
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -369,19 +369,19 @@ public class HoaDonView extends javax.swing.JFrame {
     private DefaultTableModel model;
     private long total = 0;
     private long finalTotal = 0;
-
+    
     private void init() {
         prepareUI();
         model = (DefaultTableModel) tblHoaDon.getModel();
         renderDataTable();
         showInfo();
     }
-
+    
     private void prepareUI() {
         scroll.setVerticalScrollBar(new ScrollBar());
         this.setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
     }
-
+    
     private void renderDataTable() {
         model.setRowCount(0);
         for (Component com : Store.globelPanelBill.getComponents()) {
@@ -394,7 +394,7 @@ public class HoaDonView extends javax.swing.JFrame {
             }
         }
     }
-
+    
     private void showInfo() {
         lblTotalMoney.setText(Formats.toCurency(total));
         lblDiscount.setText("10%");
@@ -403,7 +403,7 @@ public class HoaDonView extends javax.swing.JFrame {
         txtMoney.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-
+                
                 try {
                     long money = Long.parseLong(txtMoney.getText());
                     lblRedundant.setText(Formats.toCurency(money - finalTotal));
@@ -411,37 +411,37 @@ public class HoaDonView extends javax.swing.JFrame {
                     lblRedundant.setText(Formats.toCurency(0));
                 }
             }
-
+            
         });
     }
-
+    
     private void createBill() {
         HoaDon hd = new HoaDon(XDate.now(), lblNameCutomer.getText(), "NV01", "", finalTotal, "KM02");
         int maHd = HoaDonDao.getInstant().inserts(hd);
-
+        
         for (ItemBill item : Store.globelPanelBill.getList()) {
             ModelItem data = item.getData();
             if (data.getLoaiBox() != null) {
-                DatBox db = DatBoxDao.getInstant().selectByIdBox(data.getMaItem());
+                DatBox db = DatBoxDao.getInstant().selectByIdBox(Integer.parseInt(data.getMaItem() + ""));
                 if (db != null) {
                     data.setMaDat(db.getMaDat());
                 }
             }
-            HoaDonCT hdct = new HoaDonCT(maHd, data.getMaDat() > 0 ? 0 : data.getMaItem(),
+            HoaDonCT hdct = new HoaDonCT(maHd, data.getMaDat() > 0 ? 0 : Integer.parseInt(data.getMaItem() + ""),
                     data.getSoLuong(), null,
                     (long) (data.getSoLuong() * data.getGia()),
                     data.getMaDat());
             HoaDonChiTietDao.getInstant().insert(hdct);
         }
-
+        
         MsgBox.alert(Store.orderView, "Thanh toán thành công !");
-
+        
     }
-
+    
     private void handlePrintBill() {
-
+        
         Store.orderView.getPanelItem().setTimer();
-
+        
         for (ItemBill itemBill : Store.globelPanelBill.getList()) {
             if (itemBill.getData().getLoaiBox() != null) {
                 DatBoxDao.getInstant().insertProc(itemBill.getData(), lblNameCutomer.getText());

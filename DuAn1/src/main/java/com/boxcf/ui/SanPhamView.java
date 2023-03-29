@@ -5,8 +5,19 @@
 package com.boxcf.ui;
 
 import com.box.utils.UI;
+import com.boxcf.components.ScrollBar;
+import com.boxcf.dao.DanhMucDao;
+import com.boxcf.dao.LoaiSPDao;
+import com.boxcf.dao.SanPhamDao;
+import com.boxcf.models.DanhMuc;
+import com.boxcf.models.LoaiSP;
+import com.boxcf.models.SanPham;
 import com.boxcf.store.Store;
 import java.awt.Color;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -14,11 +25,288 @@ import java.awt.Color;
  */
 public class SanPhamView extends javax.swing.JPanel {
 
+    SanPhamDao spDAO = new SanPhamDao();
+    LoaiSPDao lspDAO = new LoaiSPDao();
+    DanhMucDao dmDAO = new DanhMucDao();
+    public String maSP;
+    public String maLoai;
+    public String maDanhMuc = null;
+
     public SanPhamView() {
         initComponents();
         init();
     }
-    
+
+    boolean getClick(JTable table) {
+        if (table.getSelectedRow() == -1) {
+            return false;
+        }
+        return true;
+    }
+
+    private void init() {
+        this.prepareUI();
+        fillCBBLoaiSP();
+        fillCBBDM();
+        fillToTableSanPham();
+        fillToTableDanhMuc();
+        fillToTableLoaiSP();
+
+        Store.spView = this;
+    }
+
+    private void prepareUI() {
+        scroll.setVerticalScrollBar(new ScrollBar());
+        UI.changeTransBG(new Color(0, 0, 0, 0), txtTimSP, txtTimLoaiSP, txtTimDM);
+    }
+
+    private void renderDataTable(List<SanPham> list) {
+        DefaultTableModel tbl = (DefaultTableModel) tblSanPham.getModel();
+        tbl.setRowCount(0);
+        int i = 1;
+        for (SanPham sp : list) {
+            Object row[] = {i, sp.getMaSP(), sp.getTenSP(), sp.getGia(), lspDAO.selectById(sp.getMaLoai()).getTenLoai(), sp.getMoTa()};
+            tbl.addRow(row);
+            i++;
+        }
+    }
+
+    void fillCBBLoaiSP() {
+        cboLoaiSP.removeAllItems();
+        cboLoaiSP.addItem("All");
+        for (LoaiSP lsp : lspDAO.selectAll()) {
+            cboLoaiSP.addItem(lsp.getTenLoai().toString());
+        }
+    }
+
+    void fillCBBDM() {
+        cboDanhMuc1.removeAllItems();
+        cboDanhMuc1.addItem("All");
+        for (DanhMuc dm : dmDAO.selectAll()) {
+            cboDanhMuc1.addItem(dm.getTenDM().toString());
+            cboDanhMuc2.addItem(dm.getTenDM().toString());
+        }
+    }
+
+    public void fillToTableSanPham() {
+        DefaultTableModel tbl = (DefaultTableModel) tblSanPham.getModel();
+        tbl.setRowCount(0);
+        String keyWord = txtTimSP.getText();
+        int i = 1;
+        for (SanPham sp : spDAO.selectByKeyWord(keyWord, cboTimTheoSP.getSelectedIndex())) {
+            Object row[] = {i, sp.getMaSP(), sp.getTenSP(), sp.getGia(), lspDAO.selectById(sp.getMaLoai()).getTenLoai(), sp.getMoTa()};
+            tbl.addRow(row);
+            i++;
+        }
+
+//        for (SanPham sp : spDAO.selectAll()) {
+//            Object row[] = {sp.getMaSP(), sp.getTenSP(), sp.getGia(), sp.getMaLoai(), sp.getMoTa()};
+//            tbl.addRow(row);
+//        }
+    }
+
+    void filterLoaiSP() {
+        String tenLoai = (cboLoaiSP.getSelectedItem().toString());
+        if (tenLoai.equals("All")) {
+            renderDataTable(spDAO.selectAll());
+            return;
+        }
+        renderDataTable(spDAO.selectByTenLoaiSP(tenLoai));
+    }
+
+    void filterDM() {
+        String maDanhMuc = cboDanhMuc1.getSelectedItem().toString();
+        if (maDanhMuc.equals("All")) {
+            renderDataTable(spDAO.selectAll());
+            return;
+        }
+        renderDataTable(spDAO.selectByTenDanhMuc(maDanhMuc));
+    }
+
+    void fillToTableLoaiSP() {
+        DefaultTableModel tbl = (DefaultTableModel) tblLoaiSP.getModel();
+        tbl.setRowCount(0);
+        String keyWord = txtTimLoaiSP.getText();
+        int i = 1;
+        for (LoaiSP lsp : lspDAO.selectByKeyWord(keyWord, cboTimTheoLSP.getSelectedIndex())) {
+            Object row[] = {i, lsp.getMaLoai(), lsp.getTenLoai(), dmDAO.selectById(lsp.getMaDM()).getTenDM()};
+            tbl.addRow(row);
+            i++;
+        }
+    }
+
+    void fillToTableDanhMuc() {
+        DefaultTableModel tbl = (DefaultTableModel) tblDanhMuc.getModel();
+        tbl.setRowCount(0);
+        String keyWord = txtTimDM.getText();
+        int i = 1;
+        for (DanhMuc dm : dmDAO.selectByKeyWord(keyWord, cboTimTheoDM.getSelectedIndex())) {
+            Object row[] = {i, dm.getMaDM(), dm.getTenDM()};
+            tbl.addRow(row);
+            i++;
+        }
+    }
+
+    void openTTSP() {
+        new ThongTinSP(maSP).setVisible(true);
+    }
+
+    void openTTLSP() {
+        if (maLoai == null) {
+            return;
+        }
+        new ThongTinLoaiSP(maLoai).setVisible(true);
+    }
+
+    void xoaSP() {
+        if (!getClick(tblSanPham)) {
+            JOptionPane.showMessageDialog(this, "Chưa chọn sản phẩm!");
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa sản phẩm " + maSP + " ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        if (confirm == 1) {
+            return;
+        }
+
+        spDAO.delete(maSP);
+        JOptionPane.showMessageDialog(this, "Xóa thành công!");
+        fillToTableSanPham();
+    }
+
+    void xoaDM() {
+        if (!getClick(tblDanhMuc)) {
+            JOptionPane.showMessageDialog(this, "Chưa chọn danh mục!");
+            return;
+        }
+        if (!kiemTraLienKetDM()) {
+            JOptionPane.showMessageDialog(this, "Mã danh mục " + maDanhMuc + " có liên kết dữ liệu!\n Không thể xóa!");
+            return;
+        }
+        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa danh mục " + maDanhMuc + " ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        if (confirm == 1) {
+            return;
+        }
+
+        dmDAO.delete(maDanhMuc);
+        JOptionPane.showMessageDialog(this, "Xóa thành công!");
+        fillToTableDanhMuc();
+    }
+
+    void xoaLoaiSP() {
+        if (!getClick(tblLoaiSP)) {
+            JOptionPane.showMessageDialog(this, "Chưa chọn loại sản phẩm!");
+            return;
+        }
+        if (!kiemTraLienKetLSP()) {
+            JOptionPane.showMessageDialog(this, "Mã sản phẩm " + maLoai + " có liên kết dữ liệu!\n Không thể xóa!");
+            return;
+        }
+        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa loại sản phẩm " + maLoai + " ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.NO_OPTION) {
+            return;
+        }
+        try {
+            lspDAO.delete(maLoai);
+            JOptionPane.showMessageDialog(this, "Xóa thành công!");
+            fillToTableLoaiSP();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi liên kết dữ liệu!");
+        }
+    }
+
+    boolean kiemTraLienKetDM() {
+        for (LoaiSP lsp : lspDAO.selectAll()) {
+            if (maDanhMuc.equals(lsp.getMaDM())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    boolean kiemTraLienKetLSP() {
+        for (SanPham sp : spDAO.selectAll()) {
+            if (maLoai.equals(sp.getMaLoai())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void editw() {
+        try {
+            DanhMuc dm = dmDAO.selectById(maDanhMuc);
+            setModel(dm);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    void setModel(DanhMuc dm) {
+        txtMaDM.setText("" + dm.getMaDM());
+        txtTenDM.setText("" + dm.getTenDM());
+    }
+
+    DanhMuc getModel() {
+        DanhMuc dm = new DanhMuc();
+        dm.setMaDM(txtMaDM.getText());
+        dm.setTenDM(txtTenDM.getText());
+        return dm;
+    }
+
+    void insertDM() {
+        if (!validateForm()) {
+            return;
+        }
+        if (!checkTrungID()) {
+            JOptionPane.showMessageDialog(this, "Mã danh mục đã tồn tại!");
+            return;
+        }
+        try {
+            dmDAO.insert(getModel());
+            fillToTableDanhMuc();
+            fillCBBDM();
+            JOptionPane.showMessageDialog(this, "Thêm thành công!");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    void updateDM() {
+        if (!validateForm()) {
+            return;
+        }
+        try {
+            dmDAO.update(getModel());
+            fillToTableDanhMuc();
+            fillCBBDM();
+            JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    boolean validateForm() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(txtMaDM.getText().isEmpty() ? "Mã danh mục không thể trống!" : "");
+        sb.append(txtTenDM.getText().isEmpty() ? "\nTên danh mục không thể trống!" : "");
+        if (sb.length() > 0) {
+            JOptionPane.showMessageDialog(this, sb);
+            return false;
+        }
+        return true;
+    }
+
+    boolean checkTrungID() {
+        String maLoaiSP = txtMaDM.getText();
+        for (DanhMuc dm : dmDAO.selectAll()) {
+            if (maLoaiSP.equals(dm.getMaDM())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -30,41 +318,44 @@ public class SanPhamView extends javax.swing.JPanel {
         btnAdd = new com.boxcf.components.ButtonRound();
         buttonRound1 = new com.boxcf.components.ButtonRound();
         lblMaNV = new javax.swing.JLabel();
-        txtMaNV = new javax.swing.JTextField();
-        buttonRound2 = new com.boxcf.components.ButtonRound();
+        txtTimSP = new javax.swing.JTextField();
+        btnTimSP = new com.boxcf.components.ButtonRound();
         gradientPanel1 = new com.boxcf.components.GradientPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        combobox1 = new com.boxcf.components.Combobox();
-        combobox2 = new com.boxcf.components.Combobox();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblNhanVien = new javax.swing.JTable();
+        cboDanhMuc1 = new com.boxcf.components.Combobox();
+        cboLoaiSP = new com.boxcf.components.Combobox();
+        scroll = new javax.swing.JScrollPane();
+        tblSanPham = new javax.swing.JTable();
+        cboTimTheoSP = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblNhanVien1 = new javax.swing.JTable();
+        tblLoaiSP = new javax.swing.JTable();
         lblMaNV2 = new javax.swing.JLabel();
-        txtMaNV1 = new javax.swing.JTextField();
-        buttonRound5 = new com.boxcf.components.ButtonRound();
+        txtTimLoaiSP = new javax.swing.JTextField();
+        btnTimLoaiSP = new com.boxcf.components.ButtonRound();
         gradientPanel2 = new com.boxcf.components.GradientPanel();
         jLabel4 = new javax.swing.JLabel();
-        combobox3 = new com.boxcf.components.Combobox();
-        btnAdd2 = new com.boxcf.components.ButtonRound();
-        buttonRound6 = new com.boxcf.components.ButtonRound();
+        cboDanhMuc2 = new com.boxcf.components.Combobox();
+        btnXoaLSP = new com.boxcf.components.ButtonRound();
+        btnThemLSP = new com.boxcf.components.ButtonRound();
+        cboTimTheoLSP = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tblNhanVien2 = new javax.swing.JTable();
+        tblDanhMuc = new javax.swing.JTable();
         lblMaNV3 = new javax.swing.JLabel();
-        txtMaNV2 = new javax.swing.JTextField();
-        buttonRound8 = new com.boxcf.components.ButtonRound();
+        txtTimDM = new javax.swing.JTextField();
+        btnTimDM = new com.boxcf.components.ButtonRound();
         gradientPanel3 = new com.boxcf.components.GradientPanel();
-        textField1 = new com.boxcf.components.TextField();
+        txtMaDM = new com.boxcf.components.TextField();
         lblMaNV1 = new javax.swing.JLabel();
         lblMaNV4 = new javax.swing.JLabel();
-        textField2 = new com.boxcf.components.TextField();
-        btnAdd3 = new com.boxcf.components.ButtonRound();
-        buttonRound7 = new com.boxcf.components.ButtonRound();
-        btnAdd4 = new com.boxcf.components.ButtonRound();
-        buttonRound9 = new com.boxcf.components.ButtonRound();
+        txtTenDM = new com.boxcf.components.TextField();
+        btnThemSP = new com.boxcf.components.ButtonRound();
+        btnSuaSP = new com.boxcf.components.ButtonRound();
+        btnMoiSP = new com.boxcf.components.ButtonRound();
+        btnXoaSP = new com.boxcf.components.ButtonRound();
+        cboTimTheoDM = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(102, 102, 102));
@@ -108,18 +399,22 @@ public class SanPhamView extends javax.swing.JPanel {
         lblMaNV.setText("Sản phẩm");
         jPanel1.add(lblMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(139, 44, 86, -1));
 
-        txtMaNV.setBackground(new java.awt.Color(0, 153, 153));
-        txtMaNV.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        txtMaNV.setForeground(new java.awt.Color(51, 51, 51));
-        txtMaNV.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(2, 172, 171)));
-        txtMaNV.setOpaque(false);
-        jPanel1.add(txtMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 32, 520, 32));
+        txtTimSP.setBackground(new java.awt.Color(255, 255, 255,0));
+        txtTimSP.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtTimSP.setForeground(new java.awt.Color(51, 51, 51));
+        txtTimSP.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(2, 172, 171)));
+        jPanel1.add(txtTimSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 32, 520, 32));
 
-        buttonRound2.setBackground(new java.awt.Color(2, 172, 171));
-        buttonRound2.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound2.setText("Tìm kiếm");
-        buttonRound2.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        jPanel1.add(buttonRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(784, 31, -1, -1));
+        btnTimSP.setBackground(new java.awt.Color(2, 172, 171));
+        btnTimSP.setForeground(new java.awt.Color(255, 255, 255));
+        btnTimSP.setText("Tìm kiếm");
+        btnTimSP.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnTimSP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimSPActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnTimSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(784, 31, -1, -1));
 
         gradientPanel1.setColor1(new java.awt.Color(240, 240, 240));
         gradientPanel1.setColor2(new java.awt.Color(240, 240, 240));
@@ -127,6 +422,18 @@ public class SanPhamView extends javax.swing.JPanel {
         jLabel2.setText("Danh mục");
 
         jLabel3.setText("Loại");
+
+        cboDanhMuc1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboDanhMuc1ActionPerformed(evt);
+            }
+        });
+
+        cboLoaiSP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboLoaiSPActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout gradientPanel1Layout = new javax.swing.GroupLayout(gradientPanel1);
         gradientPanel1.setLayout(gradientPanel1Layout);
@@ -136,11 +443,11 @@ public class SanPhamView extends javax.swing.JPanel {
                 .addGap(22, 22, 22)
                 .addComponent(jLabel2)
                 .addGap(29, 29, 29)
-                .addComponent(combobox1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cboDanhMuc1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
-                .addComponent(combobox2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cboLoaiSP, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
         );
         gradientPanel1Layout.setVerticalGroup(
@@ -148,8 +455,8 @@ public class SanPhamView extends javax.swing.JPanel {
             .addGroup(gradientPanel1Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(combobox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(combobox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboDanhMuc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboLoaiSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16))
@@ -157,31 +464,40 @@ public class SanPhamView extends javax.swing.JPanel {
 
         jPanel1.add(gradientPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 720, 70));
 
-        tblNhanVien.setFont(new java.awt.Font("UTM BryantLG", 0, 12)); // NOI18N
-        tblNhanVien.setModel(new javax.swing.table.DefaultTableModel(
+        tblSanPham.setFont(new java.awt.Font("UTM BryantLG", 0, 12)); // NOI18N
+        tblSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Mã SP", "Tên SP", "Giá", "Loại SP", "Mô tả"
+                "STT", "Mã SP", "Tên SP", "Giá", "Loại SP", "Mô tả"
             }
         ));
-        tblNhanVien.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        tblNhanVien.setGridColor(new java.awt.Color(204, 204, 204));
-        tblNhanVien.setRowHeight(30);
-        jScrollPane1.setViewportView(tblNhanVien);
+        tblSanPham.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tblSanPham.setGridColor(new java.awt.Color(204, 204, 204));
+        tblSanPham.setRowHeight(30);
+        tblSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tblSanPhamMousePressed(evt);
+            }
+        });
+        scroll.setViewportView(tblSanPham);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 930, 310));
+        jPanel1.add(scroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 930, 310));
+
+        cboTimTheoSP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Theo tên", "theo mã" }));
+        jPanel1.add(cboTimTheoSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 30, 120, 30));
 
         jTabbedPane1.addTab("SẢN PHẨM", jPanel1);
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tblNhanVien1.setFont(new java.awt.Font("UTM BryantLG", 0, 12)); // NOI18N
-        tblNhanVien1.setModel(new javax.swing.table.DefaultTableModel(
+        tblLoaiSP.setFont(new java.awt.Font("UTM BryantLG", 0, 12)); // NOI18N
+        tblLoaiSP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -192,12 +508,17 @@ public class SanPhamView extends javax.swing.JPanel {
                 "STT", "Mã loại", "Tên loại", "Giá"
             }
         ));
-        tblNhanVien1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        tblNhanVien1.setGridColor(new java.awt.Color(204, 204, 204));
-        tblNhanVien1.setRowHeight(30);
-        jScrollPane2.setViewportView(tblNhanVien1);
+        tblLoaiSP.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tblLoaiSP.setGridColor(new java.awt.Color(204, 204, 204));
+        tblLoaiSP.setRowHeight(30);
+        tblLoaiSP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tblLoaiSPMousePressed(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblLoaiSP);
 
-        jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, 880, 326));
+        jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 970, 320));
 
         lblMaNV2.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -205,18 +526,27 @@ public class SanPhamView extends javax.swing.JPanel {
         lblMaNV2.setText("Loại sản phẩm");
         jPanel2.add(lblMaNV2, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 44, 110, -1));
 
-        txtMaNV1.setBackground(new java.awt.Color(0, 153, 153));
-        txtMaNV1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        txtMaNV1.setForeground(new java.awt.Color(51, 51, 51));
-        txtMaNV1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(2, 172, 171)));
-        txtMaNV1.setOpaque(false);
-        jPanel2.add(txtMaNV1, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 32, 520, 32));
+        txtTimLoaiSP.setBackground(new java.awt.Color(0, 153, 153,0));
+        txtTimLoaiSP.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtTimLoaiSP.setForeground(new java.awt.Color(51, 51, 51));
+        txtTimLoaiSP.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(2, 172, 171)));
+        jPanel2.add(txtTimLoaiSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 32, 520, 32));
 
-        buttonRound5.setBackground(new java.awt.Color(2, 172, 171));
-        buttonRound5.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound5.setText("Tìm kiếm");
-        buttonRound5.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        jPanel2.add(buttonRound5, new org.netbeans.lib.awtextra.AbsoluteConstraints(784, 31, -1, -1));
+        btnTimLoaiSP.setBackground(new java.awt.Color(2, 172, 171));
+        btnTimLoaiSP.setForeground(new java.awt.Color(255, 255, 255));
+        btnTimLoaiSP.setText("Tìm kiếm");
+        btnTimLoaiSP.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnTimLoaiSP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTimLoaiSPMouseClicked(evt);
+            }
+        });
+        btnTimLoaiSP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimLoaiSPActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnTimLoaiSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(784, 31, -1, -1));
 
         gradientPanel2.setColor1(new java.awt.Color(240, 240, 240));
         gradientPanel2.setColor2(new java.awt.Color(240, 240, 240));
@@ -228,67 +558,75 @@ public class SanPhamView extends javax.swing.JPanel {
         gradientPanel2Layout.setHorizontalGroup(
             gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(gradientPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(28, 28, 28)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
-                .addComponent(combobox3, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addComponent(cboDanhMuc2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         gradientPanel2Layout.setVerticalGroup(
             gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(gradientPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(combobox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel2Layout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cboDanhMuc2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        jPanel2.add(gradientPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 90, 330, 60));
+        jPanel2.add(gradientPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 80, 350, 70));
 
-        btnAdd2.setBackground(new java.awt.Color(2, 172, 171));
-        btnAdd2.setForeground(new java.awt.Color(255, 255, 255));
-        btnAdd2.setText("THÊM");
-        btnAdd2.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        btnAdd2.addActionListener(new java.awt.event.ActionListener() {
+        btnXoaLSP.setBackground(new java.awt.Color(2, 172, 171));
+        btnXoaLSP.setForeground(new java.awt.Color(255, 255, 255));
+        btnXoaLSP.setText("XÓA");
+        btnXoaLSP.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnXoaLSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdd2ActionPerformed(evt);
+                btnXoaLSPActionPerformed(evt);
             }
         });
-        jPanel2.add(btnAdd2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 520, 96, 40));
+        jPanel2.add(btnXoaLSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 510, 96, 40));
 
-        buttonRound6.setBackground(new java.awt.Color(2, 172, 171));
-        buttonRound6.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound6.setText("XÓA");
-        buttonRound6.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        buttonRound6.addActionListener(new java.awt.event.ActionListener() {
+        btnThemLSP.setBackground(new java.awt.Color(2, 172, 171));
+        btnThemLSP.setForeground(new java.awt.Color(255, 255, 255));
+        btnThemLSP.setText("THÊM");
+        btnThemLSP.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnThemLSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonRound6ActionPerformed(evt);
+                btnThemLSPActionPerformed(evt);
             }
         });
-        jPanel2.add(buttonRound6, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 520, 96, 40));
+        jPanel2.add(btnThemLSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 510, 96, 40));
+
+        cboTimTheoLSP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Theo tên", "theo mã" }));
+        jPanel2.add(cboTimTheoLSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 30, 120, 30));
 
         jTabbedPane1.addTab("LOẠI SP", jPanel2);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tblNhanVien2.setFont(new java.awt.Font("UTM BryantLG", 0, 12)); // NOI18N
-        tblNhanVien2.setModel(new javax.swing.table.DefaultTableModel(
+        tblDanhMuc.setFont(new java.awt.Font("UTM BryantLG", 0, 12)); // NOI18N
+        tblDanhMuc.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "STT", "Mã loại", "Tên loại", "Giá"
+                "STT", "Mã DM", "Tên DM"
             }
         ));
-        tblNhanVien2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        tblNhanVien2.setGridColor(new java.awt.Color(204, 204, 204));
-        tblNhanVien2.setRowHeight(30);
-        jScrollPane3.setViewportView(tblNhanVien2);
+        tblDanhMuc.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tblDanhMuc.setGridColor(new java.awt.Color(204, 204, 204));
+        tblDanhMuc.setRowHeight(30);
+        tblDanhMuc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tblDanhMucMousePressed(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tblDanhMuc);
 
         jPanel3.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 120, 640, 370));
 
@@ -298,24 +636,32 @@ public class SanPhamView extends javax.swing.JPanel {
         lblMaNV3.setText("Danh mục");
         jPanel3.add(lblMaNV3, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 44, 80, -1));
 
-        txtMaNV2.setBackground(new java.awt.Color(0, 153, 153));
-        txtMaNV2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        txtMaNV2.setForeground(new java.awt.Color(51, 51, 51));
-        txtMaNV2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(2, 172, 171)));
-        txtMaNV2.setOpaque(false);
-        jPanel3.add(txtMaNV2, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 32, 520, 32));
+        txtTimDM.setBackground(new java.awt.Color(0, 153, 153,0));
+        txtTimDM.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtTimDM.setForeground(new java.awt.Color(51, 51, 51));
+        txtTimDM.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(2, 172, 171)));
+        jPanel3.add(txtTimDM, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 32, 520, 32));
 
-        buttonRound8.setBackground(new java.awt.Color(2, 172, 171));
-        buttonRound8.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound8.setText("Tìm kiếm");
-        buttonRound8.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        jPanel3.add(buttonRound8, new org.netbeans.lib.awtextra.AbsoluteConstraints(784, 31, -1, -1));
+        btnTimDM.setBackground(new java.awt.Color(2, 172, 171));
+        btnTimDM.setForeground(new java.awt.Color(255, 255, 255));
+        btnTimDM.setText("Tìm kiếm");
+        btnTimDM.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnTimDM.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTimDMMouseClicked(evt);
+            }
+        });
+        btnTimDM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimDMActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnTimDM, new org.netbeans.lib.awtextra.AbsoluteConstraints(784, 31, -1, -1));
 
         gradientPanel3.setColor1(new java.awt.Color(240, 240, 240));
         gradientPanel3.setColor2(new java.awt.Color(240, 240, 240));
 
-        textField1.setLabelText("");
-        textField1.setOpaque(false);
+        txtMaDM.setLabelText("");
 
         lblMaNV1.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV1.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
@@ -327,46 +673,45 @@ public class SanPhamView extends javax.swing.JPanel {
         lblMaNV4.setForeground(new java.awt.Color(27, 51, 61));
         lblMaNV4.setText("Tên DM");
 
-        textField2.setLabelText("");
-        textField2.setOpaque(false);
+        txtTenDM.setLabelText("");
 
-        btnAdd3.setBackground(new java.awt.Color(2, 172, 171));
-        btnAdd3.setForeground(new java.awt.Color(255, 255, 255));
-        btnAdd3.setText("THÊM");
-        btnAdd3.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        btnAdd3.addActionListener(new java.awt.event.ActionListener() {
+        btnThemSP.setBackground(new java.awt.Color(2, 172, 171));
+        btnThemSP.setForeground(new java.awt.Color(255, 255, 255));
+        btnThemSP.setText("THÊM");
+        btnThemSP.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnThemSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdd3ActionPerformed(evt);
+                btnThemSPActionPerformed(evt);
             }
         });
 
-        buttonRound7.setBackground(new java.awt.Color(2, 172, 171));
-        buttonRound7.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound7.setText("SỬA");
-        buttonRound7.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        buttonRound7.addActionListener(new java.awt.event.ActionListener() {
+        btnSuaSP.setBackground(new java.awt.Color(2, 172, 171));
+        btnSuaSP.setForeground(new java.awt.Color(255, 255, 255));
+        btnSuaSP.setText("SỬA");
+        btnSuaSP.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnSuaSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonRound7ActionPerformed(evt);
+                btnSuaSPActionPerformed(evt);
             }
         });
 
-        btnAdd4.setBackground(new java.awt.Color(2, 172, 171));
-        btnAdd4.setForeground(new java.awt.Color(255, 255, 255));
-        btnAdd4.setText("MỚI");
-        btnAdd4.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        btnAdd4.addActionListener(new java.awt.event.ActionListener() {
+        btnMoiSP.setBackground(new java.awt.Color(2, 172, 171));
+        btnMoiSP.setForeground(new java.awt.Color(255, 255, 255));
+        btnMoiSP.setText("MỚI");
+        btnMoiSP.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnMoiSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdd4ActionPerformed(evt);
+                btnMoiSPActionPerformed(evt);
             }
         });
 
-        buttonRound9.setBackground(new java.awt.Color(2, 172, 171));
-        buttonRound9.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound9.setText("XÓA");
-        buttonRound9.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        buttonRound9.addActionListener(new java.awt.event.ActionListener() {
+        btnXoaSP.setBackground(new java.awt.Color(2, 172, 171));
+        btnXoaSP.setForeground(new java.awt.Color(255, 255, 255));
+        btnXoaSP.setText("XÓA");
+        btnXoaSP.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnXoaSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonRound9ActionPerformed(evt);
+                btnXoaSPActionPerformed(evt);
             }
         });
 
@@ -381,17 +726,17 @@ public class SanPhamView extends javax.swing.JPanel {
                         .addGroup(gradientPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblMaNV4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblMaNV1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textField1, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
-                            .addComponent(textField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(txtMaDM, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                            .addComponent(txtTenDM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(gradientPanel3Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addGroup(gradientPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnAdd3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAdd4, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnThemSP, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnMoiSP, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(gradientPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(buttonRound7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonRound9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnSuaSP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnXoaSP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         gradientPanel3Layout.setVerticalGroup(
@@ -400,23 +745,26 @@ public class SanPhamView extends javax.swing.JPanel {
                 .addContainerGap(56, Short.MAX_VALUE)
                 .addComponent(lblMaNV1)
                 .addGap(0, 0, 0)
-                .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtMaDM, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lblMaNV4)
                 .addGap(0, 0, 0)
-                .addComponent(textField2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtTenDM, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53)
                 .addGroup(gradientPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonRound7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnThemSP, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSuaSP, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(gradientPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonRound9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnMoiSP, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnXoaSP, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33))
         );
 
         jPanel3.add(gradientPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 280, 370));
+
+        cboTimTheoDM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Theo tên", "theo mã" }));
+        jPanel3.add(cboTimTheoDM, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 30, 120, 30));
 
         jTabbedPane1.addTab("DANH MỤC SP", jPanel3);
 
@@ -424,53 +772,124 @@ public class SanPhamView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        this.openThemSP();
+        openTTSP();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void buttonRound1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound1ActionPerformed
         // TODO add your handling code here:
+        xoaSP();
     }//GEN-LAST:event_buttonRound1ActionPerformed
 
-    private void btnAdd2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd2ActionPerformed
+    private void btnSuaSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaSPActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnAdd2ActionPerformed
+    }//GEN-LAST:event_btnSuaSPActionPerformed
 
-    private void buttonRound6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound6ActionPerformed
+    private void btnThemSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSPActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_buttonRound6ActionPerformed
+    }//GEN-LAST:event_btnThemSPActionPerformed
 
-    private void buttonRound7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound7ActionPerformed
+    private void btnMoiSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiSPActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_buttonRound7ActionPerformed
+    }//GEN-LAST:event_btnMoiSPActionPerformed
 
-    private void btnAdd3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd3ActionPerformed
+    private void btnXoaSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaSPActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnAdd3ActionPerformed
+        xoaDM();
+    }//GEN-LAST:event_btnXoaSPActionPerformed
 
-    private void btnAdd4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd4ActionPerformed
+    private void btnXoaLSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaLSPActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnAdd4ActionPerformed
+        xoaLoaiSP();
+    }//GEN-LAST:event_btnXoaLSPActionPerformed
 
-    private void buttonRound9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound9ActionPerformed
+    private void btnThemLSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemLSPActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_buttonRound9ActionPerformed
+        openTTLSP();
+    }//GEN-LAST:event_btnThemLSPActionPerformed
+
+    private void tblSanPhamMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMousePressed
+        // TODO add your handling code here:
+        int index = tblSanPham.rowAtPoint(evt.getPoint());
+        maSP = (String) tblSanPham.getValueAt(index, 1);
+        if (evt.getClickCount() == 2) {
+            openTTSP();
+        }
+    }//GEN-LAST:event_tblSanPhamMousePressed
+
+    private void tblLoaiSPMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLoaiSPMousePressed
+        // TODO add your handling code here:
+        int index = tblLoaiSP.rowAtPoint(evt.getPoint());
+        maLoai = (String) tblLoaiSP.getValueAt(index, 1);
+        if (evt.getClickCount() == 2) {
+            openTTLSP();
+        }
+    }//GEN-LAST:event_tblLoaiSPMousePressed
+
+    private void tblDanhMucMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDanhMucMousePressed
+        // TODO add your handling code here:
+        int index = tblDanhMuc.rowAtPoint(evt.getPoint());
+        maDanhMuc = (String) tblDanhMuc.getValueAt(index, 1);
+        editw();
+    }//GEN-LAST:event_tblDanhMucMousePressed
+
+    private void btnTimSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimSPActionPerformed
+        // TODO add your handling code here:
+        fillToTableSanPham();
+    }//GEN-LAST:event_btnTimSPActionPerformed
+
+    private void btnTimLoaiSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTimLoaiSPMouseClicked
+        // TODO add your handling code here:
+        fillToTableLoaiSP();
+    }//GEN-LAST:event_btnTimLoaiSPMouseClicked
+
+    private void btnTimDMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTimDMMouseClicked
+        // TODO add your handling code here:
+        fillToTableLoaiSP();
+    }//GEN-LAST:event_btnTimDMMouseClicked
+
+    private void cboDanhMuc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboDanhMuc1ActionPerformed
+        // TODO add your handling code here:
+        if (cboDanhMuc1.getItemCount() > 0) {
+            filterDM();
+        }
+    }//GEN-LAST:event_cboDanhMuc1ActionPerformed
+
+    private void cboLoaiSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboLoaiSPActionPerformed
+        // TODO add your handling code here:
+        if (cboLoaiSP.getItemCount() > 0) {
+            filterLoaiSP();
+        }
+    }//GEN-LAST:event_cboLoaiSPActionPerformed
+
+    private void btnTimLoaiSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimLoaiSPActionPerformed
+        // TODO add your handling code here:
+        fillToTableLoaiSP();
+    }//GEN-LAST:event_btnTimLoaiSPActionPerformed
+
+    private void btnTimDMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimDMActionPerformed
+        // TODO add your handling code here:
+        fillToTableDanhMuc();
+    }//GEN-LAST:event_btnTimDMActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.boxcf.components.ButtonRound btnAdd;
-    private com.boxcf.components.ButtonRound btnAdd2;
-    private com.boxcf.components.ButtonRound btnAdd3;
-    private com.boxcf.components.ButtonRound btnAdd4;
+    private com.boxcf.components.ButtonRound btnMoiSP;
+    private com.boxcf.components.ButtonRound btnSuaSP;
+    private com.boxcf.components.ButtonRound btnThemLSP;
+    private com.boxcf.components.ButtonRound btnThemSP;
+    private com.boxcf.components.ButtonRound btnTimDM;
+    private com.boxcf.components.ButtonRound btnTimLoaiSP;
+    private com.boxcf.components.ButtonRound btnTimSP;
+    private com.boxcf.components.ButtonRound btnXoaLSP;
+    private com.boxcf.components.ButtonRound btnXoaSP;
     private com.boxcf.components.ButtonRound buttonRound1;
-    private com.boxcf.components.ButtonRound buttonRound2;
-    private com.boxcf.components.ButtonRound buttonRound5;
-    private com.boxcf.components.ButtonRound buttonRound6;
-    private com.boxcf.components.ButtonRound buttonRound7;
-    private com.boxcf.components.ButtonRound buttonRound8;
-    private com.boxcf.components.ButtonRound buttonRound9;
-    private com.boxcf.components.Combobox combobox1;
-    private com.boxcf.components.Combobox combobox2;
-    private com.boxcf.components.Combobox combobox3;
+    private com.boxcf.components.Combobox cboDanhMuc1;
+    private com.boxcf.components.Combobox cboDanhMuc2;
+    private com.boxcf.components.Combobox cboLoaiSP;
+    private javax.swing.JComboBox<String> cboTimTheoDM;
+    private javax.swing.JComboBox<String> cboTimTheoLSP;
+    private javax.swing.JComboBox<String> cboTimTheoSP;
     private com.boxcf.components.GradientPanel gradientPanel1;
     private com.boxcf.components.GradientPanel gradientPanel2;
     private com.boxcf.components.GradientPanel gradientPanel3;
@@ -481,7 +900,6 @@ public class SanPhamView extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
@@ -491,26 +909,15 @@ public class SanPhamView extends javax.swing.JPanel {
     private javax.swing.JLabel lblMaNV2;
     private javax.swing.JLabel lblMaNV3;
     private javax.swing.JLabel lblMaNV4;
-    private javax.swing.JTable tblNhanVien;
-    private javax.swing.JTable tblNhanVien1;
-    private javax.swing.JTable tblNhanVien2;
-    private com.boxcf.components.TextField textField1;
-    private com.boxcf.components.TextField textField2;
-    private javax.swing.JTextField txtMaNV;
-    private javax.swing.JTextField txtMaNV1;
-    private javax.swing.JTextField txtMaNV2;
+    private javax.swing.JScrollPane scroll;
+    private javax.swing.JTable tblDanhMuc;
+    private javax.swing.JTable tblLoaiSP;
+    private javax.swing.JTable tblSanPham;
+    private com.boxcf.components.TextField txtMaDM;
+    private com.boxcf.components.TextField txtTenDM;
+    private javax.swing.JTextField txtTimDM;
+    private javax.swing.JTextField txtTimLoaiSP;
+    private javax.swing.JTextField txtTimSP;
     // End of variables declaration//GEN-END:variables
 
-    private void init() {
-        this.prepareUI();
-    }
-
-    private void prepareUI() {
-        UI.changeTransBG(new Color(0, 0, 0, 0), txtMaNV);
-    }
-
-    private void openThemSP() {
-        ThongTinSP sp = new ThongTinSP();
-        sp.setVisible(true);
-    }
 }

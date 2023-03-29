@@ -70,7 +70,7 @@ public class BoxItem extends javax.swing.JPanel {
 
     public void initTimer() {
         if (selected == BoxState.isActive) {
-            DatBox db = DatBoxDao.getInstant().selectByBox(box.getMaItem());
+            DatBox db = DatBoxDao.getInstant().selectByBox(Integer.parseInt(box.getMaItem() + ""));
 
             if (db == null) {
                 return;

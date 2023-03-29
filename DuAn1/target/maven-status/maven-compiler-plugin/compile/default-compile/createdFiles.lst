@@ -33,7 +33,6 @@ com\boxcf\components\material\NewJPanel.class
 com\boxcf\ui\DatComBo$1.class
 com\boxcf\ui\BoxView$1.class
 com\boxcf\components\FormHome.class
-com\boxcf\components\material\BoxItem$2.class
 com\boxcf\components\EventItem.class
 com\boxcf\components\GradientPanel.class
 com\boxcf\ui\ThongTinBox$8.class
@@ -181,7 +180,6 @@ com\boxcf\ui\HoaDonView$3.class
 com\boxcf\ui\ThongTinBoxDat$2.class
 com\boxcf\ui\OrderView$7.class
 com\boxcf\components\Combobox$1.class
-com\boxcf\components\material\BoxItem$1.class
 com\boxcf\ui\NhanVienView$2.class
 com\box\utils\Sort.class
 com\boxcf\events\StoreEvents.class

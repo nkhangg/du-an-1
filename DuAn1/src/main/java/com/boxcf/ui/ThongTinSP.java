@@ -5,9 +5,16 @@
 package com.boxcf.ui;
 
 import com.box.utils.UI;
+import com.boxcf.dao.DanhMucDao;
+import com.boxcf.dao.LoaiSPDao;
+import com.boxcf.dao.SanPhamDao;
+import com.boxcf.models.LoaiSP;
+import com.boxcf.models.SanPham;
+import com.boxcf.store.Store;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
+import java.util.List;
 import javax.swing.JFrame;
 
 /**
@@ -16,12 +23,32 @@ import javax.swing.JFrame;
  */
 public class ThongTinSP extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ThemNV2
-     */
+    String maSP;
+    SanPhamView spview = Store.spView;
+
+    int index = 0;
+    DanhMucDao dmDAO = new DanhMucDao();
+    LoaiSPDao lspDAO = new LoaiSPDao();
+    SanPhamDao spDAO = new SanPhamDao();
+    List<SanPham> list = spDAO.selectAll();
+    
+    
     public ThongTinSP() {
         initComponents();
         init();
+    }
+    
+    public ThongTinSP(String maSP) {
+        this.maSP = maSP;
+        initComponents();
+        init();
+    }
+
+    void fillComboBox() {
+        for (LoaiSP lsp : lspDAO.selectAll()) {
+//            cboLoaiSP.addItem(lsp.getTenLoai());
+        }
+       
     }
 
     /**

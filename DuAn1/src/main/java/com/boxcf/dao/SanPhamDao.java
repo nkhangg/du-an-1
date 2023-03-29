@@ -17,7 +17,7 @@ public class SanPhamDao implements BoxCfDAO<SanPham, Integer> {
     public SanPham createObjecet(ResultSet responce) {
         try {
             return new SanPham(
-                    responce.getInt(1),
+                    responce.getString(1),
                     responce.getString(2),
                     responce.getLong(3),
                     responce.getString(4),
@@ -31,6 +31,21 @@ public class SanPhamDao implements BoxCfDAO<SanPham, Integer> {
 
     @Override
     public void delete(Integer id) {
+        String sql = "delete SanPham where MaSP = ?";
+
+        try {
+            int responce = JdbcHelper.update(sql, id);
+
+            if (responce == 0) {
+                throw new Error("The Error in delete SanPham !");
+            }
+        } catch (Exception e) {
+            throw new Error("The Error in delete SanPham !");
+        }
+
+    }
+
+    public void delete(String id) {
         String sql = "delete SanPham where MaSP = ?";
 
         try {
@@ -133,6 +148,36 @@ public class SanPhamDao implements BoxCfDAO<SanPham, Integer> {
             throw new Error("The Error in update SanPham !");
         }
 
+    }
+
+    public List<SanPham> selectByTenLoaiSP(String keyword) {
+        String sql = "SELECT sp.* FROM SanPham sp inner join LoaiSP lsp on sp.MaLoai = lsp.MaLoai where TenLoai like ?;";
+        return selectBySql(sql, "%" + keyword + "%");
+    }
+
+    public List<SanPham> selectByTenDanhMuc(String keyword) {
+        String sql = "SELECT sp.* FROM SanPham sp inner join LoaiSP lsp on sp.MaLoai = lsp.MaLoai inner join DanhMuc dm on lsp.MaDM=dm.MaDM where dm.TenDM like ?;";
+        return selectBySql(sql, "%" + keyword + "%");
+    }
+
+    public List<SanPham> selectByKeyWord(String keyWord, int type) {
+        String sql = "";
+        if (type == 0) {
+            sql = "select * from SanPham where TenSP like ?";
+        } else if (type == 1) {
+            sql = "select * from SanPham where MaSP like ?";
+        } else {
+            long Gia = 0;
+            try {
+                Gia = Long.parseLong(keyWord);
+            } catch (Exception e) {
+                sql = "select * from SanPham";
+                return selectBySql(sql);
+            }
+            sql = "select * from SanPham where Gia <= ?";
+            return selectBySql(sql, Gia);
+        }
+        return selectBySql(sql, "%" + keyWord + "%");
     }
 
 }

@@ -16,11 +16,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Main extends javax.swing.JFrame {
-    
+
     NhanVienView nvView = new NhanVienView();
     SanPhamView spView = new SanPhamView();
     BoxView boxView = new BoxView();
-    
+    OrderView order = new OrderView();
+
     public Main() {
         initComponents();
         init();
@@ -46,6 +47,7 @@ public class Main extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         pnlContent = new javax.swing.JPanel();
+        btnClose = new com.boxcf.components.ButtonRound();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -79,6 +81,11 @@ public class Main extends javax.swing.JFrame {
         buttonRound2.setFocusPainted(false);
         buttonRound2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonRound2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        buttonRound2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRound2ActionPerformed(evt);
+            }
+        });
         gradientPanel2.add(buttonRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 90, 70));
 
         btnBox.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/cardboard.png"))); // NOI18N
@@ -162,12 +169,20 @@ public class Main extends javax.swing.JFrame {
         pnlContent.setLayout(pnlContentLayout);
         pnlContentLayout.setHorizontalGroup(
             pnlContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 1065, Short.MAX_VALUE)
         );
         pnlContentLayout.setVerticalGroup(
             pnlContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 721, Short.MAX_VALUE)
         );
+
+        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/exit (1).png"))); // NOI18N
+        btnClose.setFocusPainted(false);
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout gradientPanel4Layout = new javax.swing.GroupLayout(gradientPanel4);
         gradientPanel4.setLayout(gradientPanel4Layout);
@@ -181,16 +196,18 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(gradientPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(gradientPanel4Layout.createSequentialGroup()
-                        .addGap(0, 901, Short.MAX_VALUE)
+                        .addGap(1, 1, 1)
+                        .addComponent(pnlContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel4Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24))
-                    .addGroup(gradientPanel4Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(pnlContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22))))
         );
         gradientPanel4Layout.setVerticalGroup(
             gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,17 +215,21 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(gradientPanel4Layout.createSequentialGroup()
                         .addGap(25, 25, 25)
-                        .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(gradientPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(gradientPanel4Layout.createSequentialGroup()
+                                .addGap(17, 17, 17)
                                 .addComponent(jLabel4)
                                 .addGap(4, 4, 4)
-                                .addComponent(jLabel5)))
-                        .addGap(21, 21, 21))
+                                .addComponent(jLabel5)
+                                .addGap(21, 21, 21))
+                            .addComponent(imageAvatar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel4Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)))
+                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)))
                 .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(gradientPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlContent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -232,10 +253,18 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSanPhamActionPerformed
 
     private void btnBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBoxActionPerformed
-        // TODO add your handling code here:
+
         this.hidden(spView, nvView);
         this.active(boxView);
     }//GEN-LAST:event_btnBoxActionPerformed
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void buttonRound2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound2ActionPerformed
+        this.openOrder();
+    }//GEN-LAST:event_buttonRound2ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -245,7 +274,7 @@ public class Main extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -260,15 +289,7 @@ public class Main extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Main().setVisible(true);
@@ -276,7 +297,6 @@ public class Main extends javax.swing.JFrame {
         });
     }
 
-    
     //hover
     public void hover() {
         Component[] cpns = gradientPanel2.getComponents();
@@ -304,17 +324,17 @@ public class Main extends javax.swing.JFrame {
         this.setShape(shape);
         pnlContent.add(nvView);
         this.hover();
-        
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private void init() {
         this.prepareUI();
-        System.out.println(pnlContent.getWidth() + " " + pnlContent.getHeight());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.boxcf.components.ButtonRound btnBox;
+    private com.boxcf.components.ButtonRound btnClose;
     private com.boxcf.components.ButtonRound btnNhanVien;
     private com.boxcf.components.ButtonRound btnSanPham;
     private com.boxcf.components.ButtonRound buttonRound10;
@@ -336,10 +356,9 @@ public class Main extends javax.swing.JFrame {
         jframe.setVisible(true);
     }
 
-//    private void openNhanVienView() {
-//        nvView.setSize(this.getWidth(), this.getHeight());
-//        nvView.setVisible(true);
-//    }
+    private void openOrder() {
+        order.setVisible(true);
+    }
 
     private void hidden(JPanel... jpanel) {
         for (JPanel pnl : jpanel) {

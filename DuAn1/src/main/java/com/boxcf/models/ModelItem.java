@@ -15,7 +15,7 @@ import javax.swing.Icon;
 public class ModelItem {
 
     // product
-    private int maItem;
+    private Object maItem;
     private Icon hing;
     private double gia;
     private String ten;
@@ -30,7 +30,7 @@ public class ModelItem {
     // cả hai đều có
     private int soLuong;
 
-    public int getMaItem() {
+    public Object getMaItem() {
         return maItem;
     }
 
@@ -112,14 +112,14 @@ public class ModelItem {
     }
 
     // box
-    public ModelItem(int maItem, String ten, BoxState trangThai, LoaiBox loaiBox) {
+    public ModelItem(Object maItem, String ten, BoxState trangThai, LoaiBox loaiBox) {
         this.maItem = maItem;
         this.ten = ten;
         this.trangThai = trangThai;
         this.loaiBox = loaiBox;
     }
 
-    public ModelItem(int maItem, String ten, Date gioBD, Date gioKT, LoaiBox loaiBox, int soLuong, double gia) {
+    public ModelItem(Object maItem, String ten, Date gioBD, Date gioKT, LoaiBox loaiBox, int soLuong, double gia) {
         this.maItem = maItem;
         this.ten = ten;
         this.gioBD = gioBD;
@@ -130,7 +130,7 @@ public class ModelItem {
     }
 
     // product
-    public ModelItem(int maItem, Icon hing, double gia, String ten, int soLuong) {
+    public ModelItem(Object maItem, Icon hing, double gia, String ten, int soLuong) {
         this.maItem = maItem;
         this.hing = hing;
         this.gia = gia;

@@ -13,7 +13,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import com.boxcf.events.interfaces.EventIncrease;
 import com.boxcf.components.Spiner;
-import com.boxcf.events.StoreEvents;
 import com.boxcf.store.Store;
 
 /**
