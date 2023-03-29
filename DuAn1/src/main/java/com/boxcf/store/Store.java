@@ -18,8 +18,6 @@ import javax.swing.JPanel;
  */
 public class Store {
 
-    public final static String idAllCategory = "TẤT CẢ";
-
     public final static Category categoryAll(JPanel panelCategory, String name, boolean active) {
         Category ctgrAll = new Category();
         StoreEvents.categoryActive(ctgrAll, panelCategory, name);
@@ -31,10 +29,14 @@ public class Store {
         return ctgrAll;
     }
 
+    public final static String idAllCategory = "TẤT CẢ";
+
     public static OrderView orderView = null;
 
     public static PanelBill globelPanelBill = null;
 
     public static String partten = "MM/dd/yyyy HH:mm:ss";
+    
+    public static int breaks = 5;
 
 }

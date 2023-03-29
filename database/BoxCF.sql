@@ -330,19 +330,42 @@ create table DatTruoc(
 )
 
 select * from DatTruoc
+where MaBox = 2
+order by GioBD 
+
+select * from DatTruoc
+where TranThai = 1 and MaBox = 2
 order by GioKT 
 
 
+
 delete from DatTruoc
+
+select * from HoaDon
+s
+
+select * from DatBox
+
+
+
 update DatTruoc
-set TranThai = 1
-where MaDT = 6
+set TranThai = 0
+where MaDT = 46
 
 
 insert into DatTruoc 
-values	(1, N'Phạm Nhứt Khang', '2023/3/28 18:00:00', '2023/3/28 22:00:00', 1),
-		(1, N'Phạm Nhứt Khang', '2023/3/28 23:00:00', '2023/3/29 00:00:00', 1),
-		(1, N'Phạm Nhứt Khang', '2023/3/29 4:00:00', '2023/3/29 6:00:00', 1)
+values	(1, N'Phạm Nhứt Khang', '2023/3/29 6:00:00', '2023/3/29 8:00:00', 1),
+		(1, N'Phạm Nhứt Khang', '2023/3/29 12:00:00', '2023/3/29 13:00:00', 1),
+		(1, N'Phạm Nhứt Khang', '2023/3/29 14:00:00', '2023/3/29 15:00:00', 1),
+		(1, N'Phạm Nhứt Khang', '2023/3/29 20:00:00', '2023/3/29 22:00:00', 1)
+
+
+insert into DatTruoc 
+values	(2, N'Phạm Nhứt Khang', '2023/3/29 22:00:00', '2023/3/29 23:00:00', 1)
+
+insert into DatTruoc 
+values	(2, N'Phạm Nhứt Khang', '2023/3/29 6:00:00', '2023/3/29 7:00:00', 1),
+		(2, N'Phạm Nhứt Khang', '2023/3/29 10:00:00', '2023/3/29 12:00:00', 1)
 
 select * from DATBOX where MaBox = 1 and TrangThai = 'isActive'
 

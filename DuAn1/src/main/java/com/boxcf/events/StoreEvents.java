@@ -23,6 +23,7 @@ import com.boxcf.models.Box;
 import com.boxcf.models.ModelItem;
 import com.boxcf.store.Store;
 import com.boxcf.ui.DatBoxView;
+import com.boxcf.ui.DatBoxView;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;

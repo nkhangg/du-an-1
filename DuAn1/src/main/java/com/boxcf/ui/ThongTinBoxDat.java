@@ -382,61 +382,124 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
 
     private void renderFitTime() {
         DatBox db = DatBoxDao.getInstant().selectByBox(box.getMaItem());
-        if (db == null && list.isEmpty()) {
-            for (int i = 1; i <= 10; i++) {
-                Date gioTh = XDate.addHours(XDate.now(), i);
-                cboGioBD.addItem(XDate.toString(gioTh, Store.partten));
-            }
+        ArrayList<ModelCboDatTruoc> listCbo = new ArrayList<>();
 
+        if (db == null && list.isEmpty()) {
+            int i = 0;
+            while (true) {
+                Date gioTh = XDate.addHours(XDate.now(), i);
+
+                if (XDate.beforeTimeClose(gioTh)) {
+                    break;
+                }
+                listCbo.add(new ModelCboDatTruoc(gioTh, XDate.fitHourWithTime(gioTh)));
+                i++;
+            }
+            renderCboStartHour(listCbo);
+        }
+
+        if (db == null && !list.isEmpty()) {
+            handlePeriod(listCbo);
             return;
         }
 
-        if (!list.isEmpty()) {
-            ArrayList<ModelCboDatTruoc> listCbo = new ArrayList<>();
-            for (int i = 0; i < list.size() - 1; i++) {
-                long second = list.get(i + 1).getGioBD().getTime() - list.get(i).getGioKT().getTime();
-                long hour = (second / 60 / 60 / 1000);
-                System.out.println("gio bat dau : " + (list.get(i).getGioKT() + "gio ket thuc: " + list.get(i + 1).getGioBD()));
-                System.out.println("giay: " + hour);
-                if (second > 6000000) {
-                    ModelCboDatTruoc mcbb = new ModelCboDatTruoc(XDate.addMinus(new Date(list.get(i).getGioKT().getTime()), 15), (int) hour <= 1 ? 1 : (int) hour - 1);
-                    listCbo.add(mcbb);
+        if (db != null && !list.isEmpty()) {
+            DatTruoc firstBook = list.get(0);
+            long secondDb = firstBook.getGioBD().getTime() - db.getGioKT().getTime();
+
+            long hour = (secondDb / 60 / 60 / 1000);
+
+            if (secondDb > 6000000) {
+                ModelCboDatTruoc mcbb = new ModelCboDatTruoc(XDate.addMinus(new Date(db.getGioKT().getTime()), Store.breaks), hour <= 1 ? 1 : (int) hour - 1);
+                listCbo.add(mcbb);
+            }
+
+            handlePeriod(listCbo);
+            return;
+
+        }
+
+        if (db != null && list.isEmpty()) {
+            ModelCboDatTruoc mcbb = new ModelCboDatTruoc(XDate.addMinus(new Date(db.getGioKT().getTime()), Store.breaks), XDate.fitHourWithTime(db.getGioKT()));
+
+            int i = 0;
+            while (true) {
+                Date gioTh = XDate.addHours(new Date(mcbb.getTime().getTime()), i);
+
+                if (XDate.beforeTimeClose(gioTh)) {
+                    break;
                 }
+                listCbo.add(new ModelCboDatTruoc(gioTh, XDate.fitHourWithTime(gioTh)));
+                i++;
+            }
+            renderCboStartHour(listCbo);
+            return;
+        }
+
+    }
+
+    private void handlePeriod(ArrayList<ModelCboDatTruoc> listCbo) {
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i));
+            long second = 0;
+            if (i < list.size() - 1) {
+                second = list.get(i + 1).getGioBD().getTime() - list.get(i).getGioKT().getTime();
+
+            }
+            long hour = (second / 60 / 60 / 1000);
+            if (second > 6000000) {
+                ModelCboDatTruoc mcbb = new ModelCboDatTruoc(XDate.addMinus(new Date(list.get(i).getGioKT().getTime()), Store.breaks), (int) hour <= 1 ? 1 : (int) hour - 1);
+                listCbo.add(mcbb);
             }
 
-            for (ModelCboDatTruoc md : listCbo) {
-                cboGioBD.addItem(md);
-            }
+        }
 
-            cboSoGio.removeAllItems();
-            if (cboGioBD.getSelectedItem() instanceof ModelCboDatTruoc) {
-                ModelCboDatTruoc md = (ModelCboDatTruoc) cboGioBD.getSelectedItem();
-                for (int i = 1; i <= md.getLimit(); i++) {
-                    cboSoGio.addItem(i);
+        DatTruoc dt = list.get(list.size() - 1);
+        ModelCboDatTruoc mcbb = new ModelCboDatTruoc(XDate.addMinus(new Date(dt.getGioKT().getTime()), Store.breaks), XDate.fitHourWithTime(dt.getGioKT()) - 1);
+
+        if (!XDate.beforeTimeClose(mcbb.getTime())) {
+            listCbo.add(mcbb);
+            int i = 1;
+            while (true) {
+                Date date = XDate.addHours(new Date(mcbb.getTime().getTime()), i);
+                ModelCboDatTruoc mddt = new ModelCboDatTruoc(date, XDate.fitHourWithTime(date));
+                if (XDate.beforeTimeClose(mddt.getTime())) {
+                    break;
                 }
+                listCbo.add(mddt);
+                i++;
             }
+        }
 
-            cboGioBD.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    cboSoGio.removeAllItems();
-                    if (cboGioBD.getSelectedItem() instanceof ModelCboDatTruoc) {
-                        ModelCboDatTruoc md = (ModelCboDatTruoc) cboGioBD.getSelectedItem();
-                        for (int i = 1; i <= md.getLimit(); i++) {
-                            cboSoGio.addItem(i);
-                        }
+        renderCboStartHour(listCbo);
+    }
+
+    private void renderCboStartHour(ArrayList< ModelCboDatTruoc> listCbo) {
+        cboGioBD.removeAllItems();
+        for (ModelCboDatTruoc md : listCbo) {
+            cboGioBD.addItem(md);
+        }
+
+        cboSoGio.removeAllItems();
+        if (cboGioBD.getSelectedItem() instanceof ModelCboDatTruoc) {
+            ModelCboDatTruoc md = (ModelCboDatTruoc) cboGioBD.getSelectedItem();
+            for (int i = 1; i <= md.getLimit(); i++) {
+                cboSoGio.addItem(i);
+            }
+        }
+
+        cboGioBD.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cboSoGio.removeAllItems();
+                if (cboGioBD.getSelectedItem() instanceof ModelCboDatTruoc) {
+                    ModelCboDatTruoc md = (ModelCboDatTruoc) cboGioBD.getSelectedItem();
+                    for (int i = 1; i <= md.getLimit(); i++) {
+                        cboSoGio.addItem(i);
                     }
                 }
-            });
-
-            cboGioBD.revalidate();
-            return;
-        }
-
-        // + 10 phut
-//        Date gioBD = XDate.addMinus(new Date(db.getGioKT().getTime()), 10);
-//
-//        System.out.println("Data dat box: " + db);
+            }
+        });
     }
 
     private void setGioKT() {
@@ -463,6 +526,8 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
         System.out.println("handle book : " + dt);
 
         DatTruocDao.getInstant().insert(dt);
+        renderDataTable();
+        renderFitTime();
     }
 
     private void renderDataTable() {
@@ -476,11 +541,6 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
                 XDate.toString(data.getGioKT(), Store.partten),
                 data.isTranThai() ? "Đang chờ" : "Đã hủy"};
             model.addRow(row);
-        }
-
-        // test
-        for (DatTruoc datTruoc : list) {
-            System.out.println("dat truoc: " + datTruoc);
         }
 
     }

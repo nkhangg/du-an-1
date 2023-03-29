@@ -33,6 +33,9 @@ public class BoxStatus extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(255, 255, 255));
+        setPreferredSize(new java.awt.Dimension(900, 53));
+
         jLabel1.setBackground(new java.awt.Color(109, 191, 184));
         jLabel1.setOpaque(true);
 

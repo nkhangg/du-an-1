@@ -5,6 +5,7 @@
 package com.box.utils;
 
 import com.boxcf.models.Time;
+import com.boxcf.store.Store;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,9 +47,9 @@ public class XDate {
     }
 
     public static Date addMinus(Date date, int minus) {
-        
+
         date.setTime(date.getTime() + (minus * 60 * 1000));
-        
+
         return date;
     }
 
@@ -67,13 +68,49 @@ public class XDate {
 
             t = new Time(hour, munite);
         } catch (Exception e) {
-            System.out.println(e);
-//            throw new Error("Error in getCurTime");
+            throw new Error("Error in getCurTime");
         }
         return t;
     }
 
+    public static Date timeClose() {
+        String date = XDate.toString(XDate.now(), "MM/dd/yyyy");
+        // 23h đóng cửa nên nếu thời gian bắt đầu là lớn hơn 22h vd 22h10p thì sẻ không hợp lí
+        // nhưng thời gian bắt đầu là 22h thì lại hợp lí nên chỉ bỏ những giờ lớn hơn 22h
+        String timeClose = date + " 22:00:00";
+        return XDate.toDate(timeClose, Store.partten);
+    }
+    
+    public static Date getHour(String hour) {
+        String date = XDate.toString(XDate.now(), "MM/dd/yyyy");
+        // 23h đóng cửa nên nếu thời gian bắt đầu là lớn hơn 22h vd 22h10p thì sẻ không hợp lí
+        // nhưng thời gian bắt đầu là 22h thì lại hợp lí nên chỉ bỏ những giờ lớn hơn 22h
+        String timeClose = date + " " + hour;
+        return XDate.toDate(timeClose, Store.partten);
+    }
+
+    public static boolean beforeTimeClose(Date date) {
+        return XDate.timeClose().before(date);
+    }
+
+    public static int fitHourWithTime(Date input) {
+        int i = 1;
+        while (true) {
+            Date date = XDate.addHours(new Date(input.getTime()), i);
+
+            if (XDate.beforeTimeClose(date)) {
+                break;
+            }
+
+            i++;
+        }
+        return i ;
+    }
+
     public static void main(String[] args) throws ParseException {
+        Date date = XDate.toDate("2023-03-28 12:00:00.0", Store.partten);
+//        System.out.println(XDate.beforeTimeClose(XDate.addHours(date, 10)));
+        System.out.println(XDate.fitHourWithTime(date));
 
     }
 

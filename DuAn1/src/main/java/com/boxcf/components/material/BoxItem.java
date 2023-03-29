@@ -95,7 +95,6 @@ public class BoxItem extends javax.swing.JPanel {
     }
 
     private void init() {
-        hoverButton();
     }
 
     public void setActive(ModelItem box, BoxState state) {
@@ -137,7 +136,6 @@ public class BoxItem extends javax.swing.JPanel {
         lblTenBox = new javax.swing.JLabel();
         lblTime = new javax.swing.JLabel();
         lblLoai = new javax.swing.JLabel();
-        btnDatTruoc = new com.boxcf.components.ButtonRound();
         lblGia = new javax.swing.JLabel();
         lblGia2 = new javax.swing.JLabel();
         lblGia3 = new javax.swing.JLabel();
@@ -158,23 +156,12 @@ public class BoxItem extends javax.swing.JPanel {
         lblTime.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
         lblTime.setForeground(new java.awt.Color(0, 51, 51));
         lblTime.setText("01:30");
-        add(lblTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, 110, 30));
+        add(lblTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, 110, 30));
 
         lblLoai.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         lblLoai.setForeground(new java.awt.Color(255, 255, 255));
         lblLoai.setText("Đơn");
         add(lblLoai, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 40, 30));
-
-        btnDatTruoc.setBackground(new java.awt.Color(255, 255, 255));
-        btnDatTruoc.setForeground(new java.awt.Color(0, 51, 51));
-        btnDatTruoc.setText("Đặt trước");
-        btnDatTruoc.setFont(new java.awt.Font("Segoe UI Semibold", 0, 13)); // NOI18N
-        btnDatTruoc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDatTruocActionPerformed(evt);
-            }
-        });
-        add(btnDatTruoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 160, 80, 30));
 
         lblGia.setBackground(new java.awt.Color(255, 255, 255));
         lblGia.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
@@ -185,26 +172,21 @@ public class BoxItem extends javax.swing.JPanel {
         lblGia2.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         lblGia2.setForeground(new java.awt.Color(0, 51, 51));
         lblGia2.setText("Còn lại");
-        add(lblGia2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, 30));
+        add(lblGia2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, 30));
 
         lblGia3.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         lblGia3.setForeground(new java.awt.Color(0, 51, 51));
         lblGia3.setText("Đặt trước");
-        add(lblGia3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 100, 40));
+        add(lblGia3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 100, 40));
 
         lblGia4.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
         lblGia4.setForeground(new java.awt.Color(0, 51, 51));
-        lblGia4.setText("10:40");
-        add(lblGia4, new org.netbeans.lib.awtextra.AbsoluteConstraints(111, 70, 80, 40));
+        lblGia4.setText("0");
+        add(lblGia4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 80, 40));
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnDatTruocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatTruocActionPerformed
-        new ThongTinBoxDat(box).setVisible(true);
-    }//GEN-LAST:event_btnDatTruocActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.boxcf.components.ButtonRound btnDatTruoc;
     private javax.swing.JLabel lblGia;
     private javax.swing.JLabel lblGia2;
     private javax.swing.JLabel lblGia3;
@@ -214,23 +196,7 @@ public class BoxItem extends javax.swing.JPanel {
     private javax.swing.JLabel lblTime;
     // End of variables declaration//GEN-END:variables
 
-    private void hoverButton() {
-        btnDatTruoc.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                btnDatTruoc.setBackground(new Color(255, 150, 0));
-                btnDatTruoc.setForeground(Color.WHITE);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                btnDatTruoc.setBackground(new Color(255, 255, 255));
-                btnDatTruoc.setForeground(Color.BLACK);
-            }
-
-        });
-    }
-
+    
     public void setLblTime(Time time) {
         lblTime.setText(time.getHour() + "h" + time.getMuntite());
     }

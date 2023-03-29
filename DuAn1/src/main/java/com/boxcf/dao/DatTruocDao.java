@@ -15,8 +15,8 @@ import java.util.List;
  * @author PC
  */
 public class DatTruocDao implements BoxCfDAO<DatTruoc, Integer> {
-    
-     public static DatTruocDao getInstant() {
+
+    public static DatTruocDao getInstant() {
         return new DatTruocDao();
     }
 
@@ -68,6 +68,26 @@ public class DatTruocDao implements BoxCfDAO<DatTruoc, Integer> {
     public List<DatTruoc> selectAllWithIdBox(int idBox) {
         List<DatTruoc> list = new ArrayList<>();
         String sql = "select * from DatTruoc where MaBox = ? order by GioKT";
+
+        try {
+            ResultSet responce = JdbcHelper.query(sql, idBox);
+
+            while (responce.next()) {
+                list.add(createObjecet(responce));
+            }
+
+            responce.getStatement().getConnection().close();
+        } catch (Exception e) {
+            throw new Error("The Error in selectAllWithIdBox Dattruoc !");
+        }
+        return list;
+    }
+
+    public List<DatTruoc> selectAllWithIdBoxActive(int idBox) {
+        List<DatTruoc> list = new ArrayList<>();
+        String sql = "select * from DatTruoc\n"
+                + "where TranThai = 1 and MaBox = ?\n"
+                + "order by GioKT ";
 
         try {
             ResultSet responce = JdbcHelper.query(sql, idBox);

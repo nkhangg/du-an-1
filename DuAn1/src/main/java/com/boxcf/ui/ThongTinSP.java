@@ -56,8 +56,6 @@ public class ThongTinSP extends javax.swing.JFrame {
         combobox1 = new com.boxcf.components.Combobox();
         textField4 = new com.boxcf.components.TextField();
         btnClose = new com.boxcf.components.ButtonRound();
-        lblMaNV9 = new javax.swing.JLabel();
-        combobox2 = new com.boxcf.components.Combobox();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -99,7 +97,7 @@ public class ThongTinSP extends javax.swing.JFrame {
         lblMaNV8.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblMaNV8.setForeground(new java.awt.Color(27, 51, 61));
         lblMaNV8.setText("Loại SP");
-        pnlNhanVien.add(lblMaNV8, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 100, 77, -1));
+        pnlNhanVien.add(lblMaNV8, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 77, -1));
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(2);
@@ -214,7 +212,7 @@ public class ThongTinSP extends javax.swing.JFrame {
         textField3.setLabelText("");
         textField3.setOpaque(false);
         pnlNhanVien.add(textField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 568, 38));
-        pnlNhanVien.add(combobox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 130, 230, -1));
+        pnlNhanVien.add(combobox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, 230, -1));
 
         textField4.setLabelText("");
         textField4.setOpaque(false);
@@ -228,13 +226,6 @@ public class ThongTinSP extends javax.swing.JFrame {
             }
         });
         pnlNhanVien.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 20, 50, 50));
-
-        lblMaNV9.setBackground(new java.awt.Color(102, 0, 204));
-        lblMaNV9.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        lblMaNV9.setForeground(new java.awt.Color(27, 51, 61));
-        lblMaNV9.setText("Danh mục");
-        pnlNhanVien.add(lblMaNV9, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 77, -1));
-        pnlNhanVien.add(combobox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, 230, -1));
 
         jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         pnlNhanVien.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 170, 150, 150));
@@ -342,7 +333,6 @@ public class ThongTinSP extends javax.swing.JFrame {
     private com.boxcf.components.ButtonRound buttonRound5;
     private com.boxcf.components.ButtonRound buttonRound6;
     private com.boxcf.components.Combobox combobox1;
-    private com.boxcf.components.Combobox combobox2;
     private com.boxcf.components.GradientPanel gradientPanel1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -354,7 +344,6 @@ public class ThongTinSP extends javax.swing.JFrame {
     private javax.swing.JLabel lblMaNV2;
     private javax.swing.JLabel lblMaNV3;
     private javax.swing.JLabel lblMaNV8;
-    private javax.swing.JLabel lblMaNV9;
     private com.boxcf.components.GradientPanel pnlNhanVien;
     private com.boxcf.components.TextField textField1;
     private com.boxcf.components.TextField textField3;
