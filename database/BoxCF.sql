@@ -211,6 +211,14 @@ Insert into Box values (N'Box 1', null, N'Trống', 'BX01', 'Box 1')
 Insert into Box values (N'Box 2', null, N'Trống', 'BX03', 'Box 2')
 Insert into Box values (N'Box 3', null, N'Trống', 'BX02', 'Box 3')
 Insert into Box values (N'Box 4', null, N'Trống', 'BX04', 'Box 4')
+Insert into Box values (N'Box 1', null, N'Trống', 'BX01', 'Box 1')
+Insert into Box values (N'Box 2', null, N'Trống', 'BX03', 'Box 2')
+Insert into Box values (N'Box 3', null, N'Trống', 'BX02', 'Box 3')
+Insert into Box values (N'Box 4', null, N'Trống', 'BX04', 'Box 4')
+Insert into Box values (N'Box 1', null, N'Trống', 'BX01', 'Box 1')
+Insert into Box values (N'Box 2', null, N'Trống', 'BX03', 'Box 2')
+Insert into Box values (N'Box 3', null, N'Trống', 'BX02', 'Box 3')
+Insert into Box values (N'Box 4', null, N'Trống', 'BX04', 'Box 4')
 
 select * from box
 where MaLoaiBox = 'BX01'

@@ -4,16 +4,14 @@
  */
 package com.boxcf.ui;
 
+import test.*;
 import com.boxcf.store.Store;
-import com.box.utils.XDate;
-import com.boxcf.components.material.ItemBill;
-import com.boxcf.components.material.PanelBill;
 import com.boxcf.models.ModelItem;
-import java.awt.Component;
+import com.boxcf.ui.OrderView;
 import java.awt.HeadlessException;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
-import java.util.Date;
+
 
 /**
  *
@@ -21,10 +19,8 @@ import java.util.Date;
  */
 public class DatBoxView extends javax.swing.JFrame {
 
-    private ModelItem box;
-    private int time;
-    private OrderView orderView = Store.orderView;
-    private PanelBill panelBill = Store.globelPanelBill;
+    ModelItem box;
+    OrderView orderView = Store.orderView;
 
     public DatBoxView() {
         initComponents();
@@ -48,73 +44,100 @@ public class DatBoxView extends javax.swing.JFrame {
 
         gradientPanel1 = new com.boxcf.components.GradientPanel();
         gradientPanel2 = new com.boxcf.components.GradientPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblDatTruoc = new javax.swing.JTable();
+        pnlDatBox = new com.boxcf.components.GradientPanel();
         jLabel8 = new javax.swing.JLabel();
         lblGioKT = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        lblGioBD = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        cboSoGio = new com.boxcf.components.Combobox();
         txtTenBox = new com.boxcf.components.TextField();
         txtLoaiBox = new com.boxcf.components.TextField();
         buttonRound4 = new com.boxcf.components.ButtonRound();
-        clsoeButton1 = new com.boxcf.components.ClsoeButton();
+        cboSoGio1 = new com.boxcf.components.Combobox();
+        cboSoGio2 = new com.boxcf.components.Combobox();
+        cboSoGio3 = new com.boxcf.components.Combobox();
+        jLabel6 = new javax.swing.JLabel();
+        checkBoxCustom1 = new com.boxcf.components.CheckBoxCustom();
+        txtLoaiBox1 = new com.boxcf.components.TextField();
+        jLabel9 = new javax.swing.JLabel();
+        lblGioKT1 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(245, 250, 255));
         setUndecorated(true);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowOpened(java.awt.event.WindowEvent evt) {
-                formWindowOpened(evt);
-            }
-        });
 
         gradientPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(241, 241, 241)));
-        gradientPanel1.setColor1(new java.awt.Color(3, 155, 216));
-        gradientPanel1.setColor2(new java.awt.Color(3, 155, 216));
+        gradientPanel1.setColor1(new java.awt.Color(102, 102, 102));
+        gradientPanel1.setColor2(new java.awt.Color(102, 102, 102));
 
         gradientPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(241, 241, 241)));
         gradientPanel2.setColor1(new java.awt.Color(255, 255, 255));
+        gradientPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tblDatTruoc.setFont(new java.awt.Font("UTM BryantLG", 0, 12)); // NOI18N
+        tblDatTruoc.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "STT", "Box", "Người đặt", "Giờ đặt", "Số giờ"
+            }
+        ));
+        tblDatTruoc.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tblDatTruoc.setGridColor(new java.awt.Color(204, 204, 204));
+        tblDatTruoc.setRowHeight(30);
+        jScrollPane1.setViewportView(tblDatTruoc);
+
+        gradientPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 520, 680, 150));
+
+        pnlDatBox.setBackground(new java.awt.Color(255, 255, 255));
+        pnlDatBox.setColor1(new java.awt.Color(240, 240, 240));
+        pnlDatBox.setColor2(new java.awt.Color(240, 240, 240));
+        pnlDatBox.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel8.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jLabel8.setText("Giờ KT");
+        jLabel8.setText("Giờ trả:");
+        pnlDatBox.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 340, 54, 30));
 
-        lblGioKT.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        lblGioKT.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
+        lblGioKT.setText("11:00:00");
+        pnlDatBox.add(lblGioKT, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 210, 150, 50));
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jLabel3.setText("Box");
+        jLabel3.setText("Khách hàng:");
+        jLabel3.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        pnlDatBox.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, 90, 33));
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jLabel5.setText("Giờ BD");
-
-        lblGioBD.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        lblGioBD.setText("jLabel2");
+        jLabel5.setText("Giờ đặt:");
+        pnlDatBox.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 230, 54, -1));
 
         jLabel7.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jLabel7.setText("Số giờ");
+        jLabel7.setText("Số giờ:");
+        pnlDatBox.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, 50, -1));
 
         jLabel4.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jLabel4.setText("Loại box");
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(9, 82, 110));
-        jLabel1.setText("ĐẶT BOX");
-
-        cboSoGio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
-        cboSoGio.setLabeText("");
-        cboSoGio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboSoGioActionPerformed(evt);
-            }
-        });
+        jLabel4.setText("Box");
+        jLabel4.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        pnlDatBox.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 160, -1, 30));
 
         txtTenBox.setLabelText("");
+        txtTenBox.setOpaque(false);
+        pnlDatBox.add(txtTenBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 100, 480, 33));
 
         txtLoaiBox.setLabelText("");
+        txtLoaiBox.setOpaque(false);
+        pnlDatBox.add(txtLoaiBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 180, 33));
 
-        buttonRound4.setBackground(new java.awt.Color(255, 150, 0));
+        buttonRound4.setBackground(new java.awt.Color(109, 191, 184));
         buttonRound4.setForeground(new java.awt.Color(255, 255, 255));
         buttonRound4.setText("ĐẶT BOX");
         buttonRound4.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
@@ -123,104 +146,86 @@ public class DatBoxView extends javax.swing.JFrame {
                 buttonRound4ActionPerformed(evt);
             }
         });
+        pnlDatBox.add(buttonRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 390, 120, 50));
 
-        clsoeButton1.setBackground(new java.awt.Color(255, 255, 255));
+        cboSoGio1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        cboSoGio1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        cboSoGio1.setLabeText("");
+        cboSoGio1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboSoGio1ActionPerformed(evt);
+            }
+        });
+        pnlDatBox.add(cboSoGio1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 280, 60, 35));
 
-        javax.swing.GroupLayout gradientPanel2Layout = new javax.swing.GroupLayout(gradientPanel2);
-        gradientPanel2.setLayout(gradientPanel2Layout);
-        gradientPanel2Layout.setHorizontalGroup(
-            gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(gradientPanel2Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(gradientPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56)
-                        .addComponent(txtTenBox, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(gradientPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(56, 56, 56)
-                        .addComponent(txtLoaiBox, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(gradientPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56)
-                        .addComponent(lblGioBD, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(gradientPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56)
-                        .addComponent(cboSoGio, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(gradientPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56)
-                        .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblGioKT, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(gradientPanel2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(buttonRound4, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(77, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(143, 143, 143)
-                .addComponent(clsoeButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        gradientPanel2Layout.setVerticalGroup(
-            gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(gradientPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(clsoeButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(gradientPanel2Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel3))
-                    .addComponent(txtTenBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17)
-                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(gradientPanel2Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel4))
-                    .addComponent(txtLoaiBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17)
-                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(gradientPanel2Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel5))
-                    .addComponent(lblGioBD, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(gradientPanel2Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel7))
-                    .addComponent(cboSoGio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
-                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(gradientPanel2Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel8))
-                    .addComponent(lblGioKT, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(buttonRound4, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
-        );
+        cboSoGio2.setForeground(new java.awt.Color(51, 51, 51));
+        cboSoGio2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        cboSoGio2.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
+        cboSoGio2.setLabeText("");
+        cboSoGio2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboSoGio2ActionPerformed(evt);
+            }
+        });
+        pnlDatBox.add(cboSoGio2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 210, 60, 40));
+
+        cboSoGio3.setForeground(new java.awt.Color(51, 51, 51));
+        cboSoGio3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", " " }));
+        cboSoGio3.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
+        cboSoGio3.setLabeText("");
+        cboSoGio3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboSoGio3ActionPerformed(evt);
+            }
+        });
+        pnlDatBox.add(cboSoGio3, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 210, 60, 40));
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel6.setText(":");
+        pnlDatBox.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 210, 20, 40));
+
+        checkBoxCustom1.setText("Đặt trước");
+        pnlDatBox.add(checkBoxCustom1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 220, -1, 30));
+
+        txtLoaiBox1.setLabelText("");
+        txtLoaiBox1.setOpaque(false);
+        pnlDatBox.add(txtLoaiBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, 180, 33));
+
+        jLabel9.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jLabel9.setText("Loại:");
+        jLabel9.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        pnlDatBox.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 160, -1, 30));
+
+        lblGioKT1.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
+        lblGioKT1.setText("12:00:00");
+        pnlDatBox.add(lblGioKT1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, 150, 50));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(9, 82, 110));
+        jLabel1.setText("ĐẶT BOX");
+        pnlDatBox.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 30, -1, 40));
+
+        gradientPanel2.add(pnlDatBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 740, 460));
+
+        jLabel2.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel2.setText("LỊCH ĐẶT TRƯỚC");
+        gradientPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 470, 130, 40));
 
         javax.swing.GroupLayout gradientPanel1Layout = new javax.swing.GroupLayout(gradientPanel1);
         gradientPanel1.setLayout(gradientPanel1Layout);
         gradientPanel1Layout.setHorizontalGroup(
             gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel1Layout.createSequentialGroup()
+            .addGroup(gradientPanel1Layout.createSequentialGroup()
                 .addGap(1, 1, 1)
-                .addComponent(gradientPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(gradientPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(1, 1, 1))
         );
         gradientPanel1Layout.setVerticalGroup(
             gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel1Layout.createSequentialGroup()
+            .addGroup(gradientPanel1Layout.createSequentialGroup()
                 .addGap(1, 1, 1)
-                .addComponent(gradientPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(gradientPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE)
                 .addGap(1, 1, 1))
         );
 
@@ -228,36 +233,31 @@ public class DatBoxView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(gradientPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+            .addComponent(gradientPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(gradientPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(gradientPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cboSoGio3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboSoGio3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboSoGio3ActionPerformed
+
+    private void cboSoGio2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboSoGio2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboSoGio2ActionPerformed
+
+    private void cboSoGio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboSoGio1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboSoGio1ActionPerformed
+
     private void buttonRound4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound4ActionPerformed
-        handleCreateBillItem();
+
     }//GEN-LAST:event_buttonRound4ActionPerformed
-
-    private void cboSoGioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboSoGioActionPerformed
-        int soGio = Integer.parseInt(cboSoGio.getSelectedItem().toString());
-        Date ngayBD = XDate.toDate(lblGioBD.getText(), "MM/dd/yyyy HH:mm:ss");
-        setGioKT(ngayBD, soGio);
-    }//GEN-LAST:event_cboSoGioActionPerformed
-
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        handleResetData();
-    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -285,7 +285,8 @@ public class DatBoxView extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(DatBoxView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        //</editor-fold>
+ 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new DatBoxView().setVisible(true);
@@ -295,90 +296,39 @@ public class DatBoxView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.boxcf.components.ButtonRound buttonRound4;
-    private com.boxcf.components.Combobox cboSoGio;
-    private com.boxcf.components.ClsoeButton clsoeButton1;
+    private com.boxcf.components.Combobox cboSoGio1;
+    private com.boxcf.components.Combobox cboSoGio2;
+    private com.boxcf.components.Combobox cboSoGio3;
+    private com.boxcf.components.CheckBoxCustom checkBoxCustom1;
     private com.boxcf.components.GradientPanel gradientPanel1;
     private com.boxcf.components.GradientPanel gradientPanel2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel lblGioBD;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblGioKT;
+    private javax.swing.JLabel lblGioKT1;
+    private com.boxcf.components.GradientPanel pnlDatBox;
+    private javax.swing.JTable tblDatTruoc;
     private com.boxcf.components.TextField txtLoaiBox;
+    private com.boxcf.components.TextField txtLoaiBox1;
     private com.boxcf.components.TextField txtTenBox;
     // End of variables declaration//GEN-END:variables
 
     private void init() {
-        this.clsoeButton1.initEvent(this);
         prepareUI();
-        setBox(box);
     }
 
-    private void setBox(ModelItem box) {
-        txtLoaiBox.setText(box.getLoaiBox().getTenLoaiBox() + "");
-        txtTenBox.setText(box.getTen());
-
-        box.setGioBD(new Date());
-
-        lblGioBD.setText(XDate.toString(new Date(), "MM/dd/yyyy HH:mm:ss"));
-    }
-
-    private ModelItem getBoxBooked() {
-
-        return new ModelItem(box.getMaItem(), box.getTen(), box.getGioBD(), box.getGioKT(), box.getLoaiBox(), time <= 0 ? 1 : time, box.getLoaiBox().getGiaLoai());
-    }
-
-    private void setGioKT(Date gioBD, int soGio) {
-        Date gioKT = XDate.addHours(gioBD, soGio);
-
-        lblGioKT.setText(XDate.toString(gioKT, "MM/dd/yyyy HH:mm:ss"));
-        this.box.setGioKT(gioKT);
-        time = soGio;
-    }
 
     private void prepareUI() {
         this.setLocationRelativeTo(null);
         Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
         this.setShape(shape);
-    }
-
-    // xử lí hiển thị bill item
-    private void handleCreateBillItem() {
-        ModelItem data = getBoxBooked();
-        if (data.getGioKT() == null) {
-            return;
-        }
-
-        for (Component component : panelBill.getComponents()) {
-            ItemBill itemBill = (ItemBill) component;
-            if (itemBill.getData().getMaItem() == data.getMaItem()) {
-                itemBill.setData(data);
-                orderView.handleTotal();
-                this.dispose();
-                return;
-            }
-
-        }
-
-        panelBill.setList(data);
-        panelBill.repaint();
-        this.dispose();
-
-    }
-
-    // xử lí viêc khi tồn tại một billitem trùng với box thì sẽ lấy thông tin trên bill đó xuống
-    private void handleResetData() {
-        // so luong la gio do :))
-        for (Component component : panelBill.getComponents()) {
-            ItemBill itemBill = (ItemBill) component;
-            if (itemBill.getData().getMaItem() == this.box.getMaItem()) {
-                this.cboSoGio.setSelectedItem(itemBill.getData().getSoLuong() + "");
-                return;
-            }
-
-        }
     }
 }

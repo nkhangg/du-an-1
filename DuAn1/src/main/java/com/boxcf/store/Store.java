@@ -6,10 +6,12 @@ package com.boxcf.store;
 
 import com.boxcf.components.material.Category;
 import com.boxcf.components.material.PanelBill;
+import com.boxcf.components.material.Panigation;
 import com.boxcf.events.StoreEvents;
 import com.boxcf.models.LoaiBox;
 import com.boxcf.models.LoaiSP;
 import com.boxcf.ui.OrderView;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -34,7 +36,10 @@ public class Store {
     public static OrderView orderView = null;
 
     public static PanelBill globelPanelBill = null;
+    
+    public static Panigation panigation = null;
 
     public static String partten = "MM/dd/yyyy HH:mm:ss";
-
+    
+    public static JLabel page = null;
 }

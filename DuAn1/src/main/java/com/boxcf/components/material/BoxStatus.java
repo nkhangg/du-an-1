@@ -33,20 +33,23 @@ public class BoxStatus extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel1.setBackground(new java.awt.Color(109, 191, 184));
         jLabel1.setOpaque(true);
 
-        jLabel2.setText("Trống (1)");
+        jLabel2.setText("Trống (0)");
 
         jLabel4.setBackground(new java.awt.Color(251, 210, 105));
         jLabel4.setOpaque(true);
 
-        jLabel3.setText("Đặt trước (2)");
+        jLabel3.setText("Đặt trước (0)");
 
         jLabel5.setBackground(new java.awt.Color(117, 186, 117));
         jLabel5.setOpaque(true);
 
-        jLabel6.setText("Đang sử dụng (5)");
+        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Đang sử dụng (0)");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -64,8 +67,8 @@ public class BoxStatus extends javax.swing.JPanel {
                 .addGap(24, 24, 24)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(23, 23, 23))
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(413, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

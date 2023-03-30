@@ -33,7 +33,7 @@ public class Main extends javax.swing.JFrame {
         gradientPanel4 = new com.boxcf.components.GradientPanel();
         gradientPanel2 = new com.boxcf.components.GradientPanel();
         btnSanPham = new com.boxcf.components.ButtonRound();
-        buttonRound2 = new com.boxcf.components.ButtonRound();
+        btnOrder = new com.boxcf.components.ButtonRound();
         btnBox = new com.boxcf.components.ButtonRound();
         buttonRound4 = new com.boxcf.components.ButtonRound();
         buttonRound5 = new com.boxcf.components.ButtonRound();
@@ -74,12 +74,17 @@ public class Main extends javax.swing.JFrame {
         });
         gradientPanel2.add(btnSanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 90, 70));
 
-        buttonRound2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/coffee-menu (1).png"))); // NOI18N
-        buttonRound2.setText("Order");
-        buttonRound2.setFocusPainted(false);
-        buttonRound2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        buttonRound2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        gradientPanel2.add(buttonRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 90, 70));
+        btnOrder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/coffee-menu (1).png"))); // NOI18N
+        btnOrder.setText("Order");
+        btnOrder.setFocusPainted(false);
+        btnOrder.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnOrder.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrderActionPerformed(evt);
+            }
+        });
+        gradientPanel2.add(btnOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 90, 70));
 
         btnBox.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/cardboard.png"))); // NOI18N
         btnBox.setText("Box");
@@ -232,10 +237,13 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSanPhamActionPerformed
 
     private void btnBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBoxActionPerformed
-        // TODO add your handling code here:
         this.hidden(spView, nvView);
         this.active(boxView);
     }//GEN-LAST:event_btnBoxActionPerformed
+
+    private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderActionPerformed
+        this.openOrder();
+    }//GEN-LAST:event_btnOrderActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -316,9 +324,9 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.boxcf.components.ButtonRound btnBox;
     private com.boxcf.components.ButtonRound btnNhanVien;
+    private com.boxcf.components.ButtonRound btnOrder;
     private com.boxcf.components.ButtonRound btnSanPham;
     private com.boxcf.components.ButtonRound buttonRound10;
-    private com.boxcf.components.ButtonRound buttonRound2;
     private com.boxcf.components.ButtonRound buttonRound4;
     private com.boxcf.components.ButtonRound buttonRound5;
     private com.boxcf.components.ButtonRound buttonRound8;
@@ -336,10 +344,6 @@ public class Main extends javax.swing.JFrame {
         jframe.setVisible(true);
     }
 
-//    private void openNhanVienView() {
-//        nvView.setSize(this.getWidth(), this.getHeight());
-//        nvView.setVisible(true);
-//    }
 
     private void hidden(JPanel... jpanel) {
         for (JPanel pnl : jpanel) {
@@ -351,5 +355,10 @@ public class Main extends javax.swing.JFrame {
         pnlContent.add(jpanel);
         jpanel.setSize(getWidth(), getHeight());
         jpanel.setVisible(true);
+    }
+
+    private void openOrder() {
+        OrderView orderView = new OrderView();
+        orderView.setVisible(true);
     }
 }

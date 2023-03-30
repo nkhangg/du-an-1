@@ -134,5 +134,14 @@ public class SanPhamDao implements BoxCfDAO<SanPham, Integer> {
         }
 
     }
+    
+    public List<SanPham> panigation(Integer pageCurrent) {
+        String sql = "SELECT TOP 8 * FROM SanPham WHERE MaSP NOT IN (SELECT TOP " + (pageCurrent * 8 - 8) + " MaSP FROM SanPham)";
+        return this.selectBySql(sql);
+    }
+    
+    public Integer getPageNumber() {
+        return (int)Math.ceil(this.selectAll().size() / 8) + 1;
+    }
 
 }

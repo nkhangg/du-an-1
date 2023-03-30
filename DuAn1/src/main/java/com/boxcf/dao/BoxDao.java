@@ -3,6 +3,7 @@ package com.boxcf.dao;
 import com.boxcf.models.Box;
 import com.box.utils.JdbcHelper;
 import com.boxcf.constands.BoxState;
+import com.boxcf.models.SanPham;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -174,4 +175,12 @@ public class BoxDao implements BoxCfDAO<Box, Integer> {
         BoxDao.getInstant().delete(null);
     }
 
+    public List<Box> panigation(Integer pageCurrent) {
+        String sql = "SELECT TOP 8 * FROM Box WHERE MaBox NOT IN (SELECT TOP " + (pageCurrent * 8 - 8) + " MaBox FROM Box)";
+        return this.selectBySql(sql);
+    }
+    
+    public Integer getPageNumber() {
+        return (int)Math.ceil(this.selectAll().size() / 8) + 1;
+    }
 }

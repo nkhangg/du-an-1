@@ -40,7 +40,6 @@ public class ThongTinSP extends javax.swing.JFrame {
         lblMaNV1 = new javax.swing.JLabel();
         lblMaNV2 = new javax.swing.JLabel();
         lblMaNV3 = new javax.swing.JLabel();
-        lblMaNV8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
@@ -53,7 +52,6 @@ public class ThongTinSP extends javax.swing.JFrame {
         buttonRound6 = new com.boxcf.components.ButtonRound();
         textField1 = new com.boxcf.components.TextField();
         textField3 = new com.boxcf.components.TextField();
-        combobox1 = new com.boxcf.components.Combobox();
         textField4 = new com.boxcf.components.TextField();
         btnClose = new com.boxcf.components.ButtonRound();
         lblMaNV9 = new javax.swing.JLabel();
@@ -94,12 +92,6 @@ public class ThongTinSP extends javax.swing.JFrame {
         lblMaNV3.setForeground(new java.awt.Color(27, 51, 61));
         lblMaNV3.setText("Mô tả");
         pnlNhanVien.add(lblMaNV3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 460, 50, -1));
-
-        lblMaNV8.setBackground(new java.awt.Color(102, 0, 204));
-        lblMaNV8.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        lblMaNV8.setForeground(new java.awt.Color(27, 51, 61));
-        lblMaNV8.setText("Loại SP");
-        pnlNhanVien.add(lblMaNV8, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 100, 77, -1));
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(2);
@@ -214,7 +206,6 @@ public class ThongTinSP extends javax.swing.JFrame {
         textField3.setLabelText("");
         textField3.setOpaque(false);
         pnlNhanVien.add(textField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 568, 38));
-        pnlNhanVien.add(combobox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 130, 230, -1));
 
         textField4.setLabelText("");
         textField4.setOpaque(false);
@@ -232,7 +223,7 @@ public class ThongTinSP extends javax.swing.JFrame {
         lblMaNV9.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV9.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblMaNV9.setForeground(new java.awt.Color(27, 51, 61));
-        lblMaNV9.setText("Danh mục");
+        lblMaNV9.setText("Loại SP");
         pnlNhanVien.add(lblMaNV9, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 77, -1));
         pnlNhanVien.add(combobox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, 230, -1));
 
@@ -341,7 +332,6 @@ public class ThongTinSP extends javax.swing.JFrame {
     private com.boxcf.components.ButtonRound buttonRound4;
     private com.boxcf.components.ButtonRound buttonRound5;
     private com.boxcf.components.ButtonRound buttonRound6;
-    private com.boxcf.components.Combobox combobox1;
     private com.boxcf.components.Combobox combobox2;
     private com.boxcf.components.GradientPanel gradientPanel1;
     private javax.swing.JLabel jLabel1;
@@ -353,7 +343,6 @@ public class ThongTinSP extends javax.swing.JFrame {
     private javax.swing.JLabel lblMaNV1;
     private javax.swing.JLabel lblMaNV2;
     private javax.swing.JLabel lblMaNV3;
-    private javax.swing.JLabel lblMaNV8;
     private javax.swing.JLabel lblMaNV9;
     private com.boxcf.components.GradientPanel pnlNhanVien;
     private com.boxcf.components.TextField textField1;
