@@ -8,6 +8,7 @@ import com.box.utils.Formats;
 import com.boxcf.components.ButtonRound;
 import com.boxcf.components.PanelItem;
 import com.boxcf.components.ScrollBar;
+import com.boxcf.components.WrapLayout;
 import com.boxcf.components.material.BoxItem;
 import com.boxcf.components.material.BoxStatus;
 import com.boxcf.components.material.Category;
@@ -21,6 +22,8 @@ import com.boxcf.events.interfaces.EventItem;
 import com.boxcf.components.material.ProductItem;
 import com.boxcf.models.ModelItem;
 import com.boxcf.components.material.PanelBill;
+import com.boxcf.components.material.Panigation;
+import com.boxcf.constands.BoxState;
 import com.boxcf.dao.BoxDao;
 import com.boxcf.dao.DanhMucDao;
 import com.boxcf.dao.LoaiBoxDao;
@@ -33,8 +36,13 @@ import com.boxcf.models.LoaiBox;
 import com.boxcf.models.LoaiSP;
 import com.boxcf.models.SanPham;
 import com.boxcf.store.Store;
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.util.List;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 
 /**
  *
@@ -48,6 +56,7 @@ public class OrderView extends javax.swing.JFrame {
     private PanelBill panelBill;
     private ModelItem itemSelected;
     private BoxStatus boxStatus = new BoxStatus();
+    public static String mode = "";
 
     public OrderView() {
         initComponents();
@@ -90,9 +99,8 @@ public class OrderView extends javax.swing.JFrame {
         panelCategory = new javax.swing.JPanel();
         scroll = new javax.swing.JScrollPane();
         panelItem = new com.boxcf.components.PanelItem();
-        jPanel5 = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setUndecorated(true);
 
@@ -188,6 +196,11 @@ public class OrderView extends javax.swing.JFrame {
         buttonRound5.setForeground(new java.awt.Color(255, 255, 255));
         buttonRound5.setText("ĐỒ UỐNG");
         buttonRound5.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        buttonRound5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRound5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelButtonLayout = new javax.swing.GroupLayout(panelButton);
         panelButton.setLayout(panelButtonLayout);
@@ -202,7 +215,7 @@ public class OrderView extends javax.swing.JFrame {
                 .addComponent(btnBox, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(buttonRound4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 487, Short.MAX_VALUE)
                 .addComponent(windowButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         panelButtonLayout.setVerticalGroup(
@@ -238,7 +251,7 @@ public class OrderView extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(panelCategory, javax.swing.GroupLayout.DEFAULT_SIZE, 938, Short.MAX_VALUE))
+                .addComponent(panelCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -254,7 +267,10 @@ public class OrderView extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(scroll)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(scroll)
+                .addGap(0, 0, 0))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,19 +281,6 @@ public class OrderView extends javax.swing.JFrame {
                 .addGap(0, 0, 0))
         );
 
-        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 109, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -285,12 +288,10 @@ public class OrderView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 1003, Short.MAX_VALUE)
-                    .addComponent(panelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(1, 1, 1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 1111, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -299,7 +300,6 @@ public class OrderView extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 815, Short.MAX_VALUE)
-            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -315,8 +315,12 @@ public class OrderView extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonRound6ActionPerformed
 
     private void btnBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBoxActionPerformed
-//        openStatusBox();
+        Panigation.current = 1;
     }//GEN-LAST:event_btnBoxActionPerformed
+
+    private void buttonRound5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound5ActionPerformed
+        Panigation.current = 1;
+    }//GEN-LAST:event_buttonRound5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -344,6 +348,7 @@ public class OrderView extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(OrderView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -370,7 +375,6 @@ public class OrderView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JLabel lblTotal1;
     private javax.swing.JPanel panelButton;
@@ -407,14 +411,17 @@ public class OrderView extends javax.swing.JFrame {
         // dữ liệu ban đầu của loại
         new Thread() {
             public void run() {
-
+//                try {
+//                    Thread.sleep(200);
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(OrderView.class.getName()).log(Level.SEVERE, null, ex);
+//                }
                 initCategory(true, LoaiSPDao.getInstant().selectAll(), "");
             }
         }.start();
 
         // add sự kiện cho nút danh muc
         addEventCategory();
-
     }
 
     private void initProductData() {
@@ -443,9 +450,9 @@ public class OrderView extends javax.swing.JFrame {
 
     public void initBoxData(List<Box> list) {
         panelItem.removeAll();
-        
+
         this.openBoxStatus();
-        
+
         StoreEvents.product(this);
 
         for (Box box : list) {
@@ -462,7 +469,12 @@ public class OrderView extends javax.swing.JFrame {
         if (categoryAll) {
             // loai tat ca
             panelCategory.add(Store.categoryAll(panelCategory, name, true));
-            initProductData(SanPhamDao.getInstant().selectAll());
+//            initProductData(SanPhamDao.getInstant().selectAll());
+
+            //--------------------ha code--------------------------------
+            mode = "product";
+            initProductData(SanPhamDao.getInstant().panigation(1));
+            addPanigation();
         }
 
         for (LoaiSP lsp : list) {
@@ -484,7 +496,12 @@ public class OrderView extends javax.swing.JFrame {
         if (categoryAll) {
             // loai tat ca
             panelCategory.add(Store.categoryAll(panelCategory, name, true));
-            initBoxData(BoxDao.getInstant().selectAll());
+//            initBoxData(BoxDao.getInstant().selectAll());
+
+            //---------ha code------------------
+            mode = "box";
+            initBoxData(BoxDao.getInstant().panigation(1));
+            addPanigation();
         }
 
         for (LoaiBox lsp : list) {
@@ -530,7 +547,7 @@ public class OrderView extends javax.swing.JFrame {
                 }
             }
         });
-        
+
         panelItem.add(item);
         panelItem.repaint();
         panelItem.revalidate();
@@ -667,10 +684,21 @@ public class OrderView extends javax.swing.JFrame {
         new HoaDonView().setVisible(true);
     }
 
-
     private void openBoxStatus() {
-        boxStatus.setSize(panelItem.getWidth(), panelItem.getHeight());
+        boxStatus.setSize(getWidth(), getHeight());
         boxStatus.setVisible(true);
         panelItem.add(boxStatus);
+    }
+
+    //-------------ha code-----------------
+    public void addPanigation() {
+        Panigation panigation = new Panigation();
+        panigation.setBounds(0, 800, getWidth(), getHeight());
+        panigation.setVisible(true);
+
+        panelItem.add(panigation);
+        Store.panigation = panigation;
+
+        StoreEvents.handlePanigation();
     }
 }

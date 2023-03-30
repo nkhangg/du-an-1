@@ -10,6 +10,7 @@ import com.boxcf.components.material.BoxItem;
 import com.boxcf.components.material.Category;
 import com.boxcf.components.material.ItemBill;
 import com.boxcf.components.material.PanelBill;
+import com.boxcf.components.material.Panigation;
 import com.boxcf.components.material.ProductItem;
 import com.boxcf.dao.BoxDao;
 import com.boxcf.dao.LoaiBoxDao;
@@ -23,11 +24,11 @@ import com.boxcf.models.Box;
 import com.boxcf.models.ModelItem;
 import com.boxcf.store.Store;
 import com.boxcf.ui.DatBoxView;
-import com.boxcf.ui.DatBoxView;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
@@ -152,17 +153,19 @@ public class StoreEvents {
                 if (name.equals("BOX") && ctgr.getDataBox() != null) {
 
                     if (ctgr.getDataBox().getMaLoaiBox().equalsIgnoreCase(Store.idAllCategory)) {
-                        order.initBoxData(BoxDao.getInstant().selectAll());
+                        order.initBoxData(BoxDao.getInstant().panigation(Panigation.current));
+                        loadPanigation(order);
                         return;
                     }
-
+                    
                     order.initBoxData(BoxDao.getInstant().selectBySql(sqlBox, ctgr.getDataBox().getMaLoaiBox()));
                     return;
                 }
 
                 if (ctgr.getDataProduct() != null) {
                     if (ctgr.getDataProduct().getMaLoai().equalsIgnoreCase(Store.idAllCategory)) {
-                        order.initProductData(SanPhamDao.getInstant().selectAll());
+                        order.initProductData(SanPhamDao.getInstant().panigation(Panigation.current));
+                        loadPanigation(order);
                         return;
                     }
 
@@ -180,4 +183,55 @@ public class StoreEvents {
         });
     }
 
+    public static void loadPanigation(OrderView order) {
+        order.addPanigation();
+        Panigation panigation = Store.panigation;
+        panigation.setPage();
+    }
+
+    public static void handlePanigation() {
+        OrderView order = Store.orderView;
+        Component[] cpns = Store.panigation.getComponents();
+        Panigation panigation = Store.panigation;
+
+        for (Component cpn : cpns) {
+            if (cpn instanceof JButton) {
+                JButton btn = (JButton) cpn;
+
+                cpn.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        switch (btn.getActionCommand()) {
+                            case "|<":
+                                Panigation.current = 1;
+                                break;
+                            case "<<":
+                                if (Panigation.current > 1) {
+                                    --Panigation.current;
+                                }
+                                break;
+                            case ">>":
+                                if (Panigation.current < Panigation.total) {
+                                    ++Panigation.current;
+                                }
+                                break;
+                            case ">|":
+                                Panigation.current = Panigation.total;
+                                break;
+                            default:
+                                throw new AssertionError();
+                        }
+
+                        if (order.mode.equals("product")) {
+                            order.initProductData(SanPhamDao.getInstant().panigation(Panigation.current));
+                        } else {
+                            order.initBoxData(BoxDao.getInstant().panigation(Panigation.current));
+                        }
+                        order.addPanigation();
+                        panigation.setPage();
+                    }
+                });
+            }
+        }
+    }
 }

@@ -6,6 +6,7 @@ package com.boxcf.store;
 
 import com.boxcf.components.material.Category;
 import com.boxcf.components.material.PanelBill;
+import com.boxcf.components.material.Panigation;
 import com.boxcf.events.StoreEvents;
 import com.boxcf.models.LoaiBox;
 import com.boxcf.models.LoaiSP;
@@ -29,27 +30,27 @@ public class Store {
         ctgrAll.addData(lsp, lb);
         return ctgrAll;
     }
-    
+
     public String getNextId(String maxId) {
 //        String maxId = "PC09999";
 
-        String first = maxId.substring(0, 2);   
-        String last = maxId.substring(2); 
+        String first = maxId.substring(0, 2);
+        String last = maxId.substring(2);
         Integer number = Integer.parseInt(last);
         Integer log = number / 10;
-        
-        if(log == 0) {
+
+        if (log == 0) {
             maxId = first + "00" + ++number;
-        }else if(log > 1000) {
+        } else if (log > 1000) {
             maxId = first + ++number;
-        }else if(log > 100) {
+        } else if (log > 100) {
             maxId = first + "" + ++number;
-        }else if(log > 10) {
+        } else if (log > 10) {
             maxId = first + "" + ++number;
-        }else if(log > 0) {
+        } else if (log > 0) {
             maxId = first + "0" + ++number;
         }
-        
+
         return maxId;
     }
     public static SanPhamView spView;
@@ -61,7 +62,8 @@ public class Store {
     public static PanelBill globelPanelBill = null;
 
     public static String partten = "MM/dd/yyyy HH:mm:ss";
-    
-    public static int breaks = 5;
 
+    public static int breaks = 5;
+    
+    public static Panigation panigation = null;
 }

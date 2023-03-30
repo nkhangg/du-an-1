@@ -170,6 +170,15 @@ public class BoxDao implements BoxCfDAO<Box, Integer> {
 
     }
 
+    public List<Box> panigation(Integer pageCurrent) {
+        String sql = "SELECT TOP 8 * FROM Box WHERE MaBox NOT IN (SELECT TOP " + (pageCurrent * 8 - 8) + " MaBox FROM Box)";
+        return this.selectBySql(sql);
+    }
+
+    public Integer getPageNumber() {
+        return (int) Math.ceil(this.selectAll().size() / 8) + 1;
+    }
+
     public static void main(String[] args) {
         BoxDao.getInstant().delete(null);
     }
