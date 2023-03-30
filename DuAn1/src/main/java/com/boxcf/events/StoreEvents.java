@@ -155,8 +155,10 @@ public class StoreEvents {
                     if (ctgr.getDataBox().getMaLoaiBox().equalsIgnoreCase(Store.idAllCategory)) {
                         order.initBoxData(BoxDao.getInstant().panigation(Panigation.current));
                         loadPanigation(order);
+                        return;
                     }
-
+                    
+                    order.initBoxData(BoxDao.getInstant().selectBySql(sqlBox, ctgr.getDataBox().getMaLoaiBox()));
                     return;
                 }
 
