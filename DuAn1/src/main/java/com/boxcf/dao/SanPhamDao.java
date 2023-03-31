@@ -7,7 +7,7 @@ import java.util.List;
 import com.boxcf.models.SanPham;
 import com.box.utils.JdbcHelper;
 
-public class SanPhamDao implements BoxCfDAO<SanPham, Integer> {
+public class SanPhamDao implements BoxCfDAO<SanPham, String> {
 
     public static SanPhamDao getInstant() {
         return new SanPhamDao();
@@ -29,7 +29,6 @@ public class SanPhamDao implements BoxCfDAO<SanPham, Integer> {
         }
     }
 
-    @Override
     public void delete(Integer id) {
         String sql = "delete SanPham where MaSP = ?";
 
@@ -96,7 +95,7 @@ public class SanPhamDao implements BoxCfDAO<SanPham, Integer> {
     }
 
     @Override
-    public SanPham selectById(Integer id) {
+    public SanPham selectById(String id) {
         String sql = "select * from SanPham where MaSp = ?";
         SanPham sanPham = null;
         try {

@@ -80,13 +80,24 @@ public class XDate {
         String timeClose = date + " 22:00:00";
         return XDate.toDate(timeClose, Store.partten);
     }
-    
+
     public static Date getHour(String hour) {
         String date = XDate.toString(XDate.now(), "MM/dd/yyyy");
         // 23h đóng cửa nên nếu thời gian bắt đầu là lớn hơn 22h vd 22h10p thì sẻ không hợp lí
         // nhưng thời gian bắt đầu là 22h thì lại hợp lí nên chỉ bỏ những giờ lớn hơn 22h
         String timeClose = date + " " + hour;
         return XDate.toDate(timeClose, Store.partten);
+    }
+
+    public static int getHour(Date start, Date end) {
+        long secondStart = start.getTime();
+        long secondEnd = end.getTime();
+
+        long second = secondEnd - secondStart;
+
+        int hour = (int) (second / 60 / 60 / 1000);
+
+        return hour;
     }
 
     public static boolean beforeTimeClose(Date date) {
@@ -104,13 +115,10 @@ public class XDate {
 
             i++;
         }
-        return i ;
+        return i;
     }
 
     public static void main(String[] args) throws ParseException {
-        Date date = XDate.toDate("2023-03-28 12:00:00.0", Store.partten);
-//        System.out.println(XDate.beforeTimeClose(XDate.addHours(date, 10)));
-        System.out.println(XDate.fitHourWithTime(date));
 
     }
 

@@ -157,7 +157,8 @@ public class StoreEvents {
                         loadPanigation(order);
                         return;
                     }
-                    
+
+                    order.removePanigation();
                     order.initBoxData(BoxDao.getInstant().selectBySql(sqlBox, ctgr.getDataBox().getMaLoaiBox()));
                     return;
                 }
@@ -171,11 +172,12 @@ public class StoreEvents {
 
                     List<SanPham> list = SanPhamDao.getInstant().selectBySql(sqlProduct, ctgr.getDataProduct().getMaLoai());
 
+                    order.removePanigation();
+
                     if (list.isEmpty()) {
                         order.removeAllPanelItem();
                         return;
                     }
-
                     order.initProductData(list);
                 }
             }
@@ -221,14 +223,14 @@ public class StoreEvents {
                             default:
                                 throw new AssertionError();
                         }
+                        
+                        Panigation.setPage();
 
                         if (order.mode.equals("product")) {
                             order.initProductData(SanPhamDao.getInstant().panigation(Panigation.current));
                         } else {
                             order.initBoxData(BoxDao.getInstant().panigation(Panigation.current));
                         }
-                        order.addPanigation();
-                        panigation.setPage();
                     }
                 });
             }

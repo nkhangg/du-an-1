@@ -43,7 +43,19 @@ public class DatTruocDao implements BoxCfDAO<DatTruoc, Integer> {
 
     @Override
     public void delete(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "update DatTruoc\n"
+                + "set TranThai = 0\n"
+                + "where MaDT = ?";
+
+        try {
+            int responce = JdbcHelper.update(sql, id);
+
+            if (responce == 0) {
+                throw new Error("The Error in delete ComboCT !");
+            }
+        } catch (Exception ex) {
+            throw new Error("The Error in delete ComboCT !");
+        }
     }
 
     @Override
@@ -67,7 +79,7 @@ public class DatTruocDao implements BoxCfDAO<DatTruoc, Integer> {
 
     public List<DatTruoc> selectAllWithIdBox(int idBox) {
         List<DatTruoc> list = new ArrayList<>();
-        String sql = "select * from DatTruoc where MaBox = ? order by GioKT";
+        String sql = "select * from DatTruoc where MaBox = ? and TranThai = 1 order by GioKT";
 
         try {
             ResultSet responce = JdbcHelper.query(sql, idBox);

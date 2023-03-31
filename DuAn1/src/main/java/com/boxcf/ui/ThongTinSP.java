@@ -23,23 +23,18 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author HP
- */
 public class ThongTinSP extends javax.swing.JFrame {
 
     String maSP;
     SanPhamView spview = Store.spView;
 
-    int index = 0;
+    int index = -1;
     DanhMucDao dmDAO = new DanhMucDao();
     LoaiSPDao lspDAO = new LoaiSPDao();
     SanPhamDao spDAO = new SanPhamDao();
     List<SanPham> list = spDAO.selectAll();
 
-    public ThongTinSP(String maSP) {
-        this.maSP = maSP;
+    public ThongTinSP() {
         initComponents();
         init();
     }
@@ -119,7 +114,12 @@ public class ThongTinSP extends javax.swing.JFrame {
         }
     }
 
-    void setModel(SanPham sp) {
+    public void setModel(SanPham sp) {
+        this.maSP = sp.getMaSP();
+
+        getViTri();
+        setStatus();
+
         LoaiSP lsp = lspDAO.selectById(sp.getMaLoai());
         txtMaSP.setText("" + sp.getMaSP());
         txtTenSP.setText("" + sp.getTenSP());
@@ -136,6 +136,7 @@ public class ThongTinSP extends javax.swing.JFrame {
             ImageIcon img3 = new ImageIcon(img2);
             lblHinh.setIcon(img3);
         }
+
     }
 
     void setStatus() {
@@ -288,7 +289,7 @@ public class ThongTinSP extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(920, 739));
+        setPreferredSize(new java.awt.Dimension(944, 740));
 
         gradientPanel1.setColor1(new java.awt.Color(102, 102, 102));
         gradientPanel1.setColor2(new java.awt.Color(102, 102, 102));
@@ -457,23 +458,31 @@ public class ThongTinSP extends javax.swing.JFrame {
                 btnCloseActionPerformed(evt);
             }
         });
-        pnlNhanVien.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 20, 50, 50));
+        pnlNhanVien.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 10, 50, 50));
 
         lblHinh.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        lblHinh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblHinhMouseClicked(evt);
+            }
+        });
         pnlNhanVien.add(lblHinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 170, 150, 150));
 
         javax.swing.GroupLayout gradientPanel1Layout = new javax.swing.GroupLayout(gradientPanel1);
         gradientPanel1.setLayout(gradientPanel1Layout);
         gradientPanel1Layout.setHorizontalGroup(
             gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(pnlNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(gradientPanel1Layout.createSequentialGroup()
+                .addGap(2, 2, 2)
+                .addComponent(pnlNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 940, Short.MAX_VALUE)
+                .addGap(2, 2, 2))
         );
         gradientPanel1Layout.setVerticalGroup(
             gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, 739, Short.MAX_VALUE)
+            .addGroup(gradientPanel1Layout.createSequentialGroup()
+                .addGap(2, 2, 2)
+                .addComponent(pnlNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 735, Short.MAX_VALUE)
+                .addGap(2, 2, 2))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -500,11 +509,11 @@ public class ThongTinSP extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCapNhatSPActionPerformed
 
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
-         first();
+        first();
     }//GEN-LAST:event_btnFirstActionPerformed
 
     private void btnPreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreActionPerformed
-         prev();
+        prev();
     }//GEN-LAST:event_btnPreActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
@@ -518,6 +527,10 @@ public class ThongTinSP extends javax.swing.JFrame {
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         this.exit();
     }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void lblHinhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHinhMouseClicked
+        selectImage();
+    }//GEN-LAST:event_lblHinhMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -549,13 +562,17 @@ public class ThongTinSP extends javax.swing.JFrame {
 
     private void init() {
         this.prepareUI();
+        fillComboBox();
+
+        getViTri();
+        setStatus();
     }
 
     private void prepareUI() {
         Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
         this.setShape(shape);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        UI.changeTransBG(new Color(0, 0, 0, 0), txtMaNV, txtTenNV, txtSDT, txtMatKhau);
+        UI.changeTransBG(new Color(0, 0, 0, 0), txtGia, txtMaSP, txtTenSP);
 
     }
 

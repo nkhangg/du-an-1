@@ -10,6 +10,9 @@ import com.boxcf.components.material.Panigation;
 import com.boxcf.events.StoreEvents;
 import com.boxcf.models.LoaiBox;
 import com.boxcf.models.LoaiSP;
+import com.boxcf.ui.DatBoxView;
+import com.boxcf.ui.KhuyenMaiView;
+import com.boxcf.ui.Main;
 import com.boxcf.ui.OrderView;
 import com.boxcf.ui.SanPhamView;
 import javax.swing.JPanel;
@@ -53,7 +56,11 @@ public class Store {
 
         return maxId;
     }
-    public static SanPhamView spView;
+    public static SanPhamView spView = null;
+
+    public static KhuyenMaiView kmView = null;
+
+    public static Main globelMain = null;
 
     public final static String idAllCategory = "TẤT CẢ";
 
@@ -64,6 +71,8 @@ public class Store {
     public static String partten = "MM/dd/yyyy HH:mm:ss";
 
     public static int breaks = 5;
-    
+
     public static Panigation panigation = null;
+
+    public static DatBoxView dbView = null;
 }

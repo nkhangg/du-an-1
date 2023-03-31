@@ -18,30 +18,31 @@ import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
 import java.util.Date;
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author HP
  */
 public class DatBoxView extends javax.swing.JFrame {
-    
+
     private ModelItem box;
     private int time;
     private OrderView orderView = Store.orderView;
     private PanelBill panelBill = Store.globelPanelBill;
-    
+
     public DatBoxView() {
         this.box = new ModelItem(1, "Box 1", null, null, new LoaiBox("BX01", "Đơn", 100000, null), 0, 9);
         initComponents();
         init();
     }
-    
+
     public DatBoxView(ModelItem box) throws HeadlessException {
         this.box = box;
         initComponents();
         init();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -75,6 +76,11 @@ public class DatBoxView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(245, 250, 255));
         setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         gradientPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(241, 241, 241)));
         gradientPanel1.setColor1(new java.awt.Color(102, 102, 102));
@@ -204,7 +210,7 @@ public class DatBoxView extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(102, 102, 102));
         jLabel2.setText("LỊCH ĐẶT TRƯỚC");
-        gradientPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 470, 130, 40));
+        gradientPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 470, 130, 40));
 
         clsoeButton1.setBackground(new java.awt.Color(255, 255, 255));
         clsoeButton1.setPreferredSize(new java.awt.Dimension(30, 30));
@@ -245,7 +251,7 @@ public class DatBoxView extends javax.swing.JFrame {
         if (cboSoGio.getSelectedItem() == null) {
             return;
         }
-        
+
         int soGio = Integer.parseInt(cboSoGio.getSelectedItem().toString());
         Date ngayBD = XDate.getHour(lblGioBd.getText());
         setGioKT(ngayBD, soGio);
@@ -254,6 +260,10 @@ public class DatBoxView extends javax.swing.JFrame {
     private void buttonRound4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound4ActionPerformed
         handleCreateBillItem();
     }//GEN-LAST:event_buttonRound4ActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        Store.dbView = null;
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
@@ -320,35 +330,37 @@ public class DatBoxView extends javax.swing.JFrame {
 
     private void init() {
         clsoeButton1.initEvent(this);
+        Store.dbView = this;
         prepareUI();
         setBox(box);
         renderHour();
+        renderDataTable();
     }
-    
+
     private void prepareUI() {
         this.setLocationRelativeTo(null);
         Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
         this.setShape(shape);
     }
-    
+
     private void setBox(ModelItem box) {
         txtLoaiBox.setText(box.getLoaiBox().getTenLoaiBox());
         txtTenBox.setText(box.getTen());
         lblGioBd.setText(XDate.toString(new Date(), "HH:mm:ss"));
-        
+
         box.setGioBD(new Date());
-        
+
     }
-    
+
     private ModelItem getBoxBooked() {
-        
+
         return new ModelItem(box.getMaItem(), box.getTen(), box.getGioBD(), box.getGioKT(), box.getLoaiBox(), time <= 0 ? 1 : time, box.getLoaiBox().getGiaLoai());
     }
-    
+
     private void setGioKT(Date gioBD, int soGio) {
-        
+
         Date gioKT = XDate.addHours(gioBD, soGio);
-        
+
         lblGioKT.setText(XDate.toString(gioKT, "HH:mm:ss"));
         this.box.setGioKT(gioKT);
         time = soGio;
@@ -360,7 +372,7 @@ public class DatBoxView extends javax.swing.JFrame {
         if (data.getGioKT() == null) {
             return;
         }
-        
+
         for (Component component : panelBill.getComponents()) {
             ItemBill itemBill = (ItemBill) component;
             if (itemBill.getData().getMaItem() == data.getMaItem()) {
@@ -369,13 +381,13 @@ public class DatBoxView extends javax.swing.JFrame {
                 this.dispose();
                 return;
             }
-            
+
         }
-        
+
         panelBill.setList(data);
         panelBill.repaint();
         this.dispose();
-        
+
     }
 
     // xử lí viêc khi tồn tại một billitem trùng với box thì sẽ lấy thông tin trên bill đó xuống
@@ -387,15 +399,15 @@ public class DatBoxView extends javax.swing.JFrame {
                 this.cboSoGio.setSelectedItem(itemBill.getData().getSoLuong() + "");
                 return;
             }
-            
+
         }
     }
-    
-    private void renderHour() {
+
+    public void renderHour() {
         // sua thu
         List<DatTruoc> list = DatTruocDao.getInstant().selectAllWithIdBoxActive(Integer.parseInt(box.getMaItem() + ""));
         Date ngayBD = XDate.getHour(lblGioBd.getText());
-        
+
         if (list.isEmpty()) {
             cboSoGio.removeAllItems();
             for (int i = 1; i <= XDate.fitHourWithTime(ngayBD); i++) {
@@ -403,11 +415,11 @@ public class DatBoxView extends javax.swing.JFrame {
             }
             return;
         }
-        
+
         DatTruoc dt = list.get(0);
-        
+
         long second = dt.getGioBD().getTime() - ngayBD.getTime();
-        
+
         long hour = (second / 60 / 60 / 1000);
         if (second > 6000000) {
             cboSoGio.removeAllItems();
@@ -415,6 +427,16 @@ public class DatBoxView extends javax.swing.JFrame {
                 cboSoGio.addItem(i);
             }
         }
-        
+    }
+
+    public void renderDataTable() {
+        DefaultTableModel tbl = (DefaultTableModel) tblDatTruoc.getModel();
+        tbl.setRowCount(0);
+        int i = 1;
+        for (DatTruoc sp : DatTruocDao.getInstant().selectAllWithIdBox(Integer.parseInt(box.getMaItem() + ""))) {
+            Object row[] = {i, this.box.getTen(), sp.getTenKH(), sp.getGioBD(), XDate.getHour(sp.getGioBD(), sp.getGioKT())};
+            tbl.addRow(row);
+            i++;
+        }
     }
 }

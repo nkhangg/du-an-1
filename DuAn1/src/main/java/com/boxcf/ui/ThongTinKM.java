@@ -4,10 +4,18 @@
  */
 package com.boxcf.ui;
 
+import com.box.utils.MsgBox;
 import com.box.utils.UI;
+import com.box.utils.Validator;
+import com.box.utils.XDate;
+import com.boxcf.dao.KhuyenMaiDao;
+import com.boxcf.models.KhuyenMai;
+import com.boxcf.store.Store;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
+import java.util.List;
+import java.util.Random;
 import javax.swing.JFrame;
 
 /**
@@ -16,9 +24,12 @@ import javax.swing.JFrame;
  */
 public class ThongTinKM extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ThemNV2
-     */
+    private String idKm;
+    private KhuyenMaiDao dKm = KhuyenMaiDao.getInstant();
+    private KhuyenMai km;
+    private int index = -1;
+    List<KhuyenMai> list = dKm.selectAll();
+
     public ThongTinKM() {
         initComponents();
         init();
@@ -39,29 +50,26 @@ public class ThongTinKM extends javax.swing.JFrame {
         lblMaNV = new javax.swing.JLabel();
         lblMaNV1 = new javax.swing.JLabel();
         lblMaNV2 = new javax.swing.JLabel();
-        lblMaNV3 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        buttonRound1 = new com.boxcf.components.ButtonRound();
-        buttonRound2 = new com.boxcf.components.ButtonRound();
-        buttonRound3 = new com.boxcf.components.ButtonRound();
-        buttonRound4 = new com.boxcf.components.ButtonRound();
-        buttonRound5 = new com.boxcf.components.ButtonRound();
-        buttonRound6 = new com.boxcf.components.ButtonRound();
-        textField1 = new com.boxcf.components.TextField();
-        textField3 = new com.boxcf.components.TextField();
+        btnThemSP = new com.boxcf.components.ButtonRound();
+        btnCapNhatSP = new com.boxcf.components.ButtonRound();
+        btnFirst = new com.boxcf.components.ButtonRound();
+        btnPre = new com.boxcf.components.ButtonRound();
+        btnLast = new com.boxcf.components.ButtonRound();
+        btnNext = new com.boxcf.components.ButtonRound();
+        txtId = new com.boxcf.components.TextField();
+        txtName = new com.boxcf.components.TextField();
         btnClose = new com.boxcf.components.ButtonRound();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        dcTimeStart = new com.toedter.calendar.JDateChooser();
+        dcTimeEnd = new com.toedter.calendar.JDateChooser();
         lblMaNV4 = new javax.swing.JLabel();
         lblMaNV5 = new javax.swing.JLabel();
-        textField4 = new com.boxcf.components.TextField();
+        txtQuantity = new com.boxcf.components.TextField();
         lblMaNV6 = new javax.swing.JLabel();
-        comboBoxSuggestion19 = new com.boxcf.components.ComboBoxSuggestion();
+        cboPersent = new com.boxcf.components.ComboBoxSuggestion();
         lblMaNV7 = new javax.swing.JLabel();
-        comboBoxSuggestion20 = new com.boxcf.components.ComboBoxSuggestion();
+        cboLevel = new com.boxcf.components.ComboBoxSuggestion();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -92,80 +100,68 @@ public class ThongTinKM extends javax.swing.JFrame {
         lblMaNV2.setText("Ngày BD");
         pnlNhanVien.add(lblMaNV2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 280, 100, 30));
 
-        lblMaNV3.setBackground(new java.awt.Color(102, 0, 204));
-        lblMaNV3.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        lblMaNV3.setForeground(new java.awt.Color(27, 51, 61));
-        lblMaNV3.setText("Mô tả");
-        pnlNhanVien.add(lblMaNV3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 480, 80, -1));
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(2);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        pnlNhanVien.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 520, 600, 70));
-
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(40, 48, 84));
         jLabel1.setText("THÔNG TIN KHUYẾN MÃI");
-        pnlNhanVien.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 30, -1, -1));
+        pnlNhanVien.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, -1, -1));
 
-        buttonRound1.setBackground(new java.awt.Color(2, 172, 171));
-        buttonRound1.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound1.setText("LƯU");
-        buttonRound1.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        buttonRound1.addActionListener(new java.awt.event.ActionListener() {
+        btnThemSP.setBackground(new java.awt.Color(2, 172, 171));
+        btnThemSP.setForeground(new java.awt.Color(255, 255, 255));
+        btnThemSP.setText("LƯU");
+        btnThemSP.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnThemSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonRound1ActionPerformed(evt);
+                btnThemSPActionPerformed(evt);
             }
         });
 
-        buttonRound2.setBackground(new java.awt.Color(2, 172, 171));
-        buttonRound2.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound2.setText("CẬP NHẬT");
-        buttonRound2.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        buttonRound2.addActionListener(new java.awt.event.ActionListener() {
+        btnCapNhatSP.setBackground(new java.awt.Color(2, 172, 171));
+        btnCapNhatSP.setForeground(new java.awt.Color(255, 255, 255));
+        btnCapNhatSP.setText("CẬP NHẬT");
+        btnCapNhatSP.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnCapNhatSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonRound2ActionPerformed(evt);
+                btnCapNhatSPActionPerformed(evt);
             }
         });
 
-        buttonRound3.setBackground(new java.awt.Color(2, 172, 171));
-        buttonRound3.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound3.setText("|<");
-        buttonRound3.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        buttonRound3.addActionListener(new java.awt.event.ActionListener() {
+        btnFirst.setBackground(new java.awt.Color(2, 172, 171));
+        btnFirst.setForeground(new java.awt.Color(255, 255, 255));
+        btnFirst.setText("|<");
+        btnFirst.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonRound3ActionPerformed(evt);
+                btnFirstActionPerformed(evt);
             }
         });
 
-        buttonRound4.setBackground(new java.awt.Color(2, 172, 171));
-        buttonRound4.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound4.setText("<<");
-        buttonRound4.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        buttonRound4.addActionListener(new java.awt.event.ActionListener() {
+        btnPre.setBackground(new java.awt.Color(2, 172, 171));
+        btnPre.setForeground(new java.awt.Color(255, 255, 255));
+        btnPre.setText("<<");
+        btnPre.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnPre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonRound4ActionPerformed(evt);
+                btnPreActionPerformed(evt);
             }
         });
 
-        buttonRound5.setBackground(new java.awt.Color(2, 172, 171));
-        buttonRound5.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound5.setText(">>");
-        buttonRound5.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        buttonRound5.addActionListener(new java.awt.event.ActionListener() {
+        btnLast.setBackground(new java.awt.Color(2, 172, 171));
+        btnLast.setForeground(new java.awt.Color(255, 255, 255));
+        btnLast.setText(">>");
+        btnLast.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonRound5ActionPerformed(evt);
+                btnLastActionPerformed(evt);
             }
         });
 
-        buttonRound6.setBackground(new java.awt.Color(2, 172, 171));
-        buttonRound6.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound6.setText(">|");
-        buttonRound6.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        buttonRound6.addActionListener(new java.awt.event.ActionListener() {
+        btnNext.setBackground(new java.awt.Color(2, 172, 171));
+        btnNext.setForeground(new java.awt.Color(255, 255, 255));
+        btnNext.setText(">|");
+        btnNext.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonRound6ActionPerformed(evt);
+                btnNextActionPerformed(evt);
             }
         });
 
@@ -175,17 +171,17 @@ public class ThongTinKM extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(60, 60, 60)
-                .addComponent(buttonRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnThemSP, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(buttonRound2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCapNhatSP, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(buttonRound3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(buttonRound4, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnPre, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(buttonRound5, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnLast, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(buttonRound6, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -193,24 +189,25 @@ public class ThongTinKM extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonRound2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonRound3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonRound4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonRound5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonRound6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnThemSP, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCapNhatSP, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPre, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLast, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnlNhanVien.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 620, 570, -1));
+        pnlNhanVien.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 510, 570, -1));
 
-        textField1.setLabelText("");
-        textField1.setOpaque(false);
-        pnlNhanVien.add(textField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 600, 38));
+        txtId.setEditable(false);
+        txtId.setLabelText("");
+        txtId.setOpaque(false);
+        pnlNhanVien.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 600, 38));
 
-        textField3.setLabelText("");
-        textField3.setOpaque(false);
-        pnlNhanVien.add(textField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, 600, 38));
+        txtName.setLabelText("");
+        txtName.setOpaque(false);
+        pnlNhanVien.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, 600, 38));
 
         btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/exit (1).png"))); // NOI18N
         btnClose.setFocusPainted(false);
@@ -221,11 +218,11 @@ public class ThongTinKM extends javax.swing.JFrame {
         });
         pnlNhanVien.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 20, 50, 50));
 
-        jDateChooser1.setPreferredSize(new java.awt.Dimension(82, 30));
-        pnlNhanVien.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 280, 180, -1));
+        dcTimeStart.setPreferredSize(new java.awt.Dimension(82, 30));
+        pnlNhanVien.add(dcTimeStart, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 280, 180, -1));
 
-        jDateChooser2.setPreferredSize(new java.awt.Dimension(82, 30));
-        pnlNhanVien.add(jDateChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 280, 210, -1));
+        dcTimeEnd.setPreferredSize(new java.awt.Dimension(82, 30));
+        pnlNhanVien.add(dcTimeEnd, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 280, 210, -1));
 
         lblMaNV4.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV4.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
@@ -239,38 +236,43 @@ public class ThongTinKM extends javax.swing.JFrame {
         lblMaNV5.setText("Phần trăm");
         pnlNhanVien.add(lblMaNV5, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 360, 100, -1));
 
-        textField4.setLabelText("");
-        textField4.setOpaque(false);
-        pnlNhanVien.add(textField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, 180, 38));
+        txtQuantity.setLabelText("");
+        txtQuantity.setOpaque(false);
+        pnlNhanVien.add(txtQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, 180, 38));
 
         lblMaNV6.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV6.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblMaNV6.setForeground(new java.awt.Color(27, 51, 61));
         lblMaNV6.setText("Số lượt");
         pnlNhanVien.add(lblMaNV6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 360, 80, -1));
-        pnlNhanVien.add(comboBoxSuggestion19, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 350, 210, -1));
+
+        cboPersent.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "5%", "10%", "15%", "20%", "25%", "30%", "35%", "40%", "45%", "50%", "55%", "60%", "65%", "70%", "75%" }));
+        pnlNhanVien.add(cboPersent, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 350, 210, -1));
 
         lblMaNV7.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV7.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblMaNV7.setForeground(new java.awt.Color(27, 51, 61));
         lblMaNV7.setText("Mức giảm");
         pnlNhanVien.add(lblMaNV7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 430, 100, 20));
-        pnlNhanVien.add(comboBoxSuggestion20, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 420, 180, -1));
+
+        cboLevel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10000", "20000", "100000" }));
+        pnlNhanVien.add(cboLevel, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 420, 180, -1));
 
         javax.swing.GroupLayout gradientPanel1Layout = new javax.swing.GroupLayout(gradientPanel1);
         gradientPanel1.setLayout(gradientPanel1Layout);
         gradientPanel1Layout.setHorizontalGroup(
             gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(gradientPanel1Layout.createSequentialGroup()
-                .addGap(2, 2, 2)
-                .addComponent(pnlNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
-                .addGap(1, 1, 1))
+                .addGap(3, 3, 3)
+                .addComponent(pnlNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, 737, Short.MAX_VALUE)
+                .addGap(3, 3, 3))
         );
         gradientPanel1Layout.setVerticalGroup(
             gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(gradientPanel1Layout.createSequentialGroup()
-                .addComponent(pnlNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, 738, Short.MAX_VALUE)
-                .addGap(1, 1, 1))
+                .addGap(3, 3, 3)
+                .addComponent(pnlNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
+                .addGap(3, 3, 3))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -292,29 +294,29 @@ public class ThongTinKM extends javax.swing.JFrame {
         this.exit();
     }//GEN-LAST:event_btnCloseActionPerformed
 
-    private void buttonRound6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonRound6ActionPerformed
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        last();
+    }//GEN-LAST:event_btnNextActionPerformed
 
-    private void buttonRound5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonRound5ActionPerformed
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        next();
+    }//GEN-LAST:event_btnLastActionPerformed
 
-    private void buttonRound4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonRound4ActionPerformed
+    private void btnPreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreActionPerformed
+        prev();
+    }//GEN-LAST:event_btnPreActionPerformed
 
-    private void buttonRound3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonRound3ActionPerformed
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        first();
+    }//GEN-LAST:event_btnFirstActionPerformed
 
-    private void buttonRound2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonRound2ActionPerformed
+    private void btnCapNhatSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatSPActionPerformed
+        handleUpdate();
+    }//GEN-LAST:event_btnCapNhatSPActionPerformed
 
-    private void buttonRound1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonRound1ActionPerformed
+    private void btnThemSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSPActionPerformed
+        handleInsert();
+    }//GEN-LAST:event_btnThemSPActionPerformed
 
     /**
      * @param args the command line arguments
@@ -342,1029 +344,7 @@ public class ThongTinKM extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(ThongTinKM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -1375,46 +355,47 @@ public class ThongTinKM extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.boxcf.components.ButtonRound btnCapNhatSP;
     private com.boxcf.components.ButtonRound btnClose;
+    private com.boxcf.components.ButtonRound btnFirst;
+    private com.boxcf.components.ButtonRound btnLast;
+    private com.boxcf.components.ButtonRound btnNext;
+    private com.boxcf.components.ButtonRound btnPre;
+    private com.boxcf.components.ButtonRound btnThemSP;
     private javax.swing.ButtonGroup buttonGroup1;
-    private com.boxcf.components.ButtonRound buttonRound1;
-    private com.boxcf.components.ButtonRound buttonRound2;
-    private com.boxcf.components.ButtonRound buttonRound3;
-    private com.boxcf.components.ButtonRound buttonRound4;
-    private com.boxcf.components.ButtonRound buttonRound5;
-    private com.boxcf.components.ButtonRound buttonRound6;
-    private com.boxcf.components.ComboBoxSuggestion comboBoxSuggestion19;
-    private com.boxcf.components.ComboBoxSuggestion comboBoxSuggestion20;
+    private com.boxcf.components.ComboBoxSuggestion cboLevel;
+    private com.boxcf.components.ComboBoxSuggestion cboPersent;
+    private com.toedter.calendar.JDateChooser dcTimeEnd;
+    private com.toedter.calendar.JDateChooser dcTimeStart;
     private com.boxcf.components.GradientPanel gradientPanel1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblMaNV;
     private javax.swing.JLabel lblMaNV1;
     private javax.swing.JLabel lblMaNV2;
-    private javax.swing.JLabel lblMaNV3;
     private javax.swing.JLabel lblMaNV4;
     private javax.swing.JLabel lblMaNV5;
     private javax.swing.JLabel lblMaNV6;
     private javax.swing.JLabel lblMaNV7;
     private com.boxcf.components.GradientPanel pnlNhanVien;
-    private com.boxcf.components.TextField textField1;
-    private com.boxcf.components.TextField textField3;
-    private com.boxcf.components.TextField textField4;
+    private com.boxcf.components.TextField txtId;
+    private com.boxcf.components.TextField txtName;
+    private com.boxcf.components.TextField txtQuantity;
     // End of variables declaration//GEN-END:variables
 
     private void init() {
         this.prepareUI();
+
+        getViTri();
+        setStatus();
+
     }
 
     private void prepareUI() {
         Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
         this.setShape(shape);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        UI.changeTransBG(new Color(0, 0, 0, 0), txtMaNV, txtTenNV, txtSDT, txtMatKhau);
+        UI.changeTransBG(new Color(0, 0, 0, 0), txtId, txtName, txtQuantity);
 
     }
 
@@ -1422,4 +403,225 @@ public class ThongTinKM extends javax.swing.JFrame {
         this.dispose();
     }
 
+    private boolean validator() {
+
+        boolean flag = true;
+        String mess = "";
+
+        if (Validator.isEmpty(txtName)) {
+            mess += "Bạn chưa nhập tên ! \n";
+            flag = false;
+        }
+
+        if (Validator.isEmpty(dcTimeStart)) {
+            mess += "Bạn chưa nhập thời gian bắt đầu ! \n";
+            flag = false;
+        } else {
+            if (dcTimeStart.getDate().before(XDate.now())) {
+                mess += "Thời gian bất đầu không hợp lệ ! \n";
+                flag = false;
+            }
+        }
+
+        if (Validator.isEmpty(dcTimeEnd)) {
+            mess += "Bạn chưa nhập tên thời gian kết thúc ! \n";
+            flag = false;
+        } else {
+
+            if (dcTimeEnd.getDate().before(XDate.now())) {
+                mess += "Thời gian kết thúc không hợp lệ ! \n";
+                flag = false;
+            } else {
+                if (!Validator.isEmpty(dcTimeStart)) {
+                    if (!dcTimeEnd.getDate().after(dcTimeStart.getDate())) {
+                        mess += "Thời gian kết thúc phải sau thời gian bất đầu ! \n";
+                        flag = false;
+                    }
+                }
+
+            }
+        }
+
+        if (Validator.isEmpty(txtQuantity)) {
+            mess += "Bạn chưa nhập số lượt sử dụng của khuyến mãi ! \n";
+            flag = false;
+        } else {
+            if (!Validator.isInt(txtQuantity.getText())) {
+                mess += "Số lượt sử dụng khuyến mãi không hợp lệ ! \n";
+                flag = false;
+            }
+        }
+
+        if (!flag) {
+            MsgBox.alert(this, mess);
+            return false;
+        }
+
+        return true;
+    }
+
+    public char selectAChar() {
+        String s = "BOXCF";
+        Random random = new Random();
+        int index = random.nextInt(s.length());
+        return s.charAt(index);
+    }
+
+    private String genericId() {
+        char c = selectAChar();
+        String timeStart = XDate.toString(dcTimeStart.getDate(), "dd");
+        String timeEnd = XDate.toString(dcTimeEnd.getDate(), "dd");
+        String persent = cboPersent.getSelectedItem().toString().replace("%", "");
+        String level = (Integer.parseInt(cboLevel.getSelectedItem().toString()) / 10000) + "";
+
+        return c + timeStart + timeEnd + persent + level;
+    }
+
+    private void handleInsert() {
+        if (!validator()) {
+            return;
+        }
+        KhuyenMai km = getModel(true);
+
+        if (dKm.selectById(km.getMaKM()) != null) {
+            MsgBox.alert(this, "Khuyến mãi này đã tồn tại vui lòng kiểm tra lại !");
+            return;
+        }
+
+        txtId.setText(km.getMaKM());
+
+        dKm.insert(km);
+        MsgBox.alert(this, "Tạo khuyến mãi thành công ! \n"
+                + "Mã khuyến mãi của bạn là: \n" + km.getMaKM());
+
+        clear();
+        this.dispose();
+        Store.kmView.fillTable();
+
+    }
+
+    private KhuyenMai getModel(boolean insert) {
+        String genericedId = txtId.getText();
+        if (insert) {
+            genericedId = genericId();
+        }
+        String persent = cboPersent.getSelectedItem().toString().replace("%", "");
+        return new KhuyenMai(genericedId,
+                txtName.getText(),
+                dcTimeStart.getDate(),
+                dcTimeEnd.getDate(),
+                Integer.parseInt(txtQuantity.getText()),
+                Integer.parseInt(persent),
+                Integer.parseInt(cboLevel.getSelectedItem().toString()));
+    }
+
+    public void setModel(KhuyenMai km) {
+        this.km = km;
+        this.idKm = km.getMaKM();
+        getViTri();
+        setStatus();
+
+        txtId.setText(this.km.getMaKM());
+        txtName.setText(this.km.getTenKM());
+        txtQuantity.setText(this.km.getSoLuot() + "");
+        dcTimeEnd.setDate(this.km.getNgayKT());
+        dcTimeStart.setDate(this.km.getNgayBD());
+        cboLevel.setSelectedItem(this.km.getDieuKienGiam());
+        cboPersent.setSelectedItem(this.km.getPhanTram() + "%");
+
+    }
+
+    private void first() {
+        index = 0;
+        editw();
+    }
+
+    private void prev() {
+        index--;
+        editw();
+    }
+
+    private void next() {
+        index++;
+        editw();
+    }
+
+    private void last() {
+        index = list.size() - 1;
+        editw();
+    }
+
+    private void editw() {
+        try {
+            if (idKm == null) {
+                clear();
+                return;
+            }
+            KhuyenMai sp = list.get(index);
+            setModel(sp);
+            setStatus();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void setStatus() {
+        boolean edit = this.index >= 0;
+        boolean first = this.index > 0;
+        boolean last = this.index < list.size() - 1;
+        btnCapNhatSP.setEnabled(edit);
+        btnCapNhatSP.setBackground(edit ? new Color(2, 172, 171) : Color.BLACK);
+        btnThemSP.setEnabled(!edit);
+        btnThemSP.setBackground(!edit ? new Color(2, 172, 171) : Color.BLACK);
+        btnFirst.setEnabled(edit && first);
+        btnFirst.setBackground(edit && first ? new Color(2, 172, 171) : Color.BLACK);
+        btnPre.setEnabled(edit && first);
+        btnPre.setBackground(edit && first ? new Color(2, 172, 171) : Color.BLACK);
+        btnLast.setEnabled(edit && last);
+        btnLast.setBackground(edit && last ? new Color(2, 172, 171) : Color.BLACK);
+        btnNext.setEnabled(edit && last);
+        btnNext.setBackground(edit && last ? new Color(2, 172, 171) : Color.BLACK);
+    }
+
+    private void clear() {
+        txtId.setText("");
+        txtName.setText("");
+        txtQuantity.setText("");
+        cboLevel.setSelectedIndex(0);
+        cboPersent.setSelectedIndex(0);
+        index = -1;
+        setStatus();
+    }
+
+    private void getViTri() {
+        if (idKm == null) {
+            return;
+        }
+        for (KhuyenMai km : list) {
+            if (km.getMaKM().equals(idKm)) {
+                index = list.indexOf(km);
+                break;
+            }
+        }
+    }
+
+    private void handleUpdate() {
+        if (!validator()) {
+            return;
+        }
+
+        KhuyenMai km = getModel(false);
+
+        if (km == null) {
+            return;
+        }
+
+        boolean check = MsgBox.confirm(this, "Điều này sẽ làm thay đổi khuyến mãi mà bạn đang xem T.T");
+
+        if (check) {
+            dKm.update(km);
+            this.dispose();
+            Store.kmView.fillTable();
+        }
+    }
 }

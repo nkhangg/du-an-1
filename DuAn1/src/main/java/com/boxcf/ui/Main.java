@@ -4,6 +4,8 @@
  */
 package com.boxcf.ui;
 
+import com.box.utils.Cleaner;
+import com.boxcf.store.Store;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Shape;
@@ -12,7 +14,6 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Main extends javax.swing.JFrame {
@@ -21,6 +22,7 @@ public class Main extends javax.swing.JFrame {
     SanPhamView spView = new SanPhamView();
     BoxView boxView = new BoxView();
     OrderView order = new OrderView();
+    KhuyenMaiView kmView = new KhuyenMaiView();
 
     public Main() {
         initComponents();
@@ -112,6 +114,11 @@ public class Main extends javax.swing.JFrame {
         buttonRound5.setFocusPainted(false);
         buttonRound5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonRound5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        buttonRound5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRound5ActionPerformed(evt);
+            }
+        });
         gradientPanel2.add(buttonRound5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 90, 70));
 
         btnNhanVien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/barista.png"))); // NOI18N
@@ -243,18 +250,18 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhanVienActionPerformed
-        this.hidden(spView, boxView);
+        this.hidden(spView, boxView, kmView);
         this.active(nvView);
     }//GEN-LAST:event_btnNhanVienActionPerformed
 
     private void btnSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSanPhamActionPerformed
-        this.hidden(boxView, nvView);
+        this.hidden(boxView, nvView, kmView);
         this.active(spView);
     }//GEN-LAST:event_btnSanPhamActionPerformed
 
     private void btnBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBoxActionPerformed
 
-        this.hidden(spView, nvView);
+        this.hidden(spView, nvView, kmView);
         this.active(boxView);
     }//GEN-LAST:event_btnBoxActionPerformed
 
@@ -266,12 +273,13 @@ public class Main extends javax.swing.JFrame {
         this.openOrder();
     }//GEN-LAST:event_buttonRound2ActionPerformed
 
+    private void buttonRound5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound5ActionPerformed
+        this.hidden(spView, nvView, boxView);
+        this.active(kmView);
+    }//GEN-LAST:event_buttonRound5ActionPerformed
+
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -301,7 +309,9 @@ public class Main extends javax.swing.JFrame {
     public void hover() {
         Component[] cpns = gradientPanel2.getComponents();
         for (Component cpn : cpns) {
+
             if (cpn instanceof JButton) {
+                cpn.setBackground(Color.decode("#F0F0F0"));
                 cpn.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseEntered(MouseEvent e) {
@@ -329,7 +339,11 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void init() {
+        Store.globelMain = this;
+        Store.kmView = kmView;
         this.prepareUI();
+        handleClener();
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -370,5 +384,21 @@ public class Main extends javax.swing.JFrame {
         pnlContent.add(jpanel);
         jpanel.setSize(getWidth(), getHeight());
         jpanel.setVisible(true);
+    }
+
+    private void handleClener() {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    super.run();
+                    Thread.sleep(10000);
+                    Cleaner.start();
+                } catch (InterruptedException ex) {
+                    System.out.println(ex);
+                }
+            }
+
+        }.start();
     }
 }

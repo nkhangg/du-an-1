@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.boxcf.ui;
 
 import com.box.utils.UI;
@@ -148,7 +144,18 @@ public class SanPhamView extends javax.swing.JPanel {
     }
 
     void openTTSP() {
-        new ThongTinSP(maSP).setVisible(true);
+        new ThongTinSP().setVisible(true);
+    }
+
+    private void openEditTTSP() {
+        SanPham sp = spDAO.selectById(maSP);
+        if (sp == null) {
+            return;
+        }
+        ThongTinSP ttsp = new ThongTinSP();
+        ttsp.setModel(sp);
+        ttsp.setVisible(true);
+
     }
 
     void openTTLSP() {
@@ -464,7 +471,7 @@ public class SanPhamView extends javax.swing.JPanel {
 
         jPanel1.add(gradientPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 720, 70));
 
-        tblSanPham.setFont(new java.awt.Font("UTM BryantLG", 0, 12)); // NOI18N
+        tblSanPham.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         tblSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -793,26 +800,24 @@ public class SanPhamView extends javax.swing.JPanel {
     }//GEN-LAST:event_btnMoiSPActionPerformed
 
     private void btnXoaSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaSPActionPerformed
-        // TODO add your handling code here:
         xoaDM();
     }//GEN-LAST:event_btnXoaSPActionPerformed
 
     private void btnXoaLSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaLSPActionPerformed
-        // TODO add your handling code here:
+
         xoaLoaiSP();
     }//GEN-LAST:event_btnXoaLSPActionPerformed
 
     private void btnThemLSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemLSPActionPerformed
-        // TODO add your handling code here:
         openTTLSP();
     }//GEN-LAST:event_btnThemLSPActionPerformed
 
     private void tblSanPhamMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMousePressed
-        // TODO add your handling code here:
+
         int index = tblSanPham.rowAtPoint(evt.getPoint());
         maSP = (String) tblSanPham.getValueAt(index, 1);
         if (evt.getClickCount() == 2) {
-            openTTSP();
+            openEditTTSP();
         }
     }//GEN-LAST:event_tblSanPhamMousePressed
 
@@ -833,41 +838,34 @@ public class SanPhamView extends javax.swing.JPanel {
     }//GEN-LAST:event_tblDanhMucMousePressed
 
     private void btnTimSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimSPActionPerformed
-        // TODO add your handling code here:
         fillToTableSanPham();
     }//GEN-LAST:event_btnTimSPActionPerformed
 
     private void btnTimLoaiSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTimLoaiSPMouseClicked
-        // TODO add your handling code here:
         fillToTableLoaiSP();
     }//GEN-LAST:event_btnTimLoaiSPMouseClicked
 
     private void btnTimDMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTimDMMouseClicked
-        // TODO add your handling code here:
         fillToTableLoaiSP();
     }//GEN-LAST:event_btnTimDMMouseClicked
 
     private void cboDanhMuc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboDanhMuc1ActionPerformed
-        // TODO add your handling code here:
         if (cboDanhMuc1.getItemCount() > 0) {
             filterDM();
         }
     }//GEN-LAST:event_cboDanhMuc1ActionPerformed
 
     private void cboLoaiSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboLoaiSPActionPerformed
-        // TODO add your handling code here:
         if (cboLoaiSP.getItemCount() > 0) {
             filterLoaiSP();
         }
     }//GEN-LAST:event_cboLoaiSPActionPerformed
 
     private void btnTimLoaiSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimLoaiSPActionPerformed
-        // TODO add your handling code here:
         fillToTableLoaiSP();
     }//GEN-LAST:event_btnTimLoaiSPActionPerformed
 
     private void btnTimDMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimDMActionPerformed
-        // TODO add your handling code here:
         fillToTableDanhMuc();
     }//GEN-LAST:event_btnTimDMActionPerformed
 

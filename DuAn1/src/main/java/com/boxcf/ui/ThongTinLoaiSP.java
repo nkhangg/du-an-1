@@ -9,10 +9,12 @@ import com.boxcf.dao.DanhMucDao;
 import com.boxcf.dao.LoaiSPDao;
 import com.boxcf.models.DanhMuc;
 import com.boxcf.models.LoaiSP;
-import com.boxcf.models.SanPham;
 import com.boxcf.store.Store;
 import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.RoundRectangle2D;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,7 +28,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
 
     Color cNormal = new Color(2, 172, 171);
     SanPhamView spview = Store.spView;
-    
+
     List<LoaiSP> list;
 
     int index = 0;
@@ -42,11 +44,18 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
     }
 
     void init() {
+        prepareUI();
         setLocationRelativeTo(null);
-        UI.changeTransBG(new Color(0, 0, 0, 0), txtMaLSP, txtTenLSP);
         fillComboBox();
         getViTri();
         editw();
+    }
+
+    private void prepareUI() {
+        Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
+        this.setShape(shape);
+        UI.changeTransBG(new Color(0, 0, 0, 0), txtMaLSP, txtTenLSP);
+
     }
 
     void fillComboBox() {
@@ -144,7 +153,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
     }
 
     void update() {
-        if(!validateForm()){
+        if (!validateForm()) {
             return;
         }
         try {
@@ -335,7 +344,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
                 .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnLast, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(101, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -352,7 +361,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        gradientPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 583, 700, 80));
+        gradientPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 520, 740, 80));
 
         lblMaNV8.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV8.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
@@ -386,7 +395,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
                 btnCloseActionPerformed(evt);
             }
         });
-        gradientPanel2.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 10, 50, 50));
+        gradientPanel2.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 10, 50, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -394,15 +403,15 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(2, 2, 2)
-                .addComponent(gradientPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(gradientPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 860, Short.MAX_VALUE)
                 .addGap(2, 2, 2))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(2, 2, 2)
-                .addComponent(gradientPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE)
-                .addGap(2, 2, 2))
+                .addComponent(gradientPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -411,7 +420,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
         insert();
-      
+
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed

@@ -127,10 +127,7 @@ public class Panigation extends javax.swing.JPanel {
             default:
                 throw new AssertionError();
         }
-//        
-//        initProductData(SanPhamDao.getInstant().panigation(currentPage));
-//        initBoxData(BoxDao.getInstant().panigation(currentPage));
-//        setPageProduct();
+
     }
 
     public static void setPage() {

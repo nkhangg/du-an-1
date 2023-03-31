@@ -370,4 +370,20 @@ values	(2, N'Phạm Nhứt Khang', '2023/3/29 6:00:00', '2023/3/29 7:00:00', 1),
 select * from DATBOX where MaBox = 1 and TrangThai = 'isActive'
 
 
+select * from KhuyenMai
 
+update KhuyenMai
+set TrangThai = 1
+where MaKM = 'KM01' and TrangThai = 1
+
+
+Insert into KhuyenMai values ('C313110000', N'Tri ân khách hàng','2022/10/20', '2022/10/25', 10, 10, null)
+
+alter table KhuyenMai
+add TrangThai bit
+
+select * from DatTruoc where MaBox = 2 and TranThai = 1 order by GioKT
+
+update DatTruoc
+set TranThai = 1
+where MaDT = 55

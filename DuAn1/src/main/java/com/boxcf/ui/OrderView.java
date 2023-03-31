@@ -43,6 +43,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
@@ -99,6 +100,7 @@ public class OrderView extends javax.swing.JFrame {
         panelCategory = new javax.swing.JPanel();
         scroll = new javax.swing.JScrollPane();
         panelItem = new com.boxcf.components.PanelItem();
+        panelPanigation = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -251,7 +253,7 @@ public class OrderView extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(panelCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(panelCategory, javax.swing.GroupLayout.DEFAULT_SIZE, 1046, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,23 +264,25 @@ public class OrderView extends javax.swing.JFrame {
         scroll.setBorder(null);
         scroll.setViewportView(panelItem);
 
+        panelPanigation.setBackground(new java.awt.Color(255, 255, 255));
+        panelPanigation.setLayout(new java.awt.BorderLayout());
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(scroll)
-                .addGap(0, 0, 0))
+            .addComponent(scroll)
+            .addComponent(panelPanigation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 606, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(panelPanigation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -380,6 +384,7 @@ public class OrderView extends javax.swing.JFrame {
     private javax.swing.JPanel panelButton;
     private javax.swing.JPanel panelCategory;
     private com.boxcf.components.PanelItem panelItem;
+    private javax.swing.JPanel panelPanigation;
     private javax.swing.JScrollPane scroll;
     private com.boxcf.components.TextField textField4;
     private com.boxcf.components.WindowButton windowButton1;
@@ -469,7 +474,6 @@ public class OrderView extends javax.swing.JFrame {
         if (categoryAll) {
             // loai tat ca
             panelCategory.add(Store.categoryAll(panelCategory, name, true));
-//            initProductData(SanPhamDao.getInstant().selectAll());
 
             //--------------------ha code--------------------------------
             mode = "product";
@@ -606,6 +610,9 @@ public class OrderView extends javax.swing.JFrame {
                 b.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
+                        removePanigation();
+                        Panigation.current = 1;
+                        addPanigation();
                         handleCategory(b.getText());
                     }
 
@@ -690,15 +697,29 @@ public class OrderView extends javax.swing.JFrame {
         panelItem.add(boxStatus);
     }
 
+    public JPanel getPanelPanigation() {
+        return panelPanigation;
+    }
+
+    public void setPanelPanigation(JPanel panelPanigation) {
+        this.panelPanigation = panelPanigation;
+    }
+
     //-------------ha code-----------------
     public void addPanigation() {
         Panigation panigation = new Panigation();
-        panigation.setBounds(0, 800, getWidth(), getHeight());
-        panigation.setVisible(true);
-
-        panelItem.add(panigation);
+        panelPanigation.add(panigation);
         Store.panigation = panigation;
 
+        panelPanigation.repaint();
+        panelPanigation.revalidate();
+
         StoreEvents.handlePanigation();
+    }
+
+    public void removePanigation() {
+        panelPanigation.removeAll();
+        panelPanigation.repaint();
+        panelPanigation.revalidate();
     }
 }

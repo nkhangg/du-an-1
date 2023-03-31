@@ -5,6 +5,7 @@
 package com.boxcf.models;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  *
@@ -88,6 +89,49 @@ public class KhuyenMai {
     public void setDieuKienGiam(long DieuKienGiam) {
         this.DieuKienGiam = DieuKienGiam;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "KhuyenMai{" + "MaKM=" + MaKM + ", TenKM=" + TenKM + ", NgayBD=" + NgayBD + ", NgayKT=" + NgayKT + ", SoLuot=" + SoLuot + ", PhanTram=" + PhanTram + ", DieuKienGiam=" + DieuKienGiam + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final KhuyenMai other = (KhuyenMai) obj;
+        if (this.SoLuot != other.SoLuot) {
+            return false;
+        }
+        if (this.PhanTram != other.PhanTram) {
+            return false;
+        }
+        if (this.DieuKienGiam != other.DieuKienGiam) {
+            return false;
+        }
+        if (!Objects.equals(this.MaKM, other.MaKM)) {
+            return false;
+        }
+        if (!Objects.equals(this.TenKM, other.TenKM)) {
+            return false;
+        }
+        if (!Objects.equals(this.NgayBD, other.NgayBD)) {
+            return false;
+        }
+        return Objects.equals(this.NgayKT, other.NgayKT);
+    }
+
 }
