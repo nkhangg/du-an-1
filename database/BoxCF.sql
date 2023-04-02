@@ -73,15 +73,15 @@ CREATE TABLE ComboCT(
 --Gía box lấy theo giá loại box
 --Ko đc xóa loại box khi có box thuộc loại box đó
 CREATE TABLE Box(
-	MaBox INT IDENTITY PRIMARY KEY NOT NULL,
+	MaBox VARCHAR(10) PRIMARY KEY NOT NULL,
 	TenBox NVARCHAR(50) NOT NULL,
 	HinhAnh VARCHAR(100),
-	TrangThai NVARCHAR(20),
+	MoTa NVARCHAR(20),
 	MaLoaiBox VARCHAR(10) REFERENCES LoaiBox(MaLoaiBox) ON DELETE NO ACTION,
-	GhiChu NVARCHAR(100),
 )
 GO
 
+select * from box
 
 CREATE TABLE DatBox(
 	MaDat INT IDENTITY PRIMARY KEY NOT NULL,
@@ -89,7 +89,7 @@ CREATE TABLE DatBox(
 	GioBD DATETIME,
 	GioKT DATETIME,
 	TrangThai NVARCHAR(20),
-	MaBox INT REFERENCES Box(MaBox) ON DELETE NO ACTION,
+	MaBox VARCHAR(10) REFERENCES Box(MaBox) ON DELETE NO ACTION,
 )
 GO
 
@@ -102,9 +102,11 @@ CREATE TABLE KhuyenMai(
 	SoLuot INT,
 	PhanTram INT,
 	DieuKienGiam INT,
+	TrangThai BIT,
 )
 GO
 
+select * from khuyenmai
 
 CREATE TABLE HoaDon(
 	MaHD INT IDENTITY PRIMARY KEY NOT NULL,
@@ -180,20 +182,20 @@ select * from LoaiSP
 select * from LoaiBox
 
 --Loại box
-Insert into LoaiBox values ('BX01', N'Đơn', 100000, null)
-Insert into LoaiBox values ('BX02', N'Đôi', 200000, null)
-Insert into LoaiBox values ('BX03', N'Nhóm', 300000, null)
-Insert into LoaiBox values ('BX04', N'Nhóm', 300000, null)
-Insert into LoaiBox values ('BX05', N'Đơn', 100000, null)
+Insert into LoaiBox values ('S', N'Đơn', 100000, null)
+Insert into LoaiBox values ('M', N'Đôi', 200000, null)
+Insert into LoaiBox values ('L', N'Nhóm 4', 300000, null)
+Insert into LoaiBox values ('XL', N'Nhóm 6', 300000, null)
+
 
 GO
 
 --Combo
-Insert into Combo values ('CB01', N'',100000, 'abc', 'BX01', 5)
-Insert into Combo values ('CB02', N'',200000, 'abc', 'BX02', 2)
-Insert into Combo values ('CB03', N'',300000, 'abc', 'BX03', 3)
-Insert into Combo values ('CB04', N'',300000, 'abc', 'BX04', 3)
-Insert into Combo values ('CB05', N'',100000, 'abc', 'BX05', 1)
+Insert into Combo values ('CB01', N'',100000, 'abc', 'S', 5)
+Insert into Combo values ('CB02', N'',200000, 'abc', 'M', 2)
+Insert into Combo values ('CB03', N'',300000, 'abc', 'L', 3)
+Insert into Combo values ('CB04', N'',300000, 'abc', 'XL', 3)
+Insert into Combo values ('CB05', N'',100000, 'abc', 'S', 1)
 
 GO
 
@@ -207,37 +209,46 @@ Insert into ComboCT values ('CB05',5, 'ggg')
 GO
 
 --Box
-Insert into Box values (N'Box 1', null, N'Trống', 'BX01', 'Box 1')
-Insert into Box values (N'Box 2', null, N'Trống', 'BX03', 'Box 2')
-Insert into Box values (N'Box 3', null, N'Trống', 'BX02', 'Box 3')
-Insert into Box values (N'Box 4', null, N'Trống', 'BX04', 'Box 4')
+select * from box
+select * from loaibox
+
+Insert into Box values ('B001S', N'Box 1', null, N'Mới', 'S')
+Insert into Box values ('B002M', N'Box 2', null, N'Mới', 'M')
+Insert into Box values ('B003L', N'Box 3', null, N'Mới', 'L')
+Insert into Box values ('B004XL', N'Box 4', null, N'Mới', 'XL')
+Insert into Box values ('B005S', N'Box 5', null, N'Mới', 'S')
+Insert into Box values ('B006M', N'Box 6', null, N'Mới', 'M')
+Insert into Box values ('B007L', N'Box 7', null, N'Mới', 'L')
+Insert into Box values ('B008L', N'Box 8', null, N'Mới', 'L')
+Insert into Box values ('B009S', N'Box 9', null, N'Mới', 'S')
+Insert into Box values ('B010M', N'Box 10', null, N'Mới', 'M')
+Insert into Box values ('B011XL', N'Box 11', null, N'Mới', 'XL')
+Insert into Box values ('B012L', N'Box 12', null, N'Mới', 'L')
+
+
+
 
 select * from box
 where MaLoaiBox = 'BX01'
 
-select * from LoaiBox
-
-update Box
-set TrangThai = 'inActive'
-where MaBox = 1
 
 select * from DatBox
 GO
 
 --Đặt box
 Insert into DATBOX values(N'Nguyễn Ngọc Anh', '10:34:09 AM', '11:34:09 AM', N'', 1)
-Insert into DATBOX values(N'Như Ý', '09:10:00 AM', '10:10:00 AM', N'', 4)
-Insert into DATBOX values(N'Nguyễn Ngọc Ngân', '08:20:00 AM', '09:20:00 AM', N'', 2)
-Insert into DATBOX values(N'Trần Phước Vinh', '10:00:00 AM', '11:00:00 AM', N'', 3)
-Insert into DATBOX values(N'Phan Huỳnh Tuyết Nhi', '01:30:00 PM', '02:30:00 PM', N'', 1)
+Insert into DATBOX values(N'Như Ý', '09:10:00 AM', '10:10:00 AM', N'', 2)
+Insert into DATBOX values(N'Nguyễn Ngọc Ngân', '08:20:00 AM', '09:20:00 AM', N'', 3)
+Insert into DATBOX values(N'Trần Phước Vinh', '10:00:00 AM', '11:00:00 AM', N'', 4)
+Insert into DATBOX values(N'Phan Huỳnh Tuyết Nhi', '01:30:00 PM', '02:30:00 PM', N'', 5)
 
 GO
 
 --Khuyến mãi
-Insert into KhuyenMai values ('KM01', N'Tri ân khách hàng','2022/10/20', '2022/10/25', 10, 10, null)
-Insert into KhuyenMai values ('KM02', N'Khuyến mãi combo','2023/01/01', '2023/01/02', 15, 10, null)
-Insert into KhuyenMai values ('KM03', N'Tri ân khách hàng','2023/02/14', '2023/02/15', 14, 10, null)
-Insert into KhuyenMai values ('KM04', N'Tri ân khách hàng','2023/03/14', '2023/03/16', 10, 10, null)
+Insert into KhuyenMai values ('KM01', N'Tri ân khách hàng','2022/10/20', '2022/10/25', 100, 5, 100000, null)
+Insert into KhuyenMai values ('KM02', N'Khuyến mãi combo','2023/01/01', '2023/01/02', 100, 10, 200000, null)
+Insert into KhuyenMai values ('KM03', N'Tri ân khách hàng','2023/02/14', '2023/02/15', 100, 15, 300000, null)
+Insert into KhuyenMai values ('KM04', N'Tri ân khách hàng','2023/03/14', '2023/03/16', 100, 20, 500000, null)
 
 GO
 
@@ -251,7 +262,8 @@ Insert into HoaDon values('2023/03/10', N'Nguyễn Ngọc Anh', 'NV01', null, 90
 GO
 
 --Hóa đơn chi tiết
-Insert into HoaDonCT values ( 1, 3, null, 270000,null)
+SELECT * FROM HOADONCT
+Insert into HoaDonCT values (1, 3, null, 270000,null)
 Insert into HoaDonCT values (2, 3, 2, null, 180000,3)
 Insert into HoaDonCT values (5, 5, 1, null, 90000,1)
 Insert into HoaDonCT values (3, 4, 3, null, 270000,4)
@@ -259,7 +271,7 @@ Insert into HoaDonCT values (4, 2, 1, null, 90000,5)
 
 GO
 
-delete from DatBox
+
 select * from DatBox
 where TrangThai = 'isActive' and GioKT like '18:17:28'
 
@@ -378,9 +390,6 @@ where MaKM = 'KM01' and TrangThai = 1
 
 
 Insert into KhuyenMai values ('C313110000', N'Tri ân khách hàng','2022/10/20', '2022/10/25', 10, 10, null)
-
-alter table KhuyenMai
-add TrangThai bit
 
 select * from DatTruoc where MaBox = 2 and TranThai = 1 order by GioKT
 

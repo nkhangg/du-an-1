@@ -10,6 +10,7 @@ import com.boxcf.components.material.Panigation;
 import com.boxcf.events.StoreEvents;
 import com.boxcf.models.LoaiBox;
 import com.boxcf.models.LoaiSP;
+import com.boxcf.ui.BoxView;
 import com.boxcf.ui.DatBoxView;
 import com.boxcf.ui.KhuyenMaiView;
 import com.boxcf.ui.Main;
@@ -75,4 +76,6 @@ public class Store {
     public static Panigation panigation = null;
 
     public static DatBoxView dbView = null;
+    
+    public static BoxView boxView = null;
 }

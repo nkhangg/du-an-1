@@ -57,8 +57,8 @@ public class ThongTinBox extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        gradientPanel1.setColor1(new java.awt.Color(204, 204, 204));
-        gradientPanel1.setColor2(new java.awt.Color(204, 204, 204));
+        gradientPanel1.setColor1(new java.awt.Color(102, 102, 102));
+        gradientPanel1.setColor2(new java.awt.Color(102, 102, 102));
 
         gradientPanel2.setBackground(new java.awt.Color(204, 204, 204));
         gradientPanel2.setColor1(new java.awt.Color(245, 250, 255));
