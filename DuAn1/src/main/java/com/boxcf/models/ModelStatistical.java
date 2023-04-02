@@ -15,13 +15,15 @@ public class ModelStatistical {
     private int time;
     private String type;
     private String category;
+    private Object data;
 
     public ModelStatistical() {
     }
 
-    public ModelStatistical(String title, long num) {
+    public ModelStatistical(String title, long num, Object data) {
         this.title = title;
         this.num = num;
+        this.data = data;
     }
 
     public ModelStatistical(String title, int time, String type, String category) {
@@ -74,6 +76,14 @@ public class ModelStatistical {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
     }
 
     @Override

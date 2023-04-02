@@ -89,6 +89,7 @@ public class Chart extends javax.swing.JPanel {
     public void clear() {
         animate = 0;
         blankPlotChart.setLabelCount(0);
+        blankPlotChart.initValues(0, 10);
         model.clear();
         repaint();
     }

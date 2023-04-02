@@ -195,6 +195,7 @@ public class Combobox<E> extends JComboBox<E> {
                 g2.setColor(lineColor);
             } else {
                 g2.setColor(new Color(150, 150, 150));
+
             }
             g2.fillRect(2, height - 1, width - 4, 1);
 //            createHintText(g2);

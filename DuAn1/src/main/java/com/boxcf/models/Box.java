@@ -6,41 +6,31 @@ package com.boxcf.models;
 
 import com.boxcf.constands.BoxState;
 
-/**
- *
- * @author ji
- */
 public class Box {
 
-    int MaBox;
+    String MaBox;
     String TenBox;
     String HinhAnh;
-    BoxState TrangThai;
+//    BoxState TrangThai;
     String MaLoaiBox;
+    String moTa;
 
     public Box() {
     }
 
-    public Box(int MaBox, String TenBox, String HinhAnh, BoxState TrangThai, String MaLoaiBox) {
+    public Box(String MaBox, String TenBox, String HinhAnh, String MaLoaiBox, String moTa) {
         this.MaBox = MaBox;
         this.TenBox = TenBox;
         this.HinhAnh = HinhAnh;
-        this.TrangThai = TrangThai;
         this.MaLoaiBox = MaLoaiBox;
+        this.moTa = moTa;
     }
 
-    public Box( String TenBox, String HinhAnh, BoxState TrangThai, String MaLoaiBox) {
-        this.TenBox = TenBox;
-        this.HinhAnh = HinhAnh;
-        this.TrangThai = TrangThai;
-        this.MaLoaiBox = MaLoaiBox;
-    }
-
-    public int getMaBox() {
+    public String getMaBox() {
         return MaBox;
     }
 
-    public void setMaBox(int MaBox) {
+    public void setMaBox(String MaBox) {
         this.MaBox = MaBox;
     }
 
@@ -60,14 +50,6 @@ public class Box {
         this.HinhAnh = HinhAnh;
     }
 
-    public BoxState getTrangThai() {
-        return TrangThai;
-    }
-
-    public void setTrangThai(BoxState TrangThai) {
-        this.TrangThai = TrangThai;
-    }
-
     public String getMaLoaiBox() {
         return MaLoaiBox;
     }
@@ -75,6 +57,18 @@ public class Box {
     public void setMaLoaiBox(String MaLoaiBox) {
         this.MaLoaiBox = MaLoaiBox;
     }
-    
-    
+
+    public String getMoTa() {
+        return moTa;
+    }
+
+    public void setMoTa(String moTa) {
+        this.moTa = moTa;
+    }
+
+    @Override
+    public String toString() {
+        return "Box{" + "MaBox=" + MaBox + ", TenBox=" + TenBox + ", HinhAnh=" + HinhAnh + ", MaLoaiBox=" + MaLoaiBox + ", moTa=" + moTa + '}';
+    }
+
 }

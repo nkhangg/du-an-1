@@ -63,7 +63,7 @@ public class HoaDonView extends javax.swing.JFrame {
         scroll = new javax.swing.JScrollPane();
         tblHoaDon = new javax.swing.JTable();
         clsoeButton1 = new com.boxcf.components.ClsoeButton();
-        lblNameCutomer = new javax.swing.JLabel();
+        lblNameCutomer = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -152,7 +152,7 @@ public class HoaDonView extends javax.swing.JFrame {
         txtMoney.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(150, 150, 150)));
         txtMoney.setOpaque(false);
 
-        tblHoaDon.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        tblHoaDon.setFont(new java.awt.Font("UTM BryantLG", 1, 12)); // NOI18N
         tblHoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, "1", "1000", "1", "1000"},
@@ -163,7 +163,15 @@ public class HoaDonView extends javax.swing.JFrame {
             new String [] {
                 "STT", "Sản phẩm", "Đơn giá", "Số lượng (giờ)", "Thành tiền"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblHoaDon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         tblHoaDon.setGridColor(new java.awt.Color(204, 204, 204));
         tblHoaDon.setRowHeight(24);
@@ -171,8 +179,11 @@ public class HoaDonView extends javax.swing.JFrame {
 
         clsoeButton1.setBackground(new java.awt.Color(255, 255, 255));
 
-        lblNameCutomer.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblNameCutomer.setText("Phạm Nhứt Khang");
+        lblNameCutomer.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblNameCutomer.setForeground(new java.awt.Color(51, 51, 51));
+        lblNameCutomer.setText("Phan Huỳnh Tuyết Nhi");
+        lblNameCutomer.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(150, 150, 150)));
+        lblNameCutomer.setOpaque(false);
 
         javax.swing.GroupLayout gradientPanel1Layout = new javax.swing.GroupLayout(gradientPanel1);
         gradientPanel1.setLayout(gradientPanel1Layout);
@@ -219,11 +230,12 @@ public class HoaDonView extends javax.swing.JFrame {
                                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(gradientPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(clsoeButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(gradientPanel1Layout.createSequentialGroup()
-                                .addComponent(lblNameCutomer, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblNameCutomer, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel1Layout.createSequentialGroup()
@@ -253,8 +265,8 @@ public class HoaDonView extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(lblNameCutomer))
-                .addGap(19, 19, 19)
+                    .addComponent(lblNameCutomer, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
                 .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -276,11 +288,12 @@ public class HoaDonView extends javax.swing.JFrame {
                 .addGroup(gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
                     .addComponent(lblRedundant))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addComponent(buttonRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
         );
 
+        txtMoney.setBackground(new Color(0, 0, 0, 0));
         txtMoney.setBackground(new Color(0, 0, 0, 0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -353,7 +366,7 @@ public class HoaDonView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel lblDiscount;
-    private javax.swing.JLabel lblNameCutomer;
+    private javax.swing.JTextField lblNameCutomer;
     private javax.swing.JLabel lblRedundant;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JLabel lblTotalMoney;
@@ -427,7 +440,7 @@ public class HoaDonView extends javax.swing.JFrame {
             }
             HoaDonCT hdct = new HoaDonCT(maHd, data.getMaDat() > 0 ? 0 : Integer.parseInt(data.getMaItem() + ""),
                     data.getSoLuong(), null,
-                    (long) (data.getSoLuong() * data.getGia()),
+                    (long) (data.getGia()),
                     data.getMaDat());
             HoaDonChiTietDao.getInstant().insert(hdct);
         }

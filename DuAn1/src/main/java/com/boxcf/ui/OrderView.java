@@ -22,13 +22,13 @@ import com.boxcf.components.material.ProductItem;
 import com.boxcf.models.ModelItem;
 import com.boxcf.components.material.PanelBill;
 import com.boxcf.components.material.Panigation;
-import com.boxcf.dao.BoxDao;
+import com.boxcf.dao.BoxDao2;
 import com.boxcf.dao.DanhMucDao;
 import com.boxcf.dao.LoaiBoxDao;
 import com.boxcf.dao.LoaiSPDao;
 import com.boxcf.dao.SanPhamDao;
 import com.boxcf.events.interfaces.BoxEvents;
-import com.boxcf.models.Box;
+import com.boxcf.models.Box2;
 import com.boxcf.models.DanhMuc;
 import com.boxcf.models.LoaiBox;
 import com.boxcf.models.LoaiSP;
@@ -440,15 +440,15 @@ public class OrderView extends javax.swing.JFrame {
 
     }
 
-    public void initBoxData(List<Box> list) {
+    public void initBoxData(List<Box2> list) {
         panelItem.removeAll();
 
         this.openBoxStatus();
 
         StoreEvents.product(this);
 
-        for (Box box : list) {
-            this.addBoxData(new ModelItem(box.getMaBox(), box.getTenBox(), box.getTrangThai(), LoaiBoxDao.getInstant().selectById(box.getMaLoaiBox())));
+        for (Box2 box : list) {
+            this.addBoxData(new ModelItem(box.getMaBox(), box.getTenBox(), box.getTrangThai(), LoaiBoxDao.getInstance().selectById(box.getMaLoaiBox())));
         }
         panelBill.activeBoxOnBill(panelItem);
 
@@ -487,11 +487,11 @@ public class OrderView extends javax.swing.JFrame {
         if (categoryAll) {
             // loai tat ca
             panelCategory.add(Store.categoryAll(panelCategory, name, true));
-//            initBoxData(BoxDao.getInstant().selectAll());
+//            initBoxData(BoxDao2.getInstant().selectAll());
 
             //---------ha code------------------
             mode = "box";
-            initBoxData(BoxDao.getInstant().panigation(1));
+            initBoxData(BoxDao2.getInstant().panigation(Panigation.current));
             addPanigation();
         }
 
@@ -618,7 +618,7 @@ public class OrderView extends javax.swing.JFrame {
 
             // loai box
             if (danhMuc.getTenDM().equalsIgnoreCase("Box")) {
-                initCategoryBox(true, LoaiBoxDao.getInstant().selectAll(), name);
+                initCategoryBox(true, LoaiBoxDao.getInstance().selectAll(), name);
                 return;
             }
 

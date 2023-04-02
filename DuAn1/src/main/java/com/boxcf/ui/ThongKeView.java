@@ -4,14 +4,13 @@
  */
 package com.boxcf.ui;
 
-import com.boxcf.components.WrapLayout;
 import com.boxcf.components.material.CategoryChartItem;
 import com.boxcf.components.material.OverviewItem;
 import com.boxcf.constands.Messages;
-import com.boxcf.dao.KhuyenMaiDao;
 import com.boxcf.dao.ThongKeDao;
 import com.boxcf.models.ModelOverview;
 import com.boxcf.models.ModelStatistical;
+import com.boxcf.store.Store;
 import com.raven.chart.ModelChart;
 import java.awt.Color;
 import java.awt.Component;
@@ -21,8 +20,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.SwingConstants;
-import javax.swing.border.MatteBorder;
 
 /**
  *
@@ -51,7 +48,6 @@ public class ThongKeView extends javax.swing.JPanel {
         chart = new com.raven.chart.Chart();
         cboTime = new com.boxcf.components.Combobox();
         lblTitleChart = new javax.swing.JLabel();
-        combobox3 = new com.boxcf.components.Combobox();
         pnlCategoryChart = new com.boxcf.components.GradientPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -81,9 +77,6 @@ public class ThongKeView extends javax.swing.JPanel {
         lblTitleChart.setForeground(new java.awt.Color(57, 196, 138));
         lblTitleChart.setText("jLabel3");
 
-        combobox3.setBackground(new java.awt.Color(240, 240, 240));
-        combobox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "7 Ngày Trước", "1 Tháng Trước", "1 Năm Trước", " " }));
-
         javax.swing.GroupLayout gradientPanel1Layout = new javax.swing.GroupLayout(gradientPanel1);
         gradientPanel1.setLayout(gradientPanel1Layout);
         gradientPanel1Layout.setHorizontalGroup(
@@ -92,8 +85,6 @@ public class ThongKeView extends javax.swing.JPanel {
                 .addGap(30, 30, 30)
                 .addComponent(lblTitleChart, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(combobox3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(cboTime, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addComponent(chart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -104,9 +95,8 @@ public class ThongKeView extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cboTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTitleChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(combobox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                    .addComponent(lblTitleChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(chart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -156,7 +146,6 @@ public class ThongKeView extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.boxcf.components.Combobox cboTime;
     private com.raven.chart.Chart chart;
-    private com.boxcf.components.Combobox combobox3;
     private com.boxcf.components.GradientPanel gradientPanel1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblTitleChart;
@@ -200,8 +189,7 @@ public class ThongKeView extends javax.swing.JPanel {
 
         if (cboTime.getSelectedItem() instanceof ModelStatistical) {
             ModelStatistical mdCbo = (ModelStatistical) cboTime.getSelectedItem();
-            
-            
+
             chart.setLegend(cboTime.getSelectedItem().toString());
             lblTitleChart.setText(Messages.chartMess(mdCbo));
 
@@ -209,11 +197,24 @@ public class ThongKeView extends javax.swing.JPanel {
                 return;
             }
 
-            if (mdCbo.getCategory().equalsIgnoreCase("Doanh thu")) {
-                list = dTk.revenueOfDay(mdCbo.getTime(), mdCbo.getType());
+            if (mdCbo.getCategory().equalsIgnoreCase(dt)) {
 
+                list = dTk.revenue(mdCbo.getType());
+
+            } else if (mdCbo.getCategory().equalsIgnoreCase(spbc)) {
+
+                list = dTk.product(mdCbo.getTime(), mdCbo.getType());
+
+            } else if (mdCbo.getCategory().equalsIgnoreCase(dsnv)) {
+
+                list = dTk.staff(mdCbo.getTime(), mdCbo.getType());
             } else {
                 chart.clear();
+            }
+
+            if (mdCbo.getType().equals("period")) {
+                Store.chart = chart;
+                new ChonKhoanThoiGianView(mdCbo).setVisible(true);
             }
 
             if (list == null) {
@@ -221,7 +222,7 @@ public class ThongKeView extends javax.swing.JPanel {
             }
 
             for (ModelStatistical md : list) {
-                chart.addData(new ModelChart(md.getTitle(), new double[]{md.getNum()}));
+                chart.addData(new ModelChart(md.getTitle().length() > 8 ? md.getTitle().substring(0, 10) + "..." : md.getTitle(), new double[]{md.getNum()}));
             }
 
             chart.start();
@@ -233,15 +234,12 @@ public class ThongKeView extends javax.swing.JPanel {
     private void renderDataCboTime(String categoryTile) {
         ArrayList<ModelStatistical> list = new ArrayList<>();
 
-        if (categoryTile.equals(dt) || categoryTile.equals(dsnv)) {
+        if (!categoryTile.equals(lshd)) {
             list.add(new ModelStatistical("7 Ngày trước", 7, "day", categoryTile));
             list.add(new ModelStatistical("7 Tháng trước", 7, "month", categoryTile));
             list.add(new ModelStatistical("7 năm gần nhất", 7, "year", categoryTile));
-
-        } else if (categoryTile.equals(spbc)) {
-            list.add(new ModelStatistical("7 Tháng trước", 7, "month", categoryTile));
-            list.add(new ModelStatistical("7 năm gần nhất", 7, "year", categoryTile));
             list.add(new ModelStatistical("Khoản thời gian", 0, "period", categoryTile));
+
         } else {
             chart.clear();
             chart.setLegend("");

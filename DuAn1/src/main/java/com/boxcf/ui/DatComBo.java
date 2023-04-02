@@ -7,7 +7,7 @@ package com.boxcf.ui;
 import test.*;
 import com.boxcf.store.Store;
 import com.box.utils.XDate;
-import com.boxcf.models.Box;
+import com.boxcf.models.Box2;
 import com.boxcf.models.BoxModelItem;
 import com.boxcf.models.DatBox;
 import com.boxcf.ui.OrderView;
@@ -26,7 +26,7 @@ import javax.swing.JTextField;
  */
 public class DatComBo extends javax.swing.JFrame {
 
-//    Box box;
+//    Box2 box;
     BoxModelItem box;
 //    Order1 order = Store.globelOrderBox;
 //    OrderTest1 order2 = new OrderTest1();

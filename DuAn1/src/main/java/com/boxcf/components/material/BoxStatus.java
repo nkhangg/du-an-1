@@ -100,16 +100,16 @@ public class BoxStatus extends javax.swing.JPanel {
     
     public void fillState() {
         
-        int isActiveNum = BoxDao.getInstant().isActiveBox();
-        int isReservedNum = DatTruocDao.getInstant().isReserved();
-        int inActiveNum = BoxDao.getInstant().inActiveBox();
-        
-        String inActive = "Trống (" + inActiveNum + ")";
-        String isActive = "Đang hoạt động (" + isActiveNum + ")";
-        String isReserved = "Đặt trước (" + isActiveNum + ")";
-        
-        lblInActive.setText(inActive);
-        lblIsActive.setText(isActive);
-        lblReserve.setText(isReserved);
+//        int isActiveNum = BoxDao.getInstance().isActiveBox();
+//        int isReservedNum = DatTruocDao.getInstant().isReserved();
+//        int inActiveNum = BoxDao.getInstance().inActiveBox();
+//        
+//        String inActive = "Trống (" + inActiveNum + ")";
+//        String isActive = "Đang hoạt động (" + isActiveNum + ")";
+//        String isReserved = "Đặt trước (" + isActiveNum + ")";
+//        
+//        lblInActive.setText(inActive);
+//        lblIsActive.setText(isActive);
+//        lblReserve.setText(isReserved);
     }
 }

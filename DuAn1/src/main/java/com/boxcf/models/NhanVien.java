@@ -37,6 +37,12 @@ public class NhanVien {
         this.VaiTro = VaiTro;
     }
 
+    public NhanVien(String MaNV, String TenNV, Date NgayVaoLam) {
+        this.MaNV = MaNV;
+        this.TenNV = TenNV;
+        this.NgayVaoLam = NgayVaoLam;
+    }
+
     public String getMaNV() {
         return MaNV;
     }
@@ -113,7 +119,5 @@ public class NhanVien {
     public String toString() {
         return "NhanVien{" + "MaNV=" + MaNV + ", TenNV=" + TenNV + ", NgaySinh=" + NgaySinh + ", SDT=" + SDT + ", DiaChi=" + DiaChi + ", MatKhau=" + MatKhau + ", HinhAnh=" + HinhAnh + ", NgayVaoLam=" + NgayVaoLam + ", VaiTro=" + VaiTro + '}';
     }
-    
-    
 
 }

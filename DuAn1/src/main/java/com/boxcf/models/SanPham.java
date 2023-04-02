@@ -29,6 +29,14 @@ public class SanPham {
         this.MaLoai = MaLoai;
     }
 
+    public SanPham(String MaSP, String TenSP, long Gia) {
+        this.MaSP = MaSP;
+        this.TenSP = TenSP;
+        this.Gia = Gia;
+    }
+    
+    
+
     public String getMaSP() {
         return MaSP;
     }

@@ -5,8 +5,11 @@
 package com.boxcf.dao;
 
 import com.box.utils.JdbcHelper;
+import com.box.utils.Validator;
 import com.box.utils.XDate;
 import com.boxcf.models.ModelStatistical;
+import com.boxcf.models.ThongKeNhanVien;
+import com.boxcf.models.ThongKeSanPham;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,8 +40,7 @@ public class ThongKeDao {
     public double revenueOfTheDay() {
 
         double revenue = 0;
-        String sql = "select SUM(ThanhTien) from HoaDon hd \n"
-                + "join HoaDonCT ct on ct.MaHD = hd.MaHD \n"
+        String sql = "select SUM(TongTien) from HoaDon hd \n"
                 + DateNowSql;
 
         try {
@@ -105,7 +107,7 @@ public class ThongKeDao {
         double revenue = 0;
         String sql = "select  Sum(TongTien) from HoaDon hd\n"
                 + "join HoaDonCT ct on ct.MaHD = hd.MaHD\n"
-                + "where NgayTao <= '2023-04-01 23:59:59' and NgayTao >= '2023-04-01 00:00:00' and MaSP in (select MaCB from Combo)";
+                + DateNowSql + " and MaSP in (select MaCB from Combo)";
 
         try {
 
@@ -122,25 +124,27 @@ public class ThongKeDao {
         return revenue;
     }
 
-    public List<ModelStatistical> revenueOfDay(int time, String type) {
+    public List<ModelStatistical> revenue(String type, Date... date) {
         List<ModelStatistical> list = new ArrayList<>();
         String sql = "";
 
-        String sqlDay = "SELECT top " + time
+        String sqlDay = "SELECT top " + 7
                 + "CONVERT(VARCHAR(10),NgayTao,112), SUM(TongTien)\n"
                 + "FROM HoaDon\n"
                 + "GROUP BY CONVERT(VARCHAR(10),NgayTao,112)\n"
                 + "order by CONVERT(VARCHAR(10),NgayTao,112) desc";
 
-        String sqlMonth = "select top " + time
+        String sqlMonth = "select top " + 7
                 + "MONTH(NgayTao), SUM(TongTien) from HoaDon\n"
                 + "group by MONTH(NgayTao)\n"
                 + "order by MONTH(NgayTao) desc";
 
-        String sqlYear = "select top " + time
+        String sqlYear = "select top " + 7
                 + "YEAR(NgayTao), SUM(TongTien) from HoaDon\n"
                 + "group by YEAR(NgayTao)\n"
                 + "order by YEAR(NgayTao) desc";
+
+        String sqlProc = "{ call sp_select_dt  (?, ?) }";
 
         switch (type) {
             case "day":
@@ -152,17 +156,28 @@ public class ThongKeDao {
             case "year":
                 sql = sqlYear;
                 break;
+            case "period":
+                sql = sqlProc;
+                break;
             default:
-                throw new AssertionError();
+                break;
         }
 
         try {
+            if (sql.equals("")) {
+                return null;
+            }
 
-            ResultSet responce = JdbcHelper.query(sql);
+            ResultSet responce = null;
 
+            if (date.length >= 2) {
+                responce = JdbcHelper.query(sql, date[0], date[1]);
+            } else {
+                responce = JdbcHelper.query(sql);
+            }
             // admission a ResultSet return a Box
             while (responce.next()) {
-                list.add(new ModelStatistical(toDate(responce.getString(1)), responce.getLong(2)));
+                list.add(new ModelStatistical(toDate(responce.getString(1)), responce.getLong(2), null));
             }
             responce.getStatement().getConnection().close();
         } catch (Exception e) {
@@ -174,7 +189,117 @@ public class ThongKeDao {
         return list;
     }
 
-    public static void main(String[] args) {
+    private String sqlProduct(int time, String conditon) {
+        return "select ct.MaSP, sp.TenSP, sp.Gia, sum(SoLuong) as soluong from HoaDonCT ct\n"
+                + "join HoaDon hd on hd.MaHD = ct.MaHD\n"
+                + "join SanPham sp on sp.MaSP = ct.MaSP \n"
+                + conditon
+                + " group by ct.MaSP, sp.TenSP, sp.Gia\n"
+                + "order by sum(SoLuong) desc";
+    }
 
+    private String sqlStaff(int time, String conditon) {
+        return "select top 10  hd.MaNV,TenNV, NgayVaoLam, SUM(SoLuong) as soluong from HoaDon hd\n"
+                + "join HoaDonCT ct on ct.MaHD = hd.MaHD\n"
+                + "join NhanVien nv on nv.MaNV = hd.MaNV \n"
+                + conditon
+                + "group by  hd.MaNV, TenNV, NgayVaoLam";
+    }
+
+    public List<ModelStatistical> product(int time, String type) {
+        List<ModelStatistical> list = new ArrayList<>();
+        String sql = "";
+
+        String sqlDay = "where ct.MaSP is not null and CONVERT(VARCHAR(10),NgayTao,112) in (select distinct top " + time + " CONVERT(VARCHAR(10),NgayTao,112) from HoaDon\n"
+                + "order by  CONVERT(VARCHAR(10),NgayTao,112) desc)";
+
+        String sqlMonth = " where ct.MaSP is not null and MONTH(NgayTao) >= MONTH(NgayTao) - " + time;
+
+        String sqlYear = " where ct.MaSP is not null and YEAR(NgayTao) >= YEAR(NgayTao) - " + time;
+
+        switch (type) {
+            case "day":
+                sql = sqlProduct(time, sqlDay);
+                break;
+            case "month":
+                sql = sqlProduct(time, sqlMonth);
+                break;
+            case "year":
+                sql = sqlProduct(time, sqlYear);
+                break;
+            default:
+                return null;
+        }
+
+        try {
+
+            ResultSet responce = JdbcHelper.query(sql);
+
+            // admission a ResultSet return a Box
+            while (responce.next()) {
+                list.add(new ModelStatistical(responce.getString(2), responce.getLong(4),
+                        new ThongKeSanPham(responce.getString(1), responce.getString(2), responce.getLong(3), responce.getInt(4))));
+            }
+            responce.getStatement().getConnection().close();
+        } catch (Exception e) {
+            System.out.println(e);
+            throw new Error("The Error in revenueOfDay Combo !");
+        }
+        Collections.reverse(list);
+
+        return list;
+    }
+
+    public List<ModelStatistical> staff(int time, String type) {
+        List<ModelStatistical> list = new ArrayList<>();
+        String sql = "";
+
+        String sqlDay = " where TrangThai = 1 and CONVERT(VARCHAR(10),NgayTao,112) in (select distinct top " + time + " CONVERT(VARCHAR(10),NgayTao,112) from HoaDon\n"
+                + "order by  CONVERT(VARCHAR(10),NgayTao,112) desc) ";
+
+        String sqlMonth = " where TrangThai = 1 and MONTH(NgayTao) >= MONTH(NgayTao) - " + time;
+
+        String sqlYear = " where TrangThai = 1 and YEAR(NgayTao) >= YEAR(NgayTao) - " + time;
+
+        switch (type) {
+            case "day":
+                sql = sqlStaff(time, sqlDay);
+                break;
+            case "month":
+                sql = sqlStaff(time, sqlMonth);
+                break;
+            case "year":
+                sql = sqlStaff(time, sqlYear);
+
+                break;
+            default:
+                return null;
+        }
+
+        try {
+
+            ResultSet responce = JdbcHelper.query(sql);
+
+            // admission a ResultSet return a Box
+            while (responce.next()) {
+                list.add(new ModelStatistical(responce.getString(2), responce.getLong(4),
+                        new ThongKeNhanVien(responce.getString(1), responce.getString(2), responce.getDate(3), responce.getInt(4))));
+            }
+            responce.getStatement().getConnection().close();
+        } catch (Exception e) {
+            System.out.println(e);
+            throw new Error("The Error in staff ThongKe !");
+        }
+        Collections.reverse(list);
+
+        return list;
+    }
+
+    public static void main(String[] args) {
+        Date dateStart = XDate.toDate("2023/02/2", "yyyy/MM/dd");
+        Date dateEnd = XDate.toDate("2023/04/3", "yyyy/MM/dd");
+        for (ModelStatistical object : ThongKeDao.getInstant().revenue("day")) {
+            System.out.println(object.getNum());
+        }
     }
 }

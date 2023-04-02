@@ -59,7 +59,7 @@ public class LoaiBox {
 
     @Override
     public String toString() {
-        return "LoaiBox{" + "MaLoaiBox=" + MaLoaiBox + ", TenLoaiBox=" + TenLoaiBox + ", GiaLoai=" + GiaLoai + ", MoTa=" + MoTa + '}';
+        return this.TenLoaiBox;
     }
 
 }

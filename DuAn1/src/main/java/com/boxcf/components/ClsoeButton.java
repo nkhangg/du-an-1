@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 /**
@@ -82,6 +83,16 @@ public class ClsoeButton extends javax.swing.JPanel {
     }
 
     public void initEvent(JFrame fram) {
+        btnClose.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                fram.dispose();
+            }
+        });
+
+    }
+    
+    public void initEvent(JDialog fram) {
         btnClose.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
