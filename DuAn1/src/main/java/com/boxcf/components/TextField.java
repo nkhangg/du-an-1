@@ -155,12 +155,4 @@ public class TextField extends JTextField {
             g2.fillRect((int) (x + 2), height - 2, (int) size, 2);
         }
     }
-
-    @Override
-    public void setText(String string) {
-        if (!getText().equals(string)) {
-            showing(string.equals(""));
-        }
-        super.setText(string);
-    }
 }

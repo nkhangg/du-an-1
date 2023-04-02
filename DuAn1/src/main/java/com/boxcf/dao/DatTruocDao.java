@@ -98,7 +98,7 @@ public class DatTruocDao implements BoxCfDAO<DatTruoc, Integer> {
     public List<DatTruoc> selectAllWithIdBoxActive(int idBox) {
         List<DatTruoc> list = new ArrayList<>();
         String sql = "select * from DatTruoc\n"
-                + "where TranThai = 1 and MaBox = ?\n"
+                + "where TrangThai = 1 and MaBox = ?\n"
                 + "order by GioKT ";
 
         try {

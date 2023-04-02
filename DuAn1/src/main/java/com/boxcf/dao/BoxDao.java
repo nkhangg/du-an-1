@@ -3,86 +3,55 @@ package com.boxcf.dao;
 import com.boxcf.models.Box;
 import com.box.utils.JdbcHelper;
 import com.boxcf.constands.BoxState;
+import com.boxcf.models.Box;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoxDao implements BoxCfDAO<Box, Integer> {
+public class BoxDao implements BoxCfDAO<Box, String> {
 
-    public static BoxDao getInstant() {
+    public static BoxDao getInstance() {
         return new BoxDao();
     }
 
+    final String INSERT_SQL = "INSERT INTO Box VALUES (?, ?, ?, ?, ?)";
+    final String UPDATE_SQL = "UPDATE Box SET TenBox = ?, HinhAnh = ?, Mota = ?, MaLoaiBox = ? WHERE MaBox = ?";
+    final String DELETE_SQL = "DELETE FROM Box WHERE MaBox = ?";
+    final String SELECT_ALL_SQL = "SELECT * FROM Box";
+    final String SELECT_BY_ID_SQL = "SELECT * FROM Box WHERE MaBox = ?";
+    final String SELECT_BY_NAME_SQL = "SELECT * FROM Box WHERE TenBox LIKE ?";
+
     @Override
-    public void delete(Integer id) {
-        String sql = "delete Box where MaBox = ?";
-
-        try {
-            int response = JdbcHelper.update(sql, id);
-
-            if (response == 0) {
-                throw new Error("The Error in delete Box !");
-            }
-        } catch (Exception e) {
-            throw new Error("The Error in delete Box !");
-        }
+    public void insert(Box box) {
+        JdbcHelper.update(INSERT_SQL, box.getMaBox(), box.getTenBox(), box.getHinhAnh(), box.getMoTa(), box.getMaLoaiBox());
     }
 
     @Override
-    public void insert(Box e) {
-        String sql = "Insert into Box values ( ?, ?, ?, ?)";
+    public void update(Box box) {
+        JdbcHelper.update(UPDATE_SQL, box.getTenBox(), box.getHinhAnh(), box.getMoTa(), box.getMaLoaiBox(), box.getMaBox());
+    }
 
-        try {
-            int response = JdbcHelper.update(sql, e.getTenBox(), e.getHinhAnh(), e.getTrangThai(), e.getMaLoaiBox());
-
-            if (response == 0) {
-                throw new Error("The Error in insert Box !");
-            }
-        } catch (Exception ex) {
-            throw new Error("The Error in insert Box !");
-        }
-
+    @Override
+    public void delete(String id) {
+        JdbcHelper.update(DELETE_SQL, id);
     }
 
     @Override
     public List<Box> selectAll() {
-        List<Box> list = new ArrayList<>();
-        String sql = "select * from Box";
-
-        try {
-            ResultSet response = JdbcHelper.query(sql);
-
-            while (response.next()) {
-                list.add(createObjecet(response));
-            }
-
-            response.getStatement().getConnection().close();
-
-        } catch (Exception e) {
-            throw new Error("The Error in selectAll Box !");
-        }
-        return list;
+        return selectBySql(SELECT_ALL_SQL);
     }
 
     @Override
-    public Box selectById(Integer id) {
-        String sql = "select * from Box where MaBox = ?";
-        Box box = null;
-        try {
+    public Box selectById(String id) {
+        List<Box> list = selectBySql(SELECT_BY_ID_SQL, id);
 
-            ResultSet response = JdbcHelper.query(sql, id);
-
-            // admission a ResultSet return a Box
-            if (response.next()) {
-                box = createObjecet(response);
-            }
-            response.getStatement().getConnection().close();
-
-        } catch (Exception e) {
-            throw new Error("The Error in selectById Box !");
+        if (list.isEmpty()) {
+            return null;
+        } else {
+            return list.get(0);
         }
-        return box;
     }
 
     @Override
@@ -90,84 +59,28 @@ public class BoxDao implements BoxCfDAO<Box, Integer> {
         List<Box> list = new ArrayList<>();
 
         try {
-            ResultSet response = JdbcHelper.query(sql, args);
+            ResultSet rs = JdbcHelper.query(sql, args);
+            while (rs.next()) {
+                Box box = new Box();
 
-            while (response.next()) {
-                list.add(createObjecet(response));
+                box.setMaBox(rs.getString("MaBox"));
+                box.setTenBox(rs.getString("TenBox"));
+                box.setHinhAnh(rs.getString("HinhAnh"));
+                box.setMoTa(rs.getString("MoTa"));
+                box.setMaLoaiBox(rs.getString("MaLoaiBox"));
+
+                list.add(box);
             }
-
-            response.getStatement().getConnection().close();
-
         } catch (Exception e) {
-            throw new Error("The Error in selectBySql Box !");
+            e.printStackTrace();
         }
+
         return list;
     }
 
     @Override
-    public void update(Box e) {
-        String sql = "update Box set TenBox = ? , HinhAnh = ?, TrangThai = ?, MaLoaiBox = ? where MaBox = ?";
-
-        try {
-            int response = JdbcHelper.update(sql, e.getTenBox(), e.getHinhAnh(), e.getTrangThai(), e.getMaLoaiBox(), e.getMaBox());
-
-            if (response == 0) {
-                throw new Error("The Error in update Box !");
-            }
-        } catch (Exception ex) {
-            throw new Error("The Error in update Box !");
-        }
-
-    }
-
-    public void updateBoxState(Box box) {
-        String sql = "update Box\n"
-                + "set TrangThai = ?\n"
-                + "where MaBox = ?";
-
-        try {
-            int responce = JdbcHelper.update(sql, box.getTrangThai());
-
-            if (responce == 0) {
-                throw new Error("The Error in updateBoxState !");
-            }
-        } catch (Exception e) {
-            throw new Error("The Error in updateBoxState !");
-        }
-
-    }
-
-    private BoxState boxState(String value) {
-        switch (value) {
-            case "reserved":
-
-                return BoxState.reserved;
-            case "isActive":
-
-                return BoxState.isActive;
-            case "inactive":
-
-                return BoxState.inactive;
-            default:
-                return BoxState.inactive;
-        }
-    }
-
-    @Override
-    public Box createObjecet(ResultSet response) {
-
-        try {
-            return new Box(
-                    response.getInt(1),
-                    response.getString(2),
-                    response.getString(3),
-                    boxState(response.getString(4)),
-                    response.getString(5)
-            );
-        } catch (Exception e) {
-            throw new Error("The Error in createObjecet Box !");
-        }
-
+    public Box createObjecet(ResultSet responce) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public List<Box> panigation(Integer pageCurrent) {
@@ -179,8 +92,22 @@ public class BoxDao implements BoxCfDAO<Box, Integer> {
         return (int) Math.ceil(this.selectAll().size() / 8) + 1;
     }
 
-    public static void main(String[] args) {
-        BoxDao.getInstant().delete(null);
+    public List<Box> selectByKeyWord(String keyword) {
+        if (selectById(keyword) != null) {
+            return selectBySql(SELECT_BY_ID_SQL, keyword);
+        }
+        return selectBySql(SELECT_BY_NAME_SQL, "%" + keyword + "%");
     }
 
+    public List<Box> selectByLoaiBox(String maLoai) {
+        String sql = "SELECT * FROM BOX WHERE MALOAIBOX = ?";
+        return selectBySql(sql, maLoai);
+    }
+
+    public String getMaxId() throws SQLException {
+        String sql = "SELECT TOP 1 * FROM Box ORDER BY MaBox DESC";
+        List<Box> list = this.selectBySql(sql);
+        
+        return list.get(0).getMaBox();
+    }
 }
