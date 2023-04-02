@@ -8,7 +8,6 @@ import com.box.utils.Formats;
 import com.boxcf.components.ButtonRound;
 import com.boxcf.components.PanelItem;
 import com.boxcf.components.ScrollBar;
-import com.boxcf.components.WrapLayout;
 import com.boxcf.components.material.BoxItem;
 import com.boxcf.components.material.BoxStatus;
 import com.boxcf.components.material.Category;
@@ -23,7 +22,6 @@ import com.boxcf.components.material.ProductItem;
 import com.boxcf.models.ModelItem;
 import com.boxcf.components.material.PanelBill;
 import com.boxcf.components.material.Panigation;
-import com.boxcf.constands.BoxState;
 import com.boxcf.dao.BoxDao;
 import com.boxcf.dao.DanhMucDao;
 import com.boxcf.dao.LoaiBoxDao;
@@ -36,13 +34,7 @@ import com.boxcf.models.LoaiBox;
 import com.boxcf.models.LoaiSP;
 import com.boxcf.models.SanPham;
 import com.boxcf.store.Store;
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -223,16 +215,16 @@ public class OrderView extends javax.swing.JFrame {
         panelButtonLayout.setVerticalGroup(
             panelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelButtonLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addComponent(windowButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 66, Short.MAX_VALUE))
+            .addGroup(panelButtonLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
                 .addGroup(panelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBox, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonRound4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonRound5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
-            .addGroup(panelButtonLayout.createSequentialGroup()
-                .addComponent(windowButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(241, 248, 248));
@@ -416,11 +408,6 @@ public class OrderView extends javax.swing.JFrame {
         // dữ liệu ban đầu của loại
         new Thread() {
             public void run() {
-//                try {
-//                    Thread.sleep(200);
-//                } catch (InterruptedException ex) {
-//                    Logger.getLogger(OrderView.class.getName()).log(Level.SEVERE, null, ex);
-//                }
                 initCategory(true, LoaiSPDao.getInstant().selectAll(), "");
             }
         }.start();

@@ -95,10 +95,10 @@ public class SanPhamView extends javax.swing.JPanel {
             i++;
         }
 
-//        for (SanPham sp : spDAO.selectAll()) {
-//            Object row[] = {sp.getMaSP(), sp.getTenSP(), sp.getGia(), sp.getMaLoai(), sp.getMoTa()};
-//            tbl.addRow(row);
-//        }
+        for (SanPham sp : spDAO.selectAll()) {
+            Object row[] = {sp.getMaSP(), sp.getTenSP(), sp.getGia(), sp.getMaLoai(), sp.getMoTa()};
+            tbl.addRow(row);
+        }
     }
 
     void filterLoaiSP() {
@@ -918,4 +918,5 @@ public class SanPhamView extends javax.swing.JPanel {
     private javax.swing.JTextField txtTimSP;
     // End of variables declaration//GEN-END:variables
 
+    
 }

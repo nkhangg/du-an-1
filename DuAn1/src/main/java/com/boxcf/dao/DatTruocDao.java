@@ -5,6 +5,7 @@
 package com.boxcf.dao;
 
 import com.box.utils.JdbcHelper;
+import com.boxcf.constands.BoxState;
 import com.boxcf.models.DatTruoc;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -122,7 +123,19 @@ public class DatTruocDao implements BoxCfDAO<DatTruoc, Integer> {
 
     @Override
     public List<DatTruoc> selectBySql(String sql, Object... args) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<DatTruoc> list = new ArrayList<>();
+
+        try {
+            ResultSet responce = JdbcHelper.query(sql, args);
+
+            while (responce.next()) {
+                list.add(createObjecet(responce));
+            }
+            responce.getStatement().getConnection().close();
+        } catch (Exception e) {
+            throw new Error("The Error in selectBySql DATBOX !");
+        }
+        return list;
     }
 
     @Override
@@ -139,6 +152,25 @@ public class DatTruocDao implements BoxCfDAO<DatTruoc, Integer> {
         } catch (Exception e) {
             throw new Error("The Error in createObjecet ComboCT !");
         }
+    }
+
+    public int isReserved() {
+        String sql = "select DISTINCT MaBox from DatTruoc\n"
+                + "where TranThai = 1 ";
+
+        List<Integer> list = new ArrayList<>();
+
+        try {
+            ResultSet responce = JdbcHelper.query(sql);
+
+            while (responce.next()) {
+                list.add(responce.getInt(1));
+            }
+            responce.getStatement().getConnection().close();
+        } catch (Exception e) {
+            throw new Error("The Error in isReserved DATBOX !");
+        }
+        return list.size();
     }
 
 }

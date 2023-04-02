@@ -23,6 +23,7 @@ public class Main extends javax.swing.JFrame {
     BoxView boxView = new BoxView();
     OrderView order = new OrderView();
     KhuyenMaiView kmView = new KhuyenMaiView();
+    ThongKeView tkView = new ThongKeView();
 
     public Main() {
         initComponents();
@@ -145,6 +146,11 @@ public class Main extends javax.swing.JFrame {
         buttonRound9.setFocusPainted(false);
         buttonRound9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonRound9.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        buttonRound9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRound9ActionPerformed(evt);
+            }
+        });
         gradientPanel2.add(buttonRound9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 90, 70));
 
         buttonRound10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/growth.png"))); // NOI18N
@@ -250,18 +256,18 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhanVienActionPerformed
-        this.hidden(spView, boxView, kmView);
+        this.hidden(spView, boxView, kmView, tkView);
         this.active(nvView);
     }//GEN-LAST:event_btnNhanVienActionPerformed
 
     private void btnSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSanPhamActionPerformed
-        this.hidden(boxView, nvView, kmView);
+        this.hidden(boxView, nvView, kmView, tkView);
         this.active(spView);
     }//GEN-LAST:event_btnSanPhamActionPerformed
 
     private void btnBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBoxActionPerformed
 
-        this.hidden(spView, nvView, kmView);
+        this.hidden(spView, nvView, kmView, tkView);
         this.active(boxView);
     }//GEN-LAST:event_btnBoxActionPerformed
 
@@ -274,9 +280,14 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonRound2ActionPerformed
 
     private void buttonRound5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound5ActionPerformed
-        this.hidden(spView, nvView, boxView);
+        this.hidden(spView, nvView, boxView, tkView);
         this.active(kmView);
     }//GEN-LAST:event_buttonRound5ActionPerformed
+
+    private void buttonRound9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound9ActionPerformed
+        this.hidden(spView, nvView, boxView, kmView);
+        this.active(tkView);
+    }//GEN-LAST:event_buttonRound9ActionPerformed
 
     public static void main(String args[]) {
 
@@ -382,7 +393,7 @@ public class Main extends javax.swing.JFrame {
 
     private void active(JPanel jpanel) {
         pnlContent.add(jpanel);
-        jpanel.setSize(getWidth(), getHeight());
+        jpanel.setSize(pnlContent.getWidth(), pnlContent.getHeight());
         jpanel.setVisible(true);
     }
 

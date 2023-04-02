@@ -89,6 +89,7 @@ public class SanPhamDao implements BoxCfDAO<SanPham, String> {
             responce.getStatement().getConnection().close();
 
         } catch (Exception e) {
+            System.out.println(e);
             throw new Error("The Error in selectAll SanPham !");
         }
         return list;

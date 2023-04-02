@@ -30,6 +30,7 @@ public class DatBoxDao implements BoxCfDAO<DatBox, Integer> {
             );
 
         } catch (Exception e) {
+            System.out.println(e);
             throw new Error("The Error in createObjecet DATBOX !");
         }
     }
@@ -152,7 +153,7 @@ public class DatBoxDao implements BoxCfDAO<DatBox, Integer> {
         }
         return db;
     }
-    
+
     public DatBox selectByIdBox(Integer idBox) {
         String sql = "select * from DATBOX where MaBox = ? and TrangThai = 'isActive'";
         DatBox db = null;
@@ -207,7 +208,7 @@ public class DatBoxDao implements BoxCfDAO<DatBox, Integer> {
     }
 
     public static void main(String[] args) {
-        System.out.println(BoxState.inactive.toString());
+//        System.out.println(DatBoxDao.getInstant().isActiveBox());
     }
 
 }

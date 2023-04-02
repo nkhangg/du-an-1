@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.box.utils;
 
 import com.boxcf.dao.DatTruocDao;
@@ -23,7 +19,7 @@ public class Cleaner {
             public void run() {
                 cleanInvalidDiscount();
                 cleanInvalidBook();
-                System.out.println("cleaning...");
+
             }
         };
 
@@ -65,11 +61,6 @@ public class Cleaner {
             Store.dbView.renderHour();
         }
 
-//        String date = XDate.toString(XDate.now(), "yyyy-MM-dd HH:mm:ss");
-//        System.out.println("so sanh: " + XDate.toDate(date, "yyyy-MM-dd HH:mm:ss").after(dt.getGioKT()));
     }
 
-    public static void main(String[] args) {
-        Cleaner.cleanInvalidBook();
-    }
 }

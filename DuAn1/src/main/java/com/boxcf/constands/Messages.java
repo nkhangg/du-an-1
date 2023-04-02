@@ -4,6 +4,8 @@
  */
 package com.boxcf.constands;
 
+import com.boxcf.models.ModelStatistical;
+
 /**
  *
  * @author PC
@@ -12,5 +14,14 @@ public class Messages {
 
     public static String waitting = "waitting pay...";
     public static String notUse = "not used yet...";
+
+    public static String chartMess(ModelStatistical data) {
+        if (data == null) {
+            return "Chưa chọn thời gian phù hợp";
+        }
+        String mess = data.getCategory() + " trong " + data.getTitle();
+
+        return mess.toUpperCase();
+    }
 
 }

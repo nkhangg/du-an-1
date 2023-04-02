@@ -186,6 +186,8 @@ Insert into LoaiBox values ('BX03', N'Nhóm', 300000, null)
 Insert into LoaiBox values ('BX04', N'Nhóm', 300000, null)
 Insert into LoaiBox values ('BX05', N'Đơn', 100000, null)
 
+delete from LoaiBox
+where MaLoaiBox = 'BX05'
 GO
 
 --Combo
@@ -212,8 +214,17 @@ Insert into Box values (N'Box 2', null, N'Trống', 'BX03', 'Box 2')
 Insert into Box values (N'Box 3', null, N'Trống', 'BX02', 'Box 3')
 Insert into Box values (N'Box 4', null, N'Trống', 'BX04', 'Box 4')
 
+Insert into Box values (N'Box 5', null, N'inActive', 'BX01', 'Box 1')
+Insert into Box values (N'Box 6', null, N'inActive', 'BX03', 'Box 2')
+Insert into Box values (N'Box 7', null, N'inActive', 'BX02', 'Box 3')
+Insert into Box values (N'Box 8', null, N'inActive', 'BX04', 'Box 4')
+
 select * from box
-where MaLoaiBox = 'BX01'
+where TrangThai = N'Trống'
+
+
+
+
 
 select * from LoaiBox
 
@@ -248,6 +259,12 @@ Insert into HoaDon values('2023/03/12', N'Phan Huỳnh Tuyết Nhi', 'NV01', nul
 Insert into HoaDon values('2023/03/10', N'Như Ý', 'NV02', null, 270000, 'KM02')
 Insert into HoaDon values('2023/03/10', N'Nguyễn Ngọc Anh', 'NV01', null, 90000, 'KM02')
 
+Insert into HoaDon values('2022/12/19', N'Trần Phước Vinh', 'NV02', null, 270000, 'KM02')
+Insert into HoaDon values('2022/12/19', N'Nguyễn Ngọc Ngân', 'NV03', null, 180000, 'KM03')
+Insert into HoaDon values('2022/12/12', N'Phan Huỳnh Tuyết Nhi', 'NV01', null, 90000, 'KM04')
+Insert into HoaDon values('2022/12/14', N'Như Ý', 'NV02', null, 270000, 'KM02')
+Insert into HoaDon values('2022/12/30', N'Nguyễn Ngọc Anh', 'NV01', null, 90000, 'KM02')
+
 GO
 
 --Hóa đơn chi tiết
@@ -256,6 +273,18 @@ Insert into HoaDonCT values (2, 3, 2, null, 180000,3)
 Insert into HoaDonCT values (5, 5, 1, null, 90000,1)
 Insert into HoaDonCT values (3, 4, 3, null, 270000,4)
 Insert into HoaDonCT values (4, 2, 1, null, 90000,5)
+
+Insert into HoaDonCT values (114, 13, 1, null, 20000,null)
+Insert into HoaDonCT values (115, 13, 1, null, 20000,null)
+Insert into HoaDonCT values (116, 19, 1, null, 25000,null)
+Insert into HoaDonCT values (117, 21, 1, null, 180000,null)
+Insert into HoaDonCT values (118, 20, 1, null, 180000,null)
+
+
+
+GO
+
+
 
 GO
 
@@ -364,7 +393,7 @@ insert into DatTruoc
 values	(2, N'Phạm Nhứt Khang', '2023/3/29 22:00:00', '2023/3/29 23:00:00', 1)
 
 insert into DatTruoc 
-values	(2, N'Phạm Nhứt Khang', '2023/3/29 6:00:00', '2023/3/29 7:00:00', 1),
+values	(2, N'Phạm Nhứt Khang', '2023/3/31 6:00:00', '2023/3/31 7:00:00', 1),
 		(2, N'Phạm Nhứt Khang', '2023/3/29 10:00:00', '2023/3/29 12:00:00', 1)
 
 select * from DATBOX where MaBox = 1 and TrangThai = 'isActive'
@@ -387,3 +416,96 @@ select * from DatTruoc where MaBox = 2 and TranThai = 1 order by GioKT
 update DatTruoc
 set TranThai = 1
 where MaDT = 55
+
+select  * from DatBox
+
+select  DISTINCT MaBox from Box
+where TrangThai = 'isActive'
+
+select DISTINCT MaBox from Box
+where TrangThai = 'inActive' 
+
+select DISTINCT MaBox from DatTruoc
+where TranThai = 1 
+
+
+
+select * from HoaDon hd
+join HoaDonCT ct on ct.MaHD = hd.MaHD
+where NgayTao <= '2023-04-01 23:59:59' and NgayTao >= '2023-04-01 00:00:00'
+
+select SUM(ThanhTien) from HoaDon hd
+join HoaDonCT ct on ct.MaHD = hd.MaHD
+where NgayTao <= '2023-04-01 23:59:59' and NgayTao >= '2023-04-01 00:00:00'
+
+
+select PhanTram from KhuyenMai
+
+
+
+
+select  Sum(ThanhTien * SoLuong) from HoaDon hd
+join HoaDonCT ct on ct.MaHD = hd.MaHD
+where NgayTao <= '2023-04-01 23:59:59' and NgayTao >= '2023-04-01 00:00:00' and MaSP in (select MaSP from SanPham)
+
+
+select  * from HoaDon hd
+join HoaDonCT ct on ct.MaHD = hd.MaHD
+where NgayTao <= '2023-04-01 23:59:59' and NgayTao >= '2023-04-01 00:00:00' and MaDat in (select MaDat from DatBox)
+
+select  Sum(ThanhTien * SoLuong) from HoaDon hd
+join HoaDonCT ct on ct.MaHD = hd.MaHD
+where NgayTao <= '2023-04-01 23:59:59' and NgayTao >= '2023-04-01 00:00:00' and MaDat in (select MaDat from DatBox)
+
+select  Sum(TongTien) from HoaDon hd
+join HoaDonCT ct on ct.MaHD = hd.MaHD
+where NgayTao <= '2023-04-01 23:59:59' and NgayTao >= '2023-04-01 00:00:00' and MaSP in (select MaCB from Combo)
+
+
+
+select * from DatBox
+
+
+
+
+select * from HoaDonCT
+
+
+
+select top 1 nv.TenNV from HoaDon hd
+join NhanVien nv on nv.MaNV = hd.MaNV
+group by nv.TenNV 
+having NgayTao <= '2023-04-01 23:59:59' and NgayTao >= '2023-04-01 00:00:00'
+order by COUNT(hd.MaNV) desc
+
+
+-- ngày gần nhất
+SELECT top 7 CONVERT(VARCHAR(10),NgayTao,112), SUM(TongTien)
+FROM HoaDon
+GROUP BY CONVERT(VARCHAR(10),NgayTao,112)
+order by CONVERT(VARCHAR(10),NgayTao,112) desc
+
+-- tháng gần nhất
+select top 7 MONTH(NgayTao), SUM(TongTien) from HoaDon
+group by MONTH(NgayTao)
+order by MONTH(NgayTao) desc
+
+-- năm gần nhất
+select top 7 YEAR(NgayTao), SUM(TongTien) from HoaDon
+group by YEAR(NgayTao)
+order by YEAR(NgayTao) desc
+
+select * from SanPham
+where MaSP in (select MaSP from HoaDon hd
+join HoaDonCT ct on ct.MaHD = hd.MaHD
+where NgayTao <= '2023-04-02 23:59:59' and NgayTao >= '2023-04-01 00:00:00' and MaSP is not null
+group by MaSP)
+
+select * from HoaDonCT ct
+join HoaDon hd on hd.MaHD = ct.MaHD
+order by SUM(SoLuong) desc
+
+
+select * from SanPham
+
+

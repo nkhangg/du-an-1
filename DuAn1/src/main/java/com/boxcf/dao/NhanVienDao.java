@@ -77,6 +77,8 @@ public class NhanVienDao implements BoxCfDAO<NhanVien, String> {
             }
             responce.getStatement().getConnection().close();
         } catch (Exception e) {
+            System.out.println(e);
+
             throw new Error("The Error in selectAll NhanVien !");
         }
         return list;
@@ -154,6 +156,12 @@ public class NhanVienDao implements BoxCfDAO<NhanVien, String> {
             }
         } catch (Exception ex) {
             throw new Error("The Error in update NhanVien !");
+        }
+    }
+
+    public static void main(String[] args) {
+        for (NhanVien nhanVien : NhanVienDao.getInstant().selectAll()) {
+            System.out.println("nhan vien: " + nhanVien);
         }
     }
 
