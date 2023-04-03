@@ -4,29 +4,32 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.boxcf.models.DatBox;
+import com.boxcf.models.PhieuDatBox;
 import com.box.utils.JdbcHelper;
 import com.box.utils.XDate;
 import com.boxcf.constands.BoxState;
 import com.boxcf.models.ModelItem;
+import com.boxcf.store.Store;
 import java.sql.Timestamp;
+import java.util.Date;
 
-public class DatBoxDao implements BoxCfDAO<DatBox, Integer> {
+public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
 
-    public static DatBoxDao getInstant() {
-        return new DatBoxDao();
+    public static PhieuDatBoxDao getInstant() {
+        return new PhieuDatBoxDao();
     }
 
     @Override
-    public DatBox createObjecet(ResultSet responce) {
+    public PhieuDatBox createObjecet(ResultSet responce) {
         try {
-            return new DatBox(
+            return new PhieuDatBox(
                     responce.getInt(1),
                     responce.getString(2),
-                    responce.getDate(3),
-                    responce.getTimestamp(4),
-                    responce.getString(5),
-                    responce.getInt(6)
+                    responce.getString(3),
+                    responce.getDate(4),
+                    responce.getTimestamp(5),
+                    responce.getString(6),
+                    responce.getInt(7)
             );
 
         } catch (Exception e) {
@@ -51,8 +54,8 @@ public class DatBoxDao implements BoxCfDAO<DatBox, Integer> {
     }
 
     @Override
-    public void insert(DatBox e) {
-        String sql = "Insert into DATBOX values ( ?, ?, ?, ?, ?)";
+    public void insert(PhieuDatBox e) {
+        String sql = "Insert into DATBOX values (?, ?, ?, ?, ?)";
 
         try {
             int responce = JdbcHelper.update(sql, e.getTenKH(), e.getGioBD(), e.getGioKT(), e.getTrangThai(), e.getMaBox());
@@ -66,26 +69,25 @@ public class DatBoxDao implements BoxCfDAO<DatBox, Integer> {
 
     }
 
-    public void insertProc(ModelItem e, String nameCutomer) {
-        String sql = "{ call sp_DatBox ( ?, ?, ?, ?, ? ) }";
+    public void insertProc(int maHD, ModelItem e, String nameCutomer) {
+        String sql = "{ call sp_DatBox ( ?, ?, ?, ?, ?, ?, ? ) }";
 
         try {
-            int responce = JdbcHelper.update(sql, nameCutomer, e.getGioBD(), e.getGioKT(), "isActive", e.getMaItem());
+            int responce = JdbcHelper.update(sql, maHD, e.getMaItem(), nameCutomer, e.getGioBD(), e.getGioKT(), "active", e.getSoLuong() * e.getLoaiBox().getGiaLoai());
 
             if (responce == 0) {
-                throw new Error("The Error in insertProc DATBOX !");
+                throw new Error("Them du lieu that bai!");
             }
         } catch (Exception ex) {
-            System.out.println(ex);
             throw new Error("The Error in insertProc DATBOX !");
         }
     }
 
-    public void updateProc(ModelItem e, String state) {
-        String sql = "{ call sp_update_DatBox ( ?, ?, ?) }";
+    public void updateProc(ModelItem e, String state, Date gioKTMoi) {
+        String sql = "{ call sp_update_DatBox ( ?, ?, ?, ?) }";
 
         try {
-            int responce = JdbcHelper.update(sql, state, e.getGioKT(), e.getMaItem());
+            int responce = JdbcHelper.update(sql, state, e.getGioKT(), e.getMaItem(), gioKTMoi);
 
             if (responce == 0) {
                 throw new Error("The Error in updateProc DATBOX !");
@@ -97,8 +99,8 @@ public class DatBoxDao implements BoxCfDAO<DatBox, Integer> {
     }
 
     @Override
-    public List<DatBox> selectAll() {
-        List<DatBox> list = new ArrayList<>();
+    public List<PhieuDatBox> selectAll() {
+        List<PhieuDatBox> list = new ArrayList<>();
         String sql = "select * from DATBOX";
 
         try {
@@ -115,9 +117,9 @@ public class DatBoxDao implements BoxCfDAO<DatBox, Integer> {
     }
 
     @Override
-    public DatBox selectById(Integer id) {
+    public PhieuDatBox selectById(Integer id) {
         String sql = "select * from DATBOX where MaDat = ?";
-        DatBox db = null;
+        PhieuDatBox db = null;
         try {
 
             ResultSet responce = JdbcHelper.query(sql, id);
@@ -133,9 +135,10 @@ public class DatBoxDao implements BoxCfDAO<DatBox, Integer> {
         return db;
     }
 
-    public DatBox selectByBox(Integer id) {
-        String sql = "select * from DATBOX where MaBox = ? and TrangThai = 'isActive'";
-        DatBox db = null;
+    //----------------------------------------------------
+    public PhieuDatBox selectByBox(String id) {
+        String sql = "select * from PhieuDatBox where MaBox = ? and TrangThai = 'active'";
+        PhieuDatBox db = null;
 
         try {
 
@@ -144,6 +147,7 @@ public class DatBoxDao implements BoxCfDAO<DatBox, Integer> {
             // admission a ResultSet return a Box
             if (responce.next()) {
                 db = createObjecet(responce);
+                System.out.println(db);
             }
 
             responce.getStatement().getConnection().close();
@@ -153,9 +157,9 @@ public class DatBoxDao implements BoxCfDAO<DatBox, Integer> {
         return db;
     }
     
-    public DatBox selectByIdBox(Integer idBox) {
-        String sql = "select * from DATBOX where MaBox = ? and TrangThai = 'isActive'";
-        DatBox db = null;
+    public PhieuDatBox selectByIdBox(String idBox) {
+        String sql = "select * from PhieuDatBox where MaBox = ? and TrangThai = 'active'";
+        PhieuDatBox db = null;
 
         try {
 
@@ -174,8 +178,8 @@ public class DatBoxDao implements BoxCfDAO<DatBox, Integer> {
     }
 
     @Override
-    public List<DatBox> selectBySql(String sql, Object... args) {
-        List<DatBox> list = new ArrayList<>();
+    public List<PhieuDatBox> selectBySql(String sql, Object... args) {
+        List<PhieuDatBox> list = new ArrayList<>();
 
         try {
             ResultSet responce = JdbcHelper.query(sql, args);
@@ -191,23 +195,53 @@ public class DatBoxDao implements BoxCfDAO<DatBox, Integer> {
     }
 
     @Override
-    public void update(DatBox e) {
-        String sql = "update DATBOX set TenKH = ?, GioBD = ?, GioKT = ?, TrangThai = ?, MaBox = ? where MaDat = ?";
-
-        try {
-            int responce = JdbcHelper.update(sql, e.getTenKH(), e.getGioBD(), e.getGioKT(), e.getTrangThai(), e.getMaDat());
-
-            if (responce == 0) {
-                throw new Error("The Error in update DATBOX !");
-            }
-        } catch (Exception ex) {
-            throw new Error("The Error in update DATBOX !");
-        }
+    public void update(PhieuDatBox e) {
+//        String sql = "update DATBOX set TenKH = ?, GioBD = ?, GioKT = ?, TrangThai = ?, MaBox = ? where MaDat = ?";
+//
+//        try {
+//            int responce = JdbcHelper.update(sql, e.getTenKH(), e.getGioBD(), e.getGioKT(), e.getTrangThai(), e.getMaDat());
+//
+//            if (responce == 0) {
+//                throw new Error("The Error in update DATBOX !");
+//            }
+//        } catch (Exception ex) {
+//            throw new Error("The Error in update DATBOX !");
+//        }
 
     }
+    
+    
+    //---------------------------dat box--------------------------
+    
+    //get trang thai tu mabox
+    public String getTrangThai(String mabox) {
+        String sql = "select top 1 trangthai\n"
+                + "from box a\n"
+                + "inner join PhieuDatBox b on b.mabox = a.mabox\n"
+                + "where a.mabox = ? "
+                + "order by GioKT desc";
+        
+//        Date gioKT = getGioKT(mabox);
+//        if (gioKT != null && gioKT.getTime() < System.currentTimeMillis()) {
+//            String updateSql = "update PhieuDatBox set trangthai = 'empty' where mabox = ?";
+//            JdbcHelper.update(updateSql, mabox);
+//        }
 
-    public static void main(String[] args) {
-        System.out.println(BoxState.inactive.toString());
+        return (JdbcHelper.value(sql, mabox) ==  null) ? "empty" : JdbcHelper.value(sql, mabox).toString();
     }
-
+    
+    public Date getGioKT(String maBox) {
+        String sql = "select gioKT from PhieuDatBox where mabox = ?";
+        
+        return (Date)JdbcHelper.value(sql, maBox);
+    }
+    
+    //huy box --> set trangthai = empty
+    public void setEmpty(String maBox) {
+        String sql = "update PhieuDatBox set trangthai = 'used' where mabox = ?";
+        
+        JdbcHelper.update(sql, maBox);
+    }
+    
+    //get ra phieu dat box thong qua maBox
 }

@@ -21,8 +21,7 @@ public class HoaDonChiTietDao implements BoxCfDAO<HoaDonCT, Integer> {
                     responce.getInt(2),
                     responce.getInt(3),
                     responce.getString(4),
-                    responce.getLong(5),
-                    responce.getInt(6)
+                    responce.getLong(5)
             );
         } catch (Exception e) {
             throw new Error("The Error in createObjecet HoaDonCT !");
@@ -47,15 +46,15 @@ public class HoaDonChiTietDao implements BoxCfDAO<HoaDonCT, Integer> {
 
     @Override
     public void insert(HoaDonCT e) {
-        String sql = "Insert into HoaDonCT values ( ?, ?, ?, ?, ?, ?)";
+        String sql = "Insert into HoaDonCT values ( ?, ?, ?, ?, ?)";
 
         try {
             int responce = JdbcHelper.update(sql, e.getMaHD(),
                     e.getMaSP() == 0 ? null : e.getMaSP(),
                     e.getSoLuong(),
                     e.getGhiChu(),
-                    e.getThanhTien(),
-                    e.getMaDat() == 0 ? null : e.getMaDat());
+                    e.getThanhTien());
+//                    e.getMaDat() == 0 ? null : e.getMaDat());
 
             if (responce == 0) {
                 throw new Error("The Error in insert HoaDonCT !");

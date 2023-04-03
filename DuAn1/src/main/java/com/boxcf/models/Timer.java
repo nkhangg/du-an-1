@@ -9,7 +9,7 @@ import com.box.utils.XDate;
 import com.boxcf.components.material.BoxItem;
 import com.boxcf.constands.BoxState;
 import java.util.TimerTask;
-import com.boxcf.dao.DatBoxDao;
+import com.boxcf.dao.PhieuDatBoxDao;
 import com.boxcf.store.Store;
 
 /**
@@ -50,23 +50,24 @@ public class Timer {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                box.setSelected(BoxState.isActive);
+                box.setSelected(BoxState.active);
 
-                Time t = XDate.getCurTime(XDate.toString(data.getGioKT(), "MM/dd/yyyy HH:mm:ss"));
+                Time t = XDate.toTime(XDate.toString(data.getGioKT(), "MM/dd/yyyy HH:mm:ss"));
 
-                if (t.getHour() < 0 && t.getMuntite() < 0) {
-                    DatBoxDao.getInstant().updateProc(box.getData(), BoxState.inactive.toString());
+                if (t.getHour() < 0 && t.getMinute()< 0 && t.getSecond() < 0) {
+                    PhieuDatBoxDao.getInstant().updateProc(box.getData(), BoxState.empty.toString(), box.getData().getGioKT());
+                    
                     MsgBox.alert(Store.orderView, box.getData().getTen() + " đã hết thời gian !");
                     box.clearSelected();
                     timer.cancel();
                     return;
                 }
 
-                box.setLblTime(t);
+                box.setRemainderTime(t);
             }
         };
 
-        timer.scheduleAtFixedRate(task, 0, 2000);
+        timer.scheduleAtFixedRate(task, 0, 1000);
 
     }
 

@@ -8,7 +8,6 @@ import com.box.utils.Formats;
 import com.boxcf.components.ButtonRound;
 import com.boxcf.components.PanelItem;
 import com.boxcf.components.ScrollBar;
-import com.boxcf.components.WrapLayout;
 import com.boxcf.components.material.BoxItem;
 import com.boxcf.components.material.BoxStatus;
 import com.boxcf.components.material.Category;
@@ -24,25 +23,21 @@ import com.boxcf.models.ModelItem;
 import com.boxcf.components.material.PanelBill;
 import com.boxcf.components.material.Panigation;
 import com.boxcf.constands.BoxState;
-import com.boxcf.dao.BoxDao2;
+import com.boxcf.dao.BoxDao;
 import com.boxcf.dao.DanhMucDao;
+import com.boxcf.dao.PhieuDatBoxDao;
 import com.boxcf.dao.LoaiBoxDao;
 import com.boxcf.dao.LoaiSPDao;
 import com.boxcf.dao.SanPhamDao;
 import com.boxcf.events.interfaces.BoxEvents;
-import com.boxcf.models.Box2;
+import com.boxcf.models.Box;
 import com.boxcf.models.DanhMuc;
+import com.boxcf.models.PhieuDatBox;
 import com.boxcf.models.LoaiBox;
 import com.boxcf.models.LoaiSP;
 import com.boxcf.models.SanPham;
 import com.boxcf.store.Store;
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -453,15 +448,20 @@ public class OrderView extends javax.swing.JFrame {
 
     }
 
-    public void initBoxData(List<Box2> list) {
+    public void initBoxData(List<Box> list) {
+//    public void initBoxData(List<Box> list) {
         panelItem.removeAll();
 
         this.openBoxStatus();
 
         StoreEvents.product(this);
 
-        for (Box2 box : list) {
-            this.addBoxData(new ModelItem(box.getMaBox(), box.getTenBox(), box.getTrangThai(), LoaiBoxDao.getInstant().selectById(box.getMaLoaiBox())));
+        for (Box box : list) {
+            //get ra ma box con gio
+            
+//            this.addBoxData(new ModelItem(box.getMaBox(), box.getTenBox(), box.getTrangThai(), LoaiBoxDao.getInstance().selectById(box.getMaLoaiBox())));
+            String state = PhieuDatBoxDao.getInstant().getTrangThai(box.getMaBox());
+            this.addBoxData(new ModelItem(box.getMaBox(), box.getTenBox(), BoxState.valueOf(state), LoaiBoxDao.getInstance().selectById(box.getMaLoaiBox())));
         }
         panelBill.activeBoxOnBill(panelItem);
 
@@ -500,11 +500,11 @@ public class OrderView extends javax.swing.JFrame {
         if (categoryAll) {
             // loai tat ca
             panelCategory.add(Store.categoryAll(panelCategory, name, true));
-//            initBoxData(BoxDao2.getInstant().selectAll());
+//            initBoxData(BoxDao.getInstant().selectAll());
 
             //---------ha code------------------
             mode = "box";
-            initBoxData(BoxDao2.getInstant().panigation(Panigation.current));
+            initBoxData(BoxDao.getInstance().panigation(Panigation.current));
             addPanigation();
         }
 
@@ -631,7 +631,7 @@ public class OrderView extends javax.swing.JFrame {
 
             // loai box
             if (danhMuc.getTenDM().equalsIgnoreCase("Box")) {
-                initCategoryBox(true, LoaiBoxDao.getInstant().selectAll(), name);
+                initCategoryBox(true, LoaiBoxDao.getInstance().selectAll(), name);
                 return;
             }
 
@@ -651,7 +651,7 @@ public class OrderView extends javax.swing.JFrame {
 
     // xử lí nút xóa tất cả
     private void handleClearBill() {
-        panelBill.clearList(true);
+//        panelBill.clearList(true);
     }
 
     public void handleTotal() {

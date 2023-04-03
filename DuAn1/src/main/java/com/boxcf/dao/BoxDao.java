@@ -2,7 +2,6 @@ package com.boxcf.dao;
 
 import com.boxcf.models.Box;
 import com.box.utils.JdbcHelper;
-import com.boxcf.constands.BoxState;
 import com.boxcf.models.Box;
 
 import java.sql.ResultSet;
@@ -107,7 +106,57 @@ public class BoxDao implements BoxCfDAO<Box, String> {
     public String getMaxId() throws SQLException {
         String sql = "SELECT TOP 1 * FROM Box ORDER BY MaBox DESC";
         List<Box> list = this.selectBySql(sql);
-        
+
         return list.get(0).getMaBox();
     }
+
+    //------------------dat box-----------------------
+//    public void updateBoxState(Box2 box) {
+//        String sql = "update Box\n"
+//                + "set TrangThai = ?\n"
+//                + "where MaBox = ?";
+//
+//        try {
+//            int responce = JdbcHelper.update(sql, box.getTrangThai());
+//
+//            if (responce == 0) {
+//                throw new Error("The Error in updateBoxState !");
+//            }
+//        } catch (Exception e) {
+//            throw new Error("The Error in updateBoxState !");
+//        }
+//
+//    }
+//    private BoxState boxState(String value) {
+//        switch (value) {
+//            case "reserved":
+//
+//                return BoxState.reserved;
+//            case "isActive":
+//
+//                return BoxState.isActive;
+//            case "inactive":
+//
+//                return BoxState.inactive;
+//            default:
+//                return BoxState.inactive;
+//        }
+//    }
+//    @Override
+//    public Box2 createObjecet(ResultSet response) {
+//
+//        try {
+//            return new Box2(
+//                    response.getInt(1),
+//                    response.getString(2),
+//                    response.getString(3),
+//                    boxState(response.getString(4)),
+//                    response.getString(5)
+//            );
+//        } catch (Exception e) {
+//            throw new Error("The Error in createObjecet Box !");
+//        }
+//
+//    }
+    
 }

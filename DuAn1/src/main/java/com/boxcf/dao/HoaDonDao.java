@@ -67,7 +67,6 @@ public class HoaDonDao implements BoxCfDAO<HoaDon, Integer> {
         String sql = "Insert into HoaDon values(?, ?, ?, ?, ?, 'KM02')";
         String findSql = "select top 1 * from HoaDon\n"
                 + "order by MaHD desc";
-
         try {
             int responce = JdbcHelper.update(sql, e.getNgayTao(), e.getTenKH(), e.getMaNV(), e.getGhiChu(), e.getTONGTIEN());
 

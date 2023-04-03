@@ -4,10 +4,11 @@
  */
 package com.boxcf.components.material;
 
+import com.box.utils.XDate;
 import com.boxcf.constands.BoxState;
 import com.boxcf.constands.Messages;
-import com.boxcf.dao.DatBoxDao;
-import com.boxcf.models.DatBox;
+import com.boxcf.dao.PhieuDatBoxDao;
+import com.boxcf.models.PhieuDatBox;
 import com.boxcf.models.ModelItem;
 import com.boxcf.models.Time;
 import com.boxcf.models.Timer;
@@ -18,11 +19,14 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class BoxItem extends javax.swing.JPanel {
 
     private BoxState selected;
-    private ModelItem box;
+//    private ModelItem box;
+    public static ModelItem box;
 
     public BoxItem() {
         initComponents();
@@ -37,7 +41,7 @@ public class BoxItem extends javax.swing.JPanel {
     public void setSelected(BoxState selected) {
         this.selected = selected;
         this.box.setTrangThai(selected);
-        lblTime.setText(box.getSoLuong() + "");
+        lblTimeRemainder.setText(box.getSoLuong() + "");
         repaint();
     }
 
@@ -45,7 +49,7 @@ public class BoxItem extends javax.swing.JPanel {
         this.selected = selected;
         data.setTrangThai(selected);
         this.box = data;
-        lblTime.setText(box.getSoLuong() + "");
+        lblTimeRemainder.setText(box.getSoLuong() + "");
         repaint();
     }
 
@@ -60,23 +64,24 @@ public class BoxItem extends javax.swing.JPanel {
 
         lblTenBox.setText(box.getTen());
         lblLoai.setText(box.getLoaiBox().getTenLoaiBox());
-        lblTime.setText(box.getSoLuong() + "");
+        lblTimeRemainder.setText(box.getSoLuong() + "");
         lblGia.setText(box.getLoaiBox().getGiaLoai() + " / 1h");
 
         initTimer();
-
         this.repaint();
     }
 
     public void initTimer() {
-        if (selected == BoxState.isActive) {
-            DatBox db = DatBoxDao.getInstant().selectByBox(Integer.parseInt(box.getMaItem() + ""));
+        //neu box active
+        if (selected == BoxState.active) {
+            //select ra gioBD, gioKt luu trong phieudatbox thong qua ma box
+            PhieuDatBox db = PhieuDatBoxDao.getInstant().selectByBox(box.getMaItem().toString());
 
             if (db == null) {
                 return;
             }
 
-            this.box.setMaDat(db.getMaBox());
+//            this.box.setMaDat(db.getMaBox());
             this.box.setGioBD(db.getGioBD());
             this.box.setGioKT(db.getGioKT());
 
@@ -85,11 +90,11 @@ public class BoxItem extends javax.swing.JPanel {
     }
 
     public void clearSelected() {
-        this.setSelected(BoxState.inactive);
+        this.setSelected(BoxState.empty);
         this.box.setGioKT(null);
-        this.box.setTrangThai(BoxState.inactive);
+        this.box.setTrangThai(BoxState.empty);
         this.box.setSoLuong(0);
-        lblTime.setText("0");
+        lblTimeRemainder.setText("0");
         this.repaint();
         this.revalidate();
     }
@@ -101,7 +106,7 @@ public class BoxItem extends javax.swing.JPanel {
         box.setTrangThai(state);
         this.box = box;
         this.setSelected(state);
-        this.lblTime.setText(Messages.waitting);
+        this.lblTimeRemainder.setText(Messages.waitting);
         repaint();
     }
 
@@ -115,10 +120,10 @@ public class BoxItem extends javax.swing.JPanel {
     public void paint(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        if (selected != null && (selected.equals(BoxState.reserved))) {
+        if (selected != null && (selected.equals(BoxState.booked))) {
             g2.setColor(new Color(251, 210, 105));
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
-        } else if (selected != null && selected.equals(BoxState.isActive)) {
+        } else if (selected != null && selected.equals(BoxState.active)) {
             g2.setColor(new Color(117, 186, 117));
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
         } else {
@@ -134,7 +139,7 @@ public class BoxItem extends javax.swing.JPanel {
     private void initComponents() {
 
         lblTenBox = new javax.swing.JLabel();
-        lblTime = new javax.swing.JLabel();
+        lblTimeRemainder = new javax.swing.JLabel();
         lblLoai = new javax.swing.JLabel();
         lblGia = new javax.swing.JLabel();
         lblGia2 = new javax.swing.JLabel();
@@ -153,10 +158,10 @@ public class BoxItem extends javax.swing.JPanel {
         lblTenBox.setText("Box 1");
         add(lblTenBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 13, 90, -1));
 
-        lblTime.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
-        lblTime.setForeground(new java.awt.Color(0, 51, 51));
-        lblTime.setText("01:30");
-        add(lblTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, 110, 30));
+        lblTimeRemainder.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        lblTimeRemainder.setForeground(new java.awt.Color(0, 51, 51));
+        lblTimeRemainder.setText("01:30");
+        add(lblTimeRemainder, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, 110, 30));
 
         lblLoai.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         lblLoai.setForeground(new java.awt.Color(255, 255, 255));
@@ -193,12 +198,11 @@ public class BoxItem extends javax.swing.JPanel {
     private javax.swing.JLabel lblGia4;
     private javax.swing.JLabel lblLoai;
     private javax.swing.JLabel lblTenBox;
-    private javax.swing.JLabel lblTime;
+    private javax.swing.JLabel lblTimeRemainder;
     // End of variables declaration//GEN-END:variables
 
-    
-    public void setLblTime(Time time) {
-        lblTime.setText(time.getHour() + "h" + time.getMuntite());
+    public void setRemainderTime(Time time) {
+        lblTimeRemainder.setText(time.getHour() + ":" + time.getMinute() + ":" + time.getSecond());
     }
 
     public void timer() {

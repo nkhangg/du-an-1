@@ -4,7 +4,6 @@
  */
 package com.boxcf.models;
 
-import com.boxcf.constands.BoxState;
 
 
 public class Box {

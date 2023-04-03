@@ -4,10 +4,15 @@
  */
 package com.boxcf.ui;
 
+import com.box.utils.JdbcHelper;
 import com.boxcf.store.Store;
 import com.box.utils.XDate;
 import com.boxcf.components.material.ItemBill;
 import com.boxcf.components.material.PanelBill;
+import com.boxcf.components.material.Panigation;
+import com.boxcf.constands.BoxState;
+import com.boxcf.dao.BoxDao;
+import com.boxcf.dao.PhieuDatBoxDao;
 import com.boxcf.dao.DatTruocDao;
 import com.boxcf.models.DatTruoc;
 import com.boxcf.models.LoaiBox;
@@ -60,15 +65,16 @@ public class DatBoxView extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtKhachHang = new com.boxcf.components.TextField();
         txtTenBox = new com.boxcf.components.TextField();
-        buttonRound4 = new com.boxcf.components.ButtonRound();
+        btnHuyBox = new com.boxcf.components.ButtonRound();
         cboSoGio = new com.boxcf.components.Combobox();
-        cboSoGio2 = new com.boxcf.components.Combobox();
-        cboSoGio3 = new com.boxcf.components.Combobox();
+        cboGio = new com.boxcf.components.Combobox();
+        cboPhut = new com.boxcf.components.Combobox();
         jLabel6 = new javax.swing.JLabel();
-        checkBoxCustom1 = new com.boxcf.components.CheckBoxCustom();
+        chkDatTruoc = new com.boxcf.components.CheckBoxCustom();
         txtLoaiBox = new com.boxcf.components.TextField();
         jLabel9 = new javax.swing.JLabel();
         lblGioKT = new javax.swing.JLabel();
+        btnDatBox1 = new com.boxcf.components.ButtonRound();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         clsoeButton1 = new com.boxcf.components.ClsoeButton();
@@ -147,17 +153,19 @@ public class DatBoxView extends javax.swing.JFrame {
         txtTenBox.setOpaque(false);
         pnlDatBox.add(txtTenBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 180, 33));
 
-        buttonRound4.setBackground(new java.awt.Color(109, 191, 184));
-        buttonRound4.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound4.setText("ĐẶT BOX");
-        buttonRound4.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        buttonRound4.addActionListener(new java.awt.event.ActionListener() {
+        btnHuyBox.setBackground(new java.awt.Color(109, 191, 184));
+        btnHuyBox.setForeground(new java.awt.Color(255, 255, 255));
+        btnHuyBox.setText("HỦY BOX");
+        btnHuyBox.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btnHuyBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonRound4ActionPerformed(evt);
+                btnHuyBoxActionPerformed(evt);
             }
         });
-        pnlDatBox.add(buttonRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 310, 120, 50));
+        pnlDatBox.add(btnHuyBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 310, 120, 50));
 
+        cboSoGio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        cboSoGio.setFocusable(false);
         cboSoGio.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         cboSoGio.setLabeText("");
         cboSoGio.addActionListener(new java.awt.event.ActionListener() {
@@ -165,27 +173,32 @@ public class DatBoxView extends javax.swing.JFrame {
                 cboSoGioActionPerformed(evt);
             }
         });
-        pnlDatBox.add(cboSoGio, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 210, 90, 35));
+        pnlDatBox.add(cboSoGio, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 210, 50, 35));
 
-        cboSoGio2.setForeground(new java.awt.Color(51, 51, 51));
-        cboSoGio2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
-        cboSoGio2.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
-        cboSoGio2.setLabeText("");
-        pnlDatBox.add(cboSoGio2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, 90, 40));
+        cboGio.setForeground(new java.awt.Color(51, 51, 51));
+        cboGio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        cboGio.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
+        cboGio.setLabeText("");
+        pnlDatBox.add(cboGio, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, 90, 40));
 
-        cboSoGio3.setForeground(new java.awt.Color(51, 51, 51));
-        cboSoGio3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", " " }));
-        cboSoGio3.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
-        cboSoGio3.setLabeText("");
-        pnlDatBox.add(cboSoGio3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 140, 90, 40));
+        cboPhut.setForeground(new java.awt.Color(51, 51, 51));
+        cboPhut.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", " " }));
+        cboPhut.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
+        cboPhut.setLabeText("");
+        pnlDatBox.add(cboPhut, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 140, 90, 40));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText(":");
         pnlDatBox.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 140, 30, 40));
 
-        checkBoxCustom1.setText("Đặt trước");
-        pnlDatBox.add(checkBoxCustom1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 150, -1, 30));
+        chkDatTruoc.setText("Đặt trước");
+        chkDatTruoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkDatTruocActionPerformed(evt);
+            }
+        });
+        pnlDatBox.add(chkDatTruoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 150, -1, 30));
 
         txtLoaiBox.setLabelText("");
         txtLoaiBox.setOpaque(false);
@@ -199,6 +212,17 @@ public class DatBoxView extends javax.swing.JFrame {
         lblGioKT.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
         lblGioKT.setText("12:00:00");
         pnlDatBox.add(lblGioKT, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 260, 150, 50));
+
+        btnDatBox1.setBackground(new java.awt.Color(109, 191, 184));
+        btnDatBox1.setForeground(new java.awt.Color(255, 255, 255));
+        btnDatBox1.setText("ĐẶT BOX");
+        btnDatBox1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btnDatBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDatBox1ActionPerformed(evt);
+            }
+        });
+        pnlDatBox.add(btnDatBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 310, 120, 50));
 
         gradientPanel2.add(pnlDatBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, 690, 380));
 
@@ -257,13 +281,21 @@ public class DatBoxView extends javax.swing.JFrame {
         setGioKT(ngayBD, soGio);
     }//GEN-LAST:event_cboSoGioActionPerformed
 
-    private void buttonRound4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound4ActionPerformed
-        handleCreateBillItem();
-    }//GEN-LAST:event_buttonRound4ActionPerformed
+    private void btnHuyBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyBoxActionPerformed
+        this.cancelBox(box);
+    }//GEN-LAST:event_btnHuyBoxActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         Store.dbView = null;
     }//GEN-LAST:event_formWindowClosed
+
+    private void chkDatTruocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkDatTruocActionPerformed
+        this.activeChooseTime();
+    }//GEN-LAST:event_chkDatTruocActionPerformed
+
+    private void btnDatBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatBox1ActionPerformed
+        setBill();
+    }//GEN-LAST:event_btnDatBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -301,11 +333,12 @@ public class DatBoxView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.boxcf.components.ButtonRound buttonRound4;
+    private com.boxcf.components.ButtonRound btnDatBox1;
+    private com.boxcf.components.ButtonRound btnHuyBox;
+    private com.boxcf.components.Combobox cboGio;
+    private com.boxcf.components.Combobox cboPhut;
     private com.boxcf.components.Combobox cboSoGio;
-    private com.boxcf.components.Combobox cboSoGio2;
-    private com.boxcf.components.Combobox cboSoGio3;
-    private com.boxcf.components.CheckBoxCustom checkBoxCustom1;
+    private com.boxcf.components.CheckBoxCustom chkDatTruoc;
     private com.boxcf.components.ClsoeButton clsoeButton1;
     private com.boxcf.components.GradientPanel gradientPanel1;
     private com.boxcf.components.GradientPanel gradientPanel2;
@@ -332,18 +365,20 @@ public class DatBoxView extends javax.swing.JFrame {
         clsoeButton1.initEvent(this);
         Store.dbView = this;
         prepareUI();
-        setBox(box);
-        renderHour();
-        renderDataTable();
+        setForm(box);
+//        renderHour();
+//        renderDataTable();
     }
 
     private void prepareUI() {
         this.setLocationRelativeTo(null);
         Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
         this.setShape(shape);
+        this.cboGio.setEnabled(false);
+        this.cboPhut.setEnabled(false);
     }
 
-    private void setBox(ModelItem box) {
+    private void setForm(ModelItem box) {
         txtLoaiBox.setText(box.getLoaiBox().getTenLoaiBox());
         txtTenBox.setText(box.getTen());
         lblGioBd.setText(XDate.toString(new Date(), "HH:mm:ss"));
@@ -353,7 +388,6 @@ public class DatBoxView extends javax.swing.JFrame {
     }
 
     private ModelItem getBoxBooked() {
-
         return new ModelItem(box.getMaItem(), box.getTen(), box.getGioBD(), box.getGioKT(), box.getLoaiBox(), time <= 0 ? 1 : time, box.getLoaiBox().getGiaLoai());
     }
 
@@ -367,16 +401,16 @@ public class DatBoxView extends javax.swing.JFrame {
     }
 
     // xử lí hiển thị bill item
-    private void handleCreateBillItem() {
-        ModelItem data = getBoxBooked();
-        if (data.getGioKT() == null) {
+    private void setBill() {
+        ModelItem boxData = getBoxBooked();
+        if (boxData.getGioKT() == null) {
             return;
         }
 
-        for (Component component : panelBill.getComponents()) {
-            ItemBill itemBill = (ItemBill) component;
-            if (itemBill.getData().getMaItem() == data.getMaItem()) {
-                itemBill.setData(data);
+        for (Component cpn : panelBill.getComponents()) {
+            ItemBill itemBill = (ItemBill) cpn;
+            if (itemBill.getData().getMaItem() == boxData.getMaItem()) {
+                itemBill.setData(boxData);
                 orderView.handleTotal();
                 this.dispose();
                 return;
@@ -384,7 +418,7 @@ public class DatBoxView extends javax.swing.JFrame {
 
         }
 
-        panelBill.setList(data);
+        panelBill.setList(boxData);
         panelBill.repaint();
         this.dispose();
 
@@ -438,5 +472,20 @@ public class DatBoxView extends javax.swing.JFrame {
             tbl.addRow(row);
             i++;
         }
+    }
+
+    private void activeChooseTime() {
+        cboGio.setEnabled(true);
+        cboPhut.setEnabled(true);
+    }
+
+    private void cancelBox(ModelItem item) {
+        //set used tren java
+        item.setTrangThai(BoxState.used);
+        //set lai trang thai + gio kt cho box
+        PhieuDatBoxDao.getInstant().updateProc(item, "used", new Date());
+        //fill lai box
+        Store.orderView.initBoxData(BoxDao.getInstance().panigation(Panigation.current));
+        this.dispose();
     }
 }

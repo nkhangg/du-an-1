@@ -6,10 +6,10 @@ package com.boxcf.ui;
 
 import com.boxcf.store.Store;
 import com.box.utils.XDate;
-import com.boxcf.dao.DatBoxDao;
+import com.boxcf.dao.PhieuDatBoxDao;
 import com.boxcf.dao.DatTruocDao;
 import com.boxcf.models.BoxModelItem;
-import com.boxcf.models.DatBox;
+import com.boxcf.models.PhieuDatBox;
 import com.boxcf.models.DatTruoc;
 import com.boxcf.models.ModelCboDatTruoc;
 import com.boxcf.models.ModelItem;
@@ -360,12 +360,12 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void init() {
-        clsoeButton1.initEvent(this);
-        model = (DefaultTableModel) tblDatTruoc.getModel();
-        prepareUI();
-        setBox(box);
-        renderDataTable();
-        renderFitTime();
+//        clsoeButton1.initEvent(this);
+//        model = (DefaultTableModel) tblDatTruoc.getModel();
+//        prepareUI();
+//        setBox(box);
+//        renderDataTable();
+//        renderFitTime();
 //        setGioKT();
     }
     
@@ -381,7 +381,7 @@ public class ThongTinBoxDat extends javax.swing.JFrame {
     }
     
     private void renderFitTime() {
-        DatBox db = DatBoxDao.getInstant().selectByBox(Integer.parseInt(box.getMaItem() + ""));
+        PhieuDatBox db = PhieuDatBoxDao.getInstant().selectByBox(box.getMaItem().toString());
         ArrayList<ModelCboDatTruoc> listCbo = new ArrayList<>();
         
         if (db == null && list.isEmpty()) {

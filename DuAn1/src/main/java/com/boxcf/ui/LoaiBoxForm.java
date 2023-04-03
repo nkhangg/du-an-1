@@ -327,7 +327,7 @@ public class LoaiBoxForm extends javax.swing.JFrame {
         
         loaiBox.setMaLoaiBox(txtMaLoai.getText());
         loaiBox.setTenLoaiBox(txtTenLoai.getText());
-        loaiBox.setGiaLoai(Long.parseLong(txtGia.getText()));
+        loaiBox.setGiaLoai(Integer.parseInt(txtGia.getText()));
         loaiBox.setMoTa(txtMoTa.getText());
 
         return loaiBox;

@@ -81,15 +81,17 @@ CREATE TABLE Box(
 )
 GO
 
-select * from box
+select * from HoaDon
 
-CREATE TABLE DatBox(
-	MaDat INT IDENTITY PRIMARY KEY NOT NULL,
+CREATE TABLE PhieuDatBox(
+	MaHD INT NOT NULL REFERENCES HoaDon(MaHD),
+	MaBox VARCHAR(10) NOT NULL REFERENCES Box(MaBox),
 	TenKH NVARCHAR(50),
 	GioBD DATETIME,
 	GioKT DATETIME,
 	TrangThai NVARCHAR(20),
-	MaBox VARCHAR(10) REFERENCES Box(MaBox) ON DELETE NO ACTION,
+	ThanhTien INT,
+	CONSTRAINT PK_PhieuDatBox PRIMARY KEY (MaHD, MaBox),
 )
 GO
 
@@ -105,6 +107,10 @@ CREATE TABLE KhuyenMai(
 	TrangThai BIT,
 )
 GO
+
+delete from phieudatbox
+
+select * from PhieuDatBox where MaBox = 'b001s' and TrangThai = 'active'
 
 select * from khuyenmai
 
@@ -126,9 +132,9 @@ CREATE TABLE HoaDonCT(
 	SoLuong INT,
 	GhiChu NVARCHAR(100),
 	ThanhTien INT,
-	MaDat INT REFERENCES DatBox(MaDat) ON DELETE NO ACTION,
 )
 GO
+
 
 
 --Nhân viên
@@ -175,20 +181,13 @@ Insert into SanPham values (N'Sinh tố dâu' , 18000, '/com/boxcf/images/dau.jp
 
 GO
 
-select * from DanhMuc
-
-select * from LoaiSP
-
+--Loại box
 select * from LoaiBox
 
---Loại box
 Insert into LoaiBox values ('S', N'Đơn', 100000, null)
 Insert into LoaiBox values ('M', N'Đôi', 200000, null)
 Insert into LoaiBox values ('L', N'Nhóm 4', 300000, null)
 Insert into LoaiBox values ('XL', N'Nhóm 6', 300000, null)
-
-
-GO
 
 --Combo
 Insert into Combo values ('CB01', N'',100000, 'abc', 'S', 5)
@@ -232,15 +231,18 @@ select * from box
 where MaLoaiBox = 'BX01'
 
 
-select * from DatBox
+
 GO
 
 --Đặt box
-Insert into DATBOX values(N'Nguyễn Ngọc Anh', '10:34:09 AM', '11:34:09 AM', N'', 1)
-Insert into DATBOX values(N'Như Ý', '09:10:00 AM', '10:10:00 AM', N'', 2)
-Insert into DATBOX values(N'Nguyễn Ngọc Ngân', '08:20:00 AM', '09:20:00 AM', N'', 3)
-Insert into DATBOX values(N'Trần Phước Vinh', '10:00:00 AM', '11:00:00 AM', N'', 4)
-Insert into DATBOX values(N'Phan Huỳnh Tuyết Nhi', '01:30:00 PM', '02:30:00 PM', N'', 5)
+select * from hoadon
+select * from box
+SELECT * FROM PhieuDatBox
+Insert into PhieuDatBox values(1, 'B001S', N'Nguyễn Ngọc Anh', '2023/3/29 6:00:00', '2023/3/29 7:00:00', N'used', 200000)
+Insert into PhieuDatBox values(2, 'B002M', N'Như Ý', '2023/3/29 9:00:00', '2023/3/29 10:00:00', N'used')
+Insert into PhieuDatBox values(3, 'B003L', N'Nguyễn Ngọc Ngân', '2023/3/29 11:00:00', '2023/3/29 12:00:00', N'used')
+Insert into PhieuDatBox values(1, 'B004XL', N'Trần Phước Vinh', '2023/3/29 13:00:00', '2023/3/29 14:00:00', N'used')
+Insert into PhieuDatBox values(2, 'B005S', N'Phan Huỳnh Tuyết Nhi', '2023/3/29 18:00:00', '2023/3/29 19:00:00', N'used')
 
 GO
 
@@ -252,6 +254,7 @@ Insert into KhuyenMai values ('KM04', N'Tri ân khách hàng','2023/03/14', '202
 
 GO
 
+select * from hoadon
 --Hóa đơn
 Insert into HoaDon values('2023/03/10', N'Trần Phước Vinh', 'NV02', null, 270000, 'KM02')
 Insert into HoaDon values('2023/03/11', N'Nguyễn Ngọc Ngân', 'NV03', null, 180000, 'KM03')
@@ -263,6 +266,7 @@ GO
 
 --Hóa đơn chi tiết
 SELECT * FROM HOADONCT
+
 Insert into HoaDonCT values (1, 3, null, 270000,null)
 Insert into HoaDonCT values (2, 3, 2, null, 180000,3)
 Insert into HoaDonCT values (5, 5, 1, null, 90000,1)
@@ -272,45 +276,33 @@ Insert into HoaDonCT values (4, 2, 1, null, 90000,5)
 GO
 
 
-select * from DatBox
-where TrangThai = 'isActive' and GioKT like '18:17:28'
+--------------------
 
-
+--------------------
 
 
 Go
 
-create proc sp_DatBox @TenKH nvarchar(50), @GioBD DATETIME, @GioKT DATETIME, @TrangThai NVARCHAR(20), @MaBox int
+alter proc sp_DatBox @MaHD int, @MaBox varchar(10), @TenKH nvarchar(50), @GioBD DATETIME, @GioKT DATETIME, @TrangThai NVARCHAR(20), @ThanhTien int
 as 
 begin
 
-	update Box 
-	set TrangThai = @TrangThai
-	where MaBox = @MaBox
-
-
-	Insert into DATBOX values(@TenKH, @GioBD, @GioKT, @TrangThai, @MaBox)
+	--update Box 
+	--set TrangThai = @TrangThai
+	--where MaBox = @MaBox
+	Insert into PhieuDatBox values(@MaHD, @MaBox, @TenKH, @GioBD, @GioKT, @TrangThai, @ThanhTien)
 end
 
 go
 
-create proc sp_update_DatBox @TrangThai NVARCHAR(20), @GioKT DATETIME, @MaBox int
+create proc sp_update_DatBox @TrangThai NVARCHAR(20), @GioKT DATETIME, @MaBox varchar(10), @gioKTMoi Datetime
 as 
 begin
-
-	update Box
-	set TrangThai = @TrangThai
-	where MaBox = @MaBox
-
-	update DatBox
-	set TrangThai = @TrangThai
+	update PhieuDatBox
+	set TrangThai = @TrangThai, GioKT = @gioKTMoi
 	where MaBox = MaBox and GioKT = @GioKT
-
-
 end
 
-
-select * from DATBOX 
 
 Insert into HoaDonCT values (1, null, 2, null, 270000, 23)
 
@@ -318,9 +310,10 @@ delete from HoaDonCT
 
 select * from Box
 
-select * from DatBox
+select * from phieudatbox
 
 select * from HoaDon
+select * from hoadonct
 select * from HoaDonCT
 select * from KhuyenMai
 select * from NhanVien
@@ -328,7 +321,8 @@ select * from NhanVien
 
 exec sp_DatBox N'khang', '10:34:09 AM', '11:34:09 AM', 'isactive', 1
 
-
+select * from hoadon
+select * from phieudatbox
 Go
 
 drop table DatTruoc
@@ -354,9 +348,12 @@ order by GioKT
 delete from DatTruoc
 
 select * from HoaDon
-s
+
 
 select * from DatBox
+update datbox
+set trangthai = 'empty'
+where mabox = 'b001s'
 
 
 
@@ -396,3 +393,9 @@ select * from DatTruoc where MaBox = 2 and TranThai = 1 order by GioKT
 update DatTruoc
 set TranThai = 1
 where MaDT = 55
+
+select top 1 trangthai
+from box a
+inner join phieudatbox b on b.mabox = a.mabox
+where a.mabox = 'b001s'
+order by GioKT DESC

@@ -31,7 +31,7 @@ public class PanelItem extends JPanel {
                 if (component instanceof BoxItem) {
                     BoxItem box = (BoxItem) component;
                     for (ItemBill itemBill : Store.globelPanelBill.getList()) {
-                        if (box.getData().getTrangThai() != BoxState.isActive) {
+                        if (box.getData().getTrangThai() != BoxState.active) {
                             box.clearSelected();
                         }
 
@@ -44,13 +44,15 @@ public class PanelItem extends JPanel {
 
     public com.boxcf.models.ModelItem setTimer() {
         com.boxcf.models.ModelItem boxData = null;
-        for (Component com : this.getComponents()) {
-            if (com instanceof BoxItem) {
-                BoxItem b = (BoxItem) com;
-                if (b.getData().getGioKT() != null && b.getData().getTrangThai() == BoxState.waiting) {
+        for (Component cpn : this.getComponents()) {
+            if (cpn instanceof BoxItem) {
+                BoxItem b = (BoxItem) cpn;
+                System.out.println(b.getData().getGioKT());
+                if (b.getData().getGioKT() != null && b.getData().getTrangThai() == BoxState.active) {
+                    System.out.println(123);
                     b.timer();
+                    
                     boxData = b.getData();
-
                 }
             }
         }

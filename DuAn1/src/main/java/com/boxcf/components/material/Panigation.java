@@ -4,7 +4,7 @@
  */
 package com.boxcf.components.material;
 
-import com.boxcf.dao.BoxDao2;
+import com.boxcf.dao.BoxDao;
 import com.boxcf.dao.SanPhamDao;
 import com.boxcf.store.Store;
 import com.boxcf.ui.OrderView;
@@ -12,13 +12,8 @@ import com.boxcf.ui.OrderView;
 public class Panigation extends javax.swing.JPanel {
 
     public static Integer total;
-    Integer pageProduct = SanPhamDao.getInstant().getPageNumber();
-    
-//    private Integer totalProduct = SanPhamDao.getInstant().getPageNumber();
-//    private Integer totalBox = BoxDao2.getInstant().getPageNumber();
-    public static Integer currentPro = 1;
-    public static Integer currentBox = 1;
     public static Integer current = 1;
+    Integer pageProduct = SanPhamDao.getInstant().getPageNumber();
 
     public Panigation() {
         initComponents();
@@ -96,38 +91,9 @@ public class Panigation extends javax.swing.JPanel {
         if (OrderView.mode.equals("product")) {
             total = SanPhamDao.getInstant().getPageNumber();
         }else {
-            total = BoxDao2.getInstant().getPageNumber();
+            total = BoxDao.getInstance().getPageNumber();
         }
         setPage();
-    }
-
-    public void controlPage(String opt) {
-
-        switch (opt) {
-            case "|<":
-                current = 1;
-                break;
-            case ">|":
-                current = total;
-                break;
-            case "<<":
-                if (current == 1) {
-//                    Utilities.showMess("Ban da o trang dau tien");
-                } else {
-                    current--;
-                }
-                break;
-            case ">>":
-                if (current == total) {
-//                    Utilities.showMess("Ban da o trang cuoi cung");
-                } else {
-                    current++;
-                }
-                break;
-            default:
-                throw new AssertionError();
-        }
-
     }
 
     public static void setPage() {

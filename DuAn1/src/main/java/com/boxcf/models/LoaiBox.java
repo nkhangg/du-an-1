@@ -12,13 +12,13 @@ public class LoaiBox {
 
     String MaLoaiBox;
     String TenLoaiBox;
-    long GiaLoai;
+    int GiaLoai;
     String MoTa;
 
     public LoaiBox() {
     }
 
-    public LoaiBox(String MaLoaiBox, String TenLoaiBox, long GiaLoai, String MoTa) {
+    public LoaiBox(String MaLoaiBox, String TenLoaiBox, int GiaLoai, String MoTa) {
         this.MaLoaiBox = MaLoaiBox;
         this.TenLoaiBox = TenLoaiBox;
         this.GiaLoai = GiaLoai;
@@ -45,7 +45,7 @@ public class LoaiBox {
         return GiaLoai;
     }
 
-    public void setGiaLoai(long GiaLoai) {
+    public void setGiaLoai(int GiaLoai) {
         this.GiaLoai = GiaLoai;
     }
 

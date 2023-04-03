@@ -140,10 +140,9 @@ public class PanelBill extends javax.swing.JPanel {
             ItemBill itemBill = (ItemBill) component;
             for (Component component1 : panelItem.getComponents()) {
                 if (component1 instanceof BoxItem) {
-                    BoxItem product = (BoxItem) component1;
-                    if (Integer.parseInt(itemBill.getData().getMaItem().toString()) == Integer.parseInt(product.getData().getMaItem().toString())) {
-                        product.setActive(itemBill.getData(), BoxState.waiting);
-
+                    BoxItem box = (BoxItem) component1;
+                    if (itemBill.getData().getMaItem().toString().equals(box.getData().getMaItem().toString())) {
+                        box.setActive(itemBill.getData(), BoxState.waiting);
                     }
                 }
 

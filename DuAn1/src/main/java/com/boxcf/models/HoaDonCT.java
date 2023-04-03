@@ -15,18 +15,16 @@ public class HoaDonCT {
     int SoLuong;
     String GhiChu;
     long ThanhTien;
-    int MaDat;
 
     public HoaDonCT() {
     }
 
-    public HoaDonCT(int MaHD, int MaSP, int SoLuong, String GhiChu, long ThanhTien, int MaDat) {
+    public HoaDonCT(int MaHD, int MaSP, int SoLuong, String GhiChu, long ThanhTien) {
         this.MaHD = MaHD;
         this.MaSP = MaSP;
         this.SoLuong = SoLuong;
         this.GhiChu = GhiChu;
         this.ThanhTien = ThanhTien;
-        this.MaDat = MaDat;
     }
 
     public int getMaHD() {
@@ -68,13 +66,4 @@ public class HoaDonCT {
     public void setThanhTien(long ThanhTien) {
         this.ThanhTien = ThanhTien;
     }
-
-    public int getMaDat() {
-        return MaDat;
-    }
-
-    public void setMaDat(int MaDat) {
-        this.MaDat = MaDat;
-    }
-
 }

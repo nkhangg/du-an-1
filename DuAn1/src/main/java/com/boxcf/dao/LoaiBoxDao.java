@@ -63,7 +63,7 @@ public class LoaiBoxDao implements BoxCfDAO<LoaiBox, String> {
 
                 loaiBox.setMaLoaiBox(rs.getString("MaLoaiBox"));
                 loaiBox.setTenLoaiBox(rs.getString("TenLoaiBox"));
-                loaiBox.setGiaLoai(rs.getLong("GiaLoai"));
+                loaiBox.setGiaLoai(rs.getInt("GiaLoai"));
                 loaiBox.setMoTa(rs.getString("MoTa"));
 
                 list.add(loaiBox);
