@@ -9,9 +9,11 @@ import com.box.utils.MsgBox;
 import com.box.utils.XDate;
 import com.boxcf.components.ScrollBar;
 import com.boxcf.components.material.ItemBill;
-import com.boxcf.dao.DatBoxDao;
+import com.boxcf.components.material.Panigation;
+import com.boxcf.dao.BoxDao;
 import com.boxcf.dao.HoaDonChiTietDao;
 import com.boxcf.dao.HoaDonDao;
+import com.boxcf.dao.PhieuDatBoxDao;
 import com.boxcf.models.DatBox;
 import com.boxcf.models.HoaDon;
 import com.boxcf.models.HoaDonCT;
@@ -426,40 +428,36 @@ public class HoaDonView extends javax.swing.JFrame {
         });
     }
 
+    int maHd;
     private void createBill() {
+        //tao hoa don
         HoaDon hd = new HoaDon(XDate.now(), lblNameCutomer.getText(), "NV01", "", finalTotal, "KM02");
-        int maHd = HoaDonDao.getInstant().inserts(hd);
-
+        maHd = HoaDonDao.getInstant().inserts(hd);
+        
+        //tao hoa don chi tiet
         for (ItemBill item : Store.globelPanelBill.getList()) {
             ModelItem data = item.getData();
+
+            //Tao phieu dat box
             if (data.getLoaiBox() != null) {
-                DatBox db = DatBoxDao.getInstant().selectByIdBox(Integer.parseInt(data.getMaItem() + ""));
-                if (db != null) {
-                    data.setMaDat(db.getMaDat());
-                }
+                PhieuDatBoxDao.getInstant().insertProc(maHd, item.getData(), lblNameCutomer.getText());
+                
+            } else {
+                //Tao hoa don chi tiet
+                HoaDonCT hdct = new HoaDonCT(maHd, Integer.parseInt(data.getMaItem() + ""), data.getSoLuong(), "", (long) (data.getSoLuong() * data.getGia()));
+                HoaDonChiTietDao.getInstant().insert(hdct);
             }
-            HoaDonCT hdct = new HoaDonCT(maHd, data.getMaDat() > 0 ? 0 : Integer.parseInt(data.getMaItem() + ""),
-                    data.getSoLuong(), null,
-                    (long) (data.getGia()),
-                    data.getMaDat());
-            HoaDonChiTietDao.getInstant().insert(hdct);
+
         }
-
+        
         MsgBox.alert(Store.orderView, "Thanh toán thành công !");
-
     }
 
     private void handlePrintBill() {
-
-        Store.orderView.getPanelItem().setTimer();
-
-        for (ItemBill itemBill : Store.globelPanelBill.getList()) {
-            if (itemBill.getData().getLoaiBox() != null) {
-                DatBoxDao.getInstant().insertProc(itemBill.getData(), lblNameCutomer.getText());
-            }
-        }
+        this.dispose();
         createBill();
         Store.globelPanelBill.clearList(false);
-        this.dispose();
+        Store.orderView.initBoxData(BoxDao.getInstance().panigation(Panigation.current));
+        Store.orderView.getPanelItem().setTimer();
     }
 }

@@ -375,7 +375,6 @@ public class SanPhamView extends javax.swing.JPanel {
         add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(31, 90, 1000, 10));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setOpaque(false);
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnAdd.setBackground(new java.awt.Color(2, 172, 171));
@@ -410,6 +409,7 @@ public class SanPhamView extends javax.swing.JPanel {
         txtTimSP.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtTimSP.setForeground(new java.awt.Color(51, 51, 51));
         txtTimSP.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(2, 172, 171)));
+        txtTimSP.setOpaque(false);
         jPanel1.add(txtTimSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 32, 520, 32));
 
         btnTimSP.setBackground(new java.awt.Color(2, 172, 171));
@@ -430,12 +430,14 @@ public class SanPhamView extends javax.swing.JPanel {
 
         jLabel3.setText("Loại");
 
+        cboDanhMuc1.setFocusable(false);
         cboDanhMuc1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboDanhMuc1ActionPerformed(evt);
             }
         });
 
+        cboLoaiSP.setFocusable(false);
         cboLoaiSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboLoaiSPActionPerformed(evt);
