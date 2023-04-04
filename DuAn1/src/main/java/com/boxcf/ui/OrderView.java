@@ -23,13 +23,15 @@ import com.boxcf.components.material.ProductItem;
 import com.boxcf.models.ModelItem;
 import com.boxcf.components.material.PanelBill;
 import com.boxcf.components.material.Panigation;
-import com.boxcf.dao.BoxDao2;
+import com.boxcf.constands.BoxState;
+import com.boxcf.dao.BoxDao;
 import com.boxcf.dao.DanhMucDao;
 import com.boxcf.dao.LoaiBoxDao;
 import com.boxcf.dao.LoaiSPDao;
+import com.boxcf.dao.PhieuDatBoxDao;
 import com.boxcf.dao.SanPhamDao;
 import com.boxcf.events.interfaces.BoxEvents;
-import com.boxcf.models.Box2;
+import com.boxcf.models.Box;
 import com.boxcf.models.DanhMuc;
 import com.boxcf.models.KhuyenMai;
 import com.boxcf.models.LoaiBox;
@@ -177,11 +179,13 @@ public class OrderView extends javax.swing.JFrame {
         buttonRound1.setBackground(new java.awt.Color(77, 119, 254));
         buttonRound1.setForeground(new java.awt.Color(255, 255, 255));
         buttonRound1.setText("ĐỒ ĂN");
+        buttonRound1.setFocusPainted(false);
         buttonRound1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
 
         btnBox.setBackground(new java.awt.Color(18, 165, 188));
         btnBox.setForeground(new java.awt.Color(255, 255, 255));
         btnBox.setText("BOX");
+        btnBox.setFocusPainted(false);
         btnBox.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         btnBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,11 +196,13 @@ public class OrderView extends javax.swing.JFrame {
         buttonRound4.setBackground(new java.awt.Color(255, 150, 0));
         buttonRound4.setForeground(new java.awt.Color(255, 255, 255));
         buttonRound4.setText("COMBO");
+        buttonRound4.setFocusPainted(false);
         buttonRound4.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
 
         buttonRound5.setBackground(new java.awt.Color(56, 187, 156));
         buttonRound5.setForeground(new java.awt.Color(255, 255, 255));
         buttonRound5.setText("ĐỒ UỐNG");
+        buttonRound5.setFocusPainted(false);
         buttonRound5.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         buttonRound5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -452,15 +458,17 @@ public class OrderView extends javax.swing.JFrame {
 
     }
 
-    public void initBoxData(List<Box2> list) {
+    public void initBoxData(List<Box> list) {
         panelItem.removeAll();
 
         this.openBoxStatus();
 
         StoreEvents.product(this);
 
-        for (Box2 box : list) {
-            this.addBoxData(new ModelItem(box.getMaBox(), box.getTenBox(), box.getTrangThai(), LoaiBoxDao.getInstance().selectById(box.getMaLoaiBox())));
+        for (Box box : list) {
+            //get ra ma box con gio
+            String state = PhieuDatBoxDao.getInstant().getTrangThai(box.getMaBox());
+            this.addBoxData(new ModelItem(box.getMaBox(), box.getTenBox(), BoxState.valueOf(state), LoaiBoxDao.getInstance().selectById(box.getMaLoaiBox())));
         }
         panelBill.activeBoxOnBill(panelItem);
 
@@ -499,11 +507,11 @@ public class OrderView extends javax.swing.JFrame {
         if (categoryAll) {
             // loai tat ca
             panelCategory.add(Store.categoryAll(panelCategory, name, true));
-//            initBoxData(BoxDao2.getInstant().selectAll());
+//            initBoxData(BoxDao.getInstant().selectAll());
 
             //---------ha code------------------
             mode = "box";
-            initBoxData(BoxDao2.getInstant().panigation(Panigation.current));
+            initBoxData(BoxDao.getInstance().panigation(Panigation.current));
             addPanigation();
         }
 

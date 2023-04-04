@@ -53,20 +53,22 @@ public class XDate {
         return date;
     }
 
-    public static Time getCurTime(String kt) {
+    public static Time toTime(String textGioKT) {
         Time t = null;
         try {
-            if (kt.equals("")) {
+            if (textGioKT.equals("")) {
                 return null;
             }
-            Date dateKt = XDate.toDate(kt, "MM/dd/yyyy HH:mm:ss");
-            long millis = dateKt.getTime();
-            long next = millis - XDate.now().getTime();
-            double totalTime = Math.floor(next) / 1000;
-            int munite = (int) (Math.floor(totalTime / 60) % 60);
-            int hour = (int) (Math.floor(totalTime / 3600) % 24);
 
-            t = new Time(hour, munite);
+            Date endHour = XDate.toDate(textGioKT, "MM/dd/yyyy HH:mm:ss");
+            long millis = endHour.getTime();
+            long useHour = millis - XDate.now().getTime();
+            double totalSecond = Math.floor(useHour) / 1000;
+            int hour = (int) (Math.floor(totalSecond / 3600) % 24);
+            int minute = (int) (Math.floor(totalSecond / 60) % 60);
+            int second = (int) (Math.floor(totalSecond % 60));
+
+            t = new Time(hour, minute, second);
         } catch (Exception e) {
             throw new Error("Error in getCurTime");
         }

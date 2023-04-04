@@ -49,7 +49,7 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblTime">
+    <Component class="javax.swing.JLabel" name="lblTimeRemainder">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Century Gothic" size="16" style="1"/>

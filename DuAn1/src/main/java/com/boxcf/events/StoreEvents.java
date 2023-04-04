@@ -12,8 +12,7 @@ import com.boxcf.components.material.ItemBill;
 import com.boxcf.components.material.PanelBill;
 import com.boxcf.components.material.Panigation;
 import com.boxcf.components.material.ProductItem;
-import com.boxcf.dao.BoxDao2;
-import com.boxcf.dao.LoaiBoxDao;
+import com.boxcf.dao.BoxDao;
 import com.boxcf.dao.SanPhamDao;
 import com.boxcf.events.interfaces.EventIncrease;
 import com.boxcf.models.SanPham;
@@ -26,7 +25,6 @@ import com.boxcf.ui.DatBoxView;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -152,13 +150,13 @@ public class StoreEvents {
                 if (name.equals("BOX") && ctgr.getDataBox() != null) {
 
                     if (ctgr.getDataBox().getMaLoaiBox().equalsIgnoreCase(Store.idAllCategory)) {
-                        order.initBoxData(BoxDao2.getInstant().panigation(Panigation.current));
+                        order.initBoxData(BoxDao.getInstance().panigation(Panigation.current));
                         loadPanigation(order);
                         return;
                     }
 
                     order.removePanigation();
-                    order.initBoxData(BoxDao2.getInstant().selectBySql(sqlBox, ctgr.getDataBox().getMaLoaiBox()));
+                    order.initBoxData(BoxDao.getInstance().selectBySql(sqlBox, ctgr.getDataBox().getMaLoaiBox()));
                     return;
                 }
 
@@ -228,7 +226,7 @@ public class StoreEvents {
                         if (order.mode.equals("product")) {
                             order.initProductData(SanPhamDao.getInstant().panigation(Panigation.current));
                         } else {
-                            order.initBoxData(BoxDao2.getInstant().panigation(Panigation.current));
+                            order.initBoxData(BoxDao.getInstance().panigation(Panigation.current));
                         }
                     }
                 });

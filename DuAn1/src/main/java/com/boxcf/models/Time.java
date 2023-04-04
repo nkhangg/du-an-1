@@ -11,14 +11,21 @@ package com.boxcf.models;
 public class Time {
 
     private int hour;
-    private int muntite;
+    private int minute;
+    private int second;
 
     public Time() {
     }
 
-    public Time(int hour, int muntite) {
+    public Time(int hour, int minute) {
         this.hour = hour;
-        this.muntite = muntite;
+        this.minute = minute;
+    }
+
+    public Time(int hour, int minute, int second) {
+        this.hour = hour;
+        this.minute = minute;
+        this.second = second;
     }
 
     public int getHour() {
@@ -29,17 +36,24 @@ public class Time {
         this.hour = hour;
     }
 
-    public int getMuntite() {
-        return muntite;
+    public int getMinute() {
+        return minute;
     }
 
-    public void setMuntite(int muntite) {
-        this.muntite = muntite;
+    public void setMinute(int minute) {
+        this.minute = minute;
+    }
+
+    public int getSecond() {
+        return second;
+    }
+
+    public void setSecond(int second) {
+        this.second = second;
     }
 
     @Override
     public String toString() {
-        return "Time{" + "hour=" + hour + ", muntite=" + muntite + '}';
+        return "Time{" + "hour=" + hour + ", minute=" + minute + '}';
     }
-
 }

@@ -166,12 +166,12 @@ public class ThongKeView extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void init() {
-        Store.tkView = this;
-        initDataOrveview();
-        renderDataCboTime(dt);
-        chart.addLegend(cboTime.getSelectedItem().toString(), new Color(139, 229, 222));
-        initCategory();
-        initDetailButton();
+//        Store.tkView = this;
+//        initDataOrveview();
+//        renderDataCboTime(dt);
+//        chart.addLegend(cboTime.getSelectedItem().toString(), new Color(139, 229, 222));
+//        initCategory();
+//        initDetailButton();
 
     }
 

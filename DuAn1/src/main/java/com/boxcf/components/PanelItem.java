@@ -31,7 +31,7 @@ public class PanelItem extends JPanel {
                 if (component instanceof BoxItem) {
                     BoxItem box = (BoxItem) component;
                     for (ItemBill itemBill : Store.globelPanelBill.getList()) {
-                        if (box.getData().getTrangThai() != BoxState.isActive) {
+                        if (box.getData().getTrangThai() != BoxState.active) {
                             box.clearSelected();
                         }
 
