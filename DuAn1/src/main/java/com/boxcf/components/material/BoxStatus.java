@@ -12,12 +12,12 @@ import com.boxcf.dao.DatTruocDao;
  * @author HP
  */
 public class BoxStatus extends javax.swing.JPanel {
-    
+
     public BoxStatus() {
         initComponents();
         init();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -97,17 +97,17 @@ public class BoxStatus extends javax.swing.JPanel {
     private void init() {
         fillState();
     }
-    
+
     public void fillState() {
-        
+
 //        int isActiveNum = BoxDao.getInstance().isActiveBox();
 //        int isReservedNum = DatTruocDao.getInstant().isReserved();
 //        int inActiveNum = BoxDao.getInstance().inActiveBox();
-//        
+//
 //        String inActive = "Trống (" + inActiveNum + ")";
 //        String isActive = "Đang hoạt động (" + isActiveNum + ")";
 //        String isReserved = "Đặt trước (" + isActiveNum + ")";
-//        
+//
 //        lblInActive.setText(inActive);
 //        lblIsActive.setText(isActive);
 //        lblReserve.setText(isReserved);

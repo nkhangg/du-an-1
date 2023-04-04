@@ -91,11 +91,6 @@ public class KhuyenMai {
     }
 
     @Override
-    public String toString() {
-        return "KhuyenMai{" + "MaKM=" + MaKM + ", TenKM=" + TenKM + ", NgayBD=" + NgayBD + ", NgayKT=" + NgayKT + ", SoLuot=" + SoLuot + ", PhanTram=" + PhanTram + ", DieuKienGiam=" + DieuKienGiam + '}';
-    }
-
-    @Override
     public int hashCode() {
         int hash = 5;
         return hash;
@@ -134,4 +129,12 @@ public class KhuyenMai {
         return Objects.equals(this.NgayKT, other.NgayKT);
     }
 
+    @Override
+    public String toString() {
+        return MaKM + " giảm " + PhanTram + " % cho đơn từ " + DieuKienGiam;
+    }
+
+    public String toStrings() {
+        return "KhuyenMai{" + "MaKM=" + MaKM + ", TenKM=" + TenKM + ", NgayBD=" + NgayBD + ", NgayKT=" + NgayKT + ", SoLuot=" + SoLuot + ", PhanTram=" + PhanTram + ", DieuKienGiam=" + DieuKienGiam + '}';
+    }
 }

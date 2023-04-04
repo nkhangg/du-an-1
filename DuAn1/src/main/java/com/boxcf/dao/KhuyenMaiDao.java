@@ -6,8 +6,6 @@ import java.util.List;
 
 import com.boxcf.models.KhuyenMai;
 import com.box.utils.JdbcHelper;
-import com.box.utils.Validator;
-import com.box.utils.XDate;
 
 public class KhuyenMaiDao implements BoxCfDAO<KhuyenMai, String> {
 
@@ -148,7 +146,7 @@ public class KhuyenMaiDao implements BoxCfDAO<KhuyenMai, String> {
 
         return selectBySql(sql, "%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%");
     }
-    
+
     public List<KhuyenMai> selectTrash() {
         List<KhuyenMai> list = new ArrayList<>();
         String sql = "select * from KhuyenMai Where TrangThai = 0";
@@ -164,6 +162,27 @@ public class KhuyenMaiDao implements BoxCfDAO<KhuyenMai, String> {
 
         } catch (Exception e) {
             throw new Error("The Error in selectTrash KhuyenMai !");
+        }
+        return list;
+    }
+
+    public List<KhuyenMai> selectByCondition(long condition) {
+        List<KhuyenMai> list = new ArrayList<>();
+        String sql = "select * from KhuyenMai\n"
+                + "where DieuKienGiam <= ? and TrangThai = 1 and SoLuot > 0";
+
+        try {
+            ResultSet responce = JdbcHelper.query(sql, condition);
+
+            while (responce.next()) {
+                list.add(createObjecet(responce));
+            }
+
+            responce.getStatement().getConnection().close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+            throw new Error("The Error in selectByCondition KhuyenMai !");
         }
         return list;
     }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.boxcf.ui;
 
 import com.boxcf.components.material.CategoryChartItem;
@@ -14,12 +10,12 @@ import com.boxcf.store.Store;
 import com.raven.chart.ModelChart;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.border.MatteBorder;
 
 /**
  *
@@ -28,10 +24,12 @@ import java.util.List;
 public class ThongKeView extends javax.swing.JPanel {
 
     private ThongKeDao dTk = ThongKeDao.getInstant();
-    private final String dt = "Doanh Thu";
-    private final String spbc = "Sản Phẩm Bán Chạy";
-    private final String dsnv = "Doanh Số Nhân Viên";
-    private final String lshd = "Lịch Sử Hoạt Động";
+    List<ModelStatistical> list = null;
+
+    public final String dt = "Doanh Thu";
+    public final String spbc = "Sản Phẩm Bán Chạy";
+    public final String dsnv = "Doanh Số Nhân Viên";
+    public final String lshd = "Lịch Sử Bán Hàng";
 
     public ThongKeView() {
         initComponents();
@@ -48,6 +46,7 @@ public class ThongKeView extends javax.swing.JPanel {
         chart = new com.raven.chart.Chart();
         cboTime = new com.boxcf.components.Combobox();
         lblTitleChart = new javax.swing.JLabel();
+        btnDetail = new javax.swing.JLabel();
         pnlCategoryChart = new com.boxcf.components.GradientPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -73,21 +72,31 @@ public class ThongKeView extends javax.swing.JPanel {
             }
         });
 
-        lblTitleChart.setFont(new java.awt.Font("UTM Aptima", 1, 12)); // NOI18N
+        lblTitleChart.setFont(new java.awt.Font("UTM Aptima", 1, 14)); // NOI18N
         lblTitleChart.setForeground(new java.awt.Color(57, 196, 138));
         lblTitleChart.setText("jLabel3");
+
+        btnDetail.setFont(new java.awt.Font("UTM Aptima", 1, 14)); // NOI18N
+        btnDetail.setForeground(new java.awt.Color(51, 51, 51));
+        btnDetail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnDetail.setText("Chi Tiết ");
+        btnDetail.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        btnDetail.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDetail.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
         javax.swing.GroupLayout gradientPanel1Layout = new javax.swing.GroupLayout(gradientPanel1);
         gradientPanel1.setLayout(gradientPanel1Layout);
         gradientPanel1Layout.setHorizontalGroup(
             gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(chart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel1Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(lblTitleChart, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblTitleChart, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cboTime, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cboTime, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDetail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
-            .addComponent(chart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         gradientPanel1Layout.setVerticalGroup(
             gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -96,7 +105,9 @@ public class ThongKeView extends javax.swing.JPanel {
                 .addGroup(gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cboTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblTitleChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGap(27, 27, 27)
+                .addComponent(btnDetail)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(chart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -144,6 +155,7 @@ public class ThongKeView extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnDetail;
     private com.boxcf.components.Combobox cboTime;
     private com.raven.chart.Chart chart;
     private com.boxcf.components.GradientPanel gradientPanel1;
@@ -154,11 +166,21 @@ public class ThongKeView extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void init() {
+        Store.tkView = this;
         initDataOrveview();
         renderDataCboTime(dt);
         chart.addLegend(cboTime.getSelectedItem().toString(), new Color(139, 229, 222));
         initCategory();
+        initDetailButton();
 
+    }
+
+    public List<ModelStatistical> getList() {
+        return list;
+    }
+
+    public void setList(List<ModelStatistical> list) {
+        this.list = list;
     }
 
     private void initDataOrveview() {
@@ -185,8 +207,6 @@ public class ThongKeView extends javax.swing.JPanel {
             return;
         }
 
-        List<ModelStatistical> list = null;
-
         if (cboTime.getSelectedItem() instanceof ModelStatistical) {
             ModelStatistical mdCbo = (ModelStatistical) cboTime.getSelectedItem();
 
@@ -197,24 +217,26 @@ public class ThongKeView extends javax.swing.JPanel {
                 return;
             }
 
+            if (mdCbo.getType().equals("period")) {
+                Store.chart = chart;
+                new ChonKhoanThoiGianView(mdCbo).setVisible(true);
+                return;
+            }
+
             if (mdCbo.getCategory().equalsIgnoreCase(dt)) {
 
                 list = dTk.revenue(mdCbo.getType());
 
             } else if (mdCbo.getCategory().equalsIgnoreCase(spbc)) {
 
-                list = dTk.product(mdCbo.getTime(), mdCbo.getType());
+                list = dTk.product(mdCbo.getType());
 
             } else if (mdCbo.getCategory().equalsIgnoreCase(dsnv)) {
 
-                list = dTk.staff(mdCbo.getTime(), mdCbo.getType());
+                list = dTk.staff(mdCbo.getType());
+
             } else {
                 chart.clear();
-            }
-
-            if (mdCbo.getType().equals("period")) {
-                Store.chart = chart;
-                new ChonKhoanThoiGianView(mdCbo).setVisible(true);
             }
 
             if (list == null) {
@@ -222,7 +244,7 @@ public class ThongKeView extends javax.swing.JPanel {
             }
 
             for (ModelStatistical md : list) {
-                chart.addData(new ModelChart(md.getTitle().length() > 8 ? md.getTitle().substring(0, 10) + "..." : md.getTitle(), new double[]{md.getNum()}));
+                chart.addData(new ModelChart(md.getTitle().length() > 10 ? md.getTitle().substring(0, 10) + "..." : md.getTitle(), new double[]{md.getNum()}));
             }
 
             chart.start();
@@ -269,7 +291,7 @@ public class ThongKeView extends javax.swing.JPanel {
         list.add(new ModelStatistical(dt, "dt"));
         list.add(new ModelStatistical(spbc, "spbc"));
         list.add(new ModelStatistical(dsnv, "dsbc"));
-        list.add(new ModelStatistical(lshd, "lshd"));
+        list.add(new ModelStatistical(lshd, "lsbh"));
         for (ModelStatistical md : list) {
             CategoryChartItem item = new CategoryChartItem();
             item.addData(md);
@@ -280,6 +302,11 @@ public class ThongKeView extends javax.swing.JPanel {
                     item.setActive(true);
                     if (item.isActive()) {
                         renderDataCboTime(item.getData().getCategory());
+                    }
+
+
+                    if (item.isActive() && item.getData().getCategory().equals(lshd)) {
+                        new LichSuBanHangView().setVisible(true);
                     }
                 }
 
@@ -299,5 +326,37 @@ public class ThongKeView extends javax.swing.JPanel {
 
         CategoryChartItem item = (CategoryChartItem) pnlCategoryChart.getComponents()[0];
         item.setActive(true);
+    }
+
+    public JLabel getLblTitleChart() {
+        return lblTitleChart;
+    }
+
+    public void setLblTitleChart(JLabel lblTitleChart) {
+        this.lblTitleChart = lblTitleChart;
+    }
+
+    public void initDetailButton() {
+        btnDetail.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ModelStatistical mdCbo = (ModelStatistical) cboTime.getSelectedItem();
+                if (mdCbo != null) {
+                    new ChiTietThongKeView(list, mdCbo).setVisible(true);
+
+                }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnDetail.setBorder(new MatteBorder(0, 0, 1, 0, new Color(0, 0, 0, 0)));
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnDetail.setBorder(new MatteBorder(0, 0, 1, 0, new Color(57, 198, 138)));
+            }
+
+        });
     }
 }

@@ -98,7 +98,7 @@ public class DatTruocDao implements BoxCfDAO<DatTruoc, Integer> {
     public List<DatTruoc> selectAllWithIdBoxActive(int idBox) {
         List<DatTruoc> list = new ArrayList<>();
         String sql = "select * from DatTruoc\n"
-                + "where TrangThai = 1 and MaBox = ?\n"
+                + "where TranThai = 1 and MaBox = ?\n"
                 + "order by GioKT ";
 
         try {
@@ -110,6 +110,7 @@ public class DatTruocDao implements BoxCfDAO<DatTruoc, Integer> {
 
             responce.getStatement().getConnection().close();
         } catch (Exception e) {
+            System.out.println(e);
             throw new Error("The Error in selectAllWithIdBox Dattruoc !");
         }
         return list;

@@ -43,7 +43,7 @@ public class OverviewItem extends javax.swing.JPanel {
         btnImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/carts (3).png"))); // NOI18N
         btnImage.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        lblNum.setFont(new java.awt.Font("UTM Aptima", 1, 20)); // NOI18N
+        lblNum.setFont(new java.awt.Font("UTM Aptima", 1, 18)); // NOI18N
         lblNum.setForeground(new java.awt.Color(57, 196, 138));
         lblNum.setText("630.000");
 
@@ -60,8 +60,9 @@ public class OverviewItem extends javax.swing.JPanel {
                 .addComponent(btnImage, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNum, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
-                    .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(lblNum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)

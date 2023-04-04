@@ -124,7 +124,7 @@ public class LoaiBoxForm extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(40, 48, 84));
         jLabel1.setText("THÔNG TIN LOẠI BOX");
-        pnlBox.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, -1, -1));
+        pnlBox.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, -1, -1));
 
         btnLast.setBackground(new java.awt.Color(2, 172, 171));
         btnLast.setForeground(new java.awt.Color(255, 255, 255));
@@ -214,15 +214,15 @@ public class LoaiBoxForm extends javax.swing.JFrame {
             gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(gradientPanel1Layout.createSequentialGroup()
                 .addGap(2, 2, 2)
-                .addComponent(pnlBox, javax.swing.GroupLayout.PREFERRED_SIZE, 751, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(pnlBox, javax.swing.GroupLayout.PREFERRED_SIZE, 761, Short.MAX_VALUE)
+                .addGap(2, 2, 2))
         );
         gradientPanel1Layout.setVerticalGroup(
             gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(gradientPanel1Layout.createSequentialGroup()
                 .addGap(2, 2, 2)
-                .addComponent(pnlBox, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(pnlBox, javax.swing.GroupLayout.PREFERRED_SIZE, 618, Short.MAX_VALUE)
+                .addGap(2, 2, 2))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

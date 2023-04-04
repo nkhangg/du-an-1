@@ -8,10 +8,14 @@ import com.box.utils.Sort;
 import com.boxcf.models.ModelItem;
 import com.boxcf.components.PanelItem;
 import com.boxcf.constands.BoxState;
+import com.boxcf.dao.KhuyenMaiDao;
 import com.boxcf.events.StoreEvents;
+import com.boxcf.models.KhuyenMai;
 import com.boxcf.store.Store;
+import com.boxcf.ui.OrderView;
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -19,6 +23,7 @@ import java.util.ArrayList;
  */
 public class PanelBill extends javax.swing.JPanel {
 
+    private KhuyenMaiDao dKm = KhuyenMaiDao.getInstant();
     private ArrayList<ItemBill> list = new ArrayList<>();
     private PanelItem panelItem;
     private ArrayList<BoxItemBill> boxList = new ArrayList<>();
@@ -110,6 +115,7 @@ public class PanelBill extends javax.swing.JPanel {
         long reuslt = 0;
 
         if (list.size() <= 0) {
+            renderDiscount(reuslt);
             return reuslt;
         }
 
@@ -117,7 +123,38 @@ public class PanelBill extends javax.swing.JPanel {
             reuslt += itemBill.getData().getSoLuong() * itemBill.getData().getGia();
         }
 
+        renderDiscount(reuslt);
         return reuslt;
+    }
+
+    public long getTotal() {
+
+        long reuslt = 0;
+
+        if (list.size() <= 0) {
+            return reuslt;
+        }
+
+        for (ItemBill itemBill : list) {
+            reuslt += itemBill.getData().getSoLuong() * itemBill.getData().getGia();
+        }
+        
+        return reuslt;
+    }
+
+    public void renderDiscount(long reuslt) {
+
+        List<KhuyenMai> list = dKm.selectByCondition(reuslt);
+
+        if (list.isEmpty()) {
+            Store.orderView.getCboDiscount().removeAllItems();
+            return;
+        }
+
+        Store.orderView.getCboDiscount().removeAllItems();
+        for (KhuyenMai km : list) {
+            Store.orderView.getCboDiscount().addItem(km);
+        }
     }
 
     public void activeProductOnBill(PanelItem panelItem) {

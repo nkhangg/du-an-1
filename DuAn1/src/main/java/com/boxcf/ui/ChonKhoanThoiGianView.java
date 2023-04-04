@@ -23,11 +23,11 @@ public class ChonKhoanThoiGianView extends javax.swing.JDialog {
 
     private ModelStatistical data;
     private Chart chart = Store.chart;
+    private ThongKeView tkView = Store.tkView;
     private ThongKeDao dTk = ThongKeDao.getInstant();
-    private final String dt = "Doanh Thu";
-    private final String spbc = "Sản Phẩm Bán Chạy";
-    private final String dsnv = "Doanh Số Nhân Viên";
-    private final String lshd = "Lịch Sử Hoạt Động";
+    private final String dt = tkView.dt;
+    private final String spbc = tkView.spbc;
+    private final String dsnv = tkView.dsnv;
 
     public ChonKhoanThoiGianView(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -179,9 +179,9 @@ public class ChonKhoanThoiGianView extends javax.swing.JDialog {
                     .addComponent(dcTimeEnd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnComfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblMess, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblMess, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnComfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
 
@@ -318,18 +318,18 @@ public class ChonKhoanThoiGianView extends javax.swing.JDialog {
             return;
         }
         List<ModelStatistical> list = null;
+        Date timeStart = dcTimeStart.getDate();
+        Date timeEnd = dcTimeEnd.getDate();
+
         if (data.getCategory().equalsIgnoreCase(dt)) {
-            Date dateStart = XDate.toDate("2023/02/2", "yyyy/MM/dd");
-            Date dateEnd = XDate.toDate("2023/04/3", "yyyy/MM/dd");
-            list = dTk.revenue(data.getType(), dateStart, dateEnd);
+            list = dTk.revenue(data.getType(), timeStart, timeEnd);
 
         } else if (data.getCategory().equalsIgnoreCase(spbc)) {
 
-            list = dTk.product(data.getTime(), data.getType());
+            list = dTk.product(data.getType(), timeStart, timeEnd);
 
         } else if (data.getCategory().equalsIgnoreCase(dsnv)) {
-
-            list = dTk.staff(data.getTime(), data.getType());
+            list = dTk.staff(data.getType(), timeStart, timeEnd);
         } else {
             chart.clear();
         }
@@ -338,10 +338,15 @@ public class ChonKhoanThoiGianView extends javax.swing.JDialog {
             return;
         }
 
+        tkView.setList(list);
         for (ModelStatistical md : list) {
-            chart.addData(new ModelChart(md.getTitle().length() > 8 ? md.getTitle().substring(0, 10) + "..." : md.getTitle(), new double[]{md.getNum()}));
+            chart.addData(new ModelChart(md.getTitle().length() > 10 ? md.getTitle().substring(0, 10) + "..." : md.getTitle(), new double[]{md.getNum()}));
         }
 
+        String mess = (list.size() >= 10 ? " TOP 10 " : " ") + data.getCategory() + " từ " + XDate.toString(timeStart, "dd/MM/yyyy") + " đến " + XDate.toString(timeEnd, "dd/MM/yyyy");
         chart.start();
+        chart.setLegend(mess);
+        tkView.getLblTitleChart().setText(mess);
+        exit();
     }
 }

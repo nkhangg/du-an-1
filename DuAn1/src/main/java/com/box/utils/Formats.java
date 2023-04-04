@@ -17,11 +17,10 @@ public class Formats {
         return formatter.format(number) + " VND";
 
     }
-    
+
     public static String toCurency(double number) {
         DecimalFormat formatter = new DecimalFormat("###,###,###");
         return formatter.format(number) + " VND";
     }
-    
-   
+
 }

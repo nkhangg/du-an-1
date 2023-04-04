@@ -6,6 +6,7 @@ package com.boxcf.ui;
 
 import com.box.utils.Formats;
 import com.boxcf.components.ButtonRound;
+import com.boxcf.components.Combobox;
 import com.boxcf.components.PanelItem;
 import com.boxcf.components.ScrollBar;
 import com.boxcf.components.material.BoxItem;
@@ -30,11 +31,13 @@ import com.boxcf.dao.SanPhamDao;
 import com.boxcf.events.interfaces.BoxEvents;
 import com.boxcf.models.Box2;
 import com.boxcf.models.DanhMuc;
+import com.boxcf.models.KhuyenMai;
 import com.boxcf.models.LoaiBox;
 import com.boxcf.models.LoaiSP;
 import com.boxcf.models.SanPham;
 import com.boxcf.store.Store;
 import java.util.List;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -69,7 +72,6 @@ public class OrderView extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        textField4 = new com.boxcf.components.TextField();
         jLabel2 = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -79,7 +81,8 @@ public class OrderView extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        lblTotal1 = new javax.swing.JLabel();
+        lblFinalTotal = new javax.swing.JLabel();
+        cboDiscount = new com.boxcf.components.Combobox();
         panelButton = new javax.swing.JPanel();
         buttonRound1 = new com.boxcf.components.ButtonRound();
         btnBox = new com.boxcf.components.ButtonRound();
@@ -102,19 +105,15 @@ public class OrderView extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 800));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        textField4.setLabelText("");
-        textField4.setOpaque(false);
-        jPanel1.add(textField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 650, 310, 38));
-
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Tạm tính");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 630, 80, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 610, 80, -1));
 
         lblTotal.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblTotal.setForeground(new java.awt.Color(16, 108, 130));
         lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTotal.setText("0 VND");
-        jPanel1.add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 630, 160, -1));
+        jPanel1.add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 610, 240, -1));
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/Trash.png"))); // NOI18N
@@ -139,7 +138,7 @@ public class OrderView extends javax.swing.JFrame {
 
         ContainBill.setBackground(new java.awt.Color(255, 255, 255));
         ContainBill.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(ContainBill, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 62, 425, 560));
+        jPanel1.add(ContainBill, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 62, 425, 540));
 
         jLabel5.setFont(new java.awt.Font("UTM Aptima", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(51, 51, 51));
@@ -156,13 +155,22 @@ public class OrderView extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("Khuyến mãi");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 670, 90, -1));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 660, 90, -1));
 
-        lblTotal1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        lblTotal1.setForeground(new java.awt.Color(16, 108, 130));
-        lblTotal1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblTotal1.setText("0 VND");
-        jPanel1.add(lblTotal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(285, 707, 160, -1));
+        lblFinalTotal.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblFinalTotal.setForeground(new java.awt.Color(16, 108, 130));
+        lblFinalTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblFinalTotal.setText("0 VND");
+        jPanel1.add(lblFinalTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 710, 280, -1));
+
+        cboDiscount.setForeground(new java.awt.Color(16, 108, 130));
+        cboDiscount.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        cboDiscount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboDiscountActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cboDiscount, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 650, 320, 40));
 
         panelButton.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -318,6 +326,10 @@ public class OrderView extends javax.swing.JFrame {
         Panigation.current = 1;
     }//GEN-LAST:event_buttonRound5ActionPerformed
 
+    private void cboDiscountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboDiscountActionPerformed
+        handleFinalTotal();
+    }//GEN-LAST:event_cboDiscountActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -361,6 +373,7 @@ public class OrderView extends javax.swing.JFrame {
     private com.boxcf.components.ButtonRound buttonRound4;
     private com.boxcf.components.ButtonRound buttonRound5;
     private com.boxcf.components.ButtonRound buttonRound6;
+    private com.boxcf.components.Combobox cboDiscount;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -371,14 +384,13 @@ public class OrderView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JLabel lblFinalTotal;
     private javax.swing.JLabel lblTotal;
-    private javax.swing.JLabel lblTotal1;
     private javax.swing.JPanel panelButton;
     private javax.swing.JPanel panelCategory;
     private com.boxcf.components.PanelItem panelItem;
     private javax.swing.JPanel panelPanigation;
     private javax.swing.JScrollPane scroll;
-    private com.boxcf.components.TextField textField4;
     private com.boxcf.components.WindowButton windowButton1;
     // End of variables declaration//GEN-END:variables
 
@@ -692,6 +704,33 @@ public class OrderView extends javax.swing.JFrame {
         this.panelPanigation = panelPanigation;
     }
 
+    public Combobox getCboDiscount() {
+        return cboDiscount;
+    }
+
+    public void setCboDiscount(Combobox cboDiscount) {
+        this.cboDiscount = cboDiscount;
+    }
+
+    public JLabel getLblFinalTotal() {
+        return lblFinalTotal;
+    }
+
+    public void setLblFinalTotal(JLabel lblFinalTotal) {
+        this.lblFinalTotal = lblFinalTotal;
+    }
+
+    private void handleFinalTotal() {
+
+        KhuyenMai km = (KhuyenMai) cboDiscount.getSelectedItem();
+        if (km == null) {
+            lblFinalTotal.setText(Formats.toCurency(0));
+            return;
+        }
+        long discounted = (long) (panelBill.getTotal() * (double) km.getPhanTram() / 100);
+        lblFinalTotal.setText(Formats.toCurency(panelBill.getTotal() - discounted));
+    }
+
     //-------------ha code-----------------
     public void addPanigation() {
         Panigation panigation = new Panigation();
@@ -709,4 +748,5 @@ public class OrderView extends javax.swing.JFrame {
         panelPanigation.repaint();
         panelPanigation.revalidate();
     }
+
 }

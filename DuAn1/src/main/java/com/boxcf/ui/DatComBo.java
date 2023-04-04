@@ -152,10 +152,10 @@ public class DatComBo extends javax.swing.JFrame {
                         .addComponent(comboBoxSuggestion4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(comboBoxSuggestion14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
-        pnlDatBox.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, 710, 180));
+        pnlDatBox.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, 710, 190));
         pnlDatBox.add(comboBoxSuggestion19, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, 270, -1));
 
         buttonRound5.setBackground(new java.awt.Color(109, 191, 184));

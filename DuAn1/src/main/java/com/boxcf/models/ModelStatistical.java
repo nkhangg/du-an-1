@@ -91,4 +91,8 @@ public class ModelStatistical {
         return this.title;
     }
 
+    public String toStrings() {
+        return "ModelStatistical{" + "title=" + title + ", num=" + num + ", time=" + time + ", type=" + type + ", category=" + category + ", data=" + data + '}';
+    }
+
 }

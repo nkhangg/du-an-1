@@ -16,6 +16,7 @@ import com.boxcf.ui.KhuyenMaiView;
 import com.boxcf.ui.Main;
 import com.boxcf.ui.OrderView;
 import com.boxcf.ui.SanPhamView;
+import com.boxcf.ui.ThongKeView;
 import com.raven.chart.Chart;
 import javax.swing.JPanel;
 
@@ -81,4 +82,7 @@ public class Store {
     public static BoxView boxView = null;
 
     public static Chart chart = null;
+
+    public static ThongKeView tkView = null;
+
 }

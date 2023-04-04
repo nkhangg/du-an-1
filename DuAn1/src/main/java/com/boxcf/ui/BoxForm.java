@@ -486,6 +486,9 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
     }
 
     public String getNextId(String maxId, String maLoaiBox) {
+        if (maxId.length() < 4) {
+            return " ";
+        }
         String first = maxId.substring(0, 1);
         String middle = maxId.substring(1, 4);
         Integer number = Integer.parseInt(middle);
@@ -512,7 +515,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
             throw new RuntimeException();
         }
 
-        LoaiBox loaiBox = (LoaiBox)cboLoaiBox.getSelectedItem();
+        LoaiBox loaiBox = (LoaiBox) cboLoaiBox.getSelectedItem();
         txtMaBox.setText(getNextId(maxId, loaiBox.getMaLoaiBox()));
     }
 

@@ -7,6 +7,7 @@ package com.boxcf.dao;
 import com.box.utils.JdbcHelper;
 import com.box.utils.Validator;
 import com.box.utils.XDate;
+import com.boxcf.models.LichSu;
 import com.boxcf.models.ModelStatistical;
 import com.boxcf.models.ThongKeNhanVien;
 import com.boxcf.models.ThongKeSanPham;
@@ -144,7 +145,7 @@ public class ThongKeDao {
                 + "group by YEAR(NgayTao)\n"
                 + "order by YEAR(NgayTao) desc";
 
-        String sqlProc = "{ call sp_select_dt  (?, ?) }";
+        String sqlProc = "{ call sp_select_dt  ( ?, ? ) }";
 
         switch (type) {
             case "day":
@@ -171,7 +172,7 @@ public class ThongKeDao {
             ResultSet responce = null;
 
             if (date.length >= 2) {
-                responce = JdbcHelper.query(sql, date[0], date[1]);
+                responce = JdbcHelper.query(sql, XDate.toString(date[0], "yyyy-MM-dd"), XDate.toString(date[1], "yyyy-MM-dd"));
             } else {
                 responce = JdbcHelper.query(sql);
             }
@@ -189,7 +190,7 @@ public class ThongKeDao {
         return list;
     }
 
-    private String sqlProduct(int time, String conditon) {
+    private String sqlProduct(String conditon) {
         return "select ct.MaSP, sp.TenSP, sp.Gia, sum(SoLuong) as soluong from HoaDonCT ct\n"
                 + "join HoaDon hd on hd.MaHD = ct.MaHD\n"
                 + "join SanPham sp on sp.MaSP = ct.MaSP \n"
@@ -198,7 +199,7 @@ public class ThongKeDao {
                 + "order by sum(SoLuong) desc";
     }
 
-    private String sqlStaff(int time, String conditon) {
+    private String sqlStaff(String conditon) {
         return "select top 10  hd.MaNV,TenNV, NgayVaoLam, SUM(SoLuong) as soluong from HoaDon hd\n"
                 + "join HoaDonCT ct on ct.MaHD = hd.MaHD\n"
                 + "join NhanVien nv on nv.MaNV = hd.MaNV \n"
@@ -206,26 +207,31 @@ public class ThongKeDao {
                 + "group by  hd.MaNV, TenNV, NgayVaoLam";
     }
 
-    public List<ModelStatistical> product(int time, String type) {
+    public List<ModelStatistical> product(String type, Date... date) {
         List<ModelStatistical> list = new ArrayList<>();
         String sql = "";
 
-        String sqlDay = "where ct.MaSP is not null and CONVERT(VARCHAR(10),NgayTao,112) in (select distinct top " + time + " CONVERT(VARCHAR(10),NgayTao,112) from HoaDon\n"
+        String sqlDay = "where ct.MaSP is not null and CONVERT(VARCHAR(10),NgayTao,112) in (select distinct top " + 7 + " CONVERT(VARCHAR(10),NgayTao,112) from HoaDon\n"
                 + "order by  CONVERT(VARCHAR(10),NgayTao,112) desc)";
 
-        String sqlMonth = " where ct.MaSP is not null and MONTH(NgayTao) >= MONTH(NgayTao) - " + time;
+        String sqlMonth = " where ct.MaSP is not null and MONTH(NgayTao) >= MONTH(NgayTao) - " + 7;
 
-        String sqlYear = " where ct.MaSP is not null and YEAR(NgayTao) >= YEAR(NgayTao) - " + time;
+        String sqlYear = " where ct.MaSP is not null and YEAR(NgayTao) >= YEAR(NgayTao) - " + 7;
+
+        String sqlProc = "{ call sp_doanhthu_sanpham ( ?, ? ) }";
 
         switch (type) {
             case "day":
-                sql = sqlProduct(time, sqlDay);
+                sql = sqlProduct(sqlDay);
                 break;
             case "month":
-                sql = sqlProduct(time, sqlMonth);
+                sql = sqlProduct(sqlMonth);
                 break;
             case "year":
-                sql = sqlProduct(time, sqlYear);
+                sql = sqlProduct(sqlYear);
+                break;
+            case "period":
+                sql = sqlProc;
                 break;
             default:
                 return null;
@@ -233,7 +239,12 @@ public class ThongKeDao {
 
         try {
 
-            ResultSet responce = JdbcHelper.query(sql);
+            ResultSet responce = null;
+            if (date.length >= 2) {
+                responce = JdbcHelper.query(sql, XDate.toString(date[0], "yyyy-MM-dd"), XDate.toString(date[1], "yyyy-MM-dd"));
+            } else {
+                responce = JdbcHelper.query(sql);
+            }
 
             // admission a ResultSet return a Box
             while (responce.next()) {
@@ -250,27 +261,31 @@ public class ThongKeDao {
         return list;
     }
 
-    public List<ModelStatistical> staff(int time, String type) {
+    public List<ModelStatistical> staff(String type, Date... date) {
         List<ModelStatistical> list = new ArrayList<>();
         String sql = "";
 
-        String sqlDay = " where TrangThai = 1 and CONVERT(VARCHAR(10),NgayTao,112) in (select distinct top " + time + " CONVERT(VARCHAR(10),NgayTao,112) from HoaDon\n"
+        String sqlDay = " where TrangThai = 1 and CONVERT(VARCHAR(10),NgayTao,112) in (select distinct top " + 7 + " CONVERT(VARCHAR(10),NgayTao,112) from HoaDon\n"
                 + "order by  CONVERT(VARCHAR(10),NgayTao,112) desc) ";
 
-        String sqlMonth = " where TrangThai = 1 and MONTH(NgayTao) >= MONTH(NgayTao) - " + time;
+        String sqlMonth = " where TrangThai = 1 and MONTH(NgayTao) >= MONTH(NgayTao) - " + 7;
 
-        String sqlYear = " where TrangThai = 1 and YEAR(NgayTao) >= YEAR(NgayTao) - " + time;
+        String sqlYear = " where TrangThai = 1 and YEAR(NgayTao) >= YEAR(NgayTao) - " + 7;
+
+        String sqlProc = "{ call sp_nangxuat_nv ( ?, ? ) }";
 
         switch (type) {
             case "day":
-                sql = sqlStaff(time, sqlDay);
+                sql = sqlStaff(sqlDay);
                 break;
             case "month":
-                sql = sqlStaff(time, sqlMonth);
+                sql = sqlStaff(sqlMonth);
                 break;
             case "year":
-                sql = sqlStaff(time, sqlYear);
-
+                sql = sqlStaff(sqlYear);
+                break;
+            case "period":
+                sql = sqlProc;
                 break;
             default:
                 return null;
@@ -278,7 +293,12 @@ public class ThongKeDao {
 
         try {
 
-            ResultSet responce = JdbcHelper.query(sql);
+            ResultSet responce = null;
+            if (date.length >= 2) {
+                responce = JdbcHelper.query(sql, XDate.toString(date[0], "yyyy-MM-dd"), XDate.toString(date[1], "yyyy-MM-dd"));
+            } else {
+                responce = JdbcHelper.query(sql);
+            }
 
             // admission a ResultSet return a Box
             while (responce.next()) {
@@ -295,11 +315,56 @@ public class ThongKeDao {
         return list;
     }
 
+    public List<LichSu> history(String keyword) {
+        List<LichSu> list = new ArrayList<>();
+        String sqlKeyword = "select hd.MaHD, NgayTao, TenKH, TenNV, TenSP, SoLuong, ThanhTien, TongTien, PhanTram from HoaDon hd\n"
+                + "join HoaDonCT ct on ct.MaHD = hd.MaHD\n"
+                + "join NhanVien nv on nv.MaNV = hd.MaNV\n"
+                + "join SanPham sp on sp.MaSP = ct.MaSP\n"
+                + "join KhuyenMai km on km.MaKM = hd.MaKM\n"
+                + "where hd.MaHD like ? or TenKH like ? or TenNV like ? or ThanhTien like ? or TongTien like ? or PhanTram like ? \n"
+                + "order by NgayTao desc";
+
+        String sql = "select hd.MaHD, NgayTao, TenKH, TenNV, TenSP, SoLuong, ThanhTien, TongTien, PhanTram from HoaDon hd\n"
+                + "join HoaDonCT ct on ct.MaHD = hd.MaHD\n"
+                + "join NhanVien nv on nv.MaNV = hd.MaNV\n"
+                + "join SanPham sp on sp.MaSP = ct.MaSP\n"
+                + "join KhuyenMai km on km.MaKM = hd.MaKM\n"
+                + "order by NgayTao desc";
+
+        try {
+            ResultSet responce = null;
+            if (keyword.equals("")) {
+                responce = JdbcHelper.query(sql);
+            } else {
+                keyword = "%" + keyword + "%";
+                responce = JdbcHelper.query(sqlKeyword, keyword, keyword, keyword, keyword, keyword, keyword);
+            }
+
+            // admission a ResultSet return a Box
+            while (responce.next()) {
+                list.add(new LichSu(responce.getInt(1),
+                        responce.getDate(2),
+                        responce.getString(3),
+                        responce.getString(4),
+                        responce.getString(5),
+                        responce.getInt(6),
+                        responce.getLong(7),
+                        responce.getLong(8),
+                        responce.getString(9) + "%"));
+            }
+            responce.getStatement().getConnection().close();
+        } catch (Exception e) {
+            System.out.println(e);
+            throw new Error("The Error in history ThongKe !");
+        }
+
+        return list;
+    }
+
     public static void main(String[] args) {
-        Date dateStart = XDate.toDate("2023/02/2", "yyyy/MM/dd");
-        Date dateEnd = XDate.toDate("2023/04/3", "yyyy/MM/dd");
-        for (ModelStatistical object : ThongKeDao.getInstant().revenue("day")) {
-            System.out.println(object.getNum());
+        for (LichSu object : ThongKeDao.getInstant().history("75000")) {
+            System.out.println(object);
         }
     }
 }

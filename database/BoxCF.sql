@@ -439,53 +439,7 @@ where TranThai = 1
 
 
 
-select * from HoaDon hd
-join HoaDonCT ct on ct.MaHD = hd.MaHD
-where NgayTao <= '2023-04-01 23:59:59' and NgayTao >= '2023-04-01 00:00:00'
-
-select SUM(ThanhTien) from HoaDon hd
-join HoaDonCT ct on ct.MaHD = hd.MaHD
-where NgayTao <= '2023-04-01 23:59:59' and NgayTao >= '2023-04-01 00:00:00'
-
-
-select PhanTram from KhuyenMai
-
-
-
-
-select  Sum(ThanhTien * SoLuong) from HoaDon hd
-join HoaDonCT ct on ct.MaHD = hd.MaHD
-where NgayTao <= '2023-04-01 23:59:59' and NgayTao >= '2023-04-01 00:00:00' and MaSP in (select MaSP from SanPham)
-
-
-select  * from HoaDon hd
-join HoaDonCT ct on ct.MaHD = hd.MaHD
-where NgayTao <= '2023-04-01 23:59:59' and NgayTao >= '2023-04-01 00:00:00' and MaDat in (select MaDat from DatBox)
-
-select  Sum(ThanhTien * SoLuong) from HoaDon hd
-join HoaDonCT ct on ct.MaHD = hd.MaHD
-where NgayTao <= '2023-04-01 23:59:59' and NgayTao >= '2023-04-01 00:00:00' and MaDat in (select MaDat from DatBox)
-
-select  Sum(TongTien) from HoaDon hd
-join HoaDonCT ct on ct.MaHD = hd.MaHD
-where NgayTao <= '2023-04-01 23:59:59' and NgayTao >= '2023-04-01 00:00:00' and MaSP in (select MaCB from Combo)
-
-
-
-select * from DatBox
-
-
-
-
-select * from HoaDonCT
-
-
-
-select top 1 nv.TenNV from HoaDon hd
-join NhanVien nv on nv.MaNV = hd.MaNV
-group by nv.TenNV 
-having NgayTao <= '2023-04-01 23:59:59' and NgayTao >= '2023-04-01 00:00:00'
-order by COUNT(hd.MaNV) desc
+-- thong ke - start
 
 
 -- ngày gần nhất
@@ -504,17 +458,92 @@ select top 7 YEAR(NgayTao), SUM(TongTien) from HoaDon
 group by YEAR(NgayTao)
 order by YEAR(NgayTao) desc
 
-select * from SanPham
-where MaSP in (select MaSP from HoaDon hd
+-- khoan thoi gian
+Go
+
+
+-- proc doanh so theo khoan thoi gian
+create proc sp_select_dt @timeStart datetime, @timeEnd datetime
+as
+begin
+	select top 10 CONVERT(VARCHAR(10),NgayTao,112), SUM(TongTien) from HoaDon
+	where NgayTao <= @timeEnd and NgayTao >= @timeStart
+	GROUP BY CONVERT(VARCHAR(10),NgayTao,112)
+	order by CONVERT(VARCHAR(10),NgayTao,112) desc
+end
+
+
+exec sp_select_dt  '2022-01-03', '2022-12-31 '
+
+GO
+
+-- doanh thu san pham theo khoan thoi gian
+create proc sp_doanhthu_sanpham @timeStart datetime, @timeEnd datetime
+as
+begin
+	declare @t table (id nvarchar(20), name nvarchar(50), price float, quantity int)
+
+	insert into @t (id,name, price, quantity)
+	select ct.MaSP, sp.TenSP, sp.Gia, sum(SoLuong) as soluong from HoaDonCT ct
+	join HoaDon hd on hd.MaHD = ct.MaHD
+	join SanPham sp on sp.MaSP = ct.MaSP
+	where ct.MaSP is not null and NgayTao <= @timeEnd and NgayTao >= @timeStart
+	group by ct.MaSP, sp.TenSP, sp.Gia
+	order by sum(SoLuong) desc
+
+	select top 10 * from @t
+	order by quantity desc
+end
+
+
+exec sp_doanhthu_sanpham   '2023-04-03', '2023-04-04'
+
+
+go
+
+
+-- proc nang xuat nhan vien
+create proc sp_nangxuat_nv @timeStart datetime, @timeEnd datetime
+as
+begin
+	select top 10  hd.MaNV,TenNV, NgayVaoLam, SUM(SoLuong) as soluong from HoaDon hd
+	join HoaDonCT ct on ct.MaHD = hd.MaHD
+	join NhanVien nv on nv.MaNV = hd.MaNV
+	where  TrangThai = 1 and NgayTao <= @timeEnd and NgayTao >= @timeStart
+	group by  hd.MaNV, TenNV, NgayVaoLam
+end
+
+exec sp_nangxuat_nv   '2022-04-03', '2023-04-04'
+
+-- thong ke - end
+
+-- lich sử hoạt động -- start
+
+select hd.MaHD, NgayTao, TenKH, TenNV, TenSP, SoLuong, ThanhTien, TongTien, PhanTram from HoaDon hd
 join HoaDonCT ct on ct.MaHD = hd.MaHD
-where NgayTao <= '2023-04-02 23:59:59' and NgayTao >= '2023-04-01 00:00:00' and MaSP is not null
-group by MaSP)
+join NhanVien nv on nv.MaNV = hd.MaNV
+join SanPham sp on sp.MaSP = ct.MaSP
+join KhuyenMai km on km.MaKM = hd.MaKM
+where hd.MaHD like '' or TenKH like '' or TenNV like '' or ThanhTien like '%75000%' or TongTien like '' or PhanTram like ''
+order by NgayTao desc
 
-select * from HoaDonCT ct
-join HoaDon hd on hd.MaHD = ct.MaHD
-order by SUM(SoLuong) desc
+-- lich sử hoạt động -- end
 
 
-select * from SanPham
+-- tinh tong -- start
+
+select * from KhuyenMai
+where DieuKienGiam <= 0 and TrangThai = 1 and SoLuot > 0
+
+-- tinh tong -- end
+
+
+
+
+
+
+
+
+
 
 

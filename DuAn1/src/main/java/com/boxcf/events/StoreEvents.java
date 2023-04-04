@@ -20,7 +20,6 @@ import com.boxcf.models.SanPham;
 import com.boxcf.ui.OrderView;
 import java.awt.Component;
 import com.boxcf.events.interfaces.EventItem;
-import com.boxcf.models.Box2;
 import com.boxcf.models.ModelItem;
 import com.boxcf.store.Store;
 import com.boxcf.ui.DatBoxView;

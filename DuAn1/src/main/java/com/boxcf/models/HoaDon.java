@@ -43,6 +43,15 @@ public class HoaDon {
         this.MaKM = MaKM;
     }
 
+    public HoaDon(int MaHD, Date NgayTao, String TenKH, long TONGTIEN) {
+        this.MaHD = MaHD;
+        this.NgayTao = NgayTao;
+        this.TenKH = TenKH;
+        this.TONGTIEN = TONGTIEN;
+    }
+    
+    
+
     public int getMaHD() {
         return MaHD;
     }
