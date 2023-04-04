@@ -235,7 +235,7 @@ Insert into HoaDonCT values (3, 4, 3, null, 270000,4)
 Insert into HoaDonCT values (4, 2, 1, null, 90000,5)
 
 --------ha code------------
-alter proc sp_DatBox @MaHD int, @MaBox varchar(10), @TenKH nvarchar(50), @GioBD DATETIME, @GioKT DATETIME, @TrangThai NVARCHAR(20), @ThanhTien int
+create proc sp_DatBox @MaHD int, @MaBox varchar(10), @TenKH nvarchar(50), @GioBD DATETIME, @GioKT DATETIME, @TrangThai NVARCHAR(20), @ThanhTien int
 as 
 begin
 	Insert into PhieuDatBox values(@MaHD, @MaBox, @TenKH, @GioBD, @GioKT, @TrangThai, @ThanhTien)

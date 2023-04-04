@@ -158,6 +158,7 @@ public class DatBoxView extends javax.swing.JFrame {
         });
         pnlDatBox.add(buttonRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 310, 120, 50));
 
+        cboSoGio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
         cboSoGio.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         cboSoGio.setLabeText("");
         cboSoGio.addActionListener(new java.awt.event.ActionListener() {
@@ -333,8 +334,8 @@ public class DatBoxView extends javax.swing.JFrame {
         Store.dbView = this;
         prepareUI();
         setBox(box);
-        renderHour();
-        renderDataTable();
+//        renderHour();
+//        renderDataTable();
     }
 
     private void prepareUI() {
