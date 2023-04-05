@@ -2,6 +2,7 @@ package com.box.utils;
 
 import com.toedter.calendar.JDateChooser;
 import java.util.Date;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class Validator {
@@ -58,6 +59,10 @@ public class Validator {
     }
 
     public static boolean isEmpty(JTextField input) {
+        return input.getText().equals("");
+    }
+
+    public static boolean isEmpty(JTextArea input) {
         return input.getText().equals("");
     }
 

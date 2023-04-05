@@ -21,11 +21,12 @@ public class NhanVien {
     String HinhAnh;
     Date NgayVaoLam;
     String VaiTro;
+    boolean GioiTinh;
 
     public NhanVien() {
     }
 
-    public NhanVien(String MaNV, String TenNV, Date NgaySinh, String SDT, String DiaChi, String MatKhau, String HinhAnh, Date NgayVaoLam, String VaiTro) {
+    public NhanVien(String MaNV, String TenNV, Date NgaySinh, String SDT, String DiaChi, String MatKhau, String HinhAnh, Date NgayVaoLam, String VaiTro, boolean GioiTinh) {
         this.MaNV = MaNV;
         this.TenNV = TenNV;
         this.NgaySinh = NgaySinh;
@@ -35,6 +36,7 @@ public class NhanVien {
         this.HinhAnh = HinhAnh;
         this.NgayVaoLam = NgayVaoLam;
         this.VaiTro = VaiTro;
+        this.GioiTinh = GioiTinh;
     }
 
     public NhanVien(String MaNV, String TenNV, Date NgayVaoLam) {
@@ -113,6 +115,14 @@ public class NhanVien {
 
     public void setVaiTro(String VaiTro) {
         this.VaiTro = VaiTro;
+    }
+
+    public boolean isGioiTinh() {
+        return GioiTinh;
+    }
+
+    public void setGioiTinh(boolean GioiTinh) {
+        this.GioiTinh = GioiTinh;
     }
 
     @Override

@@ -4,27 +4,24 @@
  */
 package com.boxcf.ui;
 
-import com.box.utils.UI;
 import com.box.utils.XDate;
 import com.boxcf.dao.KhuyenMaiDao;
 import com.boxcf.models.KhuyenMai;
 import com.boxcf.store.Store;
-import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
-import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author PC
  */
-public class ThungRacKhuyenMai extends javax.swing.JFrame {
+public abstract class ThungRac extends javax.swing.JFrame {
 
-    KhuyenMaiDao dKm = KhuyenMaiDao.getInstant();
-
-    public ThungRacKhuyenMai() {
+    public ThungRac() {
         initComponents();
         init();
     }
@@ -35,14 +32,13 @@ public class ThungRacKhuyenMai extends javax.swing.JFrame {
 
         gradientPanel1 = new com.boxcf.components.GradientPanel();
         gradientPanel2 = new com.boxcf.components.GradientPanel();
-        jLabel1 = new javax.swing.JLabel();
+        title = new javax.swing.JLabel();
         scroll = new javax.swing.JScrollPane();
-        tblDiscount = new javax.swing.JTable();
+        tbl = new javax.swing.JTable();
         btnClose = new com.boxcf.components.ButtonRound();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(800, 400));
 
         gradientPanel1.setColor1(new java.awt.Color(102, 102, 102));
         gradientPanel1.setColor2(new java.awt.Color(102, 102, 102));
@@ -52,13 +48,13 @@ public class ThungRacKhuyenMai extends javax.swing.JFrame {
         gradientPanel2.setColor2(new java.awt.Color(245, 250, 255));
         gradientPanel2.setPreferredSize(new java.awt.Dimension(800, 408));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(40, 48, 84));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Thùng Rác");
+        title.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        title.setForeground(new java.awt.Color(40, 48, 84));
+        title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        title.setText("Nhân Viên Không Còn Làm Việc");
 
-        tblDiscount.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        tblDiscount.setModel(new javax.swing.table.DefaultTableModel(
+        tbl.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        tbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -68,11 +64,19 @@ public class ThungRacKhuyenMai extends javax.swing.JFrame {
             new String [] {
                 "STT", "Mã KM", "Tên KM", "Ngay BD", "NgayKT", "Số Lượt", "Phần Trăm Giảm", "Điều kiện giảm"
             }
-        ));
-        tblDiscount.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        tblDiscount.setGridColor(new java.awt.Color(204, 204, 204));
-        tblDiscount.setRowHeight(30);
-        scroll.setViewportView(tblDiscount);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbl.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tbl.setGridColor(new java.awt.Color(204, 204, 204));
+        tbl.setRowHeight(30);
+        scroll.setViewportView(tbl);
 
         btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/exit (1).png"))); // NOI18N
         btnClose.setFocusPainted(false);
@@ -87,9 +91,9 @@ public class ThungRacKhuyenMai extends javax.swing.JFrame {
         gradientPanel2Layout.setHorizontalGroup(
             gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel2Layout.createSequentialGroup()
-                .addContainerGap(261, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(222, 222, 222)
+                .addContainerGap(246, Short.MAX_VALUE)
+                .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(201, 201, 201)
                 .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,7 +108,7 @@ public class ThungRacKhuyenMai extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(title))
                 .addContainerGap(359, Short.MAX_VALUE))
             .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel2Layout.createSequentialGroup()
@@ -149,60 +153,28 @@ public class ThungRacKhuyenMai extends javax.swing.JFrame {
         this.exit();
     }//GEN-LAST:event_btnCloseActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ThungRacKhuyenMai.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ThungRacKhuyenMai.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ThungRacKhuyenMai.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ThungRacKhuyenMai.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ThungRacKhuyenMai().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.boxcf.components.ButtonRound btnClose;
     private com.boxcf.components.GradientPanel gradientPanel1;
     private com.boxcf.components.GradientPanel gradientPanel2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane scroll;
-    private javax.swing.JTable tblDiscount;
+    private javax.swing.JTable tbl;
+    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 
     private void init() {
         prepareUI();
         renderDataTable();
+        initHeader();
+        renderDataTable();
+        initTitle();
     }
 
     private void prepareUI() {
         Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
         this.setShape(shape);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//        UI.changeTransBG(new Color(0, 0, 0, 0), txtId, txtName, txtQuantity);
 
     }
 
@@ -210,21 +182,43 @@ public class ThungRacKhuyenMai extends javax.swing.JFrame {
         this.dispose();
     }
 
-    private void renderDataTable() {
-        DefaultTableModel model = (DefaultTableModel) tblDiscount.getModel();
-        model.setRowCount(0);
-        int i = 1;
-        for (KhuyenMai km : dKm.selectTrash()) {
-            Object row[] = {i, km.getMaKM(),
-                km.getTenKM(),
-                XDate.toString(km.getNgayBD(), Store.partten),
-                XDate.toString(km.getNgayKT(), Store.partten),
-                km.getSoLuot(),
-                km.getPhanTram() + "%",
-                km.getDieuKienGiam()};
-
-            model.addRow(row);
-            i++;
-        }
+//    private void renderDataTable() {
+//        DefaultTableModel model = (DefaultTableModel) tblDiscount.getModel();
+//        model.setRowCount(0);
+//        int i = 1;
+//        for (KhuyenMai km : dKm.selectTrash()) {
+//            Object row[] = {i, km.getMaKM(),
+//                km.getTenKM(),
+//                XDate.toString(km.getNgayBD(), Store.partten),
+//                XDate.toString(km.getNgayKT(), Store.partten),
+//                km.getSoLuot(),
+//                km.getPhanTram() + "%",
+//                km.getDieuKienGiam()};
+//
+//            model.addRow(row);
+//            i++;
+//        }
+//    }
+    public JTable getTbl() {
+        return tbl;
     }
+
+    public void setTbl(JTable tbl) {
+        this.tbl = tbl;
+    }
+
+    public JLabel getTitles() {
+        return title;
+    }
+
+    public void setTitle(JLabel title) {
+        this.title = title;
+    }
+
+    abstract public void renderDataTable();
+
+    abstract public void initHeader();
+
+    abstract public void initTitle();
+
 }

@@ -70,7 +70,7 @@ public class Main extends javax.swing.JFrame {
         btnSanPham.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/iftar.png"))); // NOI18N
         btnSanPham.setText("Sản phẩm");
         btnSanPham.setFocusPainted(false);
-        btnSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSanPham.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         btnSanPham.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSanPham.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnSanPham.addActionListener(new java.awt.event.ActionListener() {
@@ -83,7 +83,7 @@ public class Main extends javax.swing.JFrame {
         buttonRound2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/coffee-menu (1).png"))); // NOI18N
         buttonRound2.setText("Order");
         buttonRound2.setFocusPainted(false);
-        buttonRound2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        buttonRound2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         buttonRound2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonRound2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         buttonRound2.addActionListener(new java.awt.event.ActionListener() {
@@ -96,7 +96,7 @@ public class Main extends javax.swing.JFrame {
         btnBox.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/cardboard.png"))); // NOI18N
         btnBox.setText("Box");
         btnBox.setFocusPainted(false);
-        btnBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnBox.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         btnBox.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnBox.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnBox.addActionListener(new java.awt.event.ActionListener() {
@@ -109,7 +109,7 @@ public class Main extends javax.swing.JFrame {
         buttonRound4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/combo.png"))); // NOI18N
         buttonRound4.setText("Combo");
         buttonRound4.setFocusPainted(false);
-        buttonRound4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        buttonRound4.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         buttonRound4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonRound4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         gradientPanel2.add(buttonRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, 90, 70));
@@ -117,7 +117,7 @@ public class Main extends javax.swing.JFrame {
         buttonRound5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/price-tag.png"))); // NOI18N
         buttonRound5.setText("Khuyến mãi");
         buttonRound5.setFocusPainted(false);
-        buttonRound5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        buttonRound5.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         buttonRound5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonRound5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         buttonRound5.addActionListener(new java.awt.event.ActionListener() {
@@ -130,7 +130,7 @@ public class Main extends javax.swing.JFrame {
         btnNhanVien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/barista.png"))); // NOI18N
         btnNhanVien.setText("Nhân viên");
         btnNhanVien.setFocusPainted(false);
-        btnNhanVien.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnNhanVien.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         btnNhanVien.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnNhanVien.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnNhanVien.addActionListener(new java.awt.event.ActionListener() {
@@ -150,7 +150,7 @@ public class Main extends javax.swing.JFrame {
         buttonRound9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/growth.png"))); // NOI18N
         buttonRound9.setText("Thống kê");
         buttonRound9.setFocusPainted(false);
-        buttonRound9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        buttonRound9.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         buttonRound9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonRound9.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         buttonRound9.addActionListener(new java.awt.event.ActionListener() {

@@ -18,7 +18,7 @@ public class Cleaner {
             @Override
             public void run() {
                 cleanInvalidDiscount();
-                cleanInvalidBook();
+//                cleanInvalidBook();
 
             }
         };

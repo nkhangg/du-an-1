@@ -154,23 +154,6 @@ public class DatTruocDao implements BoxCfDAO<DatTruoc, Integer> {
         }
     }
 
-    public int isReserved() {
-        String sql = "select DISTINCT MaBox from DatTruoc\n"
-                + "where TranThai = 1 ";
-
-        List<Integer> list = new ArrayList<>();
-
-        try {
-            ResultSet responce = JdbcHelper.query(sql);
-
-            while (responce.next()) {
-                list.add(responce.getInt(1));
-            }
-            responce.getStatement().getConnection().close();
-        } catch (Exception e) {
-            throw new Error("The Error in isReserved DATBOX !");
-        }
-        return list.size();
-    }
+   
 
 }

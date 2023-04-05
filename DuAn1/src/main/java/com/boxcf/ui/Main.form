@@ -142,7 +142,7 @@
                 <Property name="text" type="java.lang.String" value="S&#x1ea3;n ph&#x1ea9;m"/>
                 <Property name="focusPainted" type="boolean" value="false"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="0"/>
+                  <Font name="Segoe UI" size="15" style="0"/>
                 </Property>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>
@@ -164,7 +164,7 @@
                 <Property name="text" type="java.lang.String" value="Order"/>
                 <Property name="focusPainted" type="boolean" value="false"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="0"/>
+                  <Font name="Segoe UI" size="15" style="0"/>
                 </Property>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>
@@ -186,7 +186,7 @@
                 <Property name="text" type="java.lang.String" value="Box"/>
                 <Property name="focusPainted" type="boolean" value="false"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="0"/>
+                  <Font name="Segoe UI" size="15" style="0"/>
                 </Property>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>
@@ -208,7 +208,7 @@
                 <Property name="text" type="java.lang.String" value="Combo"/>
                 <Property name="focusPainted" type="boolean" value="false"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="0"/>
+                  <Font name="Segoe UI" size="15" style="0"/>
                 </Property>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>
@@ -227,7 +227,7 @@
                 <Property name="text" type="java.lang.String" value="Khuy&#x1ebf;n m&#xe3;i"/>
                 <Property name="focusPainted" type="boolean" value="false"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="0"/>
+                  <Font name="Segoe UI" size="15" style="0"/>
                 </Property>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>
@@ -249,7 +249,7 @@
                 <Property name="text" type="java.lang.String" value="Nh&#xe2;n vi&#xea;n"/>
                 <Property name="focusPainted" type="boolean" value="false"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="0"/>
+                  <Font name="Segoe UI" size="15" style="0"/>
                 </Property>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>
@@ -287,7 +287,7 @@
                 <Property name="text" type="java.lang.String" value="Th&#x1ed1;ng k&#xea;"/>
                 <Property name="focusPainted" type="boolean" value="false"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="0"/>
+                  <Font name="Segoe UI" size="15" style="0"/>
                 </Property>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>

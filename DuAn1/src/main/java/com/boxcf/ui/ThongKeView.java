@@ -66,6 +66,7 @@ public class ThongKeView extends javax.swing.JPanel {
         chart.setBackground(new java.awt.Color(240, 240, 240));
 
         cboTime.setBackground(new java.awt.Color(240, 240, 240));
+        cboTime.setFocusable(false);
         cboTime.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboTimeActionPerformed(evt);
@@ -166,12 +167,12 @@ public class ThongKeView extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void init() {
-//        Store.tkView = this;
-//        initDataOrveview();
-//        renderDataCboTime(dt);
-//        chart.addLegend(cboTime.getSelectedItem().toString(), new Color(139, 229, 222));
-//        initCategory();
-//        initDetailButton();
+        Store.tkView = this;
+        initDataOrveview();
+        renderDataCboTime(dt);
+        chart.addLegend(cboTime.getSelectedItem().toString(), new Color(139, 229, 222));
+        initCategory();
+        initDetailButton();
 
     }
 

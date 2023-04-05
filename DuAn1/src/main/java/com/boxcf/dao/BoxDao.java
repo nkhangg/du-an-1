@@ -94,43 +94,7 @@ public class BoxDao implements BoxCfDAO<Box, String> {
         return (int) Math.ceil(this.selectAll().size() / 8) + 1;
     }
 
-    public int isActiveBox() {
-        String sql = "select  DISTINCT MaBox from Box\n"
-                + "where TrangThai = 'isActive'";
-
-        List<Integer> list = new ArrayList<>();
-
-        try {
-            ResultSet responce = JdbcHelper.query(sql);
-
-            while (responce.next()) {
-                list.add(responce.getInt(1));
-            }
-            responce.getStatement().getConnection().close();
-        } catch (Exception e) {
-            throw new Error("The Error in isActiveBox DATBOX !");
-        }
-        return list.size();
-    }
-
-    public int inActiveBox() {
-        String sql = "select DISTINCT MaBox from Box\n"
-                + "where TrangThai = 'inActive'";
-
-        List<Integer> list = new ArrayList<>();
-
-        try {
-            ResultSet responce = JdbcHelper.query(sql);
-
-            while (responce.next()) {
-                list.add(responce.getInt(1));
-            }
-            responce.getStatement().getConnection().close();
-        } catch (Exception e) {
-            throw new Error("The Error in inActiveBox DATBOX !");
-        }
-        return list.size();
-    }
+    
 
     public static void main(String[] args) {
         for (Box box : BoxDao.getInstance().selectAll()) {

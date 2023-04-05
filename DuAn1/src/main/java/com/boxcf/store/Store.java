@@ -14,6 +14,7 @@ import com.boxcf.ui.BoxView;
 import com.boxcf.ui.DatBoxView;
 import com.boxcf.ui.KhuyenMaiView;
 import com.boxcf.ui.Main;
+import com.boxcf.ui.NhanVienView;
 import com.boxcf.ui.OrderView;
 import com.boxcf.ui.SanPhamView;
 import com.boxcf.ui.ThongKeView;
@@ -84,5 +85,7 @@ public class Store {
     public static Chart chart = null;
 
     public static ThongKeView tkView = null;
+
+    public static NhanVienView nvView = null;
 
 }

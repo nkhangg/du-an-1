@@ -6,11 +6,8 @@ import java.util.List;
 
 import com.boxcf.models.PhieuDatBox;
 import com.box.utils.JdbcHelper;
-import com.box.utils.XDate;
 import com.boxcf.constands.BoxState;
 import com.boxcf.models.ModelItem;
-import com.boxcf.store.Store;
-import java.sql.Timestamp;
 import java.util.Date;
 
 public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
@@ -156,7 +153,7 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
         }
         return db;
     }
-    
+
     public PhieuDatBox selectByIdBox(String idBox) {
         String sql = "select * from PhieuDatBox where MaBox = ? and TrangThai = 'active'";
         PhieuDatBox db = null;
@@ -196,23 +193,26 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
 
     @Override
     public void update(PhieuDatBox e) {
-//        String sql = "update DATBOX set TenKH = ?, GioBD = ?, GioKT = ?, TrangThai = ?, MaBox = ? where MaDat = ?";
-//
-//        try {
-//            int responce = JdbcHelper.update(sql, e.getTenKH(), e.getGioBD(), e.getGioKT(), e.getTrangThai(), e.getMaDat());
-//
-//            if (responce == 0) {
-//                throw new Error("The Error in update DATBOX !");
-//            }
-//        } catch (Exception ex) {
-//            throw new Error("The Error in update DATBOX !");
-//        }
 
     }
-    
-    
+
+    public int getState(BoxState state) {
+        String sql = "select count(*) from PhieuDatBox\n"
+                + "where TrangThai =  ?";
+        String sqlEmpty = "select count(*) from Box\n"
+                + "where MaBox not in (select MaBox from PhieuDatBox\n"
+                + "where  TrangThai = 'active')";
+
+        if (state == BoxState.empty) {
+            sql = sqlEmpty;
+            return (int) JdbcHelper.value(sql);
+
+        }
+
+        return (int) JdbcHelper.value(sql, state.toString());
+    }
+
     //---------------------------dat box--------------------------
-    
     //get trang thai tu mabox
     public String getTrangThai(String mabox) {
         String sql = "select top 1 trangthai\n"
@@ -220,28 +220,36 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
                 + "inner join PhieuDatBox b on b.mabox = a.mabox\n"
                 + "where a.mabox = ? "
                 + "order by GioKT desc";
-        
-//        Date gioKT = getGioKT(mabox);
-//        if (gioKT != null && gioKT.getTime() < System.currentTimeMillis()) {
-//            String updateSql = "update PhieuDatBox set trangthai = 'empty' where mabox = ?";
-//            JdbcHelper.update(updateSql, mabox);
-//        }
 
-        return (JdbcHelper.value(sql, mabox) ==  null) ? "empty" : JdbcHelper.value(sql, mabox).toString();
+        try {
+            ResultSet rs = JdbcHelper.query(sql, mabox);
+            if (rs.next()) {
+                String result = rs.getString(1);
+                rs.getStatement().getConnection().close();
+
+                return result;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return "empty";
     }
-    
+
     public Date getGioKT(String maBox) {
         String sql = "select gioKT from PhieuDatBox where mabox = ?";
-        
-        return (Date)JdbcHelper.value(sql, maBox);
+
+        return (Date) JdbcHelper.value(sql, maBox);
     }
-    
+
     //huy box --> set trangthai = empty
     public void setEmpty(String maBox) {
         String sql = "update PhieuDatBox set trangthai = 'used' where mabox = ?";
-        
+
         JdbcHelper.update(sql, maBox);
     }
-    
+
     //get ra phieu dat box thong qua maBox
+    public static void main(String[] args) {
+        System.out.println(PhieuDatBoxDao.getInstant().getState(BoxState.empty));
+    }
 }

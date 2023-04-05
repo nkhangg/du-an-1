@@ -25,7 +25,8 @@ public class NhanVienDao implements BoxCfDAO<NhanVien, String> {
                     responce.getString(6),
                     responce.getString(7),
                     responce.getDate(8),
-                    responce.getString(9)
+                    responce.getString(9),
+                    responce.getBoolean(11)
             );
         } catch (Exception e) {
             throw new Error("The Error in createObjecet NhanVien !");
@@ -50,15 +51,16 @@ public class NhanVienDao implements BoxCfDAO<NhanVien, String> {
 
     @Override
     public void insert(NhanVien e) {
-        String sql = "Insert into NhanVien values ( ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "Insert into NhanVien values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?)";
 
         try {
-            int responce = JdbcHelper.update(sql, e.getMaNV(), e.getTenNV(), e.getNgaySinh(), e.getSDT(), e.getDiaChi(), e.getMatKhau(), e.getHinhAnh(), e.getNgayVaoLam(), e.getVaiTro());
+            int responce = JdbcHelper.update(sql, e.getMaNV(), e.getTenNV(), e.getNgaySinh(), e.getSDT(), e.getDiaChi(), e.getMatKhau(), e.getHinhAnh().equals("") ? null : e.getHinhAnh(), e.getNgayVaoLam(), e.getVaiTro(), e.isGioiTinh());
 
             if (responce == 0) {
                 throw new Error("The Error in insert NhanVien !");
             }
         } catch (Exception ex) {
+            System.out.println(ex);
             throw new Error("The Error in insert NhanVien !");
         }
 
@@ -67,7 +69,7 @@ public class NhanVienDao implements BoxCfDAO<NhanVien, String> {
     @Override
     public List<NhanVien> selectAll() {
         List<NhanVien> list = new ArrayList<>();
-        String sql = "select * from NhanVien";
+        String sql = "select * from NhanVien where TrangThai = 1";
 
         try {
             ResultSet responce = JdbcHelper.query(sql);
@@ -102,7 +104,7 @@ public class NhanVienDao implements BoxCfDAO<NhanVien, String> {
         } catch (Exception e) {
             throw new Error("The Error in selectById NhanVien !");
         }
-        return null;
+        return nv;
     }
 
     public NhanVien login(String username, String password) {
@@ -159,10 +161,34 @@ public class NhanVienDao implements BoxCfDAO<NhanVien, String> {
         }
     }
 
-    public static void main(String[] args) {
-        for (NhanVien nhanVien : NhanVienDao.getInstant().selectAll()) {
-            System.out.println("nhan vien: " + nhanVien);
+    public List<NhanVien> selectByKeyword(String keyword) {
+        String sql = "select * from NhanVien\n"
+                + "where (TenNV like ? or MaNV like ? or NgaySinh like ? or SDT like ? or NgayVaoLam like ? or DiaChi like ?) and TrangThai = 1";
+
+        if (keyword.equals("") || keyword == null) {
+            return selectAll();
         }
+
+        keyword = "%" + keyword + "%";
+        return selectBySql(sql, keyword, keyword, keyword, keyword, keyword, keyword);
+
+    }
+
+    public String getMaxId() {
+        String sql = "SELECT TOP 1 * FROM NhanVien\n"
+                + "ORDER BY MaNV desc";
+        List<NhanVien> list = this.selectBySql(sql);
+
+        return list.get(0).getMaNV();
+    }
+
+    public List<NhanVien> selectTrash() {
+        String sql = "select * from NhanVien where TrangThai = 0";
+        return selectBySql(sql);
+    }
+
+    public static void main(String[] args) {
+        System.out.println("nhan vien: " + NhanVienDao.getInstant().getMaxId());
     }
 
 }

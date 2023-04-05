@@ -1,8 +1,4 @@
-﻿CREATE DATABASE BoxCF
-GO
-USE BoxCF
-GO
-
+﻿
 CREATE DATABASE BoxCF
 GO
 USE BoxCF
@@ -210,30 +206,35 @@ Insert into KhuyenMai values ('KM03', N'Tri ân khách hàng','2023/02/14', '202
 Insert into KhuyenMai values ('KM04', N'Tri ân khách hàng','2023/03/14', '2023/03/16', 100, 20, 500000, null)
 
 --Hóa đơn
-Insert into HoaDon values('2023/03/10', N'Trần Phước Vinh', 'NV02', null, 270000, 'KM02')
-Insert into HoaDon values('2023/03/11', N'Nguyễn Ngọc Ngân', 'NV03', null, 180000, 'KM03')
-Insert into HoaDon values('2023/03/12', N'Phan Huỳnh Tuyết Nhi', 'NV01', null, 90000, 'KM04')
-Insert into HoaDon values('2023/03/10', N'Như Ý', 'NV02', null, 270000, 'KM02')
-Insert into HoaDon values('2023/03/10', N'Nguyễn Ngọc Anh', 'NV01', null, 90000, 'KM02')
+SELECT * FROM HoaDon
+
+Insert into HoaDon values('2023-03-10', N'Trần Phước Vinh', 'NV02', null, 270000, 'KM02')
+Insert into HoaDon values('2023-03-11', N'Nguyễn Ngọc Ngân', 'NV03', null, 180000, 'KM03')
+Insert into HoaDon values('2023-03-12', N'Phan Huỳnh Tuyết Nhi', 'NV01', null, 90000, 'KM04')
+Insert into HoaDon values('2023-03-10', N'Như Ý', 'NV02', null, 270000, 'KM02')
+Insert into HoaDon values('2023-03-10', N'Nguyễn Ngọc Anh', 'NV01', null, 90000, 'KM02')
 
 --Đặt box
 SELECT * FROM PhieuDatBox
 
-Insert into PhieuDatBox values(1, 'B001S', N'Nguyễn Ngọc Anh', '2023/3/29 6:00:00', '2023/3/29 7:00:00', N'used', 200000)
-Insert into PhieuDatBox values(2, 'B002M', N'Như Ý', '2023/3/29 9:00:00', '2023/3/29 10:00:00', N'used', 100000)
-Insert into PhieuDatBox values(3, 'B003L', N'Nguyễn Ngọc Ngân', '2023/3/29 11:00:00', '2023/3/29 12:00:00', N'used', 100000)
-Insert into PhieuDatBox values(1, 'B004XL', N'Trần Phước Vinh', '2023/3/29 13:00:00', '2023/3/29 14:00:00', N'used', 100000)
-Insert into PhieuDatBox values(2, 'B005S', N'Phan Huỳnh Tuyết Nhi', '2023/3/29 18:00:00', '2023/3/29 19:00:00', N'used', 100000)
+Insert into PhieuDatBox values(6, 'B001S', N'Nguyễn Ngọc Anh', '2023/3/29 6:00:00', '2023/3/29 7:00:00', N'used', 200000)
+Insert into PhieuDatBox values(7, 'B002M', N'Như Ý', '2023/3/29 9:00:00', '2023/3/29 10:00:00', N'used', 100000)
+Insert into PhieuDatBox values(8, 'B003L', N'Nguyễn Ngọc Ngân', '2023/3/29 11:00:00', '2023/3/29 12:00:00', N'used', 100000)
+Insert into PhieuDatBox values(9, 'B004XL', N'Trần Phước Vinh', '2023/3/29 13:00:00', '2023/3/29 14:00:00', N'used', 100000)
+Insert into PhieuDatBox values(10, 'B005S', N'Phan Huỳnh Tuyết Nhi', '2023/3/29 18:00:00', '2023/3/29 19:00:00', N'used', 100000)
 
 --Hóa đơn chi tiết
 SELECT * FROM HOADONCT
+SELECT * FROM SanPham
 
-Insert into HoaDonCT values (1, 3, null, 270000,null)
-Insert into HoaDonCT values (2, 3, 2, null, 180000,3)
-Insert into HoaDonCT values (5, 5, 1, null, 90000,1)
-Insert into HoaDonCT values (3, 4, 3, null, 270000,4)
-Insert into HoaDonCT values (4, 2, 1, null, 90000,5)
 
+Insert into HoaDonCT values (6, 1, 1, null, 25000)
+Insert into HoaDonCT values (7, 2, 2, null, 20000)
+Insert into HoaDonCT values (8, 3, 1, null, 50000)
+Insert into HoaDonCT values (9, 4, 3, null, 60000)
+Insert into HoaDonCT values (10, 5, 1, null, 15000)
+
+GO
 --------ha code------------
 create proc sp_DatBox @MaHD int, @MaBox varchar(10), @TenKH nvarchar(50), @GioBD DATETIME, @GioKT DATETIME, @TrangThai NVARCHAR(20), @ThanhTien int
 as 
@@ -307,6 +308,8 @@ Go
 
 
 -- proc doanh so theo khoan thoi gian
+drop proc sp_select_dt
+
 create proc sp_select_dt @timeStart datetime, @timeEnd datetime
 as
 begin
@@ -319,9 +322,13 @@ end
 
 exec sp_select_dt  '2022-01-03', '2022-12-31 '
 
+
 GO
 
 -- doanh thu san pham theo khoan thoi gian
+
+--drop proc sp_doanhthu_sanpham
+
 create proc sp_doanhthu_sanpham @timeStart datetime, @timeEnd datetime
 as
 begin
@@ -380,6 +387,13 @@ select * from KhuyenMai
 where DieuKienGiam <= 0 and TrangThai = 1 and SoLuot > 0
 
 -- tinh tong -- end
+
+
+
+
+
+
+
 
 
 

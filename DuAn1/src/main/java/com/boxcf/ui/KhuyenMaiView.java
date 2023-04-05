@@ -249,7 +249,46 @@ public class KhuyenMaiView extends javax.swing.JPanel {
     }
     
     private void handleOpenTrash() {
-        ThungRacKhuyenMai trashView = new ThungRacKhuyenMai();
+        ThungRac trashView = new ThungRac() {
+            @Override
+            public void renderDataTable() {
+                DefaultTableModel model = (DefaultTableModel) this.getTbl().getModel();
+                model.setRowCount(0);
+                int i = 1;
+                for (KhuyenMai km : dKm.selectTrash()) {
+                    Object row[] = {i, km.getMaKM(),
+                        km.getTenKM(),
+                        XDate.toString(km.getNgayBD(), "dd/mm/yyyy"),
+                        XDate.toString(km.getNgayKT(), "dd/mm/yyyy"),
+                        km.getSoLuot(),
+                        km.getPhanTram() + "%",
+                        km.getDieuKienGiam()};
+                    
+                    model.addRow(row);
+                    i++;
+                }
+            }
+            
+            @Override
+            public void initHeader() {
+                DefaultTableModel model = (DefaultTableModel) this.getTbl().getModel();
+                String[] cols = cols = new String[]{"STT",
+                    "Mã Khuyến Mãi",
+                    "Tên Khuyến Mãi",
+                    "Ngày Bắt Đầu",
+                    "Ngày Kết Thúc",
+                    "Số Lượng",
+                    "Phần Trâm Giảm",
+                    "Điều Kiện Giảm"};
+                
+                model.setColumnIdentifiers(cols);
+            }
+            
+            @Override
+            public void initTitle() {
+                this.getTitles().setText("Khuyến Mãi Đã Xóa");
+            }
+        };
         trashView.setVisible(true);
     }
 }

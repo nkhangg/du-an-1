@@ -12,7 +12,6 @@ import com.boxcf.dao.KhuyenMaiDao;
 import com.boxcf.events.StoreEvents;
 import com.boxcf.models.KhuyenMai;
 import com.boxcf.store.Store;
-import com.boxcf.ui.OrderView;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
@@ -138,7 +137,7 @@ public class PanelBill extends javax.swing.JPanel {
         for (ItemBill itemBill : list) {
             reuslt += itemBill.getData().getSoLuong() * itemBill.getData().getGia();
         }
-        
+
         return reuslt;
     }
 

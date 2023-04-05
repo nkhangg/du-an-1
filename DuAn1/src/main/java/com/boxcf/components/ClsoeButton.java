@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package com.boxcf.components;
 
 import java.awt.Color;
@@ -43,6 +40,7 @@ public class ClsoeButton extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(20, 20));
 
         btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/close.png"))); // NOI18N
+        btnClose.setFocusPainted(false);
         btnClose.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnClose.setPreferredSize(new java.awt.Dimension(24, 24));
 
@@ -50,11 +48,11 @@ public class ClsoeButton extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnClose, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnClose, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnClose, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnClose, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

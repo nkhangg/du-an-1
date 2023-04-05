@@ -123,11 +123,7 @@ public class XDate {
     
 
     public static void main(String[] args) throws ParseException {
-        String str = "20230310";
-        String year = str.substring(0, 4);
-        String mont = str.substring(4, 6);
-        String day = str.substring(6, str.length());
-        System.out.println( day+ "/" + mont + "/"+ year);
+        System.out.println(XDate.now().after(XDate.now()));
     }
 
 }

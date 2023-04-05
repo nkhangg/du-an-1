@@ -5,7 +5,6 @@
 package com.boxcf.dao;
 
 import com.box.utils.JdbcHelper;
-import com.box.utils.Validator;
 import com.box.utils.XDate;
 import com.boxcf.models.LichSu;
 import com.boxcf.models.ModelStatistical;
@@ -62,9 +61,8 @@ public class ThongKeDao {
     public double productOfTheDay() {
 
         double revenue = 0;
-        String sql = "select  Sum(ThanhTien * SoLuong) from HoaDon hd\n"
-                + "join HoaDonCT ct on ct.MaHD = hd.MaHD \n"
-                + DateNowSql + " and MaSP in (select MaSP from SanPham)";
+        String sql = "select SUM(TongTien) from HoaDon hd\n"
+                + DateNowSql + " and MaHD not in (select MaHD from PhieuDatBox)";
 
         try {
 
@@ -76,17 +74,19 @@ public class ThongKeDao {
             }
             responce.getStatement().getConnection().close();
         } catch (Exception e) {
-            throw new Error("The Error in selectById Combo !");
+            throw new Error("The Error in productOfTheDay Thong Ke !");
         }
         return revenue;
     }
 
     public double boxOfTheDay() {
-
         double revenue = 0;
-        String sql = "select  Sum(ThanhTien * SoLuong) from HoaDon hd\n"
-                + "join HoaDonCT ct on ct.MaHD = hd.MaHD\n"
-                + DateNowSql + " and MaDat in (select MaDat from DatBox)";
+        Date dateStart = XDate.getHour("23:59:59");
+        Date dateEnd = XDate.getHour("00:00:00");
+
+        String sql = "select SUM(TongTien) from PhieuDatBox pd\n"
+                + "join HoaDon ct on ct.MaHD = pd.MaHD\n"
+                + DateNowSql;
 
         try {
 
@@ -98,7 +98,8 @@ public class ThongKeDao {
             }
             responce.getStatement().getConnection().close();
         } catch (Exception e) {
-            throw new Error("The Error in selectById Combo !");
+            System.out.println(e);
+            throw new Error("The Error in boxOfTheDay Combo !");
         }
         return revenue;
     }
@@ -106,22 +107,7 @@ public class ThongKeDao {
     public double comboOfTheDay() {
 
         double revenue = 0;
-        String sql = "select  Sum(TongTien) from HoaDon hd\n"
-                + "join HoaDonCT ct on ct.MaHD = hd.MaHD\n"
-                + DateNowSql + " and MaSP in (select MaCB from Combo)";
-
-        try {
-
-            ResultSet responce = JdbcHelper.query(sql);
-
-            // admission a ResultSet return a Box
-            if (responce.next()) {
-                revenue = responce.getDouble(1);
-            }
-            responce.getStatement().getConnection().close();
-        } catch (Exception e) {
-            throw new Error("The Error in selectById Combo !");
-        }
+//        
         return revenue;
     }
 

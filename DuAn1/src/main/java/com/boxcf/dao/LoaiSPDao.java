@@ -130,25 +130,25 @@ public class LoaiSPDao implements BoxCfDAO<LoaiSP, String> {
             throw new Error("The Error in update LoaiSP !");
         }
     }
-    
+
     public LoaiSP selectByName(String name) {
         String sql = "select * from LoaiSP where TenLoai = ?";
-
+        LoaiSP loaiSP = null;
         try {
 
             ResultSet responce = JdbcHelper.query(sql, name);
 
             // admission a ResultSet return a Box
             if (responce.next()) {
-                return createObjecet(responce);
+                loaiSP = createObjecet(responce);
             }
 
         } catch (Exception e) {
             throw new Error("The Error in selectById LoaiSP !");
         }
-        return null;
+        return loaiSP;
     }
-    
+
     public List<LoaiSP> selectByKeyWord(String keyWord, int type) {
 
         String sql = "";

@@ -58,6 +58,7 @@ public class ThongTinKM extends javax.swing.JFrame {
         btnPre = new com.boxcf.components.ButtonRound();
         btnLast = new com.boxcf.components.ButtonRound();
         btnNext = new com.boxcf.components.ButtonRound();
+        btnClean = new com.boxcf.components.ButtonRound();
         txtId = new com.boxcf.components.TextField();
         txtName = new com.boxcf.components.TextField();
         btnClose = new com.boxcf.components.ButtonRound();
@@ -108,6 +109,7 @@ public class ThongTinKM extends javax.swing.JFrame {
         btnThemSP.setBackground(new java.awt.Color(2, 172, 171));
         btnThemSP.setForeground(new java.awt.Color(255, 255, 255));
         btnThemSP.setText("LƯU");
+        btnThemSP.setFocusable(false);
         btnThemSP.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnThemSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,6 +120,7 @@ public class ThongTinKM extends javax.swing.JFrame {
         btnCapNhatSP.setBackground(new java.awt.Color(2, 172, 171));
         btnCapNhatSP.setForeground(new java.awt.Color(255, 255, 255));
         btnCapNhatSP.setText("CẬP NHẬT");
+        btnCapNhatSP.setFocusable(false);
         btnCapNhatSP.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnCapNhatSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,6 +131,7 @@ public class ThongTinKM extends javax.swing.JFrame {
         btnFirst.setBackground(new java.awt.Color(2, 172, 171));
         btnFirst.setForeground(new java.awt.Color(255, 255, 255));
         btnFirst.setText("|<");
+        btnFirst.setFocusable(false);
         btnFirst.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnFirst.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,6 +142,7 @@ public class ThongTinKM extends javax.swing.JFrame {
         btnPre.setBackground(new java.awt.Color(2, 172, 171));
         btnPre.setForeground(new java.awt.Color(255, 255, 255));
         btnPre.setText("<<");
+        btnPre.setFocusable(false);
         btnPre.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnPre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,6 +153,7 @@ public class ThongTinKM extends javax.swing.JFrame {
         btnLast.setBackground(new java.awt.Color(2, 172, 171));
         btnLast.setForeground(new java.awt.Color(255, 255, 255));
         btnLast.setText(">>");
+        btnLast.setFocusable(false);
         btnLast.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnLast.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,10 +164,22 @@ public class ThongTinKM extends javax.swing.JFrame {
         btnNext.setBackground(new java.awt.Color(2, 172, 171));
         btnNext.setForeground(new java.awt.Color(255, 255, 255));
         btnNext.setText(">|");
+        btnNext.setFocusable(false);
         btnNext.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnNext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNextActionPerformed(evt);
+            }
+        });
+
+        btnClean.setBackground(new java.awt.Color(2, 172, 171));
+        btnClean.setForeground(new java.awt.Color(255, 255, 255));
+        btnClean.setText("MỚI");
+        btnClean.setFocusable(false);
+        btnClean.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnClean.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCleanActionPerformed(evt);
             }
         });
 
@@ -170,11 +188,13 @@ public class ThongTinKM extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
+                .addContainerGap()
                 .addComponent(btnThemSP, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCapNhatSP, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnClean, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
                 .addComponent(btnFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnPre, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -182,7 +202,7 @@ public class ThongTinKM extends javax.swing.JFrame {
                 .addComponent(btnLast, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,17 +214,20 @@ public class ThongTinKM extends javax.swing.JFrame {
                     .addComponent(btnFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPre, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLast, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClean, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnlNhanVien.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 510, 570, -1));
+        pnlNhanVien.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 510, 700, -1));
 
         txtId.setEditable(false);
+        txtId.setFont(new java.awt.Font("UTM Aptima", 0, 14)); // NOI18N
         txtId.setLabelText("");
         txtId.setOpaque(false);
         pnlNhanVien.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 600, 38));
 
+        txtName.setFont(new java.awt.Font("UTM Aptima", 0, 14)); // NOI18N
         txtName.setLabelText("");
         txtName.setOpaque(false);
         pnlNhanVien.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, 600, 38));
@@ -218,24 +241,27 @@ public class ThongTinKM extends javax.swing.JFrame {
         });
         pnlNhanVien.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 20, 50, 50));
 
+        dcTimeStart.setFont(new java.awt.Font("UTM Aptima", 0, 14)); // NOI18N
         dcTimeStart.setPreferredSize(new java.awt.Dimension(82, 30));
         pnlNhanVien.add(dcTimeStart, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 280, 180, -1));
 
+        dcTimeEnd.setFont(new java.awt.Font("UTM Aptima", 0, 14)); // NOI18N
         dcTimeEnd.setPreferredSize(new java.awt.Dimension(82, 30));
-        pnlNhanVien.add(dcTimeEnd, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 280, 210, -1));
+        pnlNhanVien.add(dcTimeEnd, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 280, 200, -1));
 
         lblMaNV4.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV4.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblMaNV4.setForeground(new java.awt.Color(27, 51, 61));
         lblMaNV4.setText("Ngày KT");
-        pnlNhanVien.add(lblMaNV4, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 280, 100, 30));
+        pnlNhanVien.add(lblMaNV4, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 280, 90, 30));
 
         lblMaNV5.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV5.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblMaNV5.setForeground(new java.awt.Color(27, 51, 61));
         lblMaNV5.setText("Phần trăm");
-        pnlNhanVien.add(lblMaNV5, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 360, 100, -1));
+        pnlNhanVien.add(lblMaNV5, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 350, 70, 30));
 
+        txtQuantity.setFont(new java.awt.Font("UTM Aptima", 0, 14)); // NOI18N
         txtQuantity.setLabelText("");
         txtQuantity.setOpaque(false);
         pnlNhanVien.add(txtQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, 180, 38));
@@ -247,7 +273,9 @@ public class ThongTinKM extends javax.swing.JFrame {
         pnlNhanVien.add(lblMaNV6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 360, 80, -1));
 
         cboPersent.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "5%", "10%", "15%", "20%", "25%", "30%", "35%", "40%", "45%", "50%", "55%", "60%", "65%", "70%", "75%" }));
-        pnlNhanVien.add(cboPersent, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 350, 210, -1));
+        cboPersent.setFocusable(false);
+        cboPersent.setFont(new java.awt.Font("UTM Aptima", 0, 14)); // NOI18N
+        pnlNhanVien.add(cboPersent, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 350, 200, -1));
 
         lblMaNV7.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV7.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
@@ -256,6 +284,8 @@ public class ThongTinKM extends javax.swing.JFrame {
         pnlNhanVien.add(lblMaNV7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 430, 100, 20));
 
         cboLevel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10000", "20000", "100000" }));
+        cboLevel.setFocusable(false);
+        cboLevel.setFont(new java.awt.Font("UTM Aptima", 0, 14)); // NOI18N
         pnlNhanVien.add(cboLevel, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 420, 180, -1));
 
         javax.swing.GroupLayout gradientPanel1Layout = new javax.swing.GroupLayout(gradientPanel1);
@@ -318,6 +348,10 @@ public class ThongTinKM extends javax.swing.JFrame {
         handleInsert();
     }//GEN-LAST:event_btnThemSPActionPerformed
 
+    private void btnCleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCleanActionPerformed
+        clear();
+    }//GEN-LAST:event_btnCleanActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -356,6 +390,7 @@ public class ThongTinKM extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.boxcf.components.ButtonRound btnCapNhatSP;
+    private com.boxcf.components.ButtonRound btnClean;
     private com.boxcf.components.ButtonRound btnClose;
     private com.boxcf.components.ButtonRound btnFirst;
     private com.boxcf.components.ButtonRound btnLast;

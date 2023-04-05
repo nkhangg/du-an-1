@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.boxcf.ui;
 
 import com.box.utils.Formats;
@@ -42,10 +38,6 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/**
- *
- * @author HP
- */
 public class OrderView extends javax.swing.JFrame {
 
     private EventItem event;
@@ -130,6 +122,7 @@ public class OrderView extends javax.swing.JFrame {
         buttonRound6.setBackground(new java.awt.Color(50, 130, 179));
         buttonRound6.setForeground(new java.awt.Color(255, 255, 255));
         buttonRound6.setText("THU TIỀN");
+        buttonRound6.setFocusable(false);
         buttonRound6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         buttonRound6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,6 +159,7 @@ public class OrderView extends javax.swing.JFrame {
         jPanel1.add(lblFinalTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 710, 280, -1));
 
         cboDiscount.setForeground(new java.awt.Color(16, 108, 130));
+        cboDiscount.setFocusable(false);
         cboDiscount.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         cboDiscount.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -642,7 +636,7 @@ public class OrderView extends javax.swing.JFrame {
                 return;
             }
 
-            //  // loai san pham
+            // loai san pham
             if (danhMuc.getTenDM().toLowerCase().equals(name.toLowerCase())) {
                 initCategory(true, LoaiSPDao.getInstant().selectBySql(sql, danhMuc.getMaDM()), name);
                 return;
