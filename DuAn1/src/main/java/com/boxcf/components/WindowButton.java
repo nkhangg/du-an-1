@@ -47,11 +47,13 @@ public class WindowButton extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(78, 34));
 
         btnScale.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/icons8_square_20px.png"))); // NOI18N
+        btnScale.setFocusable(false);
         btnScale.setMaximumSize(new java.awt.Dimension(34, 34));
         btnScale.setMinimumSize(new java.awt.Dimension(34, 34));
         btnScale.setPreferredSize(new java.awt.Dimension(34, 34));
 
         btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/close.png"))); // NOI18N
+        btnClose.setFocusable(false);
         btnClose.setMaximumSize(new java.awt.Dimension(34, 34));
         btnClose.setMinimumSize(new java.awt.Dimension(34, 34));
         btnClose.setPreferredSize(new java.awt.Dimension(34, 34));

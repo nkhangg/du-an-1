@@ -32,7 +32,7 @@ public class LoaiBoxDao implements BoxCfDAO<LoaiBox, String> {
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String id) throws ExceptionInInitializerError{
         JdbcHelper.update(DELETE_SQL, id);
     }
 

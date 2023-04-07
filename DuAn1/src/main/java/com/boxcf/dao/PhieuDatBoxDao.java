@@ -25,8 +25,10 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
                     responce.getString(3),
                     responce.getTimestamp(4),
                     responce.getTimestamp(5),
-                    responce.getString(6),
-                    responce.getInt(7)
+                    responce.getInt(6),
+                    responce.getInt(7),
+                    responce.getString(8),
+                    responce.getString(9)
             );
 
         } catch (Exception e) {
@@ -67,16 +69,15 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
     }
 
     public void insertProc(int maHD, ModelItem e, String nameCutomer) {
-        String sql = "{ call sp_DatBox ( ?, ?, ?, ?, ?, ?, ? ) }";
+        String sql = "{ call sp_DatBox ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
 
         try {
-            int responce = JdbcHelper.update(sql, maHD, e.getMaItem(), nameCutomer, e.getGioBD(), e.getGioKT(), "active", e.getSoLuong() * e.getLoaiBox().getGiaLoai());
+            int responce = JdbcHelper.update(sql, maHD, e.getMaItem(), nameCutomer, e.getGioBD(), e.getGioKT(), e.getSoLuong(), e.getTraTruoc(), e.getSoLuong() * e.getLoaiBox().getGiaLoai(), e.getTrangThai().toString(), e.getGhiChu());
 
             if (responce == 0) {
                 throw new Error("Them du lieu that bai!");
             }
         } catch (Exception ex) {
-            System.out.println(ex);
             throw new Error("The Error in insertProc DATBOX !");
         }
     }
@@ -92,6 +93,20 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
             }
         } catch (Exception ex) {
             System.out.println(ex);
+            throw new Error("The Error in updateProc DATBOX !");
+        }
+    }
+    
+    public void update_NhanBox(ModelItem data) {
+        String sql = "{ call sp_update_NhanBox ( ?, ?) }";
+
+        try {
+            int responce = JdbcHelper.update(sql, data.getMaItem().toString(), data.getGioBD());
+
+            if (responce == 0) {
+                throw new Error("The Error in updateProc DATBOX !");
+            }
+        } catch (Exception ex) {
             throw new Error("The Error in updateProc DATBOX !");
         }
     }
@@ -253,6 +268,78 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
         String sql = "update PhieuDatBox set trangthai = 'used' where mabox = ?";
 
         JdbcHelper.update(sql, maBox);
+    }
+    
+    //lay ra ds box dat va dat truoc
+    public List<PhieuDatBox> getListActive(String maBox) {
+        String sql = "select *\n"
+                + "from phieudatbox\n"
+                + "where mabox = ? and (trangthai like 'active' or trangthai like 'booked')";
+
+        return selectBySql(sql, maBox);
+    }
+    
+    //get ra gio dat ke tiep
+    public PhieuDatBox getNextBooked(String maBox) {
+        String sql = "select top 1 *\n"
+                + "from phieudatbox\n"
+                + "where mabox = ? and trangthai like 'booked'\n"
+                + "order by gioBD asc";
+
+        PhieuDatBox db = null;
+
+        try {
+
+            ResultSet responce = JdbcHelper.query(sql, maBox);
+
+            if (responce.next()) {
+                db = createObjecet(responce);
+            }
+
+            responce.getStatement().getConnection().close();
+        } catch (Exception e) {
+            throw new Error("The Error in selectByBox DATBOX !");
+        }
+        return db;
+    }
+    
+     //get dang su dung
+    public PhieuDatBox getUsing(String maBox) {
+        String sql = "select *\n"
+                + "from phieudatbox\n"
+                + "where mabox = ? and trangthai like 'active'\n";
+
+        PhieuDatBox db = null;
+
+        try {
+
+            ResultSet responce = JdbcHelper.query(sql, maBox);
+
+            if (responce.next()) {
+                db = createObjecet(responce);
+            }
+
+            responce.getStatement().getConnection().close();
+        } catch (Exception e) {
+            throw new Error("The Error in selectByBox DATBOX !");
+        }
+        return db;
+    }
+    
+    //dat truoc
+    public List<PhieuDatBox> getBookedListProc(String maBox) {
+        String sql = "select *\n"
+                + "from phieudatbox\n"
+                + "	where MaBox = ? and trangthai like 'booked'";
+
+        return selectBySql(sql, maBox);
+    }
+    
+     //kiem tra box co dang xai hay ko
+    public Object isActive(String maBox) {
+        String sql = "select * from PhieuDatBox where MaBox = ? and TrangThai like 'active'";
+
+        return JdbcHelper.value(sql, maBox);
     }
 
     //get ra phieu dat box thong qua maBox

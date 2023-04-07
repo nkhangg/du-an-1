@@ -29,6 +29,7 @@ public class NhanVienDao implements BoxCfDAO<NhanVien, String> {
                     responce.getBoolean(11)
             );
         } catch (Exception e) {
+            System.out.println(e);
             throw new Error("The Error in createObjecet NhanVien !");
         }
     }
@@ -112,7 +113,7 @@ public class NhanVienDao implements BoxCfDAO<NhanVien, String> {
 
     public NhanVien login(String username, String password) {
         String sql = "select * from NhanVien\n"
-                + "where MatKhau = ? and TenNV = ? and TrangThai = 1";
+                + "where MatKhau = ? and MaNV = ? and TrangThai = 1";
         NhanVien nv = null;
         try {
 
@@ -188,6 +189,22 @@ public class NhanVienDao implements BoxCfDAO<NhanVien, String> {
     public List<NhanVien> selectTrash() {
         String sql = "select * from NhanVien where TrangThai = 0";
         return selectBySql(sql);
+    }
+
+    public boolean refreshPass(String manv, String newPass) {
+        String sql = "update NhanVien\n"
+                + "set MatKhau = ? \n"
+                + "where MaNV = ? and TrangThai = 1";
+
+        try {
+            int responce = JdbcHelper.update(sql, newPass, manv);
+
+            return responce >= 1;
+        } catch (Exception ex) {
+            System.out.println(ex);
+            throw new Error("The Error in insert NhanVien !");
+        }
+
     }
 
     public static void main(String[] args) {

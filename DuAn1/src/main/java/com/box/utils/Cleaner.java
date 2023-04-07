@@ -33,7 +33,7 @@ public class Cleaner {
         boolean flag = false;
 
         for (KhuyenMai km : list) {
-            if (XDate.toDate(date, "yyyy-MM-dd").after(km.getNgayKT())) {
+            if (XDate.toDate(date, "yyyy-MM-dd").after(km.getNgayKT()) || km.getSoLuot() <= 0) {
                 dKm.delete(km.getMaKM());
                 flag = true;
             }

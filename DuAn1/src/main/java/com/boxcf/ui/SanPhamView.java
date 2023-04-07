@@ -1,15 +1,21 @@
 package com.boxcf.ui;
 
+import com.box.utils.JdbcHelper;
 import com.box.utils.UI;
 import com.boxcf.components.ScrollBar;
+import com.boxcf.dao.ComboCTDao;
 import com.boxcf.dao.DanhMucDao;
+import com.boxcf.dao.HoaDonChiTietDao;
 import com.boxcf.dao.LoaiSPDao;
 import com.boxcf.dao.SanPhamDao;
+import com.boxcf.models.ComboCT;
 import com.boxcf.models.DanhMuc;
+import com.boxcf.models.HoaDonCT;
 import com.boxcf.models.LoaiSP;
 import com.boxcf.models.SanPham;
 import com.boxcf.store.Store;
 import java.awt.Color;
+import java.sql.ResultSet;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -24,6 +30,9 @@ public class SanPhamView extends javax.swing.JPanel {
     SanPhamDao spDAO = new SanPhamDao();
     LoaiSPDao lspDAO = new LoaiSPDao();
     DanhMucDao dmDAO = new DanhMucDao();
+
+    public int quanity;
+    suport sp = new suport();
 
     public int pageNumber = 1;
 
@@ -45,8 +54,9 @@ public class SanPhamView extends javax.swing.JPanel {
 
     private void init() {
         this.prepareUI();
-        fillCBBLoaiSP();
         fillCBBDM();
+        fillCBBLoaiSP();
+
         fillToTableSanPham();
         fillToTableDanhMuc();
         fillToTableLoaiSP();
@@ -68,56 +78,51 @@ public class SanPhamView extends javax.swing.JPanel {
             tbl.addRow(row);
             i++;
         }
+        
     }
 
     void fillCBBLoaiSP() {
         cboLoaiSP.removeAllItems();
         cboLoaiSP.addItem("All");
-        for (LoaiSP lsp : lspDAO.selectAll()) {
-            cboLoaiSP.addItem(lsp.getTenLoai().toString());
+        for (LoaiSP lsp : sp.getLSPFromDM(cboDanhMuc1.getSelectedItem().toString() == "All" ? "" : cboDanhMuc1.getSelectedItem().toString())) {
+            cboLoaiSP.addItem(lsp.getTenLoai());
         }
     }
 
     void fillCBBDM() {
+
         cboDanhMuc1.removeAllItems();
-        cboDanhMuc1.addItem("All");
         cboDanhMuc2.removeAllItems();
+        cboDanhMuc1.addItem("All");
         cboDanhMuc2.addItem("All");
         for (DanhMuc dm : dmDAO.selectAll()) {
             cboDanhMuc1.addItem(dm.getTenDM().toString());
             cboDanhMuc2.addItem(dm.getTenDM().toString());
+
         }
+
     }
 
     public void fillToTableSanPham() {
-        renderDataTable(spDAO.panigation(pageNumber));
+        renderDataTable(sp.panigation(1, txtTimSP.getText(), 4, cboLoaiSP.getSelectedItem().toString() == "All" ? "" : cboLoaiSP.getSelectedItem().toString(), cboDanhMuc1.getSelectedItem().toString() == "All" ? "" : cboDanhMuc1.getSelectedItem().toString()));
 //        for (SanPham sp : spDAO.selectAll()) {
 //            Object row[] = {sp.getMaSP(), sp.getTenSP(), sp.getGia(), sp.getMaLoai(), sp.getMoTa()};
 //            tbl.addRow(row);
 //        }
     }
-    
-    public void timSP(){
-        String keyWord = txtTimSP.getText();
-        renderDataTable(spDAO.selectByKeyWord(keyWord, cboTimTheoSP.getSelectedIndex()));
+
+    public void timSP() {
+        renderDataTable(sp.panigation(1, txtTimSP.getText(), 4, cboLoaiSP.getSelectedItem().toString() == "All" ? "" : cboLoaiSP.getSelectedItem().toString(), cboDanhMuc1.getSelectedItem().toString() == "All" ? "" : cboDanhMuc1.getSelectedItem().toString()));
     }
 
     void filterLoaiSP() {
-        String tenLoai = (cboLoaiSP.getSelectedItem().toString());
-        if (tenLoai.equals("All")) {
-            renderDataTable(spDAO.selectAll());
-            return;
-        }
-        renderDataTable(spDAO.selectByTenLoaiSP(tenLoai));
+        renderDataTable(sp.panigation(1, txtTimSP.getText(), 3, cboLoaiSP.getSelectedItem().toString() == "All" ? "" : cboLoaiSP.getSelectedItem().toString(), cboDanhMuc1.getSelectedItem().toString() == "All" ? "" : cboDanhMuc1.getSelectedItem().toString()));
     }
 
     void filterDM() {
-        String maDanhMuc = cboDanhMuc1.getSelectedItem().toString();
-        if (maDanhMuc.equals("All")) {
-            renderDataTable(spDAO.selectAll());
-            return;
+        if (cboDanhMuc1.getItemCount() > 1) {
+            renderDataTable(sp.panigation(1, txtTimSP.getText(), 4, cboLoaiSP.getSelectedItem().toString() == "All" ? "" : cboLoaiSP.getSelectedItem().toString(), cboDanhMuc1.getSelectedItem().toString() == "All" ? "" : cboDanhMuc1.getSelectedItem().toString()));
         }
-        renderDataTable(spDAO.selectByTenDanhMuc(maDanhMuc));
     }
 
     void fillToTableLoaiSP() {
@@ -125,7 +130,7 @@ public class SanPhamView extends javax.swing.JPanel {
         tbl.setRowCount(0);
         String keyWord = txtTimLoaiSP.getText();
         int i = 1;
-        for (LoaiSP lsp : lspDAO.selectByKeyWord(keyWord, cboTimTheoLSP.getSelectedIndex())) {
+        for (LoaiSP lsp : lspDAO.selectAll()) {
             Object row[] = {i, lsp.getMaLoai(), lsp.getTenLoai(), dmDAO.selectById(lsp.getMaDM()).getTenDM()};
             tbl.addRow(row);
             i++;
@@ -137,7 +142,7 @@ public class SanPhamView extends javax.swing.JPanel {
         tbl.setRowCount(0);
         String keyWord = txtTimDM.getText();
         int i = 1;
-        for (DanhMuc dm : dmDAO.selectByKeyWord(keyWord, cboTimTheoDM.getSelectedIndex())) {
+        for (DanhMuc dm : dmDAO.selectAll()) {
             Object row[] = {i, dm.getMaDM(), dm.getTenDM()};
             tbl.addRow(row);
             i++;
@@ -160,7 +165,6 @@ public class SanPhamView extends javax.swing.JPanel {
     }
 
     void openTTLSP() {
-
         new ThongTinLoaiSP(maLoai).setVisible(true);
     }
 
@@ -171,6 +175,10 @@ public class SanPhamView extends javax.swing.JPanel {
     void xoaSP() {
         if (!getClick(tblSanPham)) {
             JOptionPane.showMessageDialog(this, "Chưa chọn sản phẩm!");
+            return;
+        }
+        if (!kiemTraLienKetSP()) {
+            JOptionPane.showMessageDialog(this, "Mã sản phẩm " + maSP + " còn đang hoạt động!\n Không thể xóa!");
             return;
         }
 
@@ -225,6 +233,23 @@ public class SanPhamView extends javax.swing.JPanel {
         }
     }
 
+    boolean kiemTraLienKetSP() {
+        HoaDonChiTietDao hdctDAO = new HoaDonChiTietDao();
+        ComboCTDao cbctDAO = new ComboCTDao();
+        for (HoaDonCT hdct : hdctDAO.selectAll()) {
+            if (maSP.equals(hdct.getMaSP())) {
+                return false;
+            }
+        }
+
+        for (ComboCT cbct : cbctDAO.selectAll()) {
+            if (maSP.equals(cbct.getMaSP())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     boolean kiemTraLienKetDM() {
         for (LoaiSP lsp : lspDAO.selectAll()) {
             if (maDanhMuc.equals(lsp.getMaDM())) {
@@ -261,6 +286,10 @@ public class SanPhamView extends javax.swing.JPanel {
             i++;
         }
     }
+    
+     public Integer getPageNumber() {
+        return (int) Math.ceil(quanity / 8) + 1;
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -283,7 +312,6 @@ public class SanPhamView extends javax.swing.JPanel {
         cboLoaiSP = new com.boxcf.components.Combobox();
         scroll = new javax.swing.JScrollPane();
         tblSanPham = new javax.swing.JTable();
-        cboTimTheoSP = new javax.swing.JComboBox<>();
         btnNext = new com.boxcf.components.ButtonRound();
         btnPre = new com.boxcf.components.ButtonRound();
         jPanel2 = new javax.swing.JPanel();
@@ -297,14 +325,12 @@ public class SanPhamView extends javax.swing.JPanel {
         cboDanhMuc2 = new com.boxcf.components.Combobox();
         btnXoaLSP = new com.boxcf.components.ButtonRound();
         btnThemLSP = new com.boxcf.components.ButtonRound();
-        cboTimTheoLSP = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblDanhMuc = new javax.swing.JTable();
         lblMaNV3 = new javax.swing.JLabel();
         txtTimDM = new javax.swing.JTextField();
         btnTimDM = new com.boxcf.components.ButtonRound();
-        cboTimTheoDM = new javax.swing.JComboBox<>();
         btnXoaDM = new com.boxcf.components.ButtonRound();
         btnThemDM = new com.boxcf.components.ButtonRound();
 
@@ -359,7 +385,6 @@ public class SanPhamView extends javax.swing.JPanel {
         txtTimSP.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtTimSP.setForeground(new java.awt.Color(51, 51, 51));
         txtTimSP.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(2, 172, 171)));
-        txtTimSP.setOpaque(false);
         jPanel1.add(txtTimSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 32, 520, 32));
 
         btnTimSP.setBackground(new java.awt.Color(2, 172, 171));
@@ -466,10 +491,6 @@ public class SanPhamView extends javax.swing.JPanel {
 
         jPanel1.add(scroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 980, 300));
 
-        cboTimTheoSP.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        cboTimTheoSP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Theo tên", "theo mã" }));
-        jPanel1.add(cboTimTheoSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 30, 120, 30));
-
         btnNext.setBackground(new java.awt.Color(2, 172, 171));
         btnNext.setForeground(new java.awt.Color(255, 255, 255));
         btnNext.setText(">>");
@@ -542,7 +563,6 @@ public class SanPhamView extends javax.swing.JPanel {
         txtTimLoaiSP.setForeground(new java.awt.Color(51, 51, 51));
         txtTimLoaiSP.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(2, 172, 171)));
         txtTimLoaiSP.setFocusable(false);
-        txtTimLoaiSP.setOpaque(false);
         jPanel2.add(txtTimLoaiSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 32, 520, 32));
 
         btnTimLoaiSP.setBackground(new java.awt.Color(2, 172, 171));
@@ -620,9 +640,6 @@ public class SanPhamView extends javax.swing.JPanel {
         });
         jPanel2.add(btnThemLSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 510, 96, 40));
 
-        cboTimTheoLSP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Theo tên", "theo mã" }));
-        jPanel2.add(cboTimTheoLSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 30, 120, 30));
-
         jTabbedPane1.addTab("LOẠI SP", jPanel2);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -670,7 +687,6 @@ public class SanPhamView extends javax.swing.JPanel {
         txtTimDM.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtTimDM.setForeground(new java.awt.Color(51, 51, 51));
         txtTimDM.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(2, 172, 171)));
-        txtTimDM.setOpaque(false);
         jPanel3.add(txtTimDM, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 32, 520, 32));
 
         btnTimDM.setBackground(new java.awt.Color(2, 172, 171));
@@ -688,9 +704,6 @@ public class SanPhamView extends javax.swing.JPanel {
             }
         });
         jPanel3.add(btnTimDM, new org.netbeans.lib.awtextra.AbsoluteConstraints(784, 31, -1, -1));
-
-        cboTimTheoDM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Theo tên", "theo mã" }));
-        jPanel3.add(cboTimTheoDM, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 30, 120, 30));
 
         btnXoaDM.setBackground(new java.awt.Color(2, 172, 171));
         btnXoaDM.setForeground(new java.awt.Color(255, 255, 255));
@@ -787,14 +800,15 @@ public class SanPhamView extends javax.swing.JPanel {
     }//GEN-LAST:event_btnTimDMMouseClicked
 
     private void cboDanhMuc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboDanhMuc1ActionPerformed
-        if (cboDanhMuc1.getItemCount() > 0) {
+        if (cboDanhMuc1.getItemCount() > 1) {
+            fillCBBLoaiSP();
             filterDM();
         }
     }//GEN-LAST:event_cboDanhMuc1ActionPerformed
 
     private void cboLoaiSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboLoaiSPActionPerformed
-        if (cboLoaiSP.getItemCount() > 0) {
-            filterLoaiSP();
+        if (cboLoaiSP.getItemCount() > 1) {
+            filterDM();
         }
     }//GEN-LAST:event_cboLoaiSPActionPerformed
 
@@ -819,27 +833,29 @@ public class SanPhamView extends javax.swing.JPanel {
 
     private void cboDanhMuc2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboDanhMuc2ActionPerformed
         // TODO add your handling code here:
-        filterDMLSP();
+        if (cboDanhMuc2.getItemCount() > 1) {
+            filterDMLSP();
+        }
     }//GEN-LAST:event_cboDanhMuc2ActionPerformed
 
     private void btnPreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreActionPerformed
         // TODO add your handling code here:    
-       
-        if(pageNumber==1){
-           return;
+        if (pageNumber == 1) {
+            return;
         }
-         pageNumber--;
-        renderDataTable(spDAO.panigation(pageNumber));
+        pageNumber--;
+        renderDataTable(sp.panigation(pageNumber, txtTimSP.getText(), 4, cboLoaiSP.getSelectedItem().toString() == "All" ? "" : cboLoaiSP.getSelectedItem().toString(), cboDanhMuc1.getSelectedItem().toString() == "All" ? "" : cboDanhMuc1.getSelectedItem().toString()));
+
     }//GEN-LAST:event_btnPreActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         // TODO add your handling code here:
-         
-         if(pageNumber==spDAO.getPageNumber()){
+        if (pageNumber == getPageNumber()) {
             return;
-         }
-         pageNumber++;
-        renderDataTable(spDAO.panigation(pageNumber));
+        }
+        pageNumber++;
+        renderDataTable(sp.panigation(pageNumber, txtTimSP.getText(), 4, cboLoaiSP.getSelectedItem().toString() == "All" ? "" : cboLoaiSP.getSelectedItem().toString(), cboDanhMuc1.getSelectedItem().toString() == "All" ? "" : cboDanhMuc1.getSelectedItem().toString()));
+
     }//GEN-LAST:event_btnNextActionPerformed
 
 
@@ -858,9 +874,6 @@ public class SanPhamView extends javax.swing.JPanel {
     private com.boxcf.components.Combobox cboDanhMuc1;
     private com.boxcf.components.Combobox cboDanhMuc2;
     private com.boxcf.components.Combobox cboLoaiSP;
-    private javax.swing.JComboBox<String> cboTimTheoDM;
-    private javax.swing.JComboBox<String> cboTimTheoLSP;
-    private javax.swing.JComboBox<String> cboTimTheoSP;
     private com.boxcf.components.GradientPanel gradientPanel1;
     private com.boxcf.components.GradientPanel gradientPanel2;
     private javax.swing.JButton jButton1;
@@ -891,8 +904,55 @@ public class SanPhamView extends javax.swing.JPanel {
 
 class suport {
 
+  
+
     public List<LoaiSP> selectDMLSP(String keyWord) {
         String sql = "select * from LoaiSP lsp inner join DanhMuc dm on lsp.MaDM=dm.MaDM where TenDM=?;";
         return new LoaiSPDao().selectBySql(sql, keyWord);
     }
+
+    public List<SanPham> panigation(Integer pageCurrent, String keyWord, int type, String TenLoai, String TenDM) {
+        String sql = "";
+        switch (type) {
+            case 0:
+                sql = "SELECT TOP 8 * FROM SanPham WHERE MaSP NOT IN (SELECT TOP " + (pageCurrent * 8 - 8) + " MaSP FROM SanPham)";
+                
+                return new SanPhamDao().selectBySql(sql);
+            case 1:
+                sql = "SELECT TOP 8 * FROM SanPham WHERE MaSP NOT IN (SELECT TOP " + (pageCurrent * 8 - 8) + " MaSP FROM SanPham) and MaSP like ?";
+                return new SanPhamDao().selectBySql(sql, "%" + keyWord + "%");
+            case 2:
+                sql = "SELECT TOP 8 * FROM SanPham WHERE MaSP NOT IN (SELECT TOP " + (pageCurrent * 8 - 8) + " MaSP FROM SanPham) and TenSP like ?";
+                return new SanPhamDao().selectBySql(sql, "%" + keyWord + "%");
+            case 3:
+                sql = "SELECT TOP 8 sp.* FROM SanPham sp inner join LoaiSP lsp on sp.MaLoai=lsp.MaLoai where MaSP NOT IN (SELECT TOP " + (pageCurrent * 8 - 8) + " MaSP FROM SanPham) and MaSP like ? and lsp.TenLoai like ?;";
+                return new SanPhamDao().selectBySql(sql, "%" + keyWord + "%", "%" + TenLoai + "%");
+            case 4:
+                sql = "SELECT TOP 8 sp.* FROM SanPham sp inner join LoaiSP lsp on sp.MaLoai=lsp.MaLoai inner join DanhMuc dm on lsp.MaDM=dm.MaDM where MaSP NOT IN (SELECT TOP " + (pageCurrent * 8 - 8) + " MaSP FROM SanPham) and MaSP like ? and lsp.TenLoai like ? and dm.TenDM like ?;";
+                return new SanPhamDao().selectBySql(sql, "%" + keyWord + "%", "%" + TenLoai + "%", "%" + TenDM + "%");
+            default:
+                return null;
+        }
+    }
+
+    public List<LoaiSP> getLSPFromDM(String tenDM) {
+        String sql = "Select lsp.* from LoaiSP lsp inner join DanhMuc dm on lsp.MaDM = dm.MaDM where dm.TenDM like ?;";
+        return new LoaiSPDao().selectBySql(sql, "%" + tenDM + "%");
+    }
+
+    public DanhMuc DMFromLSP(String tenLoai) {
+        String sql = "Select dm.* from LoaiSP lsp inner join DanhMuc dm on lsp.MaDM = dm.MaDM where lsp.TenLoai like ?;";
+        DanhMuc dm = new DanhMuc();
+        try {
+            ResultSet responce = JdbcHelper.query(sql, "%" + tenLoai + "%");
+            // admission a ResultSet return a Box
+            if (responce.next()) {
+                dm = new DanhMucDao().createObjecet(responce);
+            }
+        } catch (Exception e) {
+        }
+        return dm;
+    }
+
+    
 }

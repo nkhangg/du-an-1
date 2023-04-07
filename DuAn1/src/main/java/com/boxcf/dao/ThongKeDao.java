@@ -61,8 +61,9 @@ public class ThongKeDao {
     public double productOfTheDay() {
 
         double revenue = 0;
-        String sql = "select SUM(TongTien) from HoaDon hd\n"
-                + DateNowSql + " and MaHD not in (select MaHD from PhieuDatBox)";
+        String sql = "select SUM(ThanhTien * SoLuong) from HoaDonCT \n"
+                + "join HoaDon on HoaDon.MaHD = HoaDonCT.MaHD \n"
+                + DateNowSql;
 
         try {
 
@@ -84,8 +85,8 @@ public class ThongKeDao {
         Date dateStart = XDate.getHour("23:59:59");
         Date dateEnd = XDate.getHour("00:00:00");
 
-        String sql = "select SUM(TongTien) from PhieuDatBox pd\n"
-                + "join HoaDon ct on ct.MaHD = pd.MaHD\n"
+        String sql = "select SUM(ThanhTien) from PhieuDatBox pd\n"
+                + "join HoaDon hd on hd.MaHD = pd.MaHD \n"
                 + DateNowSql;
 
         try {

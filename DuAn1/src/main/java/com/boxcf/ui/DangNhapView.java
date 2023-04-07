@@ -172,8 +172,7 @@ public class DangNhapView extends javax.swing.JFrame {
         user = NhanVienDao.getInstant().login(username, password);
         
         if (user == null) {
-            System.out.println("nhan vien: " + user);
-            MsgBox.alert(this, "Username hoặc Password không đúng !");
+            MsgBox.alert(this, "Mã nhân viên hoặc mật khẩu không đúng !");
             return;
         }
         

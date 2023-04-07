@@ -19,19 +19,19 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Main extends javax.swing.JFrame {
-    
+
     NhanVienView nvView = new NhanVienView();
     SanPhamView spView = new SanPhamView();
     BoxView boxView = new BoxView();
-    OrderView order = new OrderView();
+    OrderView order;
     KhuyenMaiView kmView = new KhuyenMaiView();
-    ThongKeView tkView = new ThongKeView();
-    
+    ThongKeView tkView;
+
     public Main() {
         initComponents();
         init();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -303,7 +303,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSanPhamActionPerformed
 
     private void btnBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBoxActionPerformed
-        
+
         this.hidden(spView, nvView, kmView, tkView);
         this.active(boxView);
     }//GEN-LAST:event_btnBoxActionPerformed
@@ -323,7 +323,10 @@ public class Main extends javax.swing.JFrame {
 
     private void buttonRound9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound9ActionPerformed
         this.hidden(spView, nvView, boxView, kmView);
+//        this.active(tkView);
+        tkView = new ThongKeView();
         this.active(tkView);
+
     }//GEN-LAST:event_buttonRound9ActionPerformed
 
     private void buttonRound8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound8ActionPerformed
@@ -333,9 +336,9 @@ public class Main extends javax.swing.JFrame {
     private void avatarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_avatarMouseClicked
         handleRefreshPass();
     }//GEN-LAST:event_avatarMouseClicked
-    
+
     public static void main(String args[]) {
-        
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Windows".equals(info.getName())) {
@@ -365,7 +368,7 @@ public class Main extends javax.swing.JFrame {
     public void hover() {
         Component[] cpns = gradientPanel2.getComponents();
         for (Component cpn : cpns) {
-            
+
             if (cpn instanceof JButton) {
                 cpn.setBackground(Color.decode("#F0F0F0"));
                 cpn.addMouseListener(new MouseAdapter() {
@@ -374,7 +377,7 @@ public class Main extends javax.swing.JFrame {
                         ((JButton) cpn).setOpaque(true);
                         cpn.setBackground(Color.decode("#9ce2c6"));
                     }
-                    
+
                     @Override
                     public void mouseExited(MouseEvent e) {
                         ((JButton) cpn).setOpaque(false);
@@ -384,23 +387,22 @@ public class Main extends javax.swing.JFrame {
             }
         }
     }
-    
+
     private void prepareUI() {
         Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
         this.setShape(shape);
-        pnlContent.add(nvView);
         this.hover();
-        
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-    
+
     private void init() {
         Store.globelMain = this;
         Store.kmView = kmView;
         this.prepareUI();
         handleClener();
         initAvatar();
-        
+        this.active(spView);
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -428,23 +430,26 @@ public class Main extends javax.swing.JFrame {
     private void activeUI(JFrame jframe) {
         jframe.setVisible(true);
     }
-    
+
     private void openOrder() {
+        order = new OrderView();
         order.setVisible(true);
     }
-    
+
     private void hidden(JPanel... jpanel) {
         for (JPanel pnl : jpanel) {
-            pnl.setVisible(false);
+            if (pnl != null) {
+                pnl.setVisible(false);
+            }
         }
     }
-    
+
     private void active(JPanel jpanel) {
         pnlContent.add(jpanel);
         jpanel.setSize(pnlContent.getWidth(), pnlContent.getHeight());
         jpanel.setVisible(true);
     }
-    
+
     private void initAvatar() {
         NhanVien nv = Auth.user;
         String url = nv.getHinhAnh();
@@ -459,7 +464,7 @@ public class Main extends javax.swing.JFrame {
         lblId.setText(nv.getMaNV());
         lblRole.setText(nv.getVaiTro());
     }
-    
+
     private void handleClener() {
         new Thread() {
             @Override
@@ -472,20 +477,20 @@ public class Main extends javax.swing.JFrame {
                     System.out.println(ex);
                 }
             }
-            
+
         }.start();
     }
-    
+
     private void handleLogout() {
         boolean flag = MsgBox.confirm(this, "Bạn sẽ không thể thao tác với tài khoản này khi đăng xuất >.<");
-        
+
         if (flag) {
             Auth.clear();
             this.dispose();
             new DangNhapView().setVisible(true);
         }
     }
-    
+
     private void handleRefreshPass() {
         new DoiMatKhauView().setVisible(true);
     }

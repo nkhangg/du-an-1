@@ -1,4 +1,3 @@
-
 package com.boxcf.ui;
 
 import com.box.utils.MsgBox;
@@ -16,8 +15,7 @@ import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
-
-public class BoxView extends javax.swing.JPanel implements ActionListener{
+public class BoxView extends javax.swing.JPanel implements ActionListener {
 
     private DefaultTableModel tblModel;
     private List<Box> listBox = BoxDao.getInstance().selectAll();
@@ -28,7 +26,7 @@ public class BoxView extends javax.swing.JPanel implements ActionListener{
         initComponents();
         init();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -320,7 +318,7 @@ public class BoxView extends javax.swing.JPanel implements ActionListener{
     }//GEN-LAST:event_btnAdd1ActionPerformed
 
     private void tblBoxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBoxMouseClicked
-        
+
     }//GEN-LAST:event_tblBoxMouseClicked
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
@@ -332,13 +330,13 @@ public class BoxView extends javax.swing.JPanel implements ActionListener{
     }//GEN-LAST:event_cboLoaiBoxActionPerformed
 
     private void tblBoxMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBoxMousePressed
-        if(evt.getClickCount() == 2) {
+        if (evt.getClickCount() == 2) {
             this.showInfo(getBox());
         }
     }//GEN-LAST:event_tblBoxMousePressed
 
     private void tblLoaiBoxMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLoaiBoxMousePressed
-        if(evt.getClickCount() == 2) {
+        if (evt.getClickCount() == 2) {
             this.showInfo(getLoaiBox());
         }
     }//GEN-LAST:event_tblLoaiBoxMousePressed
@@ -389,11 +387,10 @@ public class BoxView extends javax.swing.JPanel implements ActionListener{
         form.setVisible(true);
     }
 
-    
     public void fillTableBox(List<Box> list) {
         tblModel = (DefaultTableModel) tblBox.getModel();
         tblModel.setRowCount(0);
-        
+
         int i = 1;
         for (Box box : list) {
             Object[] row = {i, box.getMaBox(), box.getTenBox(), LoaiBoxDao.getInstance().selectById(box.getMaLoaiBox()).getGiaLoai(), LoaiBoxDao.getInstance().selectById(box.getMaLoaiBox()).getTenLoaiBox(), box.getMoTa()};
@@ -401,34 +398,34 @@ public class BoxView extends javax.swing.JPanel implements ActionListener{
             ++i;
         }
     }
-    
+
     public void fillComboBox(List<LoaiBox> list) {
         DefaultComboBoxModel cbo = (DefaultComboBoxModel) cboLoaiBox.getModel();
-        
+
         if (list.isEmpty()) {
             MsgBox.alert(this, "Đang không có loại box nào");
             return;
         }
-        
+
         for (LoaiBox loaiBox : list) {
             cboLoaiBox.addItem(loaiBox);
         }
     }
-    
+
     private void showInfo(Object obj) {
-        if(obj instanceof Box) {
+        if (obj instanceof Box) {
             Box box = (Box) obj;
             BoxForm form = new BoxForm(box);
             form.setVisible(true);
             form.setForm(box);
-        }else {
+        } else {
             LoaiBox loaiBox = (LoaiBox) obj;
             LoaiBoxForm form = new LoaiBoxForm(loaiBox);
             form.setVisible(true);
             form.setForm(loaiBox);
         }
     }
-    
+
     private Box getBox() {
         BoxForm.i = tblBox.getSelectedRow();
         String id = tblBox.getValueAt(BoxForm.i, 1).toString();
@@ -437,10 +434,10 @@ public class BoxView extends javax.swing.JPanel implements ActionListener{
 
     private void seach() {
         String keyword = txtSearch.getText();
-        
-        if(keyword.isEmpty()) {
+
+        if (keyword.isEmpty()) {
             fillTableBox(BoxDao.getInstance().selectAll());
-        }else {
+        } else {
             fillTableBox(BoxDao.getInstance().selectByKeyWord(keyword));
         }
     }
@@ -448,8 +445,8 @@ public class BoxView extends javax.swing.JPanel implements ActionListener{
     private void filter() {
         if (cboLoaiBox.getSelectedIndex() == 0) {
             fillTableBox(BoxDao.getInstance().selectAll());
-        }else {
-            LoaiBox loaiBox = (LoaiBox)cboLoaiBox.getSelectedItem();
+        } else {
+            LoaiBox loaiBox = (LoaiBox) cboLoaiBox.getSelectedItem();
             fillTableBox(BoxDao.getInstance().selectByLoaiBox(loaiBox.getMaLoaiBox()));
         }
     }
@@ -461,21 +458,26 @@ public class BoxView extends javax.swing.JPanel implements ActionListener{
 
     private void delete() {
         int[] indexs = tblBox.getSelectedRows();
-        
+
         if (MsgBox.confirm(this, "Bạn có chắc muốn xóa dữ liệu này?")) {
             for (int index : indexs) {
-                BoxDao.getInstance().delete(tblBox.getValueAt(index, 1).toString());
+                try {
+                    BoxDao.getInstance().delete(tblBox.getValueAt(index, 1).toString());
+                } catch (Exception e) {
+                    MsgBox.alert(this, "Có Box đang hoạt động không thể xóa !");
+                    return;
+                }
             }
             MsgBox.alert(this, "Xóa thành công!");
             fillTableBox(BoxDao.getInstance().selectAll());
         }
     }
-    
+
     //----------------Loai box--------------------
     public void fillTableLoaiBox(List<LoaiBox> list) {
         DefaultTableModel tbl = (DefaultTableModel) tblLoaiBox.getModel();
         tbl.setRowCount(0);
-        
+
         int i = 1;
         for (LoaiBox loaiBox : list) {
             Object[] row = {i, loaiBox.getMaLoaiBox(), loaiBox.getTenLoaiBox(), loaiBox.getGiaLoai(), loaiBox.getMoTa()};
@@ -487,7 +489,7 @@ public class BoxView extends javax.swing.JPanel implements ActionListener{
     private LoaiBox getLoaiBox() {
         LoaiBoxForm.i = tblLoaiBox.getSelectedRow();
         String maLoai = tblLoaiBox.getValueAt(LoaiBoxForm.i, 1).toString();
-        
+
         return LoaiBoxDao.getInstance().selectById(maLoai);
     }
 
@@ -495,13 +497,19 @@ public class BoxView extends javax.swing.JPanel implements ActionListener{
         LoaiBoxForm form = new LoaiBoxForm();
         form.setVisible(true);
     }
-    
-     private void deleteLoai() {
+
+    private void deleteLoai() {
         int[] indexs = tblLoaiBox.getSelectedRows();
-        
+
         if (MsgBox.confirm(this, "Bạn có chắc muốn xóa dữ liệu này?")) {
             for (int index : indexs) {
-                LoaiBoxDao.getInstance().delete(tblLoaiBox.getValueAt(index, 1).toString());
+                try {
+                    LoaiBoxDao.getInstance().delete(tblLoaiBox.getValueAt(index, 1).toString());
+
+                } catch (Exception e) {
+                    MsgBox.alert(this, "Không thể thể thực hiện, Loại Box đang hoạt động !");
+                    return;
+                }
             }
             MsgBox.alert(this, "Xóa thành công!");
             fillTableLoaiBox(LoaiBoxDao.getInstance().selectAll());
@@ -510,10 +518,10 @@ public class BoxView extends javax.swing.JPanel implements ActionListener{
 
     private void searchLoai() {
         String keyword = txtSearchLoai.getText();
-        
-        if(keyword.isEmpty()) {
+
+        if (keyword.isEmpty()) {
             fillTableLoaiBox(LoaiBoxDao.getInstance().selectAll());
-        }else {
+        } else {
             fillTableLoaiBox(LoaiBoxDao.getInstance().selectByKeyWord(keyword));
         }
     }

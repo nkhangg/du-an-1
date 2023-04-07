@@ -187,7 +187,7 @@ public class KhuyenMaiDao implements BoxCfDAO<KhuyenMai, String> {
     public List<KhuyenMai> selectByCondition(long condition) {
         List<KhuyenMai> list = new ArrayList<>();
         String sql = "select * from KhuyenMai\n"
-                + "where DieuKienGiam <= ? and TrangThai = 1 and SoLuot > 0 and DAY(NgayBD) - DAY(getdate()) = 0";
+                + "where DieuKienGiam <= ? and TrangThai = 1 and SoLuot > 0 ";
 
         try {
             ResultSet responce = JdbcHelper.query(sql, condition);

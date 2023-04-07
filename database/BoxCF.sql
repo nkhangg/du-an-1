@@ -15,6 +15,7 @@ CREATE TABLE NhanVien(
 	NgayVaoLam DATE,
 	VaiTro NVARCHAR(50),
 	TrangThai BIT,
+	GioiTinh Bit
 )
 GO
 
@@ -63,7 +64,7 @@ GO
 
 CREATE TABLE ComboCT(
 	MaCB VARCHAR(10) REFERENCES Combo(MaCB),
-	MaSP INT REFERENCES SanPham(MaSP),
+	MaSP varchar(10) REFERENCES SanPham(MaSP),
 	GhiChu NVARCHAR(100),
 	CONSTRAINT PK_ComBoCT PRIMARY KEY (MaCB, MaSP)
 )
@@ -108,54 +109,62 @@ CREATE TABLE PhieuDatBox(
 	TenKH NVARCHAR(50),
 	GioBD DATETIME,
 	GioKT DATETIME,
-	TrangThai NVARCHAR(20),
+	SoGio int,
+	TraTruoc INT,
 	ThanhTien INT,
+	TrangThai NVARCHAR(20),
+	GhiChu NVARCHAR(50),
 	CONSTRAINT PK_PhieuDatBox PRIMARY KEY (MaHD, MaBox),
 )
 GO
 
 CREATE TABLE HoaDonCT(
 	MaHD INT REFERENCES HoaDon(MaHD) ON DELETE NO ACTION,
-	MaSP INT REFERENCES sanPham(MaSP) ON DELETE NO ACTION,
+	MaSP varchar(10) REFERENCES sanPham(MaSP) ON DELETE NO ACTION,
 	SoLuong INT,
 	GhiChu NVARCHAR(100),
 	ThanhTien INT,
 )
-GO
 
+go
 
 --Nhân viên
-Insert into NhanVien values ('NV01', N'Lâm Ngọc Vy', '2000/09/29', '0987654321', N'Sóc Trăng', '123','gondel.jpg', '2022/12/22', N'User', 1)
-Insert into NhanVien values ('NV02', N'Trần PHước Duy', '2003/01/03', '0123456789', N'Sóc Trăng', '123',null, '2023/01/10', N'User', 0)
-Insert into NhanVien values ('NV03', N'Lê Nguyễn Hoàng Khang', '1999/03/07', '0396884192', N'Cần Thơ', '123',null, '2023/01/12', N'User', 1)
-Insert into NhanVien values ('NV04', N'Nguyễn Ngọc Hân', '1997/01/12', '0978153512', N'An Giang', '123',null, '2022/11/01', N'Admin', 1)
-Insert into NhanVien values ('NV05', N'Hứa Hoàng Phát', '1998/02/12', '0398844177', N'Cần Thơ', '123',null, '2022/02/22', N'User', 0)
+Insert into NhanVien values ('NV01', N'Lâm Ngọc Vy', '2000/09/29', '0987654321', N'Sóc Trăng', '123','gondel.jpg', '2022/12/22', N'User', 1, 0)
+Insert into NhanVien values ('NV02', N'Trần PHước Duy', '2003/01/03', '0123456789', N'Sóc Trăng', '123',null, '2023/01/10', N'User', 0, 1)
+Insert into NhanVien values ('NV03', N'Lê Nguyễn Hoàng Khang', '1999/03/07', '0396884192', N'Cần Thơ', '123',null, '2023/01/12', N'User', 1, 1)
+Insert into NhanVien values ('NV04', N'Nguyễn Ngọc Hân', '1997/01/12', '0978153512', N'An Giang', '123',null, '2022/11/01', N'Admin', 1, 0)
+Insert into NhanVien values ('NV05', N'Hứa Hoàng Phát', '1998/02/12', '0398844177', N'Cần Thơ', '123',null, '2022/02/22', N'User', 0, 1)
 
 --Danh mục
 Insert into DanhMuc values ('DM01', N'Đồ ăn')
 Insert into DanhMuc values ('DM02', N'Đồ Uống')
-Insert into DanhMuc values ('DM03'	,N'Combo')
-Insert into DanhMuc values ('DM04', N'Box')
 Insert into DanhMuc values ('DM05', N'Khác')
 
 --Loại SP
-Insert into LoaiSP values ('SP01', N'Nước giải khát', 'DM02')
-Insert into LoaiSP values ('SP02', N'Đồ nước', 'DM01')
-Insert into LoaiSP values ('SP03', N'Nước có gas', 'DM02')
-Insert into LoaiSP values ('SP04', N'Đồ khô', 'DM01')
-Insert into LoaiSP values ('SP05', N'Nước trái cây', 'DM02')
+Insert into LoaiSP values ('LSP01', N'Nước ngọt có gas', 'DM02')
+Insert into LoaiSP values ('LSP02', N'Nước ép', 'DM02')
+Insert into LoaiSP values ('LSP03', N'Sinh tố', 'DM02')
+Insert into LoaiSP values ('LSP04', N'Đồ khô', 'DM01')
+Insert into LoaiSP values ('LSP05', N'Trái cây', 'DM01')
+Insert into LoaiSP values ('LSP06', N'Bánh ngọt', 'DM01')
+Insert into LoaiSP values ('LSP07', N'Trà sữa', 'DM02')
+
+
 
 --Sản phẩm
-Insert into SanPham values (N'Nước Cam' , 25000, 'nuoccam.jpg', '123', 'SP05')
-Insert into SanPham values (N'Nước Ép Táo' , 20000, 'eptao.jpg', '234', 'SP05')
-Insert into SanPham values (N'Bánh Gato' , 50000, 'gato.jpg', '345', 'SP04')
-Insert into SanPham values (N'Bông Lan Trứng Muối' , 60000, 'bonglantrungmuoi.jpg', '678','SP04')
-Insert into SanPham values (N'Coca' , 15000, 'coca.jpg', '922', 'SP03')
-Insert into SanPham values (N'Pesi' , 15000, 'pesi.jfif', '922', 'SP03')
-Insert into SanPham values (N'7up' , 15000, '7up.jfif', '922', 'SP03')
-Insert into SanPham values (N'Trà sữa truyền thống' , 25000, 'trasua.jpg', '922', 'SP03')
-Insert into SanPham values (N'Sinh tố bơ' , 18000, 'bo.jpg', '922', 'SP03')
-Insert into SanPham values (N'Sinh tố dâu' , 18000, 'dau.jpg', '922', 'SP03')
+
+Insert into SanPham values ('NE001',N'Nước Cam' , 25000, 'nuoccam.jpg', '123', 'LSP02')
+Insert into SanPham values ('NE002',N'Nước Ép Táo' , 20000, 'eptao.jpg', '234', 'LSP02')
+Insert into SanPham values ('BN001',N'Bánh Gato' , 50000, 'gato.jpg', '345', 'LSP06')
+Insert into SanPham values ('BN002',N'Bông Lan Trứng Muối' , 60000, 'bonglantrungmuoi.jpg', '678','LSP06')
+Insert into SanPham values ('NN001',N'Coca' , 15000, 'coca.jpg', '922', 'LSP01')
+Insert into SanPham values ('NN002',N'Pesi' , 15000, 'pesi.jfif', '922', 'LSP01')
+Insert into SanPham values ('NN003',N'7up' , 15000, '7up.jfif', '922', 'LSP01')
+Insert into SanPham values ('TS001',N'Trà sữa truyền thống' , 25000, 'trasua.jpg', '922', 'LSP07')
+Insert into SanPham values ('ST001',N'Sinh tố bơ' , 18000, 'bo.jpg', '922', 'LSP03')
+Insert into SanPham values ('ST002',N'Sinh tố dâu' , 18000, 'dau.jpg', '922', 'LSP03')
+
+select * from SanPham
 
 --Loại box
 select * from LoaiBox
@@ -174,11 +183,12 @@ Insert into Combo values ('CB05', N'',100000, 'abc', 'S', 1)
 
 
 --ComboCT
-Insert into ComboCT values ('CB01',1, 'abc')
-Insert into ComboCT values ('CB02',2, 'hhh')
-Insert into ComboCT values ('CB03',3, 'ppp')
-Insert into ComboCT values ('CB04',4, 'ccc')
-Insert into ComboCT values ('CB05',5, 'ggg')
+select * from ComboCT;
+Insert into ComboCT values ('CB01','NE001', 'abc')
+Insert into ComboCT values ('CB02','NE002', 'hhh')
+Insert into ComboCT values ('CB03','ST001', 'ppp')
+Insert into ComboCT values ('CB04','TS001', 'ccc')
+Insert into ComboCT values ('CB05','NN001', 'ggg')
 
 GO
 
@@ -217,14 +227,16 @@ Insert into HoaDon values('2023-03-10', N'Nguyễn Ngọc Anh', 'NV01', null, 90
 --Đặt box
 SELECT * FROM PhieuDatBox
 
-Insert into PhieuDatBox values(6, 'B001S', N'Nguyễn Ngọc Anh', '2023/3/29 6:00:00', '2023/3/29 7:00:00', N'used', 200000)
-Insert into PhieuDatBox values(7, 'B002M', N'Như Ý', '2023/3/29 9:00:00', '2023/3/29 10:00:00', N'used', 100000)
-Insert into PhieuDatBox values(8, 'B003L', N'Nguyễn Ngọc Ngân', '2023/3/29 11:00:00', '2023/3/29 12:00:00', N'used', 100000)
-Insert into PhieuDatBox values(9, 'B004XL', N'Trần Phước Vinh', '2023/3/29 13:00:00', '2023/3/29 14:00:00', N'used', 100000)
-Insert into PhieuDatBox values(10, 'B005S', N'Phan Huỳnh Tuyết Nhi', '2023/3/29 18:00:00', '2023/3/29 19:00:00', N'used', 100000)
+
+Insert into PhieuDatBox values(1, 'B001S', N'Nguyễn Ngọc Anh', '2023/3/29 6:00:00', '2023/3/29 7:00:00', 2, 0, 200000, N'used', '')
+Insert into PhieuDatBox values(2, 'B002M', N'Như Ý', '2023/3/29 9:00:00', '2023/3/29 10:00:00', 2, 0, 100000, N'used', '')
+Insert into PhieuDatBox values(3, 'B003L', N'Nguyễn Ngọc Ngân', '2023/3/29 11:00:00', '2023/3/29 12:00:00', 1, 0, 100000, N'used', '')
+Insert into PhieuDatBox values(1, 'B004XL', N'Trần Phước Vinh', '2023/3/29 13:00:00', '2023/3/29 14:00:00', 3, 0, 100000, N'used', '')
+Insert into PhieuDatBox values(2, 'B005S', N'Phan Huỳnh Tuyết Nhi', '2023/3/29 18:00:00', '2023/3/29 19:00:00', 4, 0, 100000, N'used', '')
 
 --Hóa đơn chi tiết
-SELECT * FROM HOADONCT
+delete from HOADON
+SELECT * FROM HOADON
 SELECT * FROM SanPham
 
 
@@ -236,10 +248,10 @@ Insert into HoaDonCT values (10, 5, 1, null, 15000)
 
 GO
 --------ha code------------
-create proc sp_DatBox @MaHD int, @MaBox varchar(10), @TenKH nvarchar(50), @GioBD DATETIME, @GioKT DATETIME, @TrangThai NVARCHAR(20), @ThanhTien int
+create proc sp_DatBox @MaHD int, @MaBox varchar(10), @TenKH nvarchar(50), @GioBD DATETIME, @GioKT DATETIME, @soGio int, @TraTruoc int, @ThanhTien int, @TrangThai NVARCHAR(20), @ghiChu nvarchar(50)
 as 
 begin
-	Insert into PhieuDatBox values(@MaHD, @MaBox, @TenKH, @GioBD, @GioKT, @TrangThai, @ThanhTien)
+	Insert into PhieuDatBox values(@MaHD, @MaBox, @TenKH, @GioBD, @GioKT, @soGio, @TraTruoc, @ThanhTien, @TrangThai, @ghiChu)
 end
 
 go
@@ -250,6 +262,16 @@ begin
 	update PhieuDatBox
 	set TrangThai = @TrangThai, GioKT = @gioKTMoi
 	where MaBox = MaBox and GioKT = @GioKT
+end
+
+go
+--update lai khi nhan box
+create proc sp_update_NhanBox @MaBox varchar(10), @gioBD datetime
+as 
+begin
+	update PhieuDatBox
+	set TrangThai = 'active', ghichu = 'Đã thanh toán'
+	where MaBox = @MaBox and GioBD = @GioBD
 end
 
 
@@ -308,7 +330,7 @@ Go
 
 
 -- proc doanh so theo khoan thoi gian
-drop proc sp_select_dt
+--drop proc sp_select_dt
 
 create proc sp_select_dt @timeStart datetime, @timeEnd datetime
 as
@@ -367,6 +389,7 @@ end
 exec sp_nangxuat_nv   '2022-04-03', '2023-04-04'
 
 -- hoa don - start
+go
 
 	create proc sp_insert_bill @tenKM nvarchar(50), @maNV varchar(10), @ghichu nvarchar(255), @tongTien float, @maKm nvarchar(10)
 	as
@@ -431,10 +454,17 @@ set HinhAnh = 'box.jpg'
 where MaBox = 'B001S'
 
 
+select SUM(ThanhTien * SoLuong) from HoaDonCT
+join HoaDon on HoaDon.MaHD = HoaDonCT.MaHD
+where NgayTao >= '2023-04-08' and HoaDonCT.MaHD =74
+
+select * from KhuyenMai
+where DieuKienGiam <= 100000 and TrangThai = 1 and SoLuot > 0
+
+select * from HoaDonCT
+select * from PhieuDatBox
 
 
-
-select * from SanPham
 
 
 

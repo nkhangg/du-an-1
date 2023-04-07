@@ -11,6 +11,7 @@ import com.box.utils.XDate;
 import com.boxcf.components.ScrollBar;
 import com.boxcf.components.material.ItemBill;
 import com.boxcf.components.material.Panigation;
+import com.boxcf.constands.BoxState;
 import com.boxcf.dao.BoxDao;
 import com.boxcf.dao.HoaDonChiTietDao;
 import com.boxcf.dao.HoaDonDao;
@@ -50,7 +51,6 @@ public class HoaDonView extends javax.swing.JFrame {
         clsoeButton1.initEvent(this);
         initShowHistory();
     }
-    
 
     public HoaDonView(KhuyenMai km) {
         this.km = km;
@@ -520,6 +520,9 @@ public class HoaDonView extends javax.swing.JFrame {
         for (ItemBill item : Store.globelPanelBill.getList()) {
             ModelItem data = item.getData();
 
+            data.setTrangThai(BoxState.active);
+            item.setData(data);
+            
             //Tao phieu dat box
             if (data.getLoaiBox() != null) {
                 PhieuDatBoxDao.getInstant().insertProc(maHd, item.getData(), lblNameCutomer.getText());

@@ -19,7 +19,7 @@ public class HoaDonDao implements BoxCfDAO<HoaDon, Integer> {
         try {
             return new HoaDon(
                     responce.getInt(1),
-                    responce.getDate(2),
+                    responce.getTimestamp(2),
                     responce.getString(3),
                     responce.getString(4),
                     responce.getString(5),
@@ -181,9 +181,13 @@ public class HoaDonDao implements BoxCfDAO<HoaDon, Integer> {
                 + "order by MaHD desc";
 
         int nextId = 0;
-        if ((int) JdbcHelper.value(sql) > 0) {
-            int id = (int) JdbcHelper.value(sql);
-            nextId = id + 1;
+        try {
+            if ((int) JdbcHelper.value(sql) > 0) {
+                int id = (int) JdbcHelper.value(sql);
+                nextId = id + 1;
+            }
+        } catch (Exception e) {
+            return 1;
         }
 
         return nextId;

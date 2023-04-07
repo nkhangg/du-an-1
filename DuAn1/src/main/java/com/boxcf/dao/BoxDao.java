@@ -35,8 +35,9 @@ public class BoxDao implements BoxCfDAO<Box, String> {
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String id) throws ExceptionInInitializerError {
         JdbcHelper.update(DELETE_SQL, id);
+
     }
 
     @Override

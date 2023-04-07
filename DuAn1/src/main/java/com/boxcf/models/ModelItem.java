@@ -5,6 +5,7 @@
 package com.boxcf.models;
 
 import com.boxcf.constands.BoxState;
+import java.sql.Timestamp;
 import java.util.Date;
 import javax.swing.Icon;
 
@@ -26,6 +27,13 @@ public class ModelItem {
     int MaDat;
     BoxState trangThai;
     LoaiBox loaiBox;
+    
+    int traTruoc = 0;
+    String tenKH;
+    String ghiChu;
+
+    java.sql.Timestamp gioBD2;
+    java.sql.Timestamp gioKT2;
 
     // cả hai đều có
     private int soLuong;
@@ -111,6 +119,56 @@ public class ModelItem {
         this.loaiBox = loaiBox;
     }
 
+    public String getHinh() {
+        return hinh;
+    }
+
+    public void setHinh(String hinh) {
+        this.hinh = hinh;
+    }
+
+    public int getTraTruoc() {
+        return traTruoc;
+    }
+
+    public void setTraTruoc(int traTruoc) {
+        this.traTruoc = traTruoc;
+    }
+
+    public String getTenKH() {
+        return tenKH;
+    }
+
+    public void setTenKH(String tenKH) {
+        this.tenKH = tenKH;
+    }
+
+    public String getGhiChu() {
+        return ghiChu;
+    }
+
+    public void setGhiChu(String ghiChu) {
+        this.ghiChu = ghiChu;
+    }
+
+    public Timestamp getGioBD2() {
+        return gioBD2;
+    }
+
+    public void setGioBD2(Timestamp gioBD2) {
+        this.gioBD2 = gioBD2;
+    }
+
+    public Timestamp getGioKT2() {
+        return gioKT2;
+    }
+
+    public void setGioKT2(Timestamp gioKT2) {
+        this.gioKT2 = gioKT2;
+    }
+    
+    
+
     // box
     public ModelItem(Object maItem, String ten, BoxState trangThai, LoaiBox loaiBox) {
         this.maItem = maItem;
@@ -136,6 +194,18 @@ public class ModelItem {
         this.gia = gia;
         this.ten = ten;
         this.soLuong = soLuong;
+    }
+    
+    // box
+    public ModelItem(Object maItem, String ten, Date gioBD, Date gioKT, LoaiBox loaiBox, int soLuong, double gia, String tenKH) {
+        this.maItem = maItem;
+        this.ten = ten;
+        this.gioBD = gioBD;
+        this.gioKT = gioKT;
+        this.loaiBox = loaiBox;
+        this.soLuong = soLuong;
+        this.gia = gia;
+        this.tenKH = tenKH;
     }
 
     public ModelItem() {

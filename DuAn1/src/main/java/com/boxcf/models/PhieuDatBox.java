@@ -18,32 +18,29 @@ public class PhieuDatBox {
     int maHD;
     String maBox;
     String TenKH;
-    Date GioBD;
+    java.sql.Timestamp GioBD;
     java.sql.Timestamp GioKT;
-    String TrangThai;
+    int soGio;
+    int traTruoc = 0;
     int thanhTien;
+    String TrangThai;
+    String ghiChu;
 
     public PhieuDatBox() {
     }
 
-    public PhieuDatBox(int maHD, String maBox, String TenKH, Date GioBD, Timestamp GioKT, String TrangThai, int thanhTien) {
+    public PhieuDatBox(int maHD, String maBox, String TenKH, Timestamp GioBD, Timestamp GioKT, int soGio, int thanhTien, String TrangThai, String ghiChu) {
         this.maHD = maHD;
         this.maBox = maBox;
         this.TenKH = TenKH;
         this.GioBD = GioBD;
         this.GioKT = GioKT;
+        this.soGio = soGio;
+        this.thanhTien = thanhTien;
         this.TrangThai = TrangThai;
-        this.thanhTien = thanhTien;
+        this.ghiChu = ghiChu;
     }
 
-    public int getThanhTien() {
-        return thanhTien;
-    }
-
-    public void setThanhTien(int thanhTien) {
-        this.thanhTien = thanhTien;
-    }
-    
     public int getMaHD() {
         return maHD;
     }
@@ -72,7 +69,7 @@ public class PhieuDatBox {
         return GioBD;
     }
 
-    public void setGioBD(Date GioBD) {
+    public void setGioBD(Timestamp GioBD) {
         this.GioBD = GioBD;
     }
 
@@ -92,7 +89,30 @@ public class PhieuDatBox {
         this.TrangThai = TrangThai;
     }
 
+    public int getThanhTien() {
+        return thanhTien;
+    }
 
+    public void setThanhTien(int thanhTien) {
+        this.thanhTien = thanhTien;
+    }
+
+    public int getTraTruoc() {
+        return traTruoc;
+    }
+
+    public void setTraTruoc(int traTruoc) {
+        this.traTruoc = traTruoc;
+    }
+
+    public int getSoGio() {
+        return soGio;
+    }
+
+    public void setSoGio(int soGio) {
+        this.soGio = soGio;
+    }
+    
     @Override
     public String toString() {
         return "DatBox{" + ", TenKH=" + TenKH + ", GioBD=" + GioBD + ", GioKT=" + GioKT + ", TrangThai=" + TrangThai + ", MaBox=" + maBox + '}';
