@@ -35,7 +35,9 @@ public class NhanVienDao implements BoxCfDAO<NhanVien, String> {
 
     @Override
     public void delete(String id) {
-        String sql = "delete NhanVien where MaNV = ?";
+        String sql = "update NhanVien \n"
+                + "set TrangThai = 0 \n"
+                + "where MaNV = ?";
 
         try {
             int responce = JdbcHelper.update(sql, id);
@@ -44,6 +46,7 @@ public class NhanVienDao implements BoxCfDAO<NhanVien, String> {
                 throw new Error("The Error in delete NhanVien !");
             }
         } catch (Exception e) {
+            System.out.println(e);
             throw new Error("The Error in delete NhanVien !");
         }
 
@@ -109,7 +112,7 @@ public class NhanVienDao implements BoxCfDAO<NhanVien, String> {
 
     public NhanVien login(String username, String password) {
         String sql = "select * from NhanVien\n"
-                + "where MatKhau = ? and TenNV = ?";
+                + "where MatKhau = ? and TenNV = ? and TrangThai = 1";
         NhanVien nv = null;
         try {
 

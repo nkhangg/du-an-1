@@ -103,6 +103,24 @@ public class KhuyenMaiDao implements BoxCfDAO<KhuyenMai, String> {
         }
         return km;
     }
+    
+    public KhuyenMai selectByIdIgnorState(String id) {
+        String sql = "select * from KhuyenMai where MaKM = ?";
+        KhuyenMai km = null;
+        try {
+
+            ResultSet responce = JdbcHelper.query(sql, id);
+
+            // admission a ResultSet return a Box
+            if (responce.next()) {
+                km = createObjecet(responce);
+            }
+            responce.getStatement().getConnection().close();
+        } catch (Exception e) {
+            throw new Error("The Error in selectById KhuyenMai !");
+        }
+        return km;
+    }
 
     @Override
     public List<KhuyenMai> selectBySql(String sql, Object... args) {
@@ -169,7 +187,7 @@ public class KhuyenMaiDao implements BoxCfDAO<KhuyenMai, String> {
     public List<KhuyenMai> selectByCondition(long condition) {
         List<KhuyenMai> list = new ArrayList<>();
         String sql = "select * from KhuyenMai\n"
-                + "where DieuKienGiam <= ? and TrangThai = 1 and SoLuot > 0";
+                + "where DieuKienGiam <= ? and TrangThai = 1 and SoLuot > 0 and DAY(NgayBD) - DAY(getdate()) = 0";
 
         try {
             ResultSet responce = JdbcHelper.query(sql, condition);
@@ -186,5 +204,6 @@ public class KhuyenMaiDao implements BoxCfDAO<KhuyenMai, String> {
         }
         return list;
     }
-
+    
+   
 }

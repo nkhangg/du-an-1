@@ -70,6 +70,7 @@ public class XDate {
 
             t = new Time(hour, minute, second);
         } catch (Exception e) {
+            System.out.println(e);
             throw new Error("Error in getCurTime");
         }
         return t;
@@ -119,11 +120,13 @@ public class XDate {
         }
         return i;
     }
-    
-    
 
     public static void main(String[] args) throws ParseException {
-        System.out.println(XDate.now().after(XDate.now()));
+        Date s = XDate.toDate("2023/04/06 01:28:03", Store.partten);
+        Date e = XDate.toDate("2023/04/06 02:28:03", Store.partten);
+
+        System.out.println(XDate.getHour(s, e));
+
     }
 
 }

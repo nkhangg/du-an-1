@@ -1,7 +1,7 @@
-
 package com.boxcf.components.material;
 
 import com.box.utils.Formats;
+import com.box.utils.XImage;
 import com.boxcf.models.ModelItem;
 import java.awt.Color;
 import java.awt.Component;
@@ -11,56 +11,65 @@ import java.awt.RenderingHints;
 import com.boxcf.events.interfaces.EventIncrease;
 import com.boxcf.components.Spiner;
 import com.boxcf.store.Store;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 /**
  *
  * @author PC
  */
 public class ProductItem extends javax.swing.JPanel {
-    
+
     private boolean selected;
     private ModelItem data;
-    
+
     public ProductItem() {
         initComponents();
         setOpaque(false);
         init();
     }
-    
+
     public boolean isSelected() {
         return selected;
     }
-    
+
     public Spiner getSoLuong() {
         return soLuong;
     }
-    
+
     public void setSoLuong(Spiner soLuong) {
         this.soLuong = soLuong;
     }
-    
+
     public void setSelected(boolean selected) {
         this.selected = selected;
         repaint();
     }
-    
+
     public void setSoLuong(int soLuong) {
         this.data.setSoLuong(soLuong);
         this.soLuong.setSoLuong(soLuong);
     }
-    
+
     public ModelItem getData() {
         return data;
     }
-    
+
     public void setData(ModelItem data) {
         this.data = data;
         lblGia.setText(Formats.toCurency(data.getGia()));
         lblTen.setText(data.getTen());
-        picHinh.setImage(data.getHing());
-        
+
+        String url = data.getHing();
+        if (url != null) {
+            ImageIcon icon = XImage.read(url);
+            picHinh.setImage(icon);
+        } else {
+            picHinh.setImage(null);
+        }
+
     }
-    
+
     public void clearSelected() {
         this.data.setSoLuong(0);
         soLuong.setSoLuong(0);
@@ -68,7 +77,7 @@ public class ProductItem extends javax.swing.JPanel {
         repaint();
         revalidate();
     }
-    
+
     public void reserved(ModelItem data) {
         this.data = data;
         this.soLuong.setSoLuong(data.getSoLuong());
@@ -76,10 +85,10 @@ public class ProductItem extends javax.swing.JPanel {
         this.repaint();
         this.revalidate();
     }
-    
+
     private void init() {
         PanelBill panelbill = Store.globelPanelBill;
-        
+
         soLuong.setEvenDecrease(new EventIncrease() {
             @Override
             public void itemClick(Component com, int quantity) {
@@ -88,7 +97,7 @@ public class ProductItem extends javax.swing.JPanel {
                     setSelected(false);
                     panelbill.removeItem(data);
                 }
-                
+
                 for (ItemBill itemBill : panelbill.getList()) {
                     if (itemBill.getData().getMaItem() == data.getMaItem()) {
                         ModelItem oldData = itemBill.getData();
@@ -108,13 +117,13 @@ public class ProductItem extends javax.swing.JPanel {
                         return;
                     }
                 }
-                
+
             }
-            
+
         });
-        
+
         soLuong.setEvenIncrease(new EventIncrease() {
-            
+
             @Override
             public void itemClick(Component com, int quantity) {
                 data.setSoLuong(quantity);
@@ -140,14 +149,14 @@ public class ProductItem extends javax.swing.JPanel {
                         return;
                     }
                 }
-                
+
                 data.setSoLuong(quantity + 1);
                 panelbill.setList(data);
             }
-            
+
         });
     }
-    
+
     @Override
     public void paint(Graphics grphcs) {
         super.paint(grphcs);
@@ -162,7 +171,7 @@ public class ProductItem extends javax.swing.JPanel {
         g2.dispose();
         super.paint(grphcs);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

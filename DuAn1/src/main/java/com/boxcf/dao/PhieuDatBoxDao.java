@@ -23,7 +23,7 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
                     responce.getInt(1),
                     responce.getString(2),
                     responce.getString(3),
-                    responce.getDate(4),
+                    responce.getTimestamp(4),
                     responce.getTimestamp(5),
                     responce.getString(6),
                     responce.getInt(7)
@@ -76,6 +76,7 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
                 throw new Error("Them du lieu that bai!");
             }
         } catch (Exception ex) {
+            System.out.println(ex);
             throw new Error("The Error in insertProc DATBOX !");
         }
     }
@@ -172,6 +173,12 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
             throw new Error("The Error in selectByBox DATBOX !");
         }
         return db;
+    }
+
+    public List<PhieuDatBox> selectByHd(int id) {
+        String sql = "select * from PhieuDatBox\n"
+                + "where MaHD = ?";
+        return selectBySql(sql, id);
     }
 
     @Override

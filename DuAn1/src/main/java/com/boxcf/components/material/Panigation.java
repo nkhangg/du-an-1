@@ -33,15 +33,19 @@ public class Panigation extends javax.swing.JPanel {
         setBackground(new java.awt.Color(255, 255, 255));
 
         btnLast.setText(">|");
+        btnLast.setFocusable(false);
         btnLast.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
 
         btnFirst.setText("|<");
+        btnFirst.setFocusable(false);
         btnFirst.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
 
         btnPre.setText("<<");
+        btnPre.setFocusable(false);
         btnPre.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
 
         btnNext.setText(">>");
+        btnNext.setFocusable(false);
         btnNext.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
 
         lblPageNumber.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N

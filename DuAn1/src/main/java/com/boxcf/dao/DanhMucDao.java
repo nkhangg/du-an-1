@@ -157,4 +157,10 @@ public class DanhMucDao implements BoxCfDAO<DanhMuc, String> {
         return selectBySql(sql, "%" + keyWord + "%");
     }
 
+    public String selectByNameDm(String name) {
+        String sql = "select MaDM from DanhMuc\n"
+                + "where TenDM = ?";
+
+        return (String) JdbcHelper.value(sql, name);
+    }
 }

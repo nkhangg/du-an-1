@@ -51,6 +51,16 @@ public class LoaiBoxDao implements BoxCfDAO<LoaiBox, String> {
             return list.get(0);
         }
     }
+    
+    public LoaiBox selectByIdBox(String id) {
+        List<LoaiBox> list = selectBySql(SELECT_BY_ID_SQL, id);
+
+        if (list.isEmpty()) {
+            return null;
+        } else {
+            return list.get(0);
+        }
+    }
 
     @Override
     public List<LoaiBox> selectBySql(String sql, Object... args) {
@@ -87,4 +97,6 @@ public class LoaiBoxDao implements BoxCfDAO<LoaiBox, String> {
         }
         return selectBySql(SELECT_BY_NAME_SQL, "%" + keyword + "%");
     }
+    
+    
 }

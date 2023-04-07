@@ -151,6 +151,7 @@ public class BoxView extends javax.swing.JPanel implements ActionListener{
 
         cboLoaiBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Tất cả" }));
         cboLoaiBox.setFocusable(false);
+        cboLoaiBox.setFont(new java.awt.Font("UTM Aptima", 1, 14)); // NOI18N
         cboLoaiBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboLoaiBoxActionPerformed(evt);
@@ -209,7 +210,15 @@ public class BoxView extends javax.swing.JPanel implements ActionListener{
             new String [] {
                 "STT", "Mã loại box", "Tên loại box", "Giá", "Mô tả"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblLoaiBox.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         tblLoaiBox.setGridColor(new java.awt.Color(204, 204, 204));
         tblLoaiBox.setRowHeight(30);
@@ -483,7 +492,6 @@ public class BoxView extends javax.swing.JPanel implements ActionListener{
     }
 
     private void openLoaiBoxForm() {
-        System.out.println(LoaiBoxForm.i);
         LoaiBoxForm form = new LoaiBoxForm();
         form.setVisible(true);
     }

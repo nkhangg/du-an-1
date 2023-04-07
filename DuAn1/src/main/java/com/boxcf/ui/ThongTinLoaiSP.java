@@ -84,17 +84,18 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         boolean last = this.index < list.size() - 1;
         txtMaLSP.setEditable(!edit);
         btnCapNhat.setEnabled(edit);
-        btnCapNhat.setBackground(edit ? new Color(2, 172, 171) : Color.BLACK);
+        btnCapNhat.setBackground(edit ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnThem.setEnabled(!edit);
-        btnThem.setBackground(!edit ? new Color(2, 172, 171) : Color.BLACK);
+        btnThem.setBackground(!edit ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
+
         btnFirst.setEnabled(edit && first);
-        btnFirst.setBackground(edit && first ? new Color(2, 172, 171) : Color.BLACK);
+        btnFirst.setBackground(edit && first ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnPre.setEnabled(edit && first);
-        btnPre.setBackground(edit && first ? new Color(2, 172, 171) : Color.BLACK);
+        btnPre.setBackground(edit && first ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnLast.setEnabled(edit && last);
-        btnLast.setBackground(edit && last ? new Color(2, 172, 171) : Color.BLACK);
+        btnLast.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnNext.setEnabled(edit && last);
-        btnNext.setBackground(edit && last ? new Color(2, 172, 171) : Color.BLACK);
+        btnNext.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
     }
 
     void editw() {
@@ -253,11 +254,12 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(40, 48, 84));
         jLabel1.setText("THÔNG TIN LOẠI SẢN PHẨM");
-        gradientPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 30, -1, -1));
+        gradientPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, -1, -1));
 
         btnThem.setBackground(new java.awt.Color(2, 172, 171));
         btnThem.setForeground(new java.awt.Color(255, 255, 255));
         btnThem.setText("THÊM");
+        btnThem.setFocusable(false);
         btnThem.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -268,6 +270,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         btnCapNhat.setBackground(new java.awt.Color(2, 172, 171));
         btnCapNhat.setForeground(new java.awt.Color(255, 255, 255));
         btnCapNhat.setText("CẬP NHẬT");
+        btnCapNhat.setFocusable(false);
         btnCapNhat.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -278,6 +281,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         btnFirst.setBackground(new java.awt.Color(2, 172, 171));
         btnFirst.setForeground(new java.awt.Color(255, 255, 255));
         btnFirst.setText("|<");
+        btnFirst.setFocusable(false);
         btnFirst.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnFirst.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -288,6 +292,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         btnPre.setBackground(new java.awt.Color(2, 172, 171));
         btnPre.setForeground(new java.awt.Color(255, 255, 255));
         btnPre.setText("<<");
+        btnPre.setFocusable(false);
         btnPre.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnPre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -298,6 +303,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         btnNext.setBackground(new java.awt.Color(2, 172, 171));
         btnNext.setForeground(new java.awt.Color(255, 255, 255));
         btnNext.setText(">>");
+        btnNext.setFocusable(false);
         btnNext.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnNext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -308,6 +314,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         btnLast.setBackground(new java.awt.Color(2, 172, 171));
         btnLast.setForeground(new java.awt.Color(255, 255, 255));
         btnLast.setText(">|");
+        btnLast.setFocusable(false);
         btnLast.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnLast.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -318,6 +325,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         btnReset.setBackground(new java.awt.Color(2, 172, 171));
         btnReset.setForeground(new java.awt.Color(255, 255, 255));
         btnReset.setText("RESET");
+        btnReset.setFocusable(false);
         btnReset.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -481,6 +489,14 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ThongTinLoaiSP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>

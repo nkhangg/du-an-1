@@ -13,18 +13,15 @@ import java.util.Date;
 public class LichSu extends HoaDon {
 
     private String TenNV;
-    private String TenSP;
-    private long ThanhTien;
-    private int Soluong;
-    private String KhuyenMai;
 
-    public LichSu(int MaHD, Date NgayTao, String TenKH, String TenNV, String TenSP, int Soluong, long ThanhTien, long TONGTIEN, String KhuyenMai) {
-        super(MaHD, NgayTao, TenKH, TONGTIEN);
+    public LichSu(int MaHD, Date NgayTao, String TenKH, String TenNV, long TONGTIEN, String MaKM) {
+        super(MaHD, NgayTao, TenKH, TONGTIEN, MaKM);
         this.TenNV = TenNV;
-        this.TenSP = TenSP;
-        this.Soluong = Soluong;
-        this.ThanhTien = ThanhTien;
-        this.KhuyenMai = KhuyenMai;
+    }
+
+    public LichSu(HoaDon data, String TenNV) {
+        super(data.getMaHD(), data.getNgayTao(), data.getTenKH(), data.getTONGTIEN(), data.getMaKM());
+        this.TenNV = TenNV;
     }
 
     public String getTenNV() {
@@ -33,38 +30,6 @@ public class LichSu extends HoaDon {
 
     public void setTenNV(String TenNV) {
         this.TenNV = TenNV;
-    }
-
-    public String getTenSP() {
-        return TenSP;
-    }
-
-    public void setTenSP(String TenSP) {
-        this.TenSP = TenSP;
-    }
-
-    public long getThanhTien() {
-        return ThanhTien;
-    }
-
-    public void setThanhTien(long ThanhTien) {
-        this.ThanhTien = ThanhTien;
-    }
-
-    public int getSoluong() {
-        return Soluong;
-    }
-
-    public void setSoluong(int Soluong) {
-        this.Soluong = Soluong;
-    }
-
-    public String getKhuyenMai() {
-        return KhuyenMai;
-    }
-
-    public void setKhuyenMai(String KhuyenMai) {
-        this.KhuyenMai = KhuyenMai;
     }
 
     public int getMaHD() {
@@ -125,7 +90,7 @@ public class LichSu extends HoaDon {
 
     @Override
     public String toString() {
-        return "LichSu{" + "TenNV=" + TenNV + ", TenSP=" + TenSP + ", ThanhTien=" + ThanhTien + ", Soluong=" + Soluong + ", KhuyenMai=" + KhuyenMai + '}';
+        return "LichSu{" + "TenNV=" + TenNV + '}';
     }
 
 }

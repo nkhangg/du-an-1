@@ -35,6 +35,14 @@ public class PhieuDatBox {
         this.TrangThai = TrangThai;
         this.thanhTien = thanhTien;
     }
+
+    public int getThanhTien() {
+        return thanhTien;
+    }
+
+    public void setThanhTien(int thanhTien) {
+        this.thanhTien = thanhTien;
+    }
     
     public int getMaHD() {
         return maHD;

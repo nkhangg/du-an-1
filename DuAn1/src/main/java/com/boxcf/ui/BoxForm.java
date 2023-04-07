@@ -56,7 +56,6 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         txtMaBox = new com.boxcf.components.TextField();
         txtTenBox = new com.boxcf.components.TextField();
         cboLoaiBox = new com.boxcf.components.Combobox();
-        lblHinhAnh = new javax.swing.JLabel();
         btnClose = new com.boxcf.components.ButtonRound();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtMoTa = new javax.swing.JTextArea();
@@ -68,6 +67,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         btnAdd = new com.boxcf.components.ButtonRound();
         btnCapNhatSP = new com.boxcf.components.ButtonRound();
         btnUpdate = new com.boxcf.components.ButtonRound();
+        lblHinhAnh = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -121,14 +121,6 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         cboLoaiBox.setFocusable(false);
         cboLoaiBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         pnlBox.add(cboLoaiBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 140, 290, -1));
-
-        lblHinhAnh.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
-        lblHinhAnh.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblHinhAnhMouseClicked(evt);
-            }
-        });
-        pnlBox.add(lblHinhAnh, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 150, 180, 170));
 
         btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/exit (1).png"))); // NOI18N
         btnClose.setFocusPainted(false);
@@ -228,6 +220,14 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         });
         pnlBox.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 590, 96, 40));
 
+        lblHinhAnh.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        lblHinhAnh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblHinhAnhMouseClicked(evt);
+            }
+        });
+        pnlBox.add(lblHinhAnh, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 190, 190, 180));
+
         javax.swing.GroupLayout gradientPanel1Layout = new javax.swing.GroupLayout(gradientPanel1);
         gradientPanel1.setLayout(gradientPanel1Layout);
         gradientPanel1Layout.setHorizontalGroup(
@@ -294,7 +294,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void lblHinhAnhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHinhAnhMouseClicked
-        this.chooseImage();
+        chooseImage();
     }//GEN-LAST:event_lblHinhAnhMouseClicked
 
 
@@ -401,6 +401,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
             BoxDao.getInstance().insert(getForm());
             MsgBox.alert(this, "Thêm thành công!");
             clear();
+            this.dispose();
         }
     }
 
@@ -478,10 +479,11 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
     private void update() {
         if (MsgBox.confirm(this, "Bạn có chắc muốn cập nhật dữ liệu này?")) {
             Box box = getForm();
-            box.setMaBox(maBox);
+//            box.setMaBox(maBox);
             BoxDao.getInstance().update(box);
             MsgBox.alert(this, "Cập nhật thành công!");
             clear();
+            this.dispose();
         }
     }
 

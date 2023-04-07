@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.boxcf.models.HoaDon;
 import com.box.utils.JdbcHelper;
+import com.box.utils.XDate;
 
 public class HoaDonDao implements BoxCfDAO<HoaDon, Integer> {
 
@@ -48,15 +49,16 @@ public class HoaDonDao implements BoxCfDAO<HoaDon, Integer> {
 
     @Override
     public void insert(HoaDon e) {
-        String sql = "Insert into HoaDon values ( ?, ?, ?, ?, ?, ?)";
+        String sql = "Insert into HoaDon values ( ?, ?, ?, ?, ?, 'B0606101')";
 
         try {
-            int responce = JdbcHelper.update(sql, e.getNgayTao(), e.getTenKH(), e.getMaNV(), e.getGhiChu(), e.getTONGTIEN(), e.getMaKM());
+            int responce = JdbcHelper.update(sql, e.getNgayTao(), e.getTenKH(), e.getMaNV(), e.getGhiChu(), e.getTONGTIEN());
 
             if (responce == 0) {
                 throw new Error("The Error in insert HoaDon !");
             }
         } catch (Exception ex) {
+            System.out.println(ex);
             throw new Error("The Error in insert HoaDon !");
         }
 
@@ -64,12 +66,14 @@ public class HoaDonDao implements BoxCfDAO<HoaDon, Integer> {
 
     public int inserts(HoaDon e) {
         int maHd = 0;
-        String sql = "Insert into HoaDon values(?, ?, ?, ?, ?, 'KM02')";
+//        String sql = "Insert into HoaDon values(?, ?, ?, ?, ?, ?)";
+        String sql = "{ call sp_insert_bill ( ?, ?, ?, ?, ? ) }";
+
         String findSql = "select top 1 * from HoaDon\n"
                 + "order by MaHD desc";
 
         try {
-            int responce = JdbcHelper.update(sql, e.getNgayTao(), e.getTenKH(), e.getMaNV(), e.getGhiChu(), e.getTONGTIEN());
+            int responce = JdbcHelper.update(sql, e.getTenKH(), e.getMaNV(), e.getGhiChu(), e.getTONGTIEN(), e.getMaKM());
 
             if (responce == 0) {
                 return maHd;
@@ -172,4 +176,20 @@ public class HoaDonDao implements BoxCfDAO<HoaDon, Integer> {
         }
     }
 
+    public int getNextId() {
+        String sql = "select top 1 MaHD from HoaDon\n"
+                + "order by MaHD desc";
+
+        int nextId = 0;
+        if ((int) JdbcHelper.value(sql) > 0) {
+            int id = (int) JdbcHelper.value(sql);
+            nextId = id + 1;
+        }
+
+        return nextId;
+    }
+
+    public static void main(String[] args) {
+
+    }
 }

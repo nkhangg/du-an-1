@@ -10,10 +10,12 @@ import com.box.utils.Validator;
 import com.box.utils.XDate;
 import com.boxcf.dao.KhuyenMaiDao;
 import com.boxcf.models.KhuyenMai;
+import com.boxcf.models.ModelCbo;
 import com.boxcf.store.Store;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import javax.swing.JFrame;
@@ -272,8 +274,6 @@ public class ThongTinKM extends javax.swing.JFrame {
         lblMaNV6.setText("Số lượt");
         pnlNhanVien.add(lblMaNV6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 360, 80, -1));
 
-        cboPersent.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "5%", "10%", "15%", "20%", "25%", "30%", "35%", "40%", "45%", "50%", "55%", "60%", "65%", "70%", "75%" }));
-        cboPersent.setFocusable(false);
         cboPersent.setFont(new java.awt.Font("UTM Aptima", 0, 14)); // NOI18N
         pnlNhanVien.add(cboPersent, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 350, 200, -1));
 
@@ -283,9 +283,12 @@ public class ThongTinKM extends javax.swing.JFrame {
         lblMaNV7.setText("Mức giảm");
         pnlNhanVien.add(lblMaNV7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 430, 100, 20));
 
-        cboLevel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10000", "20000", "100000" }));
-        cboLevel.setFocusable(false);
         cboLevel.setFont(new java.awt.Font("UTM Aptima", 0, 14)); // NOI18N
+        cboLevel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboLevelActionPerformed(evt);
+            }
+        });
         pnlNhanVien.add(cboLevel, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 420, 180, -1));
 
         javax.swing.GroupLayout gradientPanel1Layout = new javax.swing.GroupLayout(gradientPanel1);
@@ -351,6 +354,9 @@ public class ThongTinKM extends javax.swing.JFrame {
     private void btnCleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCleanActionPerformed
         clear();
     }//GEN-LAST:event_btnCleanActionPerformed
+
+    private void cboLevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboLevelActionPerformed
+    }//GEN-LAST:event_cboLevelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -420,7 +426,7 @@ public class ThongTinKM extends javax.swing.JFrame {
 
     private void init() {
         this.prepareUI();
-
+        initCbo();
         getViTri();
         setStatus();
 
@@ -452,8 +458,10 @@ public class ThongTinKM extends javax.swing.JFrame {
             mess += "Bạn chưa nhập thời gian bắt đầu ! \n";
             flag = false;
         } else {
-            if (dcTimeStart.getDate().before(XDate.now())) {
-                mess += "Thời gian bất đầu không hợp lệ ! \n";
+            Date dateNow = XDate.toDate(XDate.toString(XDate.now(), "dd/MM/yyyy"), "dd/MM/yyyy");
+            Date dateCur = XDate.toDate(XDate.toString(dcTimeStart.getDate(), "dd/MM/yyyy"), "dd/MM/yyyy");
+            if (dateNow.after(dateCur)) {
+                mess += "Ngày bắt đầu không hợp ! \n";
                 flag = false;
             }
         }
@@ -504,10 +512,11 @@ public class ThongTinKM extends javax.swing.JFrame {
 
     private String genericId() {
         char c = selectAChar();
+        ModelCbo mdLevel = (ModelCbo) cboLevel.getSelectedItem();
         String timeStart = XDate.toString(dcTimeStart.getDate(), "dd");
         String timeEnd = XDate.toString(dcTimeEnd.getDate(), "dd");
         String persent = cboPersent.getSelectedItem().toString().replace("%", "");
-        String level = (Integer.parseInt(cboLevel.getSelectedItem().toString()) / 10000) + "";
+        String level = (mdLevel.getPrice() / 10000) + "";
 
         return c + timeStart + timeEnd + persent + level;
     }
@@ -540,6 +549,7 @@ public class ThongTinKM extends javax.swing.JFrame {
         if (insert) {
             genericedId = genericId();
         }
+        ModelCbo mdLevel = (ModelCbo) cboLevel.getSelectedItem();
         String persent = cboPersent.getSelectedItem().toString().replace("%", "");
         return new KhuyenMai(genericedId,
                 txtName.getText(),
@@ -547,7 +557,7 @@ public class ThongTinKM extends javax.swing.JFrame {
                 dcTimeEnd.getDate(),
                 Integer.parseInt(txtQuantity.getText()),
                 Integer.parseInt(persent),
-                Integer.parseInt(cboLevel.getSelectedItem().toString()));
+                mdLevel.getPrice());
     }
 
     public void setModel(KhuyenMai km) {
@@ -561,7 +571,7 @@ public class ThongTinKM extends javax.swing.JFrame {
         txtQuantity.setText(this.km.getSoLuot() + "");
         dcTimeEnd.setDate(this.km.getNgayKT());
         dcTimeStart.setDate(this.km.getNgayBD());
-        cboLevel.setSelectedItem(this.km.getDieuKienGiam());
+        cboLevel.setSelectedItem(new ModelCbo((int) km.getDieuKienGiam()));
         cboPersent.setSelectedItem(this.km.getPhanTram() + "%");
 
     }
@@ -605,17 +615,18 @@ public class ThongTinKM extends javax.swing.JFrame {
         boolean first = this.index > 0;
         boolean last = this.index < list.size() - 1;
         btnCapNhatSP.setEnabled(edit);
-        btnCapNhatSP.setBackground(edit ? new Color(2, 172, 171) : Color.BLACK);
+        btnCapNhatSP.setBackground(edit ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnThemSP.setEnabled(!edit);
-        btnThemSP.setBackground(!edit ? new Color(2, 172, 171) : Color.BLACK);
+        btnThemSP.setBackground(!edit ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
+
         btnFirst.setEnabled(edit && first);
-        btnFirst.setBackground(edit && first ? new Color(2, 172, 171) : Color.BLACK);
+        btnFirst.setBackground(edit && first ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnPre.setEnabled(edit && first);
-        btnPre.setBackground(edit && first ? new Color(2, 172, 171) : Color.BLACK);
+        btnPre.setBackground(edit && first ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnLast.setEnabled(edit && last);
-        btnLast.setBackground(edit && last ? new Color(2, 172, 171) : Color.BLACK);
+        btnLast.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnNext.setEnabled(edit && last);
-        btnNext.setBackground(edit && last ? new Color(2, 172, 171) : Color.BLACK);
+        btnNext.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
     }
 
     private void clear() {
@@ -657,6 +668,15 @@ public class ThongTinKM extends javax.swing.JFrame {
             dKm.update(km);
             this.dispose();
             Store.kmView.fillTable();
+        }
+    }
+
+    private void initCbo() {
+        for (int i = 1; i <= 100; i++) {
+            cboLevel.addItem(new ModelCbo(i * 10000));
+            if (i % 5 == 0) {
+                cboPersent.addItem(i + "%");
+            }
         }
     }
 }

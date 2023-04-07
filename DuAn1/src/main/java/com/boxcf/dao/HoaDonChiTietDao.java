@@ -18,7 +18,7 @@ public class HoaDonChiTietDao implements BoxCfDAO<HoaDonCT, Integer> {
         try {
             return new HoaDonCT(
                     responce.getInt(1),
-                    responce.getInt(2),
+                    responce.getString(2),
                     responce.getInt(3),
                     responce.getString(4),
                     responce.getLong(5)
@@ -50,11 +50,10 @@ public class HoaDonChiTietDao implements BoxCfDAO<HoaDonCT, Integer> {
 
         try {
             int responce = JdbcHelper.update(sql, e.getMaHD(),
-                    e.getMaSP() == 0 ? null : e.getMaSP(),
+                    e.getMaSP(),
                     e.getSoLuong(),
                     e.getGhiChu(),
                     e.getThanhTien());
-//                    e.getMaDat() == 0 ? null : e.getMaDat());
 
             if (responce == 0) {
                 throw new Error("The Error in insert HoaDonCT !");
@@ -118,6 +117,15 @@ public class HoaDonChiTietDao implements BoxCfDAO<HoaDonCT, Integer> {
             throw new Error("The Error in selectBySql HoaDonCT !");
         }
         return list;
+    }
+
+    public List<HoaDonCT> selectByHd(int id) {
+        List<HoaDonCT> list = new ArrayList<>();
+        String sql = "select * from HoaDonCT\n"
+                + "where MaHD = ?\n"
+                + "order by SoLuong desc";
+
+        return selectBySql(sql, id);
     }
 
     @Override

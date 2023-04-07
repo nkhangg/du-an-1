@@ -34,6 +34,16 @@ public class HoaDon {
         this.MaKM = MaKM;
     }
 
+    public HoaDon(int MaHD, Date NgayTao, String TenKH, long TONGTIEN, String MaKM) {
+        this.MaHD = MaHD;
+        this.NgayTao = NgayTao;
+        this.TenKH = TenKH;
+        this.TONGTIEN = TONGTIEN;
+        this.MaKM = MaKM;
+    }
+    
+    
+
     public HoaDon(Date NgayTao, String TenKH, String MaNV, String GhiChu, long TONGTIEN, String MaKM) {
         this.NgayTao = NgayTao;
         this.TenKH = TenKH;
@@ -89,7 +99,7 @@ public class HoaDon {
     }
 
     public String getMaKM() {
-        return GhiChu;
+        return MaKM;
     }
 
     public void setMaKM(String MaKM) {

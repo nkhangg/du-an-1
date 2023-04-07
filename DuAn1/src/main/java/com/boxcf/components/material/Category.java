@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.boxcf.components.material;
 
 import com.boxcf.models.LoaiBox;
@@ -15,92 +11,91 @@ import javax.swing.border.MatteBorder;
  * @author PC
  */
 public class Category extends javax.swing.JPanel {
-
+    
     private LoaiSP dataProduct;
     private LoaiBox dataBox;
     private boolean active;
-
+    
     public boolean isActive() {
         return active;
     }
-
+    
     public void setActive(boolean active) {
         this.active = active;
         if (active) {
             lblTitle.setForeground(new Color(56, 187, 156));
             lblTitle.setBorder(new MatteBorder(0, 0, 1, 0, new Color(56, 187, 156)));
         } else {
-            lblTitle.setForeground(Color.decode("#cccccc"));
+            lblTitle.setForeground(new Color(102, 102, 102));
             lblTitle.setBorder(new MatteBorder(0, 0, 1, 0, new Color(0, 0, 0, 0)));
         }
         repaint();
     }
-
+    
     public LoaiSP getData() {
         return dataProduct;
     }
-
+    
     public LoaiSP getDataProduct() {
         return dataProduct;
     }
-
+    
     public void setDataProduct(LoaiSP dataProduct) {
         this.dataProduct = dataProduct;
     }
-
+    
     public LoaiBox getDataBox() {
         return dataBox;
     }
-
+    
     public void setDataBox(LoaiBox dataBox) {
         this.dataBox = dataBox;
     }
     
-
     public void setData(LoaiSP data) {
         this.dataProduct = data;
     }
-
+    
     public void setData(LoaiBox data) {
         this.dataBox = data;
     }
-
+    
     public JLabel getLblTitle() {
         return lblTitle;
     }
-
+    
     public void setLblTitle(JLabel lblTitle) {
         this.lblTitle = lblTitle;
     }
-
+    
     public Category() {
         initComponents();
     }
     
-        public void addData(LoaiSP dataProduct, LoaiBox dataBox) {
+    public void addData(LoaiSP dataProduct, LoaiBox dataBox) {
         this.dataProduct = dataProduct;
         this.dataBox = dataBox;
         lblTitle.setText(dataProduct.getTenLoai());
     }
-
+    
     public void addData(LoaiSP data) {
         this.dataProduct = data;
         lblTitle.setText(data.getTenLoai());
     }
-
+    
     public void addData(LoaiBox data) {
         this.dataBox = data;
         lblTitle.setText(data.getTenLoaiBox());
     }
-
+    
     private boolean toggleResult(boolean value) {
         return !value;
     }
-
+    
     public void toggleActive() {
         setActive(toggleResult(active));
     }
-
+    
     @Override
     public String toString() {
         return "Category{" + "dataProduct=" + dataProduct + ", dataBox=" + dataBox + ", active=" + active + '}';
@@ -123,7 +118,8 @@ public class Category extends javax.swing.JPanel {
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(120, 30));
 
-        lblTitle.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        lblTitle.setFont(new java.awt.Font("UTM Aptima", 1, 14)); // NOI18N
+        lblTitle.setForeground(new java.awt.Color(102, 102, 102));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("jLabel1");
         lblTitle.setMinimumSize(new java.awt.Dimension(41, 30));
@@ -137,7 +133,7 @@ public class Category extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+            .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

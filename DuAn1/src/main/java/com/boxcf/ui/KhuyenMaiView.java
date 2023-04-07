@@ -83,7 +83,15 @@ public class KhuyenMaiView extends javax.swing.JPanel {
             new String [] {
                 "STT", "Mã KM", "Tên KM", "Ngay BD", "NgayKT", "Số Lượt", "Phần Trăm Giảm", "Điều kiện giảm"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblDiscount.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         tblDiscount.setGridColor(new java.awt.Color(204, 204, 204));
         tblDiscount.setRowHeight(30);
@@ -99,6 +107,7 @@ public class KhuyenMaiView extends javax.swing.JPanel {
         buttonRound1.setBackground(new java.awt.Color(2, 172, 171));
         buttonRound1.setForeground(new java.awt.Color(255, 255, 255));
         buttonRound1.setText("XÓA");
+        buttonRound1.setFocusable(false);
         buttonRound1.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         buttonRound1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,6 +119,7 @@ public class KhuyenMaiView extends javax.swing.JPanel {
         btnAdd.setBackground(new java.awt.Color(2, 172, 171));
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
         btnAdd.setText("THÊM");
+        btnAdd.setFocusable(false);
         btnAdd.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

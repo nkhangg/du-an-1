@@ -125,7 +125,7 @@ GO
 
 
 --Nhân viên
-Insert into NhanVien values ('NV01', N'Lâm Ngọc Vy', '2000/09/29', '0987654321', N'Sóc Trăng', '123',null, '2022/12/22', N'User', 1)
+Insert into NhanVien values ('NV01', N'Lâm Ngọc Vy', '2000/09/29', '0987654321', N'Sóc Trăng', '123','gondel.jpg', '2022/12/22', N'User', 1)
 Insert into NhanVien values ('NV02', N'Trần PHước Duy', '2003/01/03', '0123456789', N'Sóc Trăng', '123',null, '2023/01/10', N'User', 0)
 Insert into NhanVien values ('NV03', N'Lê Nguyễn Hoàng Khang', '1999/03/07', '0396884192', N'Cần Thơ', '123',null, '2023/01/12', N'User', 1)
 Insert into NhanVien values ('NV04', N'Nguyễn Ngọc Hân', '1997/01/12', '0978153512', N'An Giang', '123',null, '2022/11/01', N'Admin', 1)
@@ -146,16 +146,16 @@ Insert into LoaiSP values ('SP04', N'Đồ khô', 'DM01')
 Insert into LoaiSP values ('SP05', N'Nước trái cây', 'DM02')
 
 --Sản phẩm
-Insert into SanPham values (N'Nước Cam' , 25000, '/com/boxcf/images/nuoccam.jpg', '123', 'SP05')
-Insert into SanPham values (N'Nước Ép Táo' , 20000, '/com/boxcf/images/eptao.jpg', '234', 'SP05')
-Insert into SanPham values (N'Bánh Gato' , 50000, '/com/boxcf/images/gato.jpg', '345', 'SP04')
-Insert into SanPham values (N'Bông Lan Trứng Muối' , 60000, '/com/boxcf/images/bonglantrungmuoi.jpg', '678','SP04')
-Insert into SanPham values (N'Coca' , 15000, '/com/boxcf/images/coca.jpg', '922', 'SP03')
-Insert into SanPham values (N'Pesi' , 15000, '/com/boxcf/images/pesi.jfif', '922', 'SP03')
-Insert into SanPham values (N'7up' , 15000, '/com/boxcf/images/7up.jfif', '922', 'SP03')
-Insert into SanPham values (N'Trà sữa truyền thống' , 25000, '/com/boxcf/images/trasua.jpg', '922', 'SP03')
-Insert into SanPham values (N'Sinh tố bơ' , 18000, '/com/boxcf/images/bo.jpg', '922', 'SP03')
-Insert into SanPham values (N'Sinh tố dâu' , 18000, '/com/boxcf/images/dau.jpg', '922', 'SP03')
+Insert into SanPham values (N'Nước Cam' , 25000, 'nuoccam.jpg', '123', 'SP05')
+Insert into SanPham values (N'Nước Ép Táo' , 20000, 'eptao.jpg', '234', 'SP05')
+Insert into SanPham values (N'Bánh Gato' , 50000, 'gato.jpg', '345', 'SP04')
+Insert into SanPham values (N'Bông Lan Trứng Muối' , 60000, 'bonglantrungmuoi.jpg', '678','SP04')
+Insert into SanPham values (N'Coca' , 15000, 'coca.jpg', '922', 'SP03')
+Insert into SanPham values (N'Pesi' , 15000, 'pesi.jfif', '922', 'SP03')
+Insert into SanPham values (N'7up' , 15000, '7up.jfif', '922', 'SP03')
+Insert into SanPham values (N'Trà sữa truyền thống' , 25000, 'trasua.jpg', '922', 'SP03')
+Insert into SanPham values (N'Sinh tố bơ' , 18000, 'bo.jpg', '922', 'SP03')
+Insert into SanPham values (N'Sinh tố dâu' , 18000, 'dau.jpg', '922', 'SP03')
 
 --Loại box
 select * from LoaiBox
@@ -200,10 +200,10 @@ Insert into Box values ('B011XL', N'Box 11', null, N'Mới', 'XL')
 Insert into Box values ('B012L', N'Box 12', null, N'Mới', 'L')
 
 --Khuyến mãi
-Insert into KhuyenMai values ('KM01', N'Tri ân khách hàng','2022/10/20', '2022/10/25', 100, 5, 100000, null)
-Insert into KhuyenMai values ('KM02', N'Khuyến mãi combo','2023/01/01', '2023/01/02', 100, 10, 200000, null)
-Insert into KhuyenMai values ('KM03', N'Tri ân khách hàng','2023/02/14', '2023/02/15', 100, 15, 300000, null)
-Insert into KhuyenMai values ('KM04', N'Tri ân khách hàng','2023/03/14', '2023/03/16', 100, 20, 500000, null)
+Insert into KhuyenMai values ('KM01', N'Tri ân khách hàng','2022/10/20', '2022/10/25', 100, 5, 100000, 1)
+Insert into KhuyenMai values ('KM02', N'Khuyến mãi combo','2023/01/01', '2023/01/02', 100, 10, 200000, 1)
+Insert into KhuyenMai values ('KM03', N'Tri ân khách hàng','2023/02/14', '2023/02/15', 100, 15, 300000, 1)
+Insert into KhuyenMai values ('KM04', N'Tri ân khách hàng','2023/03/14', '2023/03/16', 100, 20, 500000, 1)
 
 --Hóa đơn
 SELECT * FROM HoaDon
@@ -366,6 +366,22 @@ end
 
 exec sp_nangxuat_nv   '2022-04-03', '2023-04-04'
 
+-- hoa don - start
+
+	create proc sp_insert_bill @tenKM nvarchar(50), @maNV varchar(10), @ghichu nvarchar(255), @tongTien float, @maKm nvarchar(10)
+	as
+	begin
+
+		Insert into HoaDon values(getdate(), @tenKM, @maNV, @ghichu, @tongTien, @maKm)
+
+		update KhuyenMai
+		set SoLuot = SoLuot  - 1
+		where MaKM = @maKm 
+	end
+	exec sp_insert_bill N'Trần Phước Vinh', 'NV02', null, 270000, 'B0606101'
+
+-- hoadon -- end
+
 -- thong ke - end
 
 -- lich sử hoạt động -- start
@@ -387,6 +403,34 @@ select * from KhuyenMai
 where DieuKienGiam <= 0 and TrangThai = 1 and SoLuot > 0
 
 -- tinh tong -- end
+
+
+
+
+select MaHD, NgayTao, TenKH, TenNV, TongTien, MaKM from HoaDon hd
+join NhanVien nv on nv.MaNV = hd.MaNV
+where hd.MaNV like '' or hd.NgayTao like'' or TenKH like '' or TenNV like '' or TongTien like '' or MaKM like '' or MaHD like''
+order by NgayTao desc
+
+select * from HoaDonCT
+where MaHD = 57
+order by SoLuong desc
+
+select * from PhieuDatBox
+where MaHD = 58
+order by SoLuong desc
+
+select * from NhanVien
+
+update NhanVien
+set TrangThai = 1
+where MaNV = 'NV01'
+
+update Box
+set HinhAnh = 'box.jpg'
+where MaBox = 'B001S'
+
+
 
 
 

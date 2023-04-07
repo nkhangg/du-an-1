@@ -4,6 +4,7 @@
  */
 package com.boxcf.components.material;
 
+import com.box.utils.Formats;
 import com.box.utils.Sort;
 import com.boxcf.models.ModelItem;
 import com.boxcf.components.PanelItem;
@@ -147,6 +148,7 @@ public class PanelBill extends javax.swing.JPanel {
 
         if (list.isEmpty()) {
             Store.orderView.getCboDiscount().removeAllItems();
+            Store.orderView.getLblFinalTotal().setText(Formats.toCurency(reuslt));
             return;
         }
 
@@ -169,6 +171,21 @@ public class PanelBill extends javax.swing.JPanel {
                 }
             }
         }
+    }
+
+    public int getQuantityBill() {
+        int quantity = 0;
+        if (this.getList().isEmpty()) {
+            return quantity;
+        }
+        for (ItemBill bill : this.getList()) {
+            if (bill.getData().getLoaiBox() != null) {
+                quantity += 1;
+                continue;
+            }
+            quantity += bill.getData().getSoLuong();
+        }
+        return quantity;
     }
 
     public void activeBoxOnBill(PanelItem panelItem) {

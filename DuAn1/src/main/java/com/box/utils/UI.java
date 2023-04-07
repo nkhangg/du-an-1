@@ -12,8 +12,10 @@ import javax.swing.JTextField;
  * @author HP
  */
 public class UI {
-    public static void changeTransBG(Color color, JTextField ...txts) {
+
+    public static void changeTransBG(Color color, JTextField... txts) {
         for (JTextField txt : txts) {
+            txt.setOpaque(false);
             txt.setBackground(color);
         }
     }

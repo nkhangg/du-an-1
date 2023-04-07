@@ -257,7 +257,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="buttonRound5" min="-2" pref="120" max="-2" attributes="0"/>
+                  <Component id="btnDoUong" min="-2" pref="120" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="buttonRound1" min="-2" pref="120" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -281,7 +281,7 @@
                       <Component id="buttonRound1" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                       <Component id="btnBox" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                       <Component id="buttonRound4" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
-                      <Component id="buttonRound5" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                      <Component id="btnDoUong" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -337,7 +337,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="com.boxcf.components.ButtonRound" name="buttonRound5">
+        <Component class="com.boxcf.components.ButtonRound" name="btnDoUong">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="9c" green="bb" red="38" type="rgb"/>
@@ -352,7 +352,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonRound5ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDoUongActionPerformed"/>
           </Events>
         </Component>
         <Component class="com.boxcf.components.WindowButton" name="windowButton1">

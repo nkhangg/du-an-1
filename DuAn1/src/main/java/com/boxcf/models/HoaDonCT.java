@@ -11,7 +11,7 @@ package com.boxcf.models;
 public class HoaDonCT {
 
     int MaHD;
-    int MaSP;
+    String MaSP;
     int SoLuong;
     String GhiChu;
     long ThanhTien;
@@ -19,7 +19,7 @@ public class HoaDonCT {
     public HoaDonCT() {
     }
 
-    public HoaDonCT(int MaHD, int MaSP, int SoLuong, String GhiChu, long ThanhTien) {
+    public HoaDonCT(int MaHD, String MaSP, int SoLuong, String GhiChu, long ThanhTien) {
         this.MaHD = MaHD;
         this.MaSP = MaSP;
         this.SoLuong = SoLuong;
@@ -35,11 +35,11 @@ public class HoaDonCT {
         this.MaHD = MaHD;
     }
 
-    public int getMaSP() {
+    public String getMaSP() {
         return MaSP;
     }
 
-    public void setMaSP(int MaSP) {
+    public void setMaSP(String MaSP) {
         this.MaSP = MaSP;
     }
 

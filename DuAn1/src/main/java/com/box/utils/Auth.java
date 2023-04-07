@@ -6,6 +6,7 @@ package com.box.utils;
 
 //import com.edusys.model.NhanVien;
 
+import com.boxcf.dao.NhanVienDao;
 import com.boxcf.models.NhanVien;
 
 
@@ -16,7 +17,7 @@ import com.boxcf.models.NhanVien;
  */
 public class Auth {
     
-    public static NhanVien user = null;
+    public static NhanVien user = NhanVienDao.getInstant().selectById("NV01");
     
     public static void clear() {
         Auth.user = null;
@@ -29,4 +30,6 @@ public class Auth {
     public static boolean isManager() {
         return Auth.isLogin() && user.getVaiTro().equals("Admin");
     }
+    
+    
 }

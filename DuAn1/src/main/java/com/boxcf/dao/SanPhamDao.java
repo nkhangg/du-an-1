@@ -54,6 +54,7 @@ public class SanPhamDao implements BoxCfDAO<SanPham, String> {
                 throw new Error("The Error in delete SanPham !");
             }
         } catch (Exception e) {
+            System.out.println(e);
             throw new Error("The Error in delete SanPham !");
         }
 
@@ -61,10 +62,10 @@ public class SanPhamDao implements BoxCfDAO<SanPham, String> {
 
     @Override
     public void insert(SanPham e) {
-        String sql = "Insert into SanPham values ( ?, ?, ?, ?, ?)";
+        String sql = "Insert into SanPham values (?, ?, ?, ?, ?, ?)";
 
         try {
-            int responce = JdbcHelper.update(sql, e.getTenSP(), e.getGia(), e.getHinhAnh(), e.getMoTa(), e.getMaLoai());
+            int responce = JdbcHelper.update(sql, e.getMaSP(),e.getTenSP(), e.getGia(), e.getHinhAnh(), e.getMoTa(), e.getMaLoai());
 
             if (responce == 0) {
                 throw new Error("The Error in insert SanPham !");
@@ -165,17 +166,8 @@ public class SanPhamDao implements BoxCfDAO<SanPham, String> {
         if (type == 0) {
             sql = "select * from SanPham where TenSP like ?";
         } else if (type == 1) {
-            sql = "select * from SanPham where MaSP like ?";
-        } else {
-            long Gia = 0;
-            try {
-                Gia = Long.parseLong(keyWord);
-            } catch (Exception e) {
-                sql = "select * from SanPham";
-                return selectBySql(sql);
-            }
-            sql = "select * from SanPham where Gia <= ?";
-            return selectBySql(sql, Gia);
+            sql = "select * from SanPham where MaSP = ?";
+             return selectBySql(sql,keyWord);
         }
         return selectBySql(sql, "%" + keyWord + "%");
     }

@@ -30,6 +30,7 @@ public class BoxDao implements BoxCfDAO<Box, String> {
 
     @Override
     public void update(Box box) {
+        System.out.println("box:" + box);
         JdbcHelper.update(UPDATE_SQL, box.getTenBox(), box.getHinhAnh(), box.getMoTa(), box.getMaLoaiBox(), box.getMaBox());
     }
 
@@ -93,8 +94,6 @@ public class BoxDao implements BoxCfDAO<Box, String> {
     public Integer getPageNumber() {
         return (int) Math.ceil(this.selectAll().size() / 8) + 1;
     }
-
-    
 
     public static void main(String[] args) {
         for (Box box : BoxDao.getInstance().selectAll()) {

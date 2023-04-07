@@ -4,6 +4,7 @@
  */
 package com.boxcf.ui;
 
+import com.box.utils.JdbcHelper;
 import com.box.utils.UI;
 import com.box.utils.XImage;
 import com.boxcf.dao.DanhMucDao;
@@ -17,6 +18,8 @@ import java.awt.Image;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
 import java.io.File;
+import java.sql.ResultSet;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -130,45 +133,40 @@ public class ThongTinSP extends javax.swing.JFrame {
             cboLoaiSP.setSelectedItem(lsp.getTenLoai());
         }
         txtMoTa.setText(sp.getMoTa());
+
         if (sp.getHinhAnh() != null) {
+            lblHinh.setToolTipText(sp.getHinhAnh());
             ImageIcon img = XImage.read(sp.getHinhAnh());
             Image img2 = XImage.resize(img.getImage(), lblHinh.getWidth(), lblHinh.getHeight());
             ImageIcon img3 = new ImageIcon(img2);
             lblHinh.setIcon(img3);
         }
-
     }
 
     void setStatus() {
         boolean edit = this.index >= 0;
         boolean first = this.index > 0;
         boolean last = this.index < list.size() - 1;
-        txtMaSP.setEditable(!edit);
+        cboLoaiSP.setEnabled(!edit);
         btnCapNhatSP.setEnabled(edit);
-        btnCapNhatSP.setBackground(edit ? new Color(2, 172, 171) : Color.BLACK);
+        btnCapNhatSP.setBackground(edit ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnThemSP.setEnabled(!edit);
-        btnThemSP.setBackground(!edit ? new Color(2, 172, 171) : Color.BLACK);
+        btnThemSP.setBackground(!edit ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnFirst.setEnabled(edit && first);
-        btnFirst.setBackground(edit && first ? new Color(2, 172, 171) : Color.BLACK);
+        btnFirst.setBackground(edit && first ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnPre.setEnabled(edit && first);
-        btnPre.setBackground(edit && first ? new Color(2, 172, 171) : Color.BLACK);
+        btnPre.setBackground(edit && first ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnLast.setEnabled(edit && last);
-        btnLast.setBackground(edit && last ? new Color(2, 172, 171) : Color.BLACK);
+        btnLast.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnNext.setEnabled(edit && last);
-        btnNext.setBackground(edit && last ? new Color(2, 172, 171) : Color.BLACK);
+        btnNext.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
     }
 
     SanPham getModel() {
         SanPham sp = new SanPham();
         String maLoai = cboLoaiSP.getSelectedItem().toString();
         LoaiSP lsp = lspDAO.selectByName(maLoai);
-
-        if (maSP == null) {
-            sp.setMaSP(getIDLast());
-        } else {
-            sp.setMaSP(txtMaSP.getText());
-        }
-
+        sp.setMaSP(txtMaSP.getText());
         sp.setTenSP(txtTenSP.getText());
         sp.setGia(Long.parseLong(txtGia.getText()));
         sp.setMaLoai(lsp.getMaLoai());
@@ -258,6 +256,21 @@ public class ThongTinSP extends javax.swing.JFrame {
         return new Store().getNextId(spDAO.selectAll().get(spDAO.selectAll().size() - 1).getMaSP());
     }
 
+    void getMaSPAuto() {
+        if (maSP != null) {
+            return;
+        }
+        SupportSPView sp = new SupportSPView();
+        String maLoai = sp.removeAccent(cboLoaiSP.getSelectedItem().toString());
+        String maAuto = sp.getCodeSP(maLoai).toUpperCase();
+        SanPham sp1 = sp.selectLastID(maAuto);
+        if (sp1 == null) {
+            txtMaSP.setText(maAuto + "001");
+            return;
+        }
+        txtMaSP.setText(sp.getNextId(sp1.getMaSP()));
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -289,7 +302,6 @@ public class ThongTinSP extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(944, 740));
 
         gradientPanel1.setColor1(new java.awt.Color(102, 102, 102));
         gradientPanel1.setColor2(new java.awt.Color(102, 102, 102));
@@ -306,19 +318,19 @@ public class ThongTinSP extends javax.swing.JFrame {
         lblMaNV.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblMaNV.setForeground(new java.awt.Color(27, 51, 61));
         lblMaNV.setText("Mã SP");
-        pnlNhanVien.add(lblMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, 50, -1));
+        pnlNhanVien.add(lblMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, 50, -1));
 
         lblMaNV1.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV1.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblMaNV1.setForeground(new java.awt.Color(27, 51, 61));
         lblMaNV1.setText("Tên SP");
-        pnlNhanVien.add(lblMaNV1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, 50, -1));
+        pnlNhanVien.add(lblMaNV1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, 50, -1));
 
         lblMaNV2.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV2.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblMaNV2.setForeground(new java.awt.Color(27, 51, 61));
         lblMaNV2.setText("Giá (VNĐ)");
-        pnlNhanVien.add(lblMaNV2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 370, 70, -1));
+        pnlNhanVien.add(lblMaNV2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 360, 70, -1));
 
         lblMaNV3.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV3.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
@@ -333,6 +345,7 @@ public class ThongTinSP extends javax.swing.JFrame {
         pnlNhanVien.add(lblMaNV8, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 77, -1));
 
         txtMoTa.setColumns(20);
+        txtMoTa.setFont(new java.awt.Font("UTM Aptima", 0, 14)); // NOI18N
         txtMoTa.setRows(2);
         jScrollPane1.setViewportView(txtMoTa);
 
@@ -341,11 +354,12 @@ public class ThongTinSP extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(40, 48, 84));
         jLabel1.setText("THÔNG TIN SẢN PHẨM");
-        pnlNhanVien.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, -1, -1));
+        pnlNhanVien.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 30, -1, -1));
 
         btnThemSP.setBackground(new java.awt.Color(2, 172, 171));
         btnThemSP.setForeground(new java.awt.Color(255, 255, 255));
         btnThemSP.setText("LƯU");
+        btnThemSP.setFocusable(false);
         btnThemSP.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnThemSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -356,6 +370,7 @@ public class ThongTinSP extends javax.swing.JFrame {
         btnCapNhatSP.setBackground(new java.awt.Color(2, 172, 171));
         btnCapNhatSP.setForeground(new java.awt.Color(255, 255, 255));
         btnCapNhatSP.setText("CẬP NHẬT");
+        btnCapNhatSP.setFocusable(false);
         btnCapNhatSP.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnCapNhatSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -366,6 +381,7 @@ public class ThongTinSP extends javax.swing.JFrame {
         btnFirst.setBackground(new java.awt.Color(2, 172, 171));
         btnFirst.setForeground(new java.awt.Color(255, 255, 255));
         btnFirst.setText("|<");
+        btnFirst.setFocusable(false);
         btnFirst.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnFirst.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -376,6 +392,7 @@ public class ThongTinSP extends javax.swing.JFrame {
         btnPre.setBackground(new java.awt.Color(2, 172, 171));
         btnPre.setForeground(new java.awt.Color(255, 255, 255));
         btnPre.setText("<<");
+        btnPre.setFocusable(false);
         btnPre.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnPre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -386,6 +403,7 @@ public class ThongTinSP extends javax.swing.JFrame {
         btnNext.setBackground(new java.awt.Color(2, 172, 171));
         btnNext.setForeground(new java.awt.Color(255, 255, 255));
         btnNext.setText(">>");
+        btnNext.setFocusable(false);
         btnNext.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnNext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -396,6 +414,7 @@ public class ThongTinSP extends javax.swing.JFrame {
         btnLast.setBackground(new java.awt.Color(2, 172, 171));
         btnLast.setForeground(new java.awt.Color(255, 255, 255));
         btnLast.setText(">|");
+        btnLast.setFocusable(false);
         btnLast.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnLast.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -412,7 +431,7 @@ public class ThongTinSP extends javax.swing.JFrame {
                 .addComponent(btnThemSP, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCapNhatSP, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 295, Short.MAX_VALUE)
                 .addComponent(btnFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnPre, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -420,7 +439,7 @@ public class ThongTinSP extends javax.swing.JFrame {
                 .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnLast, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(53, 53, 53))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -436,19 +455,27 @@ public class ThongTinSP extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnlNhanVien.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 620, 540, -1));
+        pnlNhanVien.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 620, 830, -1));
 
+        txtMaSP.setEditable(false);
+        txtMaSP.setFont(new java.awt.Font("UTM Aptima", 0, 14)); // NOI18N
         txtMaSP.setLabelText("");
-        txtMaSP.setOpaque(false);
         pnlNhanVien.add(txtMaSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 220, 568, 38));
 
+        txtTenSP.setFont(new java.awt.Font("UTM Aptima", 0, 14)); // NOI18N
         txtTenSP.setLabelText("");
-        txtTenSP.setOpaque(false);
         pnlNhanVien.add(txtTenSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 568, 38));
+
+        cboLoaiSP.setFont(new java.awt.Font("UTM Aptima", 0, 14)); // NOI18N
+        cboLoaiSP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboLoaiSPActionPerformed(evt);
+            }
+        });
         pnlNhanVien.add(cboLoaiSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, 230, -1));
 
+        txtGia.setFont(new java.awt.Font("UTM Aptima", 0, 14)); // NOI18N
         txtGia.setLabelText("");
-        txtGia.setOpaque(false);
         pnlNhanVien.add(txtGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 390, 280, 38));
 
         btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/exit (1).png"))); // NOI18N
@@ -466,7 +493,7 @@ public class ThongTinSP extends javax.swing.JFrame {
                 lblHinhMouseClicked(evt);
             }
         });
-        pnlNhanVien.add(lblHinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 170, 150, 150));
+        pnlNhanVien.add(lblHinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 170, 230, 210));
 
         javax.swing.GroupLayout gradientPanel1Layout = new javax.swing.GroupLayout(gradientPanel1);
         gradientPanel1.setLayout(gradientPanel1Layout);
@@ -481,7 +508,7 @@ public class ThongTinSP extends javax.swing.JFrame {
             gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(gradientPanel1Layout.createSequentialGroup()
                 .addGap(2, 2, 2)
-                .addComponent(pnlNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 735, Short.MAX_VALUE)
+                .addComponent(pnlNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 736, Short.MAX_VALUE)
                 .addGap(2, 2, 2))
         );
 
@@ -493,7 +520,7 @@ public class ThongTinSP extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(gradientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 739, Short.MAX_VALUE)
+            .addComponent(gradientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
         );
 
         pack();
@@ -531,6 +558,11 @@ public class ThongTinSP extends javax.swing.JFrame {
     private void lblHinhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHinhMouseClicked
         selectImage();
     }//GEN-LAST:event_lblHinhMouseClicked
+
+    private void cboLoaiSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboLoaiSPActionPerformed
+        // TODO add your handling code here:
+        getMaSPAuto();
+    }//GEN-LAST:event_cboLoaiSPActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -573,11 +605,114 @@ public class ThongTinSP extends javax.swing.JFrame {
         this.setShape(shape);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         UI.changeTransBG(new Color(0, 0, 0, 0), txtGia, txtMaSP, txtTenSP);
-
     }
 
     private void exit() {
         this.dispose();
     }
+}
 
+class SupportSPView {
+
+    String getCodeSP(String LoaiSP) {
+        char f = LoaiSP.charAt(0);
+        char l = ' ';
+        LoaiSP = LoaiSP.trim();
+        for (int i = 0; i < LoaiSP.length(); i++) {
+            if (LoaiSP.charAt(i) == ' ') {
+                l = LoaiSP.charAt(i + 1);
+                break;
+            }
+        }
+        return "" + f + l;
+    }
+
+    public String getNextId(String maxId) {
+//        String maxId = "PC09999";
+
+        String first = maxId.substring(0, 2);
+        String last = maxId.substring(2);
+        Integer number = Integer.parseInt(last);
+        Integer log = number / 10;
+
+        if (log == 0) {
+            maxId = first + "00" + ++number;
+        } else if (log > 1000) {
+            maxId = first + ++number;
+        } else if (log > 100) {
+            maxId = first + "" + ++number;
+        } else if (log > 10) {
+            maxId = first + "" + ++number;
+        } else if (log > 0) {
+            maxId = first + "0" + ++number;
+        }
+
+        return maxId;
+    }
+
+    private static char[] SOURCE_CHARACTERS = {'À', 'Á', 'Â', 'Ã', 'È', 'É',
+        'Ê', 'Ì', 'Í', 'Ò', 'Ó', 'Ô', 'Õ', 'Ù', 'Ú', 'Ý', 'à', 'á', 'â',
+        'ã', 'è', 'é', 'ê', 'ì', 'í', 'ò', 'ó', 'ô', 'õ', 'ù', 'ú', 'ý',
+        'Ă', 'ă', 'Đ', 'đ', 'Ĩ', 'ĩ', 'Ũ', 'ũ', 'Ơ', 'ơ', 'Ư', 'ư', 'Ạ',
+        'ạ', 'Ả', 'ả', 'Ấ', 'ấ', 'Ầ', 'ầ', 'Ẩ', 'ẩ', 'Ẫ', 'ẫ', 'Ậ', 'ậ',
+        'Ắ', 'ắ', 'Ằ', 'ằ', 'Ẳ', 'ẳ', 'Ẵ', 'ẵ', 'Ặ', 'ặ', 'Ẹ', 'ẹ', 'Ẻ',
+        'ẻ', 'Ẽ', 'ẽ', 'Ế', 'ế', 'Ề', 'ề', 'Ể', 'ể', 'Ễ', 'ễ', 'Ệ', 'ệ',
+        'Ỉ', 'ỉ', 'Ị', 'ị', 'Ọ', 'ọ', 'Ỏ', 'ỏ', 'Ố', 'ố', 'Ồ', 'ồ', 'Ổ',
+        'ổ', 'Ỗ', 'ỗ', 'Ộ', 'ộ', 'Ớ', 'ớ', 'Ờ', 'ờ', 'Ở', 'ở', 'Ỡ', 'ỡ',
+        'Ợ', 'ợ', 'Ụ', 'ụ', 'Ủ', 'ủ', 'Ứ', 'ứ', 'Ừ', 'ừ', 'Ử', 'ử', 'Ữ',
+        'ữ', 'Ự', 'ự',};
+
+    // Mang cac ky tu thay the khong dau
+    private static char[] DESTINATION_CHARACTERS = {'A', 'A', 'A', 'A', 'E',
+        'E', 'E', 'I', 'I', 'O', 'O', 'O', 'O', 'U', 'U', 'Y', 'a', 'a',
+        'a', 'a', 'e', 'e', 'e', 'i', 'i', 'o', 'o', 'o', 'o', 'u', 'u',
+        'y', 'A', 'a', 'D', 'd', 'I', 'i', 'U', 'u', 'O', 'o', 'U', 'u',
+        'A', 'a', 'A', 'a', 'A', 'a', 'A', 'a', 'A', 'a', 'A', 'a', 'A',
+        'a', 'A', 'a', 'A', 'a', 'A', 'a', 'A', 'a', 'A', 'a', 'E', 'e',
+        'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E',
+        'e', 'I', 'i', 'I', 'i', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o',
+        'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O',
+        'o', 'O', 'o', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u',
+        'U', 'u', 'U', 'u',};
+
+    /**
+     * Bo dau 1 ky tu
+     *
+     * @param ch
+     * @return
+     */
+    public static char removeAccent(char ch) {
+        int index = Arrays.binarySearch(SOURCE_CHARACTERS, ch);
+        if (index >= 0) {
+            ch = DESTINATION_CHARACTERS[index];
+        }
+        return ch;
+    }
+
+    public static String removeAccent(String s) {
+        StringBuilder sb = new StringBuilder(s);
+        for (int i = 0; i < sb.length(); i++) {
+            sb.setCharAt(i, removeAccent(sb.charAt(i)));
+        }
+        return sb.toString();
+    }
+
+    public SanPham selectLastID(String codeSP) {
+        String sql = "select top 1 * from sanpham where MaSP like ? order by MaSP desc;";
+        SanPham sanPham = null;
+        try {
+            ResultSet responce = JdbcHelper.query(sql, "%" + codeSP + "%");
+
+            // admission a ResultSet return a Box
+            if (responce.next()) {
+                sanPham = new SanPhamDao().createObjecet(responce);
+            }
+
+            responce.getStatement().getConnection().close();
+
+        } catch (Exception e) {
+            throw new Error("The Error in selectById SanPham !");
+        }
+        return sanPham;
+    }
 }

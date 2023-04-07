@@ -161,4 +161,12 @@ public class LoaiSPDao implements BoxCfDAO<LoaiSP, String> {
         return selectBySql(sql, "%" + keyWord + "%");
     }
 
+    public List<LoaiSP> selectByDM(String id) {
+
+        String sql = "select * from LoaiSP\n"
+                + "where MaDM = ?";
+
+        return selectBySql(sql, id);
+    }
+
 }

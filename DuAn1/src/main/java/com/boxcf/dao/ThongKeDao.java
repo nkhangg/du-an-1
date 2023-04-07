@@ -303,19 +303,13 @@ public class ThongKeDao {
 
     public List<LichSu> history(String keyword) {
         List<LichSu> list = new ArrayList<>();
-        String sqlKeyword = "select hd.MaHD, NgayTao, TenKH, TenNV, TenSP, SoLuong, ThanhTien, TongTien, PhanTram from HoaDon hd\n"
-                + "join HoaDonCT ct on ct.MaHD = hd.MaHD\n"
-                + "join NhanVien nv on nv.MaNV = hd.MaNV\n"
-                + "join SanPham sp on sp.MaSP = ct.MaSP\n"
-                + "join KhuyenMai km on km.MaKM = hd.MaKM\n"
-                + "where hd.MaHD like ? or TenKH like ? or TenNV like ? or ThanhTien like ? or TongTien like ? or PhanTram like ? \n"
+        String sqlKeyword = "select MaHD, NgayTao, TenKH, TenNV, TongTien, MaKM from HoaDon hd \n"
+                + "join NhanVien nv on nv.MaNV = hd.MaNV \n"
+                + "where hd.MaNV like ? or hd.NgayTao like ? or TenKH like ? or TenNV like ? or TongTien like ? or MaKM like ? or MaHD like ? \n"
                 + "order by NgayTao desc";
 
-        String sql = "select hd.MaHD, NgayTao, TenKH, TenNV, TenSP, SoLuong, ThanhTien, TongTien, PhanTram from HoaDon hd\n"
-                + "join HoaDonCT ct on ct.MaHD = hd.MaHD\n"
+        String sql = "select MaHD, NgayTao, TenKH, TenNV, TongTien, MaKM from HoaDon hd\n"
                 + "join NhanVien nv on nv.MaNV = hd.MaNV\n"
-                + "join SanPham sp on sp.MaSP = ct.MaSP\n"
-                + "join KhuyenMai km on km.MaKM = hd.MaKM\n"
                 + "order by NgayTao desc";
 
         try {
@@ -324,20 +318,12 @@ public class ThongKeDao {
                 responce = JdbcHelper.query(sql);
             } else {
                 keyword = "%" + keyword + "%";
-                responce = JdbcHelper.query(sqlKeyword, keyword, keyword, keyword, keyword, keyword, keyword);
+                responce = JdbcHelper.query(sqlKeyword, keyword, keyword, keyword, keyword, keyword, keyword, keyword);
             }
 
             // admission a ResultSet return a Box
             while (responce.next()) {
-                list.add(new LichSu(responce.getInt(1),
-                        responce.getDate(2),
-                        responce.getString(3),
-                        responce.getString(4),
-                        responce.getString(5),
-                        responce.getInt(6),
-                        responce.getLong(7),
-                        responce.getLong(8),
-                        responce.getString(9) + "%"));
+                list.add(new LichSu(responce.getInt(1), responce.getDate(2), responce.getString(3), responce.getString(4), responce.getLong(5), responce.getString(6)));
             }
             responce.getStatement().getConnection().close();
         } catch (Exception e) {

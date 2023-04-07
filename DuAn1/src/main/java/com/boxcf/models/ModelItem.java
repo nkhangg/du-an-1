@@ -16,7 +16,7 @@ public class ModelItem {
 
     // product
     private Object maItem;
-    private Icon hing;
+    private String hinh;
     private double gia;
     private String ten;
 
@@ -47,12 +47,12 @@ public class ModelItem {
 
     }
 
-    public Icon getHing() {
-        return hing;
+    public String getHing() {
+        return hinh;
     }
 
-    public void setHing(Icon hing) {
-        this.hing = hing;
+    public void setHing(String hing) {
+        this.hinh = hing;
     }
 
     public double getGia() {
@@ -130,9 +130,9 @@ public class ModelItem {
     }
 
     // product
-    public ModelItem(Object maItem, Icon hing, double gia, String ten, int soLuong) {
+    public ModelItem(Object maItem, String hing, double gia, String ten, int soLuong) {
         this.maItem = maItem;
-        this.hing = hing;
+        this.hinh = hing;
         this.gia = gia;
         this.ten = ten;
         this.soLuong = soLuong;
@@ -143,7 +143,7 @@ public class ModelItem {
 
     @Override
     public String toString() {
-        return "ModelItem{" + "maItem=" + maItem + ", hing=" + hing + ", gia=" + gia + ", ten=" + ten + ", gioBD=" + gioBD + ", gioKT=" + gioKT + ", MaDat=" + MaDat + ", trangThai=" + trangThai + ", loaiBox=" + loaiBox + ", soLuong=" + soLuong + '}';
+        return "ModelItem{" + "maItem=" + maItem + ", hing=" + hinh + ", gia=" + gia + ", ten=" + ten + ", gioBD=" + gioBD + ", gioKT=" + gioKT + ", MaDat=" + MaDat + ", trangThai=" + trangThai + ", loaiBox=" + loaiBox + ", soLuong=" + soLuong + '}';
     }
 
 }
