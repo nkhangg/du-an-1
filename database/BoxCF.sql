@@ -33,7 +33,7 @@ GO
 
 
 CREATE TABLE SanPham(
-	MaSP INT IDENTITY PRIMARY KEY NOT NULL,
+	MaSP varchar(10) PRIMARY KEY NOT NULL,
 	TenSP NVARCHAR(50),
 	Gia FLOAT,
 	HinhAnh VARCHAR(100),
@@ -434,7 +434,7 @@ where MaBox = 'B001S'
 
 
 
-
+select * from SanPham
 
 
 
