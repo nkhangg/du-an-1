@@ -1,5 +1,6 @@
 package com.boxcf.ui;
 
+import com.box.utils.Auth;
 import com.box.utils.MsgBox;
 import com.box.utils.UI;
 import com.boxcf.components.ScrollBar;
@@ -67,6 +68,7 @@ public class BoxView extends javax.swing.JPanel implements ActionListener {
         btnDel.setBackground(new java.awt.Color(2, 172, 171));
         btnDel.setForeground(new java.awt.Color(255, 255, 255));
         btnDel.setText("XÓA");
+        btnDel.setFocusable(false);
         btnDel.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnDel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,6 +80,7 @@ public class BoxView extends javax.swing.JPanel implements ActionListener {
         btnAdd.setBackground(new java.awt.Color(2, 172, 171));
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
         btnAdd.setText("THÊM BOX");
+        btnAdd.setFocusable(false);
         btnAdd.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,6 +183,7 @@ public class BoxView extends javax.swing.JPanel implements ActionListener {
         btnXoaLoaiBox.setBackground(new java.awt.Color(2, 172, 171));
         btnXoaLoaiBox.setForeground(new java.awt.Color(255, 255, 255));
         btnXoaLoaiBox.setText("XÓA");
+        btnXoaLoaiBox.setFocusable(false);
         btnXoaLoaiBox.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnXoaLoaiBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,6 +194,7 @@ public class BoxView extends javax.swing.JPanel implements ActionListener {
         btnAdd1.setBackground(new java.awt.Color(2, 172, 171));
         btnAdd1.setForeground(new java.awt.Color(255, 255, 255));
         btnAdd1.setText("THÊM");
+        btnAdd1.setFocusable(false);
         btnAdd1.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnAdd1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -300,19 +305,31 @@ public class BoxView extends javax.swing.JPanel implements ActionListener {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         this.delete();
     }//GEN-LAST:event_btnDelActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         BoxForm.i = -1;
         this.openBoxInfo();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnXoaLoaiBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaLoaiBoxActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         this.deleteLoai();
     }//GEN-LAST:event_btnXoaLoaiBoxActionPerformed
 
     private void btnAdd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd1ActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         LoaiBoxForm.i = -1;
         this.openLoaiBoxForm();
     }//GEN-LAST:event_btnAdd1ActionPerformed
@@ -374,6 +391,8 @@ public class BoxView extends javax.swing.JPanel implements ActionListener {
         this.fillTableLoaiBox(listLoai);
         this.fillComboBox(LoaiBoxDao.getInstance().selectAll());
         cboLoaiBox.addActionListener(this);
+
+        UI.accept(btnAdd, btnDel, btnAdd1, btnXoaLoaiBox);
     }
 
     private void prepareUI() {

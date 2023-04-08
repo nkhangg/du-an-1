@@ -42,7 +42,7 @@ public class ModelItem {
         return maItem;
     }
 
-    public void setMaItem(int maItem) {
+    public void setMaItem(String maItem) {
         this.maItem = maItem;
     }
 

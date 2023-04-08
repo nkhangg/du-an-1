@@ -1,5 +1,6 @@
 package com.boxcf.ui;
 
+import com.box.utils.Auth;
 import com.box.utils.JdbcHelper;
 import com.box.utils.UI;
 import com.boxcf.components.ScrollBar;
@@ -26,49 +27,51 @@ import javax.swing.table.DefaultTableModel;
  * @author HP
  */
 public class SanPhamView extends javax.swing.JPanel {
-
+    
     SanPhamDao spDAO = new SanPhamDao();
     LoaiSPDao lspDAO = new LoaiSPDao();
     DanhMucDao dmDAO = new DanhMucDao();
-
+    
     public int quanity;
     suport sp = new suport();
-
+    
     public int pageNumber = 1;
-
+    
     public String maSP;
     public String maLoai;
     public String maDanhMuc = null;
-
+    
     public SanPhamView() {
         initComponents();
         init();
     }
-
+    
     boolean getClick(JTable table) {
         if (table.getSelectedRow() == -1) {
             return false;
         }
         return true;
     }
-
+    
     private void init() {
         this.prepareUI();
         fillCBBDM();
         fillCBBLoaiSP();
-
+        
         fillToTableSanPham();
         fillToTableDanhMuc();
         fillToTableLoaiSP();
-
+        
         Store.spView = this;
+        
+        UI.accept(btnThemDM, btnThemLSP, btnThemSP, btnXoaDM, btnXoaLSP, btnXoaSP);
     }
-
+    
     private void prepareUI() {
         scroll.setVerticalScrollBar(new ScrollBar());
         UI.changeTransBG(new Color(0, 0, 0, 0), txtTimSP, txtTimLoaiSP, txtTimDM);
     }
-
+    
     private void renderDataTable(List<SanPham> list) {
         DefaultTableModel tbl = (DefaultTableModel) tblSanPham.getModel();
         tbl.setRowCount(0);
@@ -80,7 +83,7 @@ public class SanPhamView extends javax.swing.JPanel {
         }
         
     }
-
+    
     void fillCBBLoaiSP() {
         cboLoaiSP.removeAllItems();
         cboLoaiSP.addItem("All");
@@ -88,9 +91,9 @@ public class SanPhamView extends javax.swing.JPanel {
             cboLoaiSP.addItem(lsp.getTenLoai());
         }
     }
-
+    
     void fillCBBDM() {
-
+        
         cboDanhMuc1.removeAllItems();
         cboDanhMuc2.removeAllItems();
         cboDanhMuc1.addItem("All");
@@ -98,11 +101,11 @@ public class SanPhamView extends javax.swing.JPanel {
         for (DanhMuc dm : dmDAO.selectAll()) {
             cboDanhMuc1.addItem(dm.getTenDM().toString());
             cboDanhMuc2.addItem(dm.getTenDM().toString());
-
+            
         }
-
+        
     }
-
+    
     public void fillToTableSanPham() {
         renderDataTable(sp.panigation(1, txtTimSP.getText(), 4, cboLoaiSP.getSelectedItem().toString() == "All" ? "" : cboLoaiSP.getSelectedItem().toString(), cboDanhMuc1.getSelectedItem().toString() == "All" ? "" : cboDanhMuc1.getSelectedItem().toString()));
 //        for (SanPham sp : spDAO.selectAll()) {
@@ -110,21 +113,21 @@ public class SanPhamView extends javax.swing.JPanel {
 //            tbl.addRow(row);
 //        }
     }
-
+    
     public void timSP() {
         renderDataTable(sp.panigation(1, txtTimSP.getText(), 4, cboLoaiSP.getSelectedItem().toString() == "All" ? "" : cboLoaiSP.getSelectedItem().toString(), cboDanhMuc1.getSelectedItem().toString() == "All" ? "" : cboDanhMuc1.getSelectedItem().toString()));
     }
-
+    
     void filterLoaiSP() {
         renderDataTable(sp.panigation(1, txtTimSP.getText(), 3, cboLoaiSP.getSelectedItem().toString() == "All" ? "" : cboLoaiSP.getSelectedItem().toString(), cboDanhMuc1.getSelectedItem().toString() == "All" ? "" : cboDanhMuc1.getSelectedItem().toString()));
     }
-
+    
     void filterDM() {
         if (cboDanhMuc1.getItemCount() > 1) {
             renderDataTable(sp.panigation(1, txtTimSP.getText(), 4, cboLoaiSP.getSelectedItem().toString() == "All" ? "" : cboLoaiSP.getSelectedItem().toString(), cboDanhMuc1.getSelectedItem().toString() == "All" ? "" : cboDanhMuc1.getSelectedItem().toString()));
         }
     }
-
+    
     void fillToTableLoaiSP() {
         DefaultTableModel tbl = (DefaultTableModel) tblLoaiSP.getModel();
         tbl.setRowCount(0);
@@ -136,7 +139,7 @@ public class SanPhamView extends javax.swing.JPanel {
             i++;
         }
     }
-
+    
     void fillToTableDanhMuc() {
         DefaultTableModel tbl = (DefaultTableModel) tblDanhMuc.getModel();
         tbl.setRowCount(0);
@@ -148,11 +151,11 @@ public class SanPhamView extends javax.swing.JPanel {
             i++;
         }
     }
-
+    
     void openTTSP() {
         new ThongTinSP().setVisible(true);
     }
-
+    
     private void openEditTTSP() {
         SanPham sp = spDAO.selectById(maSP);
         if (sp == null) {
@@ -161,17 +164,17 @@ public class SanPhamView extends javax.swing.JPanel {
         ThongTinSP ttsp = new ThongTinSP();
         ttsp.setModel(sp);
         ttsp.setVisible(true);
-
+        
     }
-
+    
     void openTTLSP() {
         new ThongTinLoaiSP(maLoai).setVisible(true);
     }
-
+    
     void openTTDM() {
         new ThongTinDM(maDanhMuc).setVisible(true);
     }
-
+    
     void xoaSP() {
         if (!getClick(tblSanPham)) {
             JOptionPane.showMessageDialog(this, "Chưa chọn sản phẩm!");
@@ -181,17 +184,17 @@ public class SanPhamView extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Mã sản phẩm " + maSP + " còn đang hoạt động!\n Không thể xóa!");
             return;
         }
-
+        
         int confirm = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa sản phẩm " + maSP + " ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
         if (confirm == 1) {
             return;
         }
-
+        
         spDAO.delete(maSP);
         JOptionPane.showMessageDialog(this, "Xóa thành công!");
         fillToTableSanPham();
     }
-
+    
     void xoaDM() {
         if (!getClick(tblDanhMuc)) {
             JOptionPane.showMessageDialog(this, "Chưa chọn danh mục!");
@@ -205,12 +208,12 @@ public class SanPhamView extends javax.swing.JPanel {
         if (confirm == 1) {
             return;
         }
-
+        
         dmDAO.delete(maDanhMuc);
         JOptionPane.showMessageDialog(this, "Xóa thành công!");
         fillToTableDanhMuc();
     }
-
+    
     void xoaLoaiSP() {
         if (!getClick(tblLoaiSP)) {
             JOptionPane.showMessageDialog(this, "Chưa chọn loại sản phẩm!");
@@ -232,7 +235,7 @@ public class SanPhamView extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Lỗi liên kết dữ liệu!");
         }
     }
-
+    
     boolean kiemTraLienKetSP() {
         HoaDonChiTietDao hdctDAO = new HoaDonChiTietDao();
         ComboCTDao cbctDAO = new ComboCTDao();
@@ -241,7 +244,7 @@ public class SanPhamView extends javax.swing.JPanel {
                 return false;
             }
         }
-
+        
         for (ComboCT cbct : cbctDAO.selectAll()) {
             if (maSP.equals(cbct.getMaSP())) {
                 return false;
@@ -249,7 +252,7 @@ public class SanPhamView extends javax.swing.JPanel {
         }
         return true;
     }
-
+    
     boolean kiemTraLienKetDM() {
         for (LoaiSP lsp : lspDAO.selectAll()) {
             if (maDanhMuc.equals(lsp.getMaDM())) {
@@ -258,7 +261,7 @@ public class SanPhamView extends javax.swing.JPanel {
         }
         return true;
     }
-
+    
     boolean kiemTraLienKetLSP() {
         for (SanPham sp : spDAO.selectAll()) {
             if (maLoai.equals(sp.getMaLoai())) {
@@ -267,13 +270,13 @@ public class SanPhamView extends javax.swing.JPanel {
         }
         return true;
     }
-
+    
     void updateDelButton() {
         btnXoaSP.setEnabled(getClick(tblSanPham));
         btnXoaLSP.setEnabled(getClick(tblLoaiSP));
         btnXoaDM.setEnabled(getClick(tblDanhMuc));
     }
-
+    
     void filterDMLSP() {
         suport sp = new suport();
         DefaultTableModel tbl = (DefaultTableModel) tblLoaiSP.getModel();
@@ -287,10 +290,10 @@ public class SanPhamView extends javax.swing.JPanel {
         }
     }
     
-     public Integer getPageNumber() {
+    public Integer getPageNumber() {
         return (int) Math.ceil(quanity / 8) + 1;
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -735,25 +738,38 @@ public class SanPhamView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSPActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         maSP = null;
         openTTSP();
     }//GEN-LAST:event_btnThemSPActionPerformed
 
     private void btnXoaSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaSPActionPerformed
-        // TODO add your handling code here:
+        if (!Auth.accept(this)) {
+            return;
+        }
         xoaSP();
     }//GEN-LAST:event_btnXoaSPActionPerformed
 
     private void btnXoaDMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaDMActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         xoaDM();
     }//GEN-LAST:event_btnXoaDMActionPerformed
 
     private void btnXoaLSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaLSPActionPerformed
-
+        if (!Auth.accept(this)) {
+            return;
+        }
         xoaLoaiSP();
     }//GEN-LAST:event_btnXoaLSPActionPerformed
 
     private void btnThemLSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemLSPActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         maLoai = null;
         openTTLSP();
     }//GEN-LAST:event_btnThemLSPActionPerformed
@@ -826,7 +842,9 @@ public class SanPhamView extends javax.swing.JPanel {
     }//GEN-LAST:event_tblSanPhamKeyPressed
 
     private void btnThemDMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemDMActionPerformed
-        // TODO add your handling code here:
+        if (!Auth.accept(this)) {
+            return;
+        }
         maDanhMuc = null;
         openTTDM();
     }//GEN-LAST:event_btnThemDMActionPerformed
@@ -903,14 +921,12 @@ public class SanPhamView extends javax.swing.JPanel {
 }
 
 class suport {
-
-  
-
+    
     public List<LoaiSP> selectDMLSP(String keyWord) {
         String sql = "select * from LoaiSP lsp inner join DanhMuc dm on lsp.MaDM=dm.MaDM where TenDM=?;";
         return new LoaiSPDao().selectBySql(sql, keyWord);
     }
-
+    
     public List<SanPham> panigation(Integer pageCurrent, String keyWord, int type, String TenLoai, String TenDM) {
         String sql = "";
         switch (type) {
@@ -934,12 +950,12 @@ class suport {
                 return null;
         }
     }
-
+    
     public List<LoaiSP> getLSPFromDM(String tenDM) {
         String sql = "Select lsp.* from LoaiSP lsp inner join DanhMuc dm on lsp.MaDM = dm.MaDM where dm.TenDM like ?;";
         return new LoaiSPDao().selectBySql(sql, "%" + tenDM + "%");
     }
-
+    
     public DanhMuc DMFromLSP(String tenLoai) {
         String sql = "Select dm.* from LoaiSP lsp inner join DanhMuc dm on lsp.MaDM = dm.MaDM where lsp.TenLoai like ?;";
         DanhMuc dm = new DanhMuc();
@@ -953,6 +969,5 @@ class suport {
         }
         return dm;
     }
-
     
 }

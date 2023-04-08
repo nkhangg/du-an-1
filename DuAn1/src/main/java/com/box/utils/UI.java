@@ -4,6 +4,7 @@
  */
 package com.box.utils;
 
+import com.boxcf.components.ButtonRound;
 import java.awt.Color;
 import javax.swing.JTextField;
 
@@ -17,6 +18,14 @@ public class UI {
         for (JTextField txt : txts) {
             txt.setOpaque(false);
             txt.setBackground(color);
+        }
+    }
+
+    public static void accept(ButtonRound... button) {
+        if (!Auth.isManager()) {
+            for (ButtonRound btn : button) {
+                btn.setBackground(Color.decode("#e6ddce"));
+            }
         }
     }
 }

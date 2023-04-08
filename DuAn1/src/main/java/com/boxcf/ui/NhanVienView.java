@@ -1,5 +1,6 @@
 package com.boxcf.ui;
 
+import com.box.utils.Auth;
 import com.box.utils.MsgBox;
 import com.box.utils.UI;
 import com.box.utils.XDate;
@@ -18,16 +19,16 @@ import javax.swing.table.DefaultTableModel;
  * @author HP
  */
 public class NhanVienView extends javax.swing.JPanel {
-    
+
     private List<NhanVien> nhanvien;
     private DefaultTableModel model;
     NhanVienDao nvDAO = new NhanVienDao();
-    
+
     public NhanVienView() {
         initComponents();
         init();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -36,7 +37,7 @@ public class NhanVienView extends javax.swing.JPanel {
         lblMaNV = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblNhanVien = new javax.swing.JTable();
-        buttonRound1 = new com.boxcf.components.ButtonRound();
+        btnDel = new com.boxcf.components.ButtonRound();
         btnAdd = new com.boxcf.components.ButtonRound();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -96,17 +97,17 @@ public class NhanVienView extends javax.swing.JPanel {
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 304, 985, 382));
 
-        buttonRound1.setBackground(new java.awt.Color(2, 172, 171));
-        buttonRound1.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound1.setText("XÓA");
-        buttonRound1.setFocusable(false);
-        buttonRound1.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        buttonRound1.addActionListener(new java.awt.event.ActionListener() {
+        btnDel.setBackground(new java.awt.Color(2, 172, 171));
+        btnDel.setForeground(new java.awt.Color(255, 255, 255));
+        btnDel.setText("XÓA");
+        btnDel.setFocusable(false);
+        btnDel.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnDel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonRound1ActionPerformed(evt);
+                btnDelActionPerformed(evt);
             }
         });
-        add(buttonRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 216, 96, 40));
+        add(btnDel, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 216, 96, 40));
 
         btnAdd.setBackground(new java.awt.Color(2, 172, 171));
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
@@ -137,11 +138,17 @@ public class NhanVienView extends javax.swing.JPanel {
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 220, -1, 40));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonRound1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound1ActionPerformed
+    private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         handleDelete();
-    }//GEN-LAST:event_buttonRound1ActionPerformed
+    }//GEN-LAST:event_btnDelActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         this.openThemNV();
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -154,14 +161,16 @@ public class NhanVienView extends javax.swing.JPanel {
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void tblNhanVienMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNhanVienMouseReleased
-        
+        if (!Auth.accept(this)) {
+            return;
+        }
         handleOpenEdit(evt);
     }//GEN-LAST:event_tblNhanVienMouseReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.boxcf.components.ButtonRound btnAdd;
-    private com.boxcf.components.ButtonRound buttonRound1;
+    private com.boxcf.components.ButtonRound btnDel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -175,24 +184,25 @@ public class NhanVienView extends javax.swing.JPanel {
         Store.nvView = this;
         this.prepareUI();
         fillDataTable();
+        UI.accept(btnAdd, btnDel);
     }
-    
+
     private void prepareUI() {
         UI.changeTransBG(new Color(0, 0, 0, 0), txtTimNV);
     }
-    
+
     private void openThemNV() {
         ThongTinNV themNV = new ThongTinNV();
         themNV.setVisible(true);
     }
-    
+
     boolean getClick(JTable table) {
         if (table.getSelectedRow() == -1) {
             return false;
         }
         return true;
     }
-    
+
     public void render(List<NhanVien> list) {
         DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
         model.setRowCount(0);
@@ -213,12 +223,12 @@ public class NhanVienView extends javax.swing.JPanel {
             MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
         }
     }
-    
+
     public void fillDataTable() {
         String keyword = txtTimNV.getText();
         render(nvDAO.selectByKeyword(keyword));
     }
-    
+
     private void handleOpenTrash() {
         ThungRac trnv = new ThungRac() {
             @Override
@@ -233,12 +243,12 @@ public class NhanVienView extends javax.swing.JPanel {
                         XDate.toString(nv.getNgaySinh(), "dd/mm/yyyy"),
                         XDate.toString(nv.getNgayVaoLam(), "dd/mm/yyyy"),
                         nv.getVaiTro()};
-                    
+
                     model.addRow(row);
                     i++;
                 }
             }
-            
+
             @Override
             public void initHeader() {
                 DefaultTableModel model = (DefaultTableModel) this.getTbl().getModel();
@@ -249,47 +259,47 @@ public class NhanVienView extends javax.swing.JPanel {
                     "Ngày Sinh",
                     "Ngày Vào Làm",
                     "Chức Vụ"};
-                
+
                 model.setColumnIdentifiers(cols);
             }
-            
+
             @Override
             public void initTitle() {
                 this.getTitles().setText("Nhân Viên Không Còn Làm Việc");
             }
         };
-        
+
         trnv.setVisible(true);
-        
+
     }
-    
+
     private void handleOpenEdit(MouseEvent evt) {
         if (evt.getClickCount() == 2) {
             ThongTinNV tnNv = new ThongTinNV();
             String id = tblNhanVien.getValueAt(tblNhanVien.getSelectedRow(), 1).toString().toLowerCase();
             NhanVien nv = NhanVienDao.getInstant().selectById(id);
-            
+
             if (nv != null) {
                 tnNv.setModel(nv);
                 tnNv.setVisible(true);
             }
         }
     }
-    
+
     private void handleDelete() {
         int[] list = tblNhanVien.getSelectedRows();
-        
+
         if (list.length <= 0) {
             return;
         }
-        
+
         boolean check = MsgBox.confirm(Store.globelMain, "Điều này sẽ làm mất đi " + list.length + " nhân viên của cửa hàng đó >.<");
-        
+
         if (!check) {
             tblNhanVien.clearSelection();
             return;
         }
-        
+
         for (int selectedRow : list) {
             String id = (String) tblNhanVien.getValueAt(selectedRow, 1);
             NhanVienDao.getInstant().delete(id);
@@ -297,5 +307,5 @@ public class NhanVienView extends javax.swing.JPanel {
         fillDataTable();
         tblNhanVien.clearSelection();
     }
-    
+
 }

@@ -322,6 +322,9 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonRound5ActionPerformed
 
     private void buttonRound9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound9ActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         this.hidden(spView, nvView, boxView, kmView);
 //        this.active(tkView);
         tkView = new ThongKeView();

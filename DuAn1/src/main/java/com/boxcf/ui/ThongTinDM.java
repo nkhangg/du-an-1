@@ -4,6 +4,7 @@
  */
 package com.boxcf.ui;
 
+import com.box.utils.Auth;
 import com.box.utils.UI;
 import com.boxcf.dao.DanhMucDao;
 import com.boxcf.dao.LoaiSPDao;
@@ -88,6 +89,8 @@ public class ThongTinDM extends javax.swing.JFrame {
         btnLast.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnNext.setEnabled(edit && last);
         btnNext.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
+
+        UI.accept(btnCapNhat, btnThem, btnReset);
     }
 
     void editw() {
@@ -306,7 +309,7 @@ public class ThongTinDM extends javax.swing.JFrame {
 
         btnReset.setBackground(new java.awt.Color(2, 172, 171));
         btnReset.setForeground(new java.awt.Color(255, 255, 255));
-        btnReset.setText("RESET");
+        btnReset.setText("MỚI");
         btnReset.setFocusable(false);
         btnReset.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnReset.addActionListener(new java.awt.event.ActionListener() {
@@ -403,13 +406,17 @@ public class ThongTinDM extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
+        if (!Auth.accept(this)) {
+            return;
+        }
         insert();
 
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
-        // TODO add your handling code here:
+        if (!Auth.accept(this)) {
+            return;
+        }
         update();
     }//GEN-LAST:event_btnCapNhatActionPerformed
 
@@ -434,6 +441,10 @@ public class ThongTinDM extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLastActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+
+        if (!Auth.accept(this)) {
+            return;
+        }
         clear();
     }//GEN-LAST:event_btnResetActionPerformed
 

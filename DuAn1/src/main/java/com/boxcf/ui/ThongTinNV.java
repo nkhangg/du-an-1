@@ -4,6 +4,7 @@
  */
 package com.boxcf.ui;
 
+import com.box.utils.Auth;
 import com.box.utils.MsgBox;
 import com.box.utils.UI;
 import com.box.utils.Validator;
@@ -380,10 +381,16 @@ public class ThongTinNV extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         handleInsert();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         handleUpdate();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -411,6 +418,9 @@ public class ThongTinNV extends javax.swing.JFrame {
     }//GEN-LAST:event_lblHinhAnhMouseClicked
 
     private void btnCleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCleanActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         clear();
     }//GEN-LAST:event_btnCleanActionPerformed
 
@@ -561,6 +571,8 @@ public class ThongTinNV extends javax.swing.JFrame {
         btnLast.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnNext.setEnabled(edit && last);
         btnNext.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
+
+        UI.accept(btnAdd, btnUpdate, btnClean);
     }
 
     private void control(String btn) {

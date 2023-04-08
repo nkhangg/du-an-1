@@ -4,6 +4,7 @@
  */
 package com.boxcf.ui;
 
+import com.box.utils.Auth;
 import com.box.utils.UI;
 import com.boxcf.dao.DanhMucDao;
 import com.boxcf.dao.LoaiSPDao;
@@ -22,15 +23,15 @@ import javax.swing.JOptionPane;
  * @author Asus
  */
 public class ThongTinLoaiSP extends javax.swing.JFrame {
-
+    
     LoaiSPDao lspDAO = new LoaiSPDao();
     DanhMucDao dmDAO = new DanhMucDao();
-
+    
     Color cNormal = new Color(2, 172, 171);
     SanPhamView spview = Store.spView;
-
+    
     List<LoaiSP> list;
-
+    
     int index = 0;
     String ID = null;
 
@@ -42,7 +43,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         initComponents();
         init();
     }
-
+    
     void init() {
         prepareUI();
         setLocationRelativeTo(null);
@@ -50,26 +51,26 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         getViTri();
         editw();
     }
-
+    
     private void prepareUI() {
         Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
         this.setShape(shape);
         UI.changeTransBG(new Color(0, 0, 0, 0), txtMaLSP, txtTenLSP);
-
+        
     }
-
+    
     void fillComboBox() {
         for (DanhMuc dm : dmDAO.selectAll()) {
             cboDanhMuc.addItem(dm.getTenDM());
         }
     }
-
+    
     void getViTri() {
         list = lspDAO.selectAll();
         if (ID == null) {
             return;
         }
-
+        
         for (LoaiSP lsp : list) {
             if (lsp.getMaLoai().equals(ID)) {
                 index = list.indexOf(lsp);
@@ -77,7 +78,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
             }
         }
     }
-
+    
     void setStatus() {
         boolean edit = this.index >= 0;
         boolean first = this.index > 0;
@@ -87,7 +88,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         btnCapNhat.setBackground(edit ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnThem.setEnabled(!edit);
         btnThem.setBackground(!edit ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
-
+        
         btnFirst.setEnabled(edit && first);
         btnFirst.setBackground(edit && first ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnPre.setEnabled(edit && first);
@@ -96,8 +97,10 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         btnLast.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnNext.setEnabled(edit && last);
         btnNext.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
+        
+        UI.accept(btnCapNhat, btnThem, btnReset);
     }
-
+    
     void editw() {
         try {
             if (ID == null) {
@@ -111,18 +114,18 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
             throw new RuntimeException(e);
         }
     }
-
+    
     void setModel(LoaiSP lsp) {
-
+        
         DanhMuc dm = dmDAO.selectById(lsp.getMaDM());
-
+        
         txtMaLSP.setText("" + lsp.getMaLoai());
         txtTenLSP.setText("" + lsp.getTenLoai());
-
+        
         cboDanhMuc.setSelectedItem(dm.getTenDM());
-
+        
     }
-
+    
     LoaiSP getModel() {
         LoaiSP lsp = new LoaiSP();
         DanhMuc dm = dmDAO.selectByName((String) cboDanhMuc.getSelectedItem());
@@ -131,9 +134,9 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         lsp.setMaDM(dm.getMaDM());
         return lsp;
     }
-
+    
     void insert() {
-
+        
         if (!validateForm()) {
             return;
         }
@@ -141,7 +144,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Mã loại sản phẩm đã tồn tại!");
             return;
         }
-
+        
         try {
             lspDAO.insert(getModel());
             spview.fillToTableLoaiSP();
@@ -152,7 +155,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
             throw new RuntimeException(e);
         }
     }
-
+    
     void update() {
         if (!validateForm()) {
             return;
@@ -166,27 +169,27 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
             throw new RuntimeException(e);
         }
     }
-
+    
     void first() {
         index = 0;
         editw();
     }
-
+    
     void prev() {
         index--;
         editw();
     }
-
+    
     void next() {
         index++;
         editw();
     }
-
+    
     void last() {
         index = list.size() - 1;
         editw();
     }
-
+    
     void clear() {
         txtMaLSP.setText("");
         txtTenLSP.setText("");
@@ -194,7 +197,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         index = -1;
         setStatus();
     }
-
+    
     boolean validateForm() {
         StringBuilder sb = new StringBuilder();
         sb.append(txtMaLSP.getText().isEmpty() ? "Mã loại sản phẩm không thể trống!" : "");
@@ -205,7 +208,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         }
         return true;
     }
-
+    
     boolean checkTrungID() {
         String maLoaiSP = txtMaLSP.getText();
         for (LoaiSP lsp : list) {
@@ -324,7 +327,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
 
         btnReset.setBackground(new java.awt.Color(2, 172, 171));
         btnReset.setForeground(new java.awt.Color(255, 255, 255));
-        btnReset.setText("RESET");
+        btnReset.setText("MỚI");
         btnReset.setFocusable(false);
         btnReset.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
         btnReset.addActionListener(new java.awt.event.ActionListener() {
@@ -426,13 +429,17 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
+        if (!Auth.accept(this)) {
+            return;
+        }
         insert();
 
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
-        // TODO add your handling code here:
+        if (!Auth.accept(this)) {
+            return;
+        }
         update();
     }//GEN-LAST:event_btnCapNhatActionPerformed
 
@@ -457,6 +464,9 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLastActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         clear();
     }//GEN-LAST:event_btnResetActionPerformed
 

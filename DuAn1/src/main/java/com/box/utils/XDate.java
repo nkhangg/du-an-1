@@ -80,7 +80,7 @@ public class XDate {
         String date = XDate.toString(XDate.now(), "MM/dd/yyyy");
         // 23h đóng cửa nên nếu thời gian bắt đầu là lớn hơn 22h vd 22h10p thì sẻ không hợp lí
         // nhưng thời gian bắt đầu là 22h thì lại hợp lí nên chỉ bỏ những giờ lớn hơn 22h
-        String timeClose = date + " 22:00:00";
+        String timeClose = date + " 23:00:00";
         return XDate.toDate(timeClose, Store.partten);
     }
 
@@ -125,7 +125,7 @@ public class XDate {
         Date s = XDate.toDate("2023/04/06 01:28:03", Store.partten);
         Date e = XDate.toDate("2023/04/06 02:28:03", Store.partten);
 
-        System.out.println(XDate.getHour(s, e));
+        System.out.println(XDate.getHour("15:20:00"));
 
     }
 

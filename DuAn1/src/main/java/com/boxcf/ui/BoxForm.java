@@ -4,6 +4,7 @@
  */
 package com.boxcf.ui;
 
+import com.box.utils.Auth;
 import com.box.utils.MsgBox;
 import com.box.utils.UI;
 import com.box.utils.XImage;
@@ -70,6 +71,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         lblHinhAnh = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setFocusable(false);
         setUndecorated(true);
 
         gradientPanel1.setColor1(new java.awt.Color(102, 102, 102));
@@ -146,6 +148,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         btnLast.setBackground(new java.awt.Color(2, 172, 171));
         btnLast.setForeground(new java.awt.Color(255, 255, 255));
         btnLast.setText(">|");
+        btnLast.setFocusable(false);
         btnLast.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
         btnLast.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,6 +160,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         btnNext.setBackground(new java.awt.Color(2, 172, 171));
         btnNext.setForeground(new java.awt.Color(255, 255, 255));
         btnNext.setText(">>");
+        btnNext.setFocusable(false);
         btnNext.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
         btnNext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -168,6 +172,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         btnPre.setBackground(new java.awt.Color(2, 172, 171));
         btnPre.setForeground(new java.awt.Color(255, 255, 255));
         btnPre.setText("<<");
+        btnPre.setFocusable(false);
         btnPre.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
         btnPre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -179,6 +184,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         btnFirst.setBackground(new java.awt.Color(2, 172, 171));
         btnFirst.setForeground(new java.awt.Color(255, 255, 255));
         btnFirst.setText("|<");
+        btnFirst.setFocusable(false);
         btnFirst.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
         btnFirst.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,6 +196,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         btnAdd.setBackground(new java.awt.Color(2, 172, 171));
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
         btnAdd.setText("LƯU");
+        btnAdd.setFocusable(false);
         btnAdd.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -201,6 +208,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         btnCapNhatSP.setBackground(new java.awt.Color(2, 172, 171));
         btnCapNhatSP.setForeground(new java.awt.Color(255, 255, 255));
         btnCapNhatSP.setText("MỚI");
+        btnCapNhatSP.setFocusable(false);
         btnCapNhatSP.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
         btnCapNhatSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -212,6 +220,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         btnUpdate.setBackground(new java.awt.Color(2, 172, 171));
         btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
         btnUpdate.setText("CẬP NHẬT");
+        btnUpdate.setFocusable(false);
         btnUpdate.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -281,6 +290,9 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
     }//GEN-LAST:event_btnCapNhatSPActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         this.insert();
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -289,6 +301,9 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         this.update();
         Store.boxView.fillTableBox(BoxDao.getInstance().selectAll());
     }//GEN-LAST:event_btnUpdateActionPerformed
@@ -326,6 +341,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         this.prepareUI();
         this.fillComboBox();
         this.updateStatus();
+        UI.accept(btnAdd, btnCapNhatSP, btnUpdate);
     }
 
     private void prepareUI() {
@@ -418,6 +434,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
     }
 
     private void updateStatus() {
+
         boolean edit = i >= 0;
         boolean first = i > 0;
         boolean last = i < list.size() - 1;
@@ -435,6 +452,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         btnLast.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnNext.setEnabled(edit && last);
         btnNext.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
+
     }
 
     private void control(String btn) {
@@ -460,6 +478,8 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         }
         this.setForm(list.get(i));
         this.updateStatus();
+        UI.accept(btnAdd, btnCapNhatSP, btnUpdate);
+
     }
 
     private void chooseImage() {

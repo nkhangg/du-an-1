@@ -14,7 +14,7 @@ import java.util.Date;
  * @author ji
  */
 public class PhieuDatBox {
-    
+
     int maHD;
     String maBox;
     String TenKH;
@@ -29,13 +29,14 @@ public class PhieuDatBox {
     public PhieuDatBox() {
     }
 
-    public PhieuDatBox(int maHD, String maBox, String TenKH, Timestamp GioBD, Timestamp GioKT, int soGio, int thanhTien, String TrangThai, String ghiChu) {
+    public PhieuDatBox(int maHD, String maBox, String TenKH, Timestamp GioBD, Timestamp GioKT, int soGio, int tratruoc, int thanhTien, String TrangThai, String ghiChu) {
         this.maHD = maHD;
         this.maBox = maBox;
         this.TenKH = TenKH;
         this.GioBD = GioBD;
         this.GioKT = GioKT;
         this.soGio = soGio;
+        this.traTruoc = tratruoc;
         this.thanhTien = thanhTien;
         this.TrangThai = TrangThai;
         this.ghiChu = ghiChu;
@@ -112,10 +113,10 @@ public class PhieuDatBox {
     public void setSoGio(int soGio) {
         this.soGio = soGio;
     }
-    
+
     @Override
     public String toString() {
-        return "DatBox{" + ", TenKH=" + TenKH + ", GioBD=" + GioBD + ", GioKT=" + GioKT + ", TrangThai=" + TrangThai + ", MaBox=" + maBox + '}';
+        return "PhieuDatBox{" + "maHD=" + maHD + ", maBox=" + maBox + ", TenKH=" + TenKH + ", GioBD=" + GioBD + ", GioKT=" + GioKT + ", soGio=" + soGio + ", traTruoc=" + traTruoc + ", thanhTien=" + thanhTien + ", TrangThai=" + TrangThai + ", ghiChu=" + ghiChu + '}';
     }
-    
+
 }

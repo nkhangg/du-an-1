@@ -74,7 +74,7 @@ public class Store {
 
     public static String partten = "MM/dd/yyyy HH:mm:ss";
 
-    public static int breaks = 5;
+    public static int breaks = 0;
 
     public static Panigation panigation = null;
 

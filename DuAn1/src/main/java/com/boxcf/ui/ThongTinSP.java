@@ -4,6 +4,7 @@
  */
 package com.boxcf.ui;
 
+import com.box.utils.Auth;
 import com.box.utils.JdbcHelper;
 import com.box.utils.UI;
 import com.box.utils.XImage;
@@ -160,6 +161,8 @@ public class ThongTinSP extends javax.swing.JFrame {
         btnLast.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnNext.setEnabled(edit && last);
         btnNext.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
+
+        UI.accept(btnCapNhatSP, btnThemSP);
     }
 
     SanPham getModel() {
@@ -528,10 +531,16 @@ public class ThongTinSP extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSPActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         insert();
     }//GEN-LAST:event_btnThemSPActionPerformed
 
     private void btnCapNhatSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatSPActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         update();
     }//GEN-LAST:event_btnCapNhatSPActionPerformed
 

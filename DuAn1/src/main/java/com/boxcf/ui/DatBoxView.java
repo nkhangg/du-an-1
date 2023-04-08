@@ -1,9 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.boxcf.ui;
 
+import com.box.utils.Auth;
+import com.box.utils.Formats;
 import com.box.utils.MsgBox;
 import com.boxcf.store.Store;
 import com.box.utils.XDate;
@@ -17,12 +15,15 @@ import com.boxcf.dao.HoaDonDao;
 import com.boxcf.dao.PhieuDatBoxDao;
 import com.boxcf.models.DatTruoc;
 import com.boxcf.models.HoaDon;
+import com.boxcf.models.ModelCboFitTime;
 import com.boxcf.models.ModelItem;
 import com.boxcf.models.PhieuDatBox;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.HeadlessException;
 import java.awt.Shape;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.Date;
@@ -108,13 +109,13 @@ public class DatBoxView extends javax.swing.JFrame {
         tblDatTruoc.setFont(new java.awt.Font("UTM BryantLG", 0, 12)); // NOI18N
         tblDatTruoc.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Box", "Người đặt", "Giờ đặt", "Số giờ", "Trả trước"
+                "STT", "Box", "Người đặt", "Giờ đặt", "Giờ trả", "Số giờ", "Trả trước"
             }
         ));
         tblDatTruoc.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -173,7 +174,6 @@ public class DatBoxView extends javax.swing.JFrame {
         });
         pnlDatBox.add(btnDatBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 310, 120, 50));
 
-        cboSoGio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
         cboSoGio.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         cboSoGio.setLabeText("");
         cboSoGio.addActionListener(new java.awt.event.ActionListener() {
@@ -184,7 +184,6 @@ public class DatBoxView extends javax.swing.JFrame {
         pnlDatBox.add(cboSoGio, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 210, 90, 35));
 
         cboHour.setForeground(new java.awt.Color(51, 51, 51));
-        cboHour.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
         cboHour.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
         cboHour.setLabeText("");
         cboHour.addActionListener(new java.awt.event.ActionListener() {
@@ -195,7 +194,6 @@ public class DatBoxView extends javax.swing.JFrame {
         pnlDatBox.add(cboHour, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, 90, 40));
 
         cboMinute.setForeground(new java.awt.Color(51, 51, 51));
-        cboMinute.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "05", "10", "15", "20", "25", "30", "35", "40", "43", "45", "50", "55", " " }));
         cboMinute.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
         cboMinute.setLabeText("");
         cboMinute.addActionListener(new java.awt.event.ActionListener() {
@@ -348,16 +346,18 @@ public class DatBoxView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHuyBoxActionPerformed
 
     private void checkBoxCustom1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxCustom1ActionPerformed
-        isBooked = true;
+        isBooked = !isBooked;
         setState(isBooked);
     }//GEN-LAST:event_checkBoxCustom1ActionPerformed
 
     private void cboHourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboHourActionPerformed
         setGioBD();
+        renderTimeNumber();
     }//GEN-LAST:event_cboHourActionPerformed
 
     private void cboMinuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMinuteActionPerformed
         setGioBD();
+        renderTimeNumber();
     }//GEN-LAST:event_cboMinuteActionPerformed
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
@@ -444,11 +444,14 @@ public class DatBoxView extends javax.swing.JFrame {
 
     private void init() {
         Store.dbView = this;
+
         prepareUI();
         setBox();
         setMode();
 
-//        renderHour();
+        renderHour();
+        renderTimeNumber();
+
 //        renderDataTable();
         fillTable();
     }
@@ -518,26 +521,142 @@ public class DatBoxView extends javax.swing.JFrame {
     }
 
     public void renderHour() {
-        // sua thu
-        List<DatTruoc> list = DatTruocDao.getInstant().selectAllWithIdBoxActive(Integer.parseInt(box.getMaItem() + ""));
-        Date ngayBD = XDate.getHour(lblGioBd.getText());
+        PhieuDatBoxDao dPd = PhieuDatBoxDao.getInstant();
 
-        if (list.isEmpty()) {
-            cboSoGio.removeAllItems();
-            for (int i = 1; i <= XDate.fitHourWithTime(ngayBD); i++) {
-                cboSoGio.addItem(i);
+        PhieuDatBox activeBox = dPd.getActive(this.box.getMaItem().toString());
+        List<PhieuDatBox> listBookedBox = dPd.getBookedListProc(this.box.getMaItem().toString());
+        List<ModelCboFitTime> listCbo = new ArrayList<>();
+
+        if (activeBox == null && listBookedBox.isEmpty()) {
+            int i = 0;
+            while (true) {
+                Date gioTh = XDate.addHours(XDate.now(), i);
+
+                if (XDate.beforeTimeClose(gioTh)) {
+                    break;
+                }
+                listCbo.add(new ModelCboFitTime(gioTh, XDate.fitHourWithTime(gioTh)));
+                i++;
+            }
+
+            cboHour.removeAllItems();
+            for (ModelCboFitTime model : listCbo) {
+                String hour = XDate.toString(model.getTime(), "HH");
+                cboHour.addItem(model);
             }
             return;
         }
 
-        DatTruoc dt = list.get(0);
+        if (activeBox == null && !listBookedBox.isEmpty()) {
+            for (int i = 0; i < listBookedBox.size(); i++) {
+                System.out.println(listBookedBox.get(i));
+                long second = 0;
+                if (i < listBookedBox.size() - 1) {
+                    second = listBookedBox.get(i + 1).getGioBD().getTime() - listBookedBox.get(i).getGioKT().getTime();
 
-        long second = dt.getGioBD().getTime() - ngayBD.getTime();
+                }
+                long hour = (second / 60 / 60 / 1000);
+                if (second > 6000000) {
+                    ModelCboFitTime mcbb = new ModelCboFitTime(XDate.addMinus(new Date(listBookedBox.get(i).getGioKT().getTime()), Store.breaks), (int) hour <= 1 ? 1 : (int) hour);
+                    listCbo.add(mcbb);
+                }
 
-        long hour = (second / 60 / 60 / 1000);
-        if (second > 6000000) {
-            cboSoGio.removeAllItems();
-            for (int i = 1; i <= hour; i++) {
+            }
+
+            PhieuDatBox dt = listBookedBox.get(listBookedBox.size() - 1);
+            ModelCboFitTime mcbb = new ModelCboFitTime(XDate.addMinus(new Date(dt.getGioKT().getTime()), Store.breaks), XDate.fitHourWithTime(dt.getGioKT()));
+
+            if (!XDate.beforeTimeClose(mcbb.getTime())) {
+                listCbo.add(mcbb);
+                int i = 1;
+                while (true) {
+                    Date date = XDate.addHours(new Date(mcbb.getTime().getTime()), i);
+                    ModelCboFitTime mddt = new ModelCboFitTime(date, XDate.fitHourWithTime(date));
+                    if (XDate.beforeTimeClose(mddt.getTime())) {
+                        break;
+                    }
+                    listCbo.add(mddt);
+                    i++;
+                }
+            }
+
+            cboHour.removeAllItems();
+            for (ModelCboFitTime model : listCbo) {
+                String hour = XDate.toString(model.getTime(), "HH");
+                cboHour.addItem(model);
+            }
+            return;
+        }
+
+    }
+
+    private void renderMinus() {
+//        PhieuDatBoxDao dPd = PhieuDatBoxDao.getInstant();
+//        if (cboHour.getSelectedItem() == null) {
+//            return;
+//        }
+//
+//        cboMinute.removeAllItems();
+//
+//        PhieuDatBox activeBox = dPd.getActive(this.box.getMaItem().toString());
+//        List<PhieuDatBox> listBookedBox = dPd.getBookedListProc(this.box.getMaItem().toString());
+//
+//        int minus = Integer.parseInt(XDate.toString(XDate.now(), "mm"));
+//        int hour = Integer.parseInt(cboHour.getSelectedItem().toString());
+//        if (hour == 22) {
+//            cboMinute.addItem("00");
+//            return;
+//        }
+//
+//        if (hour != Integer.parseInt(XDate.toString(XDate.now(), "HH"))) {
+//            minus = 5;
+//        }
+//
+//        if (activeBox == null && !listBookedBox.isEmpty()) {
+//            PhieuDatBox firstPd = listBookedBox.get(0);
+//            PhieuDatBox lastPd = listBookedBox.get(listBookedBox.size() - 1);
+//
+//            int hourNextTime = Integer.parseInt(XDate.toString(firstPd.getGioBD(), "HH"));
+//            int hourLastTime = Integer.parseInt(XDate.toString(lastPd.getGioKT(), "HH"));
+//            int minusNextTime = Integer.parseInt(XDate.toString(firstPd.getGioBD(), "mm"));
+//            int minusLastTime = Integer.parseInt(XDate.toString(lastPd.getGioKT(), "mm"));
+//
+//            if (hour == hourNextTime) {
+//                for (int i = minusNextTime; i <= 55; i++) {
+//                    if (i % 5 == 0) {
+//                        cboMinute.addItem(i < 10 ? "0" + i : i);
+//                    }
+//                }
+//            } else if (hour == hourLastTime) {
+//                for (int i = hourLastTime; i <= 55; i++) {
+//                    if (i % 5 == 0) {
+//                        cboMinute.addItem(i < 10 ? "0" + i : i);
+//                    }
+//                }
+//            } else {
+//                for (int i = minus; i <= 55; i++) {
+//                    if (i % 5 == 0) {
+//                        cboMinute.addItem(i < 10 ? "0" + i : i);
+//                    }
+//                }
+//            }
+//
+//            return;
+//        }
+//
+//        for (int i = minus; i <= 55; i++) {
+//            if (i % 5 == 0) {
+//                cboMinute.addItem(i < 10 ? "0" + i : i);
+//            }
+//        }
+
+    }
+
+    private void renderTimeNumber() {
+        cboSoGio.removeAllItems();
+        if (cboHour.getSelectedItem() instanceof ModelCboFitTime) {
+            ModelCboFitTime md = (ModelCboFitTime) cboHour.getSelectedItem();
+            for (int i = 1; i <= md.getLimit(); i++) {
                 cboSoGio.addItem(i);
             }
         }
@@ -577,13 +696,24 @@ public class DatBoxView extends javax.swing.JFrame {
         //neu la dat truoc --> set gioBD theo combo box
 //        Integer hour = 6;
 //        Integer minute = 5;
-        int hour = Integer.parseInt(cboHour.getSelectedItem().toString());
-        int minute = Integer.parseInt(cboMinute.getSelectedItem().toString());
-        Date current = new Date();
-        Date gioBD = new Date(current.getYear(), current.getMonth(), current.getDate(), hour, minute, 0);
+        renderTimeNumber();
+        if (cboHour.getSelectedItem() == null) {
+            return;
+        }
 
-        lblGioBd.setText(XDate.toString(gioBD, "HH:mm:ss"));
-        box.setGioBD(gioBD);
+        if (cboHour.getSelectedItem() instanceof ModelCboFitTime) {
+            ModelCboFitTime model = (ModelCboFitTime) cboHour.getSelectedItem();
+
+//            int hour = Integer.parseInt(cboHour.getSelectedItem().toString());
+//            int minute = Integer.parseInt(cboMinute.getSelectedItem().toString());
+            Date current = new Date();
+//            Date gioBD = new Date(current.getYear(), current.getMonth(), current.getDate(), hour, minute, 0);
+            Date gioBD = new Date(model.getTime().getTime());
+
+            lblGioBd.setText(XDate.toString(gioBD, "HH:mm:ss"));
+            box.setGioBD(gioBD);
+        }
+
     }
 
     List<PhieuDatBox> listBox;
@@ -600,28 +730,28 @@ public class DatBoxView extends javax.swing.JFrame {
         PhieuDatBox nextBooked = PhieuDatBoxDao.getInstant().getNextBooked(box.getMaItem().toString());
         PhieuDatBox usingBox = PhieuDatBoxDao.getInstant().getUsing(box.getMaItem().toString());
 
-        if (usingBox != null) {
-            System.out.println("ko null");
-            if (gioBD <= usingBox.getGioKT().getTime()) {
-
-                MsgBox.alert(this, "Box dang duoc su dung!");
-                return;
-            }
-        }
-
-        if (nextBooked != null) {
-            long nextGioBD = nextBooked.getGioBD().getTime();
-            long nextGioKT = nextBooked.getGioKT().getTime();
-
-            if (gioKT >= nextGioBD) {
-                MsgBox.alert(this, "Giờ đặt đã có người!");
-                return;
-            }
-        }
-
+//        if (usingBox != null) {
+//            System.out.println("ko null");
+//            if (gioBD <= usingBox.getGioKT().getTime()) {
+//
+//                MsgBox.alert(this, "Box dang duoc su dung!");
+//                return;
+//            }
+//        }
+//
+//        if (nextBooked != null) {
+//            long nextGioBD = nextBooked.getGioBD().getTime();
+//            long nextGioKT = nextBooked.getGioKT().getTime();
+//
+//            if (gioKT >= nextGioBD) {
+//                MsgBox.alert(this, "Giờ đặt đã có người!");
+//                return;
+//            }
+//        }
         createBill(data);
         fillTable();
         MsgBox.alert(this, "Đặt trước thành công!");
+        renderHour();
         orderView.initBoxData(BoxDao.getInstance().panigation(Panigation.current));
         //hien gio dat truoc ke tiep + tinh time de nhan box + huy box
 
@@ -633,7 +763,7 @@ public class DatBoxView extends javax.swing.JFrame {
     private void createBill(ModelItem data) {
         //tao hoa don
         data.setTrangThai(BoxState.booked);
-        HoaDon hd = new HoaDon(XDate.now(), data.getTenKH(), "NV01", "", data.getTraTruoc(), null);
+        HoaDon hd = new HoaDon(XDate.now(), data.getTenKH(), Auth.user.getMaNV(), "", data.getTraTruoc(), null);
         int maHd = HoaDonDao.getInstant().inserts(hd);
 
         //Tao phieu dat box
@@ -647,7 +777,7 @@ public class DatBoxView extends javax.swing.JFrame {
 
         int i = 1;
         for (PhieuDatBox item : listBox) {
-            Object[] row = {i, BoxDao.getInstance().selectById(item.getMaBox()).getTenBox(), item.getTenKH(), XDate.toString(item.getGioBD(), "HH:ss:mm"), item.getSoGio(), item.getTraTruoc()};
+            Object[] row = {i, BoxDao.getInstance().selectById(item.getMaBox()).getTenBox(), item.getTenKH(), XDate.toString(item.getGioBD(), "HH:mm:ss"), XDate.toString(item.getGioKT(), "HH:mm:ss"), item.getSoGio(), Formats.toCurency(item.getTraTruoc())};
             tblModel.addRow(row);
             ++i;
         }

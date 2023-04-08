@@ -4,6 +4,7 @@
  */
 package com.boxcf.ui;
 
+import com.box.utils.Auth;
 import com.box.utils.MsgBox;
 import com.box.utils.UI;
 import com.box.utils.Validator;
@@ -140,10 +141,16 @@ public class KhuyenMaiView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonRound1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound1ActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         handleDelete();
     }//GEN-LAST:event_buttonRound1ActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         this.openInsertDiscount();
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -152,6 +159,9 @@ public class KhuyenMaiView extends javax.swing.JPanel {
     }//GEN-LAST:event_txtFindKeyReleased
 
     private void tblDiscountMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDiscountMousePressed
+        if (!Auth.accept(this)) {
+            return;
+        }
         handleOpenUpdate(evt);
     }//GEN-LAST:event_tblDiscountMousePressed
 
@@ -176,6 +186,8 @@ public class KhuyenMaiView extends javax.swing.JPanel {
         this.prepareUI();
         scroll.setVerticalScrollBar(new ScrollBar());
         fillTable();
+        
+        UI.accept(btnAdd, buttonRound1);
     }
     
     private void prepareUI() {

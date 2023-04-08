@@ -27,8 +27,9 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
                     responce.getTimestamp(5),
                     responce.getInt(6),
                     responce.getInt(7),
-                    responce.getString(8),
-                    responce.getString(9)
+                    responce.getInt(8),
+                    responce.getString(9),
+                    responce.getString(10)
             );
 
         } catch (Exception e) {
@@ -96,7 +97,7 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
             throw new Error("The Error in updateProc DATBOX !");
         }
     }
-    
+
     public void update_NhanBox(ModelItem data) {
         String sql = "{ call sp_update_NhanBox ( ?, ?) }";
 
@@ -269,7 +270,7 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
 
         JdbcHelper.update(sql, maBox);
     }
-    
+
     //lay ra ds box dat va dat truoc
     public List<PhieuDatBox> getListActive(String maBox) {
         String sql = "select *\n"
@@ -278,7 +279,7 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
 
         return selectBySql(sql, maBox);
     }
-    
+
     //get ra gio dat ke tiep
     public PhieuDatBox getNextBooked(String maBox) {
         String sql = "select top 1 *\n"
@@ -302,8 +303,8 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
         }
         return db;
     }
-    
-     //get dang su dung
+
+    //get dang su dung
     public PhieuDatBox getUsing(String maBox) {
         String sql = "select *\n"
                 + "from phieudatbox\n"
@@ -325,21 +326,28 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
         }
         return db;
     }
-    
+
     //dat truoc
     public List<PhieuDatBox> getBookedListProc(String maBox) {
-        String sql = "select *\n"
+        String sql = "select * \n"
                 + "from phieudatbox\n"
-                + "	where MaBox = ? and trangthai like 'booked'";
+                + "	where MaBox = ? and trangthai like 'booked'"
+                + "order by GioBD asc";
 
         return selectBySql(sql, maBox);
     }
-    
-     //kiem tra box co dang xai hay ko
+
+    //kiem tra box co dang xai hay ko
     public Object isActive(String maBox) {
         String sql = "select * from PhieuDatBox where MaBox = ? and TrangThai like 'active'";
 
         return JdbcHelper.value(sql, maBox);
+    }
+
+    public PhieuDatBox getActive(String maBox) {
+        String sql = "select * from PhieuDatBox where MaBox = ? and TrangThai like 'active'";
+
+        return selectBySql(sql, maBox).size() > 0 ? selectBySql(sql, maBox).get(0) : null;
     }
 
     //get ra phieu dat box thong qua maBox
