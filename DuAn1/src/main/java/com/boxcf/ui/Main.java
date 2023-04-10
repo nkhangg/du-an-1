@@ -8,11 +8,13 @@ import com.boxcf.models.NhanVien;
 import com.boxcf.store.Store;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.Shape;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -47,6 +49,8 @@ public class Main extends javax.swing.JFrame {
         buttonRound8 = new com.boxcf.components.ButtonRound();
         buttonRound9 = new com.boxcf.components.ButtonRound();
         buttonRound10 = new com.boxcf.components.ButtonRound();
+        buttonRound11 = new com.boxcf.components.ButtonRound();
+        buttonRound12 = new com.boxcf.components.ButtonRound();
         jLabel2 = new javax.swing.JLabel();
         avatar = new com.boxcf.components.ImageAvatar();
         jLabel4 = new javax.swing.JLabel();
@@ -175,6 +179,26 @@ public class Main extends javax.swing.JFrame {
         buttonRound10.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonRound10.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         gradientPanel2.add(buttonRound10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 90, 70));
+
+        buttonRound11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/help-desk (1).png"))); // NOI18N
+        buttonRound11.setText("Hướng dẫn");
+        buttonRound11.setFocusPainted(false);
+        buttonRound11.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        buttonRound11.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonRound11.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        buttonRound11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRound11ActionPerformed(evt);
+            }
+        });
+        gradientPanel2.add(buttonRound11, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 320, 90, 70));
+
+        buttonRound12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/growth.png"))); // NOI18N
+        buttonRound12.setText("Thống kê");
+        buttonRound12.setFocusPainted(false);
+        buttonRound12.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonRound12.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        gradientPanel2.add(buttonRound12, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 320, 90, 70));
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -340,6 +364,10 @@ public class Main extends javax.swing.JFrame {
         handleRefreshPass();
     }//GEN-LAST:event_avatarMouseClicked
 
+    private void buttonRound11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound11ActionPerformed
+        handleHelp();
+    }//GEN-LAST:event_buttonRound11ActionPerformed
+
     public static void main(String args[]) {
 
         try {
@@ -415,6 +443,8 @@ public class Main extends javax.swing.JFrame {
     private com.boxcf.components.ButtonRound btnNhanVien;
     private com.boxcf.components.ButtonRound btnSanPham;
     private com.boxcf.components.ButtonRound buttonRound10;
+    private com.boxcf.components.ButtonRound buttonRound11;
+    private com.boxcf.components.ButtonRound buttonRound12;
     private com.boxcf.components.ButtonRound buttonRound2;
     private com.boxcf.components.ButtonRound buttonRound4;
     private com.boxcf.components.ButtonRound buttonRound5;
@@ -496,5 +526,15 @@ public class Main extends javax.swing.JFrame {
 
     private void handleRefreshPass() {
         new DoiMatKhauView().setVisible(true);
+    }
+
+    private void handleHelp() {
+        try {
+            String url = "help/index.html";
+            File file = new File(url);
+            Desktop.getDesktop().browse(file.toURI());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }
