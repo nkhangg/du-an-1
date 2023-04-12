@@ -8,6 +8,7 @@ import com.boxcf.constands.BoxState;
 import com.boxcf.dao.BoxDao;
 import com.boxcf.dao.DatTruocDao;
 import com.boxcf.dao.PhieuDatBoxDao;
+import com.boxcf.store.Store;
 
 /**
  *
@@ -97,6 +98,7 @@ public class BoxStatus extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void init() {
+        Store.bStatus  = this;
         fillState();
     }
 

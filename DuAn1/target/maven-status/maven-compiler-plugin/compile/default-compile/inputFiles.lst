@@ -8,6 +8,7 @@ D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\constands\Messages.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\events\interfaces\EventIncrease.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\combo_suggestion\ScrollBarCustom.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\material\ProductItem.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\ComboForm.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\ThungRac.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\MainPanel.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\box\utils\Auth.java
@@ -39,6 +40,7 @@ D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\box\utils\MsgBox.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\ModelStatistical.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\ModernScrollBarUI.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\BoxModelItem.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\ModelCboFitTime.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\ModelItem.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\Combobox.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\LoaiBoxForm.java
@@ -61,8 +63,10 @@ D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\DatBoxView.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\Box.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\combo_suggestion\ComboBoxSuggestion.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\events\StoreEvents.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\material\ComboItem.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\NhanVien.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\ThongKeView.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\ComboView.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\dao\NhanVienDao.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\ComboCT.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\DatTruoc.java
@@ -96,7 +100,6 @@ D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\LichSu.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\ChiTietThongKeView.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\dao\DatTruocDao.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\raven\chart\ModelChart.java
-D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\ModelCboKhuyenMai.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\LichSuChiTiet.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\raven\chart\blankchart\BlankPlotChatRender.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\ThongTinSP.java
@@ -112,6 +115,7 @@ D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\DoiMatKhauView.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\PanelItem.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\DanhMuc.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\Main.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\ModelCbo.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\dao\BoxCfDAO.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\KhuyenMai.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\dao\SanPhamDao.java

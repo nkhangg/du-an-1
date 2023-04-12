@@ -302,7 +302,12 @@ public class NhanVienView extends javax.swing.JPanel {
 
         for (int selectedRow : list) {
             String id = (String) tblNhanVien.getValueAt(selectedRow, 1);
+            if (id.endsWith(Auth.user.getMaNV())) {
+                MsgBox.alert(this, "Không thể xóa tài khoản đang đăng nhập !");
+                return;
+            }
             NhanVienDao.getInstant().delete(id);
+
         }
         fillDataTable();
         tblNhanVien.clearSelection();

@@ -79,9 +79,15 @@ public class SanPham {
         this.MaLoai = MaLoai;
     }
 
-    @Override
-    public String toString() {
+    public String toStrings() {
         return "SanPham{" + "MaSP=" + MaSP + ", TenSP=" + TenSP + ", Gia=" + Gia + ", HinhAnh=" + HinhAnh + ", MoTa=" + MoTa + ", MaLoai=" + MaLoai + '}';
     }
+
+    @Override
+    public String toString() {
+        return TenSP;
+    }
+    
+    
 
 }

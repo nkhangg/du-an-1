@@ -1,20 +1,26 @@
-
 package com.boxcf.models;
-
 
 public class ComboCT {
 
+    int maHd;
     String MaCB;
-    int MaSP;
     String GhiChu;
 
     public ComboCT() {
     }
 
-    public ComboCT(String MaCB, int MaSP, String GhiChu) {
+    public ComboCT(int maHd, String MaCB, String GhiChu) {
+        this.maHd = maHd;
         this.MaCB = MaCB;
-        this.MaSP = MaSP;
         this.GhiChu = GhiChu;
+    }
+
+    public int getMaHd() {
+        return maHd;
+    }
+
+    public void setMaHd(int maHd) {
+        this.maHd = maHd;
     }
 
     public String getMaCB() {
@@ -25,20 +31,17 @@ public class ComboCT {
         this.MaCB = MaCB;
     }
 
-    public int getMaSP() {
-        return MaSP;
-    }
-
-    public void setMaSP(int MaSP) {
-        this.MaSP = MaSP;
-    }
-
     public String getGhiChu() {
         return GhiChu;
     }
 
     public void setGhiChu(String GhiChu) {
         this.GhiChu = GhiChu;
+    }
+
+    @Override
+    public String toString() {
+        return "ComboCT{" + "maHd=" + maHd + ", MaCB=" + MaCB + ", GhiChu=" + GhiChu + '}';
     }
 
 }

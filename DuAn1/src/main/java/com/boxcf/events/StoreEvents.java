@@ -1,13 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.boxcf.events;
 
 import com.boxcf.components.PanelItem;
 import com.boxcf.components.Spiner;
 import com.boxcf.components.material.BoxItem;
 import com.boxcf.components.material.Category;
+import com.boxcf.components.material.ComboItem;
 import com.boxcf.components.material.ItemBill;
 import com.boxcf.components.material.PanelBill;
 import com.boxcf.components.material.Panigation;
@@ -22,6 +19,7 @@ import com.boxcf.events.interfaces.EventItem;
 import com.boxcf.models.ModelItem;
 import com.boxcf.store.Store;
 import com.boxcf.ui.DatBoxView;
+import com.boxcf.ui.DatComBo;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -49,6 +47,13 @@ public class StoreEvents {
                 if (com instanceof BoxItem) {
                     BoxItem box = (BoxItem) com;
                     new DatBoxView(item).setVisible(true);
+                    order.repaint();
+                }
+
+                // Duc them
+                if (com instanceof ComboItem) {
+                    ComboItem combo = (ComboItem) com;
+                    new DatComBo(item).setVisible(true);
                     order.repaint();
                 }
 
@@ -98,6 +103,17 @@ public class StoreEvents {
                             i.clearSelected();
                             i.repaint();
                             i.revalidate();
+                            return;
+                        }
+                    }
+
+                    if (component instanceof ComboItem) {
+                        ComboItem i = (ComboItem) component;
+
+                        if (i.getData().getMaItem().equals(item.getMaItem())) {
+                            i.setSelected(false);
+                            panelBill.clearList(true);
+
                             return;
                         }
                     }
@@ -220,7 +236,7 @@ public class StoreEvents {
                             default:
                                 throw new AssertionError();
                         }
-                        
+
                         Panigation.setPage();
 
                         if (order.mode.equals("product")) {

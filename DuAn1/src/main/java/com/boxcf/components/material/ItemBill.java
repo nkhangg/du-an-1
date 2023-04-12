@@ -19,22 +19,22 @@ import javax.swing.border.MatteBorder;
  * @author PC
  */
 public class ItemBill extends javax.swing.JPanel {
-    
+
     private ModelItem data;
     private EventItem event;
-    
+
     public EventItem getEvent() {
         return event;
     }
-    
+
     public void setEvent(EventItem event) {
         this.event = event;
     }
-    
+
     public JLabel getBtnXoa() {
         return btnXoa;
     }
-    
+
     public ItemBill() {
         initComponents();
         setOpaque(false);
@@ -47,24 +47,24 @@ public class ItemBill extends javax.swing.JPanel {
                 }
             }
         });
-        
+
     }
-    
+
     public ModelItem getData() {
         return data;
     }
-    
+
     public void setData(ModelItem data) {
         this.data = data;
         String suffixes = "";
         lblGia.setText(Formats.toCurency(data.getGia()));
-        if(data.getLoaiBox() != null){
-            suffixes = " h";
+        if (data.getLoaiBox() != null) {
+            suffixes = " giờ";
         }
         lblSoluong.setText(data.getSoLuong() + suffixes);
         lblTen.setText(data.getTen());
     }
-    
+
     public void tangLen(int quantity) {
         data.setSoLuong(quantity);
         this.setData(data);
@@ -135,4 +135,10 @@ public class ItemBill extends javax.swing.JPanel {
     private javax.swing.JLabel lblSoluong;
     private javax.swing.JLabel lblTen;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public String toString() {
+        return "ItemBill{" + "data=" + data + '}';
+    }
+
 }

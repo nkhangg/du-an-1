@@ -27,7 +27,7 @@ public class ModelItem {
     int MaDat;
     BoxState trangThai;
     LoaiBox loaiBox;
-    
+
     int traTruoc = 0;
     String tenKH;
     String ghiChu;
@@ -37,6 +37,10 @@ public class ModelItem {
 
     // cả hai đều có
     private int soLuong;
+
+    private String MaCB;
+    private int SLDoUong;
+    private int SLDoAn;
 
     public Object getMaItem() {
         return maItem;
@@ -166,8 +170,6 @@ public class ModelItem {
     public void setGioKT2(Timestamp gioKT2) {
         this.gioKT2 = gioKT2;
     }
-    
-    
 
     // box
     public ModelItem(Object maItem, String ten, BoxState trangThai, LoaiBox loaiBox) {
@@ -195,7 +197,7 @@ public class ModelItem {
         this.ten = ten;
         this.soLuong = soLuong;
     }
-    
+
     // box
     public ModelItem(Object maItem, String ten, Date gioBD, Date gioKT, LoaiBox loaiBox, int soLuong, double gia, String tenKH) {
         this.maItem = maItem;
@@ -213,7 +215,42 @@ public class ModelItem {
 
     @Override
     public String toString() {
-        return "ModelItem{" + "maItem=" + maItem + ", hing=" + hinh + ", gia=" + gia + ", ten=" + ten + ", gioBD=" + gioBD + ", gioKT=" + gioKT + ", MaDat=" + MaDat + ", trangThai=" + trangThai + ", loaiBox=" + loaiBox + ", soLuong=" + soLuong + '}';
+        return "ModelItem{" + "maItem=" + maItem + ", hinh=" + hinh + ", gia=" + gia + ", ten=" + ten + ", gioBD=" + gioBD + ", gioKT=" + gioKT + ", MaDat=" + MaDat + ", trangThai=" + trangThai + ", loaiBox=" + loaiBox + ", traTruoc=" + traTruoc + ", tenKH=" + tenKH + ", ghiChu=" + ghiChu + ", gioBD2=" + gioBD2 + ", gioKT2=" + gioKT2 + ", soLuong=" + soLuong + ", MaCB=" + MaCB + ", SLDoUong=" + SLDoUong + ", SLDoAn=" + SLDoAn + '}';
+    }
+
+    ////////
+    public int getSLDoUong() {
+        return SLDoUong;
+    }
+
+    public void setSLDoUong(int SLDoUong) {
+        this.SLDoUong = SLDoUong;
+    }
+
+    public int getSLDoAn() {
+        return SLDoAn;
+    }
+
+    public void setSLDoAn(int SLDoAn) {
+        this.SLDoAn = SLDoAn;
+    }
+
+    public String getMaCB() {
+        return MaCB;
+    }
+
+    public void setMaCB(String MaCB) {
+        this.MaCB = MaCB;
+    }
+
+    public ModelItem(Object maItem, double gia, String ten, LoaiBox loaiBox, int SLDoUong, int SLDoAn) {
+        this.maItem = maItem;
+        this.gia = gia;
+        this.ten = ten;
+        this.loaiBox = loaiBox;
+        this.SLDoUong = SLDoUong;
+        this.SLDoAn = SLDoAn;
+        this.MaCB = (String) maItem;
     }
 
 }

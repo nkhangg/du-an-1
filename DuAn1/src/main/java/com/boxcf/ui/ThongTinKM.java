@@ -492,6 +492,11 @@ public class ThongTinKM extends javax.swing.JFrame {
             if (!Validator.isInt(txtQuantity.getText())) {
                 mess += "Số lượt sử dụng khuyến mãi không hợp lệ ! \n";
                 flag = false;
+            } else {
+                if (Integer.parseInt(txtQuantity.getText()) <= 0) {
+                    mess += "Số lượt sử dụng khuyến mãi phải lớn hơn 0 ! \n";
+                    flag = false;
+                }
             }
         }
 

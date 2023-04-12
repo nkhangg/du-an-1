@@ -28,7 +28,7 @@ public class LoaiSPDao implements BoxCfDAO<LoaiSP, String> {
 
     @Override
     public void delete(String id) {
-        String sql = "delete DanhMuc where MaLoai = ?";
+        String sql = "delete LoaiSP where MaLoai = ?";
 
         try {
             int responce = JdbcHelper.update(sql, id);
@@ -37,6 +37,7 @@ public class LoaiSPDao implements BoxCfDAO<LoaiSP, String> {
                 throw new Error("The Error in delete LoaiSP !");
             }
         } catch (Exception e) {
+            System.out.println(e);
             throw new Error("The Error in delete LoaiSP !");
         }
 

@@ -5,6 +5,7 @@
 package com.boxcf.models;
 
 import com.box.utils.XDate;
+import com.boxcf.store.Store;
 import java.util.Date;
 
 /**
@@ -39,6 +40,6 @@ public class ModelCboFitTime {
 
     @Override
     public String toString() {
-        return XDate.toString(time, "HH");
+        return XDate.toString(time, Store.parttenHour);
     }
 }

@@ -1,32 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.boxcf.models;
 
-/**
- *
- * @author ji
- */
 public class Combo {
 
     String MaCB;
     String TenCB;
     long Gia;
-    String MoTa;
     String MaLoaiBox;
-    int SoLuong;
+    int soLuongDoUong;
+    int SoLuongDoAn;
+    String MoTa;
 
     public Combo() {
     }
 
-    public Combo(String MaCB, String TenCB, long Gia, String MoTa, String MaLoaiBox, int SoLuong) {
+    public Combo(String MaCB, String TenCB, long Gia, String MaLoaiBox, int soLuongDoUong, int SoLuongDoAn, String MoTa) {
         this.MaCB = MaCB;
         this.TenCB = TenCB;
         this.Gia = Gia;
-        this.MoTa = MoTa;
         this.MaLoaiBox = MaLoaiBox;
-        this.SoLuong = SoLuong;
+        this.soLuongDoUong = soLuongDoUong;
+        this.SoLuongDoAn = SoLuongDoAn;
+        this.MoTa = MoTa;
     }
 
     public String getMaCB() {
@@ -53,14 +47,6 @@ public class Combo {
         this.Gia = Gia;
     }
 
-    public String getMoTa() {
-        return MoTa;
-    }
-
-    public void setMoTa(String MoTa) {
-        this.MoTa = MoTa;
-    }
-
     public String getMaLoaiBox() {
         return MaLoaiBox;
     }
@@ -69,13 +55,28 @@ public class Combo {
         this.MaLoaiBox = MaLoaiBox;
     }
 
-    public int getSoLuong() {
-        return SoLuong;
+    public int getSoLuongDoUong() {
+        return soLuongDoUong;
     }
 
-    public void setSoLuong(int SoLuong) {
-        this.SoLuong = SoLuong;
+    public void setSoLuongDoUong(int soLuongDoUong) {
+        this.soLuongDoUong = soLuongDoUong;
     }
-    
-    
+
+    public int getSoLuongDoAn() {
+        return SoLuongDoAn;
+    }
+
+    public void setSoLuongDoAn(int SoLuongDoAn) {
+        this.SoLuongDoAn = SoLuongDoAn;
+    }
+
+    public String getMoTa() {
+        return MoTa;
+    }
+
+    public void setMoTa(String MoTa) {
+        this.MoTa = MoTa;
+    }
+
 }

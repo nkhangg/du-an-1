@@ -79,6 +79,7 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
                 throw new Error("Them du lieu that bai!");
             }
         } catch (Exception ex) {
+            System.out.println(ex);
             throw new Error("The Error in insertProc DATBOX !");
         }
     }
@@ -98,8 +99,59 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
         }
     }
 
-    public void update_NhanBox(ModelItem data) {
-        String sql = "{ call sp_update_NhanBox ( ?, ?) }";
+    public void updateActive(PhieuDatBox model) {
+        String sql = "update PhieuDatBox\n"
+                + "set TrangThai = 'active'\n"
+                + "where  MaBox = ? and TrangThai = 'booked' and MaHD = ? ";
+
+        try {
+            int responce = JdbcHelper.update(sql, model.getMaBox().toString(), model.getMaHD());
+
+            if (responce == 0) {
+                throw new Error("The Error in updateActive DATBOX !");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+            throw new Error("The Error in updateActive DATBOX !");
+        }
+    }
+
+    public void cancelBox(PhieuDatBox model) {
+        String sql = "update PhieuDatBox\n"
+                + "set TrangThai = 'used', GhiChu = 'da huy', GioKT = GETDATE()\n"
+                + "where  MaBox = ? and TrangThai = 'booked' and MaHD = ? ";
+
+        try {
+            int responce = JdbcHelper.update(sql, model.getMaBox().toString(), model.getMaHD());
+
+            if (responce == 0) {
+                throw new Error("The Error in cancelBox DATBOX !");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+            throw new Error("The Error in cancelBox DATBOX !");
+        }
+    }
+    
+    public void cancelBoxWhenActive(PhieuDatBox model) {
+        String sql = "update PhieuDatBox\n"
+                + "set TrangThai = 'used', GhiChu = 'tra som', GioKT = GETDATE()\n"
+                + "where  MaBox = ? and MaHD = ? ";
+
+        try {
+            int responce = JdbcHelper.update(sql, model.getMaBox().toString(), model.getMaHD());
+
+            if (responce == 0) {
+                throw new Error("The Error in cancelBoxWhenActive DATBOX !");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+            throw new Error("The Error in cancelBoxWhenActive DATBOX !");
+        }
+    }
+
+    public void updateNhanBox(ModelItem data) {
+        String sql = "{ call sp_update_NhanBox ( ?, ? ) }";
 
         try {
             int responce = JdbcHelper.update(sql, data.getMaItem().toString(), data.getGioBD());
@@ -161,7 +213,6 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
             // admission a ResultSet return a Box
             if (responce.next()) {
                 db = createObjecet(responce);
-                System.out.println(db);
             }
 
             responce.getStatement().getConnection().close();
@@ -322,7 +373,7 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
 
             responce.getStatement().getConnection().close();
         } catch (Exception e) {
-            throw new Error("The Error in selectByBox DATBOX !");
+            throw new Error("The Error in getUsing DATBOX !");
         }
         return db;
     }
@@ -352,6 +403,5 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
 
     //get ra phieu dat box thong qua maBox
     public static void main(String[] args) {
-        System.out.println(PhieuDatBoxDao.getInstant().getState(BoxState.empty));
     }
 }

@@ -22,6 +22,9 @@ public class BoxDao implements BoxCfDAO<Box, String> {
     final String SELECT_ALL_SQL = "SELECT * FROM Box";
     final String SELECT_BY_ID_SQL = "SELECT * FROM Box WHERE MaBox = ?";
     final String SELECT_BY_NAME_SQL = "SELECT * FROM Box WHERE TenBox LIKE ?";
+    final String SELECT_COMBO = "select * from Box\n"
+            + "where MaLoaiBox = ? and MaBox not in (select MaBox from PhieuDatBox\n"
+            + "where TrangThai = 'active' or TrangThai = 'booked')";
 
     @Override
     public void insert(Box box) {
@@ -30,7 +33,6 @@ public class BoxDao implements BoxCfDAO<Box, String> {
 
     @Override
     public void update(Box box) {
-        System.out.println("box:" + box);
         JdbcHelper.update(UPDATE_SQL, box.getTenBox(), box.getHinhAnh(), box.getMoTa(), box.getMaLoaiBox(), box.getMaBox());
     }
 
@@ -98,7 +100,6 @@ public class BoxDao implements BoxCfDAO<Box, String> {
 
     public static void main(String[] args) {
         for (Box box : BoxDao.getInstance().selectAll()) {
-            System.out.println("box: " + box);
         }
     }
 
@@ -112,6 +113,10 @@ public class BoxDao implements BoxCfDAO<Box, String> {
     public List<Box> selectByLoaiBox(String maLoai) {
         String sql = "SELECT * FROM BOX WHERE MALOAIBOX = ?";
         return selectBySql(sql, maLoai);
+    }
+
+    public List<Box> selecCombo(String maLoai) {
+        return selectBySql(SELECT_COMBO, maLoai);
     }
 
     public String getMaxId() throws SQLException {

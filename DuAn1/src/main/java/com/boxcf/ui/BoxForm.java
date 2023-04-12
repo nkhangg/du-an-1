@@ -532,7 +532,6 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
 
         try {
             maxId = BoxDao.getInstance().getMaxId();
-            System.out.println(maxId);
         } catch (SQLException e) {
             throw new RuntimeException();
         }

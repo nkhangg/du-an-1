@@ -4,20 +4,21 @@
  */
 package com.boxcf.components.material;
 
+import com.box.utils.Formats;
+import com.box.utils.XDate;
 import com.boxcf.constands.BoxState;
 import com.boxcf.constands.Messages;
 import com.boxcf.dao.PhieuDatBoxDao;
-import com.boxcf.models.DatBox;
 import com.boxcf.models.ModelItem;
 import com.boxcf.models.PhieuDatBox;
 import com.boxcf.models.Time;
 import com.boxcf.models.Timer;
+import com.boxcf.store.Store;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.util.List;
 
 public class BoxItem extends javax.swing.JPanel {
 
@@ -53,23 +54,35 @@ public class BoxItem extends javax.swing.JPanel {
         return box;
     }
 
+    private void initLblDt() {
+        List<PhieuDatBox> list = PhieuDatBoxDao.getInstant().getBookedListProc(box.getMaItem().toString());
+        if (list.isEmpty()) {
+            return;
+        }
+
+        PhieuDatBox pd = list.get(0);
+        lblGia4.setText(XDate.toString(pd.getGioBD(), Store.parttenHour));
+    }
+
     public void setData(ModelItem box) {
         this.box = box;
+
+        initLblDt();
         this.selected = box.getTrangThai();
         this.box.setTrangThai(box.getTrangThai());
 
         lblTenBox.setText(box.getTen());
         lblLoai.setText(box.getLoaiBox().getTenLoaiBox());
         lblTimeRemainder.setText(box.getSoLuong() + "");
-        lblGia.setText(box.getLoaiBox().getGiaLoai() + " / 1h");
+        lblGia.setText(Formats.toCurency(box.getLoaiBox().getGiaLoai()) + " / 1 Giờ");
 
         initTimer();
 
         this.repaint();
     }
 
-     public void initTimer() {
-        if (selected == BoxState.active) {
+    public void initTimer() {
+        if (selected == BoxState.active || selected == BoxState.booked) {
             //select ra gioBD, gioKt luu trong phieudatbox thong qua ma box
             PhieuDatBox db = PhieuDatBoxDao.getInstant().selectByBox(box.getMaItem().toString());
 
@@ -81,10 +94,11 @@ public class BoxItem extends javax.swing.JPanel {
             this.box.setGioKT(db.getGioKT());
 
             this.timer();
+            return;
         }
     }
 
-   public void clearSelected() {
+    public void clearSelected() {
         this.setSelected(BoxState.empty);
         this.box.setGioKT(null);
         this.box.setTrangThai(BoxState.empty);
@@ -165,7 +179,7 @@ public class BoxItem extends javax.swing.JPanel {
         add(lblLoai, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 110, 30));
 
         lblGia.setBackground(new java.awt.Color(255, 255, 255));
-        lblGia.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        lblGia.setFont(new java.awt.Font("UTM Aptima", 1, 16)); // NOI18N
         lblGia.setForeground(new java.awt.Color(0, 51, 51));
         lblGia.setText("20.000 / 1h");
         add(lblGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 41, -1, 30));
@@ -197,7 +211,6 @@ public class BoxItem extends javax.swing.JPanel {
     private javax.swing.JLabel lblTimeRemainder;
     // End of variables declaration//GEN-END:variables
 
-    
     public void setRemainderTime(Time time) {
         lblTimeRemainder.setText(time.getHour() + ":" + time.getMinute() + ":" + time.getSecond());
     }

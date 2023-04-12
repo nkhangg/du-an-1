@@ -9,19 +9,18 @@ import com.box.utils.JdbcHelper;
 
 public class ComboCTDao implements BoxCfDAO<ComboCT, String> {
 
-    public static ComboCTDao getInstant () {
+    public static ComboCTDao getInstant() {
         return new ComboCTDao();
     }
-
 
     @Override
     public ComboCT createObjecet(ResultSet responce) {
         try {
             return new ComboCT(
-                    responce.getString(1), 
-                    responce.getInt(2), 
+                    responce.getInt(1),
+                    responce.getString(2),
                     responce.getString(3)
-                );
+            );
         } catch (Exception e) {
             throw new Error("The Error in createObjecet ComboCT !");
         }
@@ -30,49 +29,63 @@ public class ComboCTDao implements BoxCfDAO<ComboCT, String> {
     @Override
     public void delete(String id) {
         String sql = "delete ComboCT where MaCB = ?";
-        
+
         try {
             int responce = JdbcHelper.update(sql, id);
 
-            if(responce == 0){
+            if (responce == 0) {
                 throw new Error("The Error in delete ComboCT !");
             }
         } catch (Exception e) {
             throw new Error("The Error in delete ComboCT !");
         }
-        
+
     }
 
     @Override
     public void insert(ComboCT e) {
-        String sql = "Insert into ComboCT values ( ?, ?, ?)";
+        String sql = "Insert into ComboCT values (?, ?, ?)";
 
         try {
-            int responce = JdbcHelper.update(sql, e.getMaCB(), e.getMaSP(), e.getGhiChu());
+            int responce = JdbcHelper.update(sql, e.getMaHd(), e.getMaCB(), e.getGhiChu());
 
-            if(responce == 0){
+            if (responce == 0) {
                 throw new Error("The Error in insert ComboCT !");
             }
         } catch (Exception ex) {
+            System.out.println(ex);
             throw new Error("The Error in insert ComboCT !");
         }
-        
+
+    }
+
+    public void insertProc(ComboCT e, int MaHD) {
+        String sql = "Insert into ComboCT values (?, ?, ?)";
+
+        try {
+            int responce = JdbcHelper.update(sql, MaHD, e.getMaCB(), e.getGhiChu());
+
+            if (responce == 0) {
+                throw new Error("The Error in insert ComboCT !");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+            throw new Error("The Error in insert ComboCT !");
+        }
+
     }
 
     @Override
     public List<ComboCT> selectAll() {
-        List<ComboCT> list  = new ArrayList<>();
+        List<ComboCT> list = new ArrayList<>();
         String sql = "select * from ComboCT";
 
         try {
             ResultSet responce = JdbcHelper.query(sql);
 
-
-            while(responce.next()){
+            while (responce.next()) {
                 list.add(createObjecet(responce));
             }
-            
-
 
         } catch (Exception e) {
             throw new Error("The Error in selectAll ComboCT !");
@@ -89,10 +102,9 @@ public class ComboCTDao implements BoxCfDAO<ComboCT, String> {
             ResultSet responce = JdbcHelper.query(sql, id);
 
             // admission a ResultSet return a Box
-            if(responce.next()){
+            if (responce.next()) {
                 return createObjecet(responce);
             }
-
 
         } catch (Exception e) {
             throw new Error("The Error in selectById ComboCT !");
@@ -102,17 +114,14 @@ public class ComboCTDao implements BoxCfDAO<ComboCT, String> {
 
     @Override
     public List<ComboCT> selectBySql(String sql, Object... args) {
-        List<ComboCT> list  = new ArrayList<>();
+        List<ComboCT> list = new ArrayList<>();
 
         try {
             ResultSet responce = JdbcHelper.query(sql, args);
 
-
-            while(responce.next()){
+            while (responce.next()) {
                 list.add(createObjecet(responce));
             }
-            
-
 
         } catch (Exception e) {
             throw new Error("The Error in selectBySql ComboCT !");
@@ -127,13 +136,13 @@ public class ComboCTDao implements BoxCfDAO<ComboCT, String> {
         try {
             int responce = JdbcHelper.update(sql, e.getGhiChu(), e.getMaCB());
 
-            if(responce == 0){
+            if (responce == 0) {
                 throw new Error("The Error in update ComboCT !");
             }
         } catch (Exception ex) {
             throw new Error("The Error in update ComboCT !");
         }
-        
+
     }
 
     public static void main(String[] args) {
@@ -141,13 +150,9 @@ public class ComboCTDao implements BoxCfDAO<ComboCT, String> {
         // System.out.println(BoxDao.getInstant().selectBySql("Select * from Box where TenBox = ?", "Đôi"));
         // System.out.println(ComboCTDao.getInstant().selectAll().size());
         // System.out.println(ComboCTDao.getInstant().selectById("CB01"));
-
         // ComboCTDao.getInstant().insert(new ComboCT("CB05", 1, "abcceee"));
         // ComboCTDao.getInstant().update(new ComboCT("CB05", 2, "abc"));
         // ComboCTDao.getInstant().delete("CB04");
-
     }
-    
 
-    
 }

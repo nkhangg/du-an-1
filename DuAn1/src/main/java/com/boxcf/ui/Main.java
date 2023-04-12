@@ -21,10 +21,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Main extends javax.swing.JFrame {
-
     NhanVienView nvView = new NhanVienView();
     SanPhamView spView = new SanPhamView();
     BoxView boxView = new BoxView();
+    ComboView cbView = new ComboView();
     OrderView order;
     KhuyenMaiView kmView = new KhuyenMaiView();
     ThongKeView tkView;
@@ -32,6 +32,7 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         init();
+     
     }
 
     @SuppressWarnings("unchecked")
@@ -120,6 +121,11 @@ public class Main extends javax.swing.JFrame {
         buttonRound4.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         buttonRound4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonRound4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        buttonRound4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRound4ActionPerformed(evt);
+            }
+        });
         gradientPanel2.add(buttonRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, 90, 70));
 
         buttonRound5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/price-tag.png"))); // NOI18N
@@ -317,18 +323,18 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhanVienActionPerformed
-        this.hidden(spView, boxView, kmView, tkView);
+        this.hidden(spView, boxView, kmView, tkView, cbView);
         this.active(nvView);
     }//GEN-LAST:event_btnNhanVienActionPerformed
 
     private void btnSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSanPhamActionPerformed
-        this.hidden(boxView, nvView, kmView, tkView);
+        this.hidden(boxView, nvView, kmView, tkView, cbView);
         this.active(spView);
     }//GEN-LAST:event_btnSanPhamActionPerformed
 
     private void btnBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBoxActionPerformed
 
-        this.hidden(spView, nvView, kmView, tkView);
+        this.hidden(spView, nvView, kmView, tkView, cbView);
         this.active(boxView);
     }//GEN-LAST:event_btnBoxActionPerformed
 
@@ -341,7 +347,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonRound2ActionPerformed
 
     private void buttonRound5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound5ActionPerformed
-        this.hidden(spView, nvView, boxView, tkView);
+        this.hidden(spView, nvView, boxView, tkView, cbView);
         this.active(kmView);
     }//GEN-LAST:event_buttonRound5ActionPerformed
 
@@ -349,8 +355,7 @@ public class Main extends javax.swing.JFrame {
         if (!Auth.accept(this)) {
             return;
         }
-        this.hidden(spView, nvView, boxView, kmView);
-//        this.active(tkView);
+        this.hidden(spView, nvView, boxView, kmView, cbView);
         tkView = new ThongKeView();
         this.active(tkView);
 
@@ -367,6 +372,11 @@ public class Main extends javax.swing.JFrame {
     private void buttonRound11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound11ActionPerformed
         handleHelp();
     }//GEN-LAST:event_buttonRound11ActionPerformed
+
+    private void buttonRound4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound4ActionPerformed
+        this.hidden(spView, boxView, kmView, tkView, nvView);
+        this.active(cbView);
+    }//GEN-LAST:event_buttonRound4ActionPerformed
 
     public static void main(String args[]) {
 

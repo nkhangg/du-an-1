@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.boxcf.ui;
 
+import com.box.utils.Auth;
 import com.box.utils.Formats;
 import com.box.utils.MsgBox;
 import com.box.utils.Validator;
@@ -13,28 +10,22 @@ import com.boxcf.components.material.ItemBill;
 import com.boxcf.components.material.Panigation;
 import com.boxcf.constands.BoxState;
 import com.boxcf.dao.BoxDao;
+import com.boxcf.dao.ComboCTDao;
 import com.boxcf.dao.HoaDonChiTietDao;
 import com.boxcf.dao.HoaDonDao;
-import com.boxcf.dao.KhuyenMaiDao;
 import com.boxcf.dao.LoaiBoxDao;
 import com.boxcf.dao.PhieuDatBoxDao;
-import com.boxcf.dao.SanPhamDao;
-import com.boxcf.models.Box;
+import com.boxcf.models.ComboCT;
 import com.boxcf.models.HoaDon;
 import com.boxcf.models.HoaDonCT;
 import com.boxcf.models.KhuyenMai;
-import com.boxcf.models.LichSu;
-import com.boxcf.models.LoaiBox;
 import com.boxcf.models.ModelItem;
-import com.boxcf.models.PhieuDatBox;
 import com.boxcf.store.Store;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.HeadlessException;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 public class HoaDonView extends javax.swing.JFrame {
@@ -472,9 +463,11 @@ public class HoaDonView extends javax.swing.JFrame {
             if (com instanceof ItemBill) {
                 ItemBill item = (ItemBill) com;
                 ModelItem data = item.getData();
+
                 total += data.getSoLuong() * data.getGia();
                 Object[] row = new Object[]{i, data.getTen(), data.getGia(), data.getSoLuong(), data.getSoLuong() * data.getGia()};
                 model.addRow(row);
+
                 i++;
             }
         }
@@ -487,6 +480,7 @@ public class HoaDonView extends javax.swing.JFrame {
         lblId.setText(nextId + "");
         lblTimeNow.setText(XDate.toString(XDate.now(), Store.partten));
         lblQuantity.setText(Store.globelPanelBill.getQuantityBill() + "");
+        lblNameStaff.setText(Auth.user.getTenNV());
 
         lblTotalMoney.setText(Formats.toCurency(total));
         if (km != null) {
@@ -513,7 +507,7 @@ public class HoaDonView extends javax.swing.JFrame {
 
     private void createBill() {
         //tao hoa don
-        HoaDon hd = new HoaDon(XDate.now(), lblNameCutomer.getText(), "NV01", "", finalTotal, km == null ? null : km.getMaKM());
+        HoaDon hd = new HoaDon(XDate.now(), lblNameCutomer.getText(), Auth.user.getMaNV(), "", finalTotal, km == null ? null : km.getMaKM());
         maHd = HoaDonDao.getInstant().inserts(hd);
 
         //tao hoa don chi tiet
@@ -522,9 +516,22 @@ public class HoaDonView extends javax.swing.JFrame {
 
             data.setTrangThai(BoxState.active);
             item.setData(data);
-            
-            //Tao phieu dat box
-            if (data.getLoaiBox() != null) {
+
+            if (item.getData().getMaCB() != null) {
+                String maSP = data.getLoaiBox() == null ? data.getMaItem().toString() : null;
+                String maBox = data.getLoaiBox() != null ? data.getMaItem().toString() : null;
+
+                if (maSP != null) {
+                    ComboCT cbct = new ComboCT(maHd, data.getMaCB(), "");
+                    ComboCTDao.getInstant().insert(cbct);
+
+                    //Tao hoa don chi tiet
+                    HoaDonCT hdct = new HoaDonCT(maHd, data.getMaItem().toString(), data.getSoLuong(), "", (long) (data.getGia()));
+                    HoaDonChiTietDao.getInstant().insert(hdct);
+                }
+
+            } else if (data.getLoaiBox() != null) {
+                //Tao phieu dat box
                 PhieuDatBoxDao.getInstant().insertProc(maHd, item.getData(), lblNameCutomer.getText());
 
             } else {
@@ -534,8 +541,8 @@ public class HoaDonView extends javax.swing.JFrame {
             }
 
         }
-
         MsgBox.alert(Store.orderView, "Thanh toán thành công !");
+
     }
 
     private boolean validator() {
@@ -573,61 +580,10 @@ public class HoaDonView extends javax.swing.JFrame {
         this.dispose();
         createBill();
         Store.globelPanelBill.clearList(false);
+        Store.orderView.initCategoryBox(true, LoaiBoxDao.getInstance().selectAll(), "Box");
         Store.orderView.initBoxData(BoxDao.getInstance().panigation(Panigation.current));
+        Store.bStatus.fillState();
         Store.orderView.getPanelItem().setTimer();
     }
 
-    private void renderDataTable(List<HoaDonCT> list, int mahd) {
-        model.setRowCount(0);
-        int i = 1;
-        for (HoaDonCT hd : list) {
-
-            total += hd.getSoLuong() * hd.getThanhTien();
-            Object[] row = new Object[]{i, SanPhamDao.getInstant().selectById(hd.getMaSP()).getTenSP(),
-                hd.getThanhTien(), hd.getSoLuong(), hd.getSoLuong() * hd.getThanhTien()};
-            model.addRow(row);
-            quantity += hd.getSoLuong();
-            i++;
-        }
-        for (PhieuDatBox pd : PhieuDatBoxDao.getInstant().selectByHd(mahd)) {
-            total += pd.getThanhTien();
-            Box b = BoxDao.getInstance().selectById(pd.getMaBox());
-            LoaiBox lb = LoaiBoxDao.getInstance().selectById(b.getMaLoaiBox());
-            int hour = 1;
-            quantity += hour;
-            Object[] row = new Object[]{i,
-                b.getTenBox(),
-                lb.getGiaLoai(),
-                hour, hour * lb.getGiaLoai()};
-            model.addRow(row);
-            i++;
-        }
-
-    }
-
-    public void addInfo(LichSu hd) {
-        double discount = 0;
-        KhuyenMai km = KhuyenMaiDao.getInstant().selectByIdIgnorState(hd.getMaKM());
-        txtMoney.setVisible(false);
-        lblRedundant.setVisible(false);
-        jLabel16.setVisible(false);
-        jLabel18.setVisible(false);
-
-        lblId.setText(hd.getMaHD() + "");
-        lblTimeNow.setText(XDate.toString(hd.getNgayTao(), Store.partten));
-        lblNameStaff.setText(hd.getTenNV());
-        lblNameCutomer.setText(hd.getTenKH());
-        lblQuantity.setText(this.quantity + "");
-        lblTotalMoney.setText(Formats.toCurency(total));
-
-        if (km != null) {
-            discount = (this.total * ((float) km.getPhanTram() / 100));
-
-        }
-        lblDiscount.setText("- " + Formats.toCurency(discount));
-        this.finalTotal = (long) (this.total - discount);
-        lblTotal.setText(Formats.toCurency(this.finalTotal).trim());
-
-        renderDataTable(HoaDonChiTietDao.getInstant().selectByHd(hd.getMaHD()), hd.getMaHD());
-    }
 }

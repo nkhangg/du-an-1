@@ -66,9 +66,13 @@ public class Box {
         this.moTa = moTa;
     }
 
+    public String toStrings() {
+        return "Box{" + "MaBox=" + MaBox + ", TenBox=" + TenBox + ", HinhAnh=" + HinhAnh + ", MaLoaiBox=" + MaLoaiBox + ", moTa=" + moTa + '}';
+    }
+
     @Override
     public String toString() {
-        return "Box{" + "MaBox=" + MaBox + ", TenBox=" + TenBox + ", HinhAnh=" + HinhAnh + ", MaLoaiBox=" + MaLoaiBox + ", moTa=" + moTa + '}';
+        return TenBox;
     }
 
 }

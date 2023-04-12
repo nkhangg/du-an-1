@@ -69,4 +69,11 @@ public class Validator {
     public static boolean isEmpty(JDateChooser input) {
         return input.getDate() == null;
     }
+    
+    public static boolean isPositiveNumber(double input) {
+        if( input < 0){
+            return false;
+        }
+        return true;
+    }
 }

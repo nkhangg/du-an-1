@@ -385,7 +385,7 @@ public class LichSuChiTiet extends javax.swing.JDialog {
         for (PhieuDatBox pd : PhieuDatBoxDao.getInstant().selectByHd(mahd)) {
             Box b = BoxDao.getInstance().selectById(pd.getMaBox());
             LoaiBox lb = LoaiBoxDao.getInstance().selectById(b.getMaLoaiBox());
-            int hour = XDate.getHour(pd.getGioBD(), pd.getGioKT()) + 1;
+            int hour = pd.getSoGio();
             quantity += 1;
             Object[] row = new Object[]{i,
                 b.getTenBox(),

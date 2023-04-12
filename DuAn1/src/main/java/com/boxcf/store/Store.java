@@ -4,6 +4,7 @@
  */
 package com.boxcf.store;
 
+import com.boxcf.components.material.BoxStatus;
 import com.boxcf.components.material.Category;
 import com.boxcf.components.material.PanelBill;
 import com.boxcf.components.material.Panigation;
@@ -11,7 +12,9 @@ import com.boxcf.events.StoreEvents;
 import com.boxcf.models.LoaiBox;
 import com.boxcf.models.LoaiSP;
 import com.boxcf.ui.BoxView;
+import com.boxcf.ui.ComboView;
 import com.boxcf.ui.DatBoxView;
+import com.boxcf.ui.DatComBo;
 import com.boxcf.ui.KhuyenMaiView;
 import com.boxcf.ui.Main;
 import com.boxcf.ui.NhanVienView;
@@ -74,6 +77,8 @@ public class Store {
 
     public static String partten = "MM/dd/yyyy HH:mm:ss";
 
+    public static String parttenHour = "HH:mm";
+
     public static int breaks = 0;
 
     public static Panigation panigation = null;
@@ -88,4 +93,9 @@ public class Store {
 
     public static NhanVienView nvView = null;
 
+    public static ComboView CbView = null;
+
+    public static DatComBo dcbView = null;
+
+    public static BoxStatus bStatus = null;
 }

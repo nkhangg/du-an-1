@@ -8,11 +8,11 @@ import com.boxcf.components.ScrollBar;
 import com.boxcf.components.material.BoxItem;
 import com.boxcf.components.material.BoxStatus;
 import com.boxcf.components.material.Category;
+import com.boxcf.components.material.ComboItem;
 import com.boxcf.events.StoreEvents;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 import com.boxcf.events.interfaces.EventItem;
 import com.boxcf.components.material.ProductItem;
@@ -21,6 +21,7 @@ import com.boxcf.components.material.PanelBill;
 import com.boxcf.components.material.Panigation;
 import com.boxcf.constands.BoxState;
 import com.boxcf.dao.BoxDao;
+import com.boxcf.dao.ComboDao;
 import com.boxcf.dao.DanhMucDao;
 import com.boxcf.dao.LoaiBoxDao;
 import com.boxcf.dao.LoaiSPDao;
@@ -28,6 +29,7 @@ import com.boxcf.dao.PhieuDatBoxDao;
 import com.boxcf.dao.SanPhamDao;
 import com.boxcf.events.interfaces.BoxEvents;
 import com.boxcf.models.Box;
+import com.boxcf.models.Combo;
 import com.boxcf.models.DanhMuc;
 import com.boxcf.models.KhuyenMai;
 import com.boxcf.models.LoaiBox;
@@ -41,7 +43,6 @@ import javax.swing.JPanel;
 public class OrderView extends javax.swing.JFrame {
 
     private EventItem event;
-    private BoxEvents eventBox;
     private boolean selected;
     private PanelBill panelBill;
     private ModelItem itemSelected;
@@ -431,7 +432,7 @@ public class OrderView extends javax.swing.JFrame {
         StoreEvents.product(this);
 
         for (SanPham sp : SanPhamDao.getInstant().selectAll()) {
-            
+
             this.addProductData(new ModelItem(sp.getMaSP(), sp.getHinhAnh(), sp.getGia(), sp.getTenSP(), 0));
         }
 
@@ -492,7 +493,23 @@ public class OrderView extends javax.swing.JFrame {
 
     }
 
-    private void initCategoryBox(boolean categoryAll, List<LoaiBox> list, String name) {
+    private void initCategoryCombo(boolean categoryAll, List<LoaiBox> list, String name) {
+
+        panelCategory.removeAll();
+
+        if (categoryAll) {
+            panelCategory.add(Store.categoryAll(panelCategory, name, true));
+            mode = "Combo";
+            initComboData(ComboDao.getInstant().panigation(Panigation.current));
+            addPanigation();
+        }
+
+        panelCategory.repaint();
+        panelCategory.revalidate();
+
+    }
+
+    public void initCategoryBox(boolean categoryAll, List<LoaiBox> list, String name) {
 
         panelCategory.removeAll();
 
@@ -632,6 +649,12 @@ public class OrderView extends javax.swing.JFrame {
         }
 
         // combo
+        if (name.equalsIgnoreCase("Combo")) {
+            initCategoryCombo(true, LoaiBoxDao.getInstance().selectAll(), name);
+            return;
+        }
+
+        // san pham
         for (DanhMuc danhMuc : DanhMucDao.getInstant().selectAll()) {
 
             // loai san pham
@@ -748,6 +771,37 @@ public class OrderView extends javax.swing.JFrame {
         panelPanigation.removeAll();
         panelPanigation.repaint();
         panelPanigation.revalidate();
+    }
+
+    public void initComboData(List<Combo> list) {
+        panelItem.removeAll();
+
+        StoreEvents.product(this);
+
+        for (Combo cb : list) {
+            this.addComboData(new ModelItem(cb.getMaCB(), cb.getGia(), cb.getTenCB(), LoaiBoxDao.getInstance().selectById(cb.getMaLoaiBox()), cb.getSoLuongDoUong(), cb.getSoLuongDoAn()));
+        }
+        panelBill.activeProductOnBill(panelItem);
+
+    }
+
+    public void addComboData(ModelItem data) {
+        ComboItem item = new ComboItem();
+        item.setData(data);
+        item.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent me) {
+                if (SwingUtilities.isLeftMouseButton(me)) {
+                    event.itemClick(item, data);
+                }
+            }
+        });
+
+        panelItem.add(item);
+        panelItem.repaint();
+        panelItem.revalidate();
+        panelBill.setPanelItem(panelItem);
+
     }
 
 }

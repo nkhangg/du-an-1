@@ -50,6 +50,7 @@ public class PanelBill extends javax.swing.JPanel {
         }
 
         this.activeBoxOnBill(panelItem);
+        this.activeComboOnBill(panelItem);
 
     }
 
@@ -75,6 +76,33 @@ public class PanelBill extends javax.swing.JPanel {
         render();
         this.repaint();
         this.revalidate();
+    }
+
+    public void setListCombo(ModelItem data) {
+        boolean flag = false;
+
+        for (ItemBill bill : list) {
+            if (data.getMaItem().equals(bill.getData().getMaItem())) {
+                ModelItem newData = bill.getData();
+                newData.setSoLuong(newData.getSoLuong() + 1);
+                bill.setData(newData);
+                flag = true;
+            }
+        }
+
+        if (flag) {
+            return;
+        }
+        ItemBill item = new ItemBill();
+
+        // đưa sự kiện sang class khác xử lí
+        StoreEvents.closeBillProduct(item, this, panelItem);
+
+        item.setData(data);
+        list.add(item);
+//        render();
+//        this.repaint();
+//        this.revalidate();
     }
 
     public void removeItem(ModelItem data) {
@@ -120,6 +148,7 @@ public class PanelBill extends javax.swing.JPanel {
         }
 
         for (ItemBill itemBill : list) {
+
             reuslt += itemBill.getData().getSoLuong() * itemBill.getData().getGia();
         }
 
@@ -137,6 +166,7 @@ public class PanelBill extends javax.swing.JPanel {
 
         for (ItemBill itemBill : list) {
             reuslt += itemBill.getData().getSoLuong() * itemBill.getData().getGia();
+
         }
 
         return reuslt;
@@ -196,6 +226,23 @@ public class PanelBill extends javax.swing.JPanel {
                     BoxItem box = (BoxItem) component1;
                     if (itemBill.getData().getMaItem().toString().equals(box.getData().getMaItem().toString())) {
                         box.setActive(itemBill.getData(), BoxState.waiting);
+                    }
+                }
+
+            }
+        }
+        panelItem.repaint();
+        panelItem.revalidate();
+    }
+
+    public void activeComboOnBill(PanelItem panelItem) {
+        for (Component component : this.getComponents()) {
+            ItemBill itemBill = (ItemBill) component;
+            for (Component component1 : panelItem.getComponents()) {
+                if (component1 instanceof ComboItem) {
+                    ComboItem combo = (ComboItem) component1;
+                    if (itemBill.getData().getMaItem().toString().equals(combo.getData().getMaItem().toString())) {
+                        combo.setSelected(true);
                     }
                 }
 

@@ -58,7 +58,7 @@ public class Timer {
                 Time t = XDate.toTime(XDate.toString(data.getGioKT(), "MM/dd/yyyy HH:mm:ss"));
 
                 if (t.getHour() < 0 && t.getMinute() < 0 && t.getSecond() < 0) {
-//                    PhieuDatBoxDao.getInstant().updateProc(box.getData(), BoxState.empty.toString(), box.getData().getGioKT());
+                    PhieuDatBoxDao.getInstant().updateProc(box.getData(), BoxState.empty.toString(), box.getData().getGioKT());
 
                     MsgBox.alert(Store.orderView, box.getData().getTen() + " đã hết thời gian !");
                     box.clearSelected();
@@ -70,6 +70,7 @@ public class Timer {
             }
         };
 
+      
         timer.scheduleAtFixedRate(task, 0, 1000);
 
     }

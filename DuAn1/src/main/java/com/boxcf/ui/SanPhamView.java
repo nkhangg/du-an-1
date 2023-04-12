@@ -11,13 +11,17 @@ import com.boxcf.dao.LoaiSPDao;
 import com.boxcf.dao.SanPhamDao;
 import com.boxcf.models.ComboCT;
 import com.boxcf.models.DanhMuc;
+import com.boxcf.models.HoaDon;
 import com.boxcf.models.HoaDonCT;
 import com.boxcf.models.LoaiSP;
 import com.boxcf.models.SanPham;
 import com.boxcf.store.Store;
 import java.awt.Color;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -27,63 +31,62 @@ import javax.swing.table.DefaultTableModel;
  * @author HP
  */
 public class SanPhamView extends javax.swing.JPanel {
-    
+
     SanPhamDao spDAO = new SanPhamDao();
     LoaiSPDao lspDAO = new LoaiSPDao();
     DanhMucDao dmDAO = new DanhMucDao();
-    
-    public int quanity;
+
     suport sp = new suport();
-    
+
     public int pageNumber = 1;
-    
+
     public String maSP;
     public String maLoai;
     public String maDanhMuc = null;
-    
+
     public SanPhamView() {
         initComponents();
         init();
     }
-    
+
     boolean getClick(JTable table) {
         if (table.getSelectedRow() == -1) {
             return false;
         }
         return true;
     }
-    
+
     private void init() {
         this.prepareUI();
+        Store.spView = this;
+
         fillCBBDM();
         fillCBBLoaiSP();
-        
         fillToTableSanPham();
         fillToTableDanhMuc();
         fillToTableLoaiSP();
-        
-        Store.spView = this;
-        
+
         UI.accept(btnThemDM, btnThemLSP, btnThemSP, btnXoaDM, btnXoaLSP, btnXoaSP);
+
     }
-    
+
     private void prepareUI() {
         scroll.setVerticalScrollBar(new ScrollBar());
         UI.changeTransBG(new Color(0, 0, 0, 0), txtTimSP, txtTimLoaiSP, txtTimDM);
     }
-    
+    int i = 1;
+
     private void renderDataTable(List<SanPham> list) {
         DefaultTableModel tbl = (DefaultTableModel) tblSanPham.getModel();
         tbl.setRowCount(0);
-        int i = 1;
+        int i = ((pageNumber * 8) - 8) + 1;
         for (SanPham sp : list) {
             Object row[] = {i, sp.getMaSP(), sp.getTenSP(), sp.getGia(), lspDAO.selectById(sp.getMaLoai()).getTenLoai(), sp.getMoTa()};
             tbl.addRow(row);
             i++;
         }
-        
     }
-    
+
     void fillCBBLoaiSP() {
         cboLoaiSP.removeAllItems();
         cboLoaiSP.addItem("All");
@@ -91,9 +94,8 @@ public class SanPhamView extends javax.swing.JPanel {
             cboLoaiSP.addItem(lsp.getTenLoai());
         }
     }
-    
+
     void fillCBBDM() {
-        
         cboDanhMuc1.removeAllItems();
         cboDanhMuc2.removeAllItems();
         cboDanhMuc1.addItem("All");
@@ -101,33 +103,35 @@ public class SanPhamView extends javax.swing.JPanel {
         for (DanhMuc dm : dmDAO.selectAll()) {
             cboDanhMuc1.addItem(dm.getTenDM().toString());
             cboDanhMuc2.addItem(dm.getTenDM().toString());
-            
+
         }
-        
+
     }
-    
+
     public void fillToTableSanPham() {
-        renderDataTable(sp.panigation(1, txtTimSP.getText(), 4, cboLoaiSP.getSelectedItem().toString() == "All" ? "" : cboLoaiSP.getSelectedItem().toString(), cboDanhMuc1.getSelectedItem().toString() == "All" ? "" : cboDanhMuc1.getSelectedItem().toString()));
+        renderDataTable(sp.panigation(pageNumber, txtTimSP.getText(), 4, cboLoaiSP.getSelectedItem().toString() == "All" ? "" : cboLoaiSP.getSelectedItem().toString(), cboDanhMuc1.getSelectedItem().toString() == "All" ? "" : cboDanhMuc1.getSelectedItem().toString(), cboSort.getSelectedItem().toString()));
 //        for (SanPham sp : spDAO.selectAll()) {
 //            Object row[] = {sp.getMaSP(), sp.getTenSP(), sp.getGia(), sp.getMaLoai(), sp.getMoTa()};
 //            tbl.addRow(row);
 //        }
+        setStatusSP();
     }
-    
+
     public void timSP() {
-        renderDataTable(sp.panigation(1, txtTimSP.getText(), 4, cboLoaiSP.getSelectedItem().toString() == "All" ? "" : cboLoaiSP.getSelectedItem().toString(), cboDanhMuc1.getSelectedItem().toString() == "All" ? "" : cboDanhMuc1.getSelectedItem().toString()));
+        fillToTableSanPham();
+
     }
-    
+
     void filterLoaiSP() {
-        renderDataTable(sp.panigation(1, txtTimSP.getText(), 3, cboLoaiSP.getSelectedItem().toString() == "All" ? "" : cboLoaiSP.getSelectedItem().toString(), cboDanhMuc1.getSelectedItem().toString() == "All" ? "" : cboDanhMuc1.getSelectedItem().toString()));
+        fillToTableSanPham();
     }
-    
+
     void filterDM() {
         if (cboDanhMuc1.getItemCount() > 1) {
-            renderDataTable(sp.panigation(1, txtTimSP.getText(), 4, cboLoaiSP.getSelectedItem().toString() == "All" ? "" : cboLoaiSP.getSelectedItem().toString(), cboDanhMuc1.getSelectedItem().toString() == "All" ? "" : cboDanhMuc1.getSelectedItem().toString()));
+            fillToTableSanPham();
         }
     }
-    
+
     void fillToTableLoaiSP() {
         DefaultTableModel tbl = (DefaultTableModel) tblLoaiSP.getModel();
         tbl.setRowCount(0);
@@ -139,7 +143,7 @@ public class SanPhamView extends javax.swing.JPanel {
             i++;
         }
     }
-    
+
     void fillToTableDanhMuc() {
         DefaultTableModel tbl = (DefaultTableModel) tblDanhMuc.getModel();
         tbl.setRowCount(0);
@@ -151,11 +155,11 @@ public class SanPhamView extends javax.swing.JPanel {
             i++;
         }
     }
-    
+
     void openTTSP() {
         new ThongTinSP().setVisible(true);
     }
-    
+
     private void openEditTTSP() {
         SanPham sp = spDAO.selectById(maSP);
         if (sp == null) {
@@ -164,17 +168,17 @@ public class SanPhamView extends javax.swing.JPanel {
         ThongTinSP ttsp = new ThongTinSP();
         ttsp.setModel(sp);
         ttsp.setVisible(true);
-        
+
     }
-    
+
     void openTTLSP() {
         new ThongTinLoaiSP(maLoai).setVisible(true);
     }
-    
+
     void openTTDM() {
         new ThongTinDM(maDanhMuc).setVisible(true);
     }
-    
+
     void xoaSP() {
         if (!getClick(tblSanPham)) {
             JOptionPane.showMessageDialog(this, "Chưa chọn sản phẩm!");
@@ -184,17 +188,17 @@ public class SanPhamView extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Mã sản phẩm " + maSP + " còn đang hoạt động!\n Không thể xóa!");
             return;
         }
-        
+
         int confirm = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa sản phẩm " + maSP + " ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
         if (confirm == 1) {
             return;
         }
-        
+
         spDAO.delete(maSP);
         JOptionPane.showMessageDialog(this, "Xóa thành công!");
         fillToTableSanPham();
     }
-    
+
     void xoaDM() {
         if (!getClick(tblDanhMuc)) {
             JOptionPane.showMessageDialog(this, "Chưa chọn danh mục!");
@@ -208,12 +212,12 @@ public class SanPhamView extends javax.swing.JPanel {
         if (confirm == 1) {
             return;
         }
-        
+
         dmDAO.delete(maDanhMuc);
         JOptionPane.showMessageDialog(this, "Xóa thành công!");
         fillToTableDanhMuc();
     }
-    
+
     void xoaLoaiSP() {
         if (!getClick(tblLoaiSP)) {
             JOptionPane.showMessageDialog(this, "Chưa chọn loại sản phẩm!");
@@ -235,7 +239,7 @@ public class SanPhamView extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Lỗi liên kết dữ liệu!");
         }
     }
-    
+
     boolean kiemTraLienKetSP() {
         HoaDonChiTietDao hdctDAO = new HoaDonChiTietDao();
         ComboCTDao cbctDAO = new ComboCTDao();
@@ -244,15 +248,10 @@ public class SanPhamView extends javax.swing.JPanel {
                 return false;
             }
         }
-        
-        for (ComboCT cbct : cbctDAO.selectAll()) {
-            if (maSP.equals(cbct.getMaSP())) {
-                return false;
-            }
-        }
+
         return true;
     }
-    
+
     boolean kiemTraLienKetDM() {
         for (LoaiSP lsp : lspDAO.selectAll()) {
             if (maDanhMuc.equals(lsp.getMaDM())) {
@@ -261,7 +260,7 @@ public class SanPhamView extends javax.swing.JPanel {
         }
         return true;
     }
-    
+
     boolean kiemTraLienKetLSP() {
         for (SanPham sp : spDAO.selectAll()) {
             if (maLoai.equals(sp.getMaLoai())) {
@@ -270,13 +269,13 @@ public class SanPhamView extends javax.swing.JPanel {
         }
         return true;
     }
-    
+
     void updateDelButton() {
         btnXoaSP.setEnabled(getClick(tblSanPham));
         btnXoaLSP.setEnabled(getClick(tblLoaiSP));
         btnXoaDM.setEnabled(getClick(tblDanhMuc));
     }
-    
+
     void filterDMLSP() {
         suport sp = new suport();
         DefaultTableModel tbl = (DefaultTableModel) tblLoaiSP.getModel();
@@ -289,11 +288,15 @@ public class SanPhamView extends javax.swing.JPanel {
             i++;
         }
     }
-    
-    public Integer getPageNumber() {
-        return (int) Math.ceil(quanity / 8) + 1;
+
+    void setStatusSP() {
+        boolean first = pageNumber > 1;
+        boolean last = pageNumber < sp.getPageNumber();
+        btnPre.setEnabled(first);
+        btnNext.setEnabled(last);
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -307,7 +310,6 @@ public class SanPhamView extends javax.swing.JPanel {
         btnXoaSP = new com.boxcf.components.ButtonRound();
         lblMaNV = new javax.swing.JLabel();
         txtTimSP = new javax.swing.JTextField();
-        btnTimSP = new com.boxcf.components.ButtonRound();
         gradientPanel1 = new com.boxcf.components.GradientPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -317,6 +319,8 @@ public class SanPhamView extends javax.swing.JPanel {
         tblSanPham = new javax.swing.JTable();
         btnNext = new com.boxcf.components.ButtonRound();
         btnPre = new com.boxcf.components.ButtonRound();
+        btnTimLoaiSP1 = new com.boxcf.components.ButtonRound();
+        cboSort = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblLoaiSP = new javax.swing.JTable();
@@ -388,18 +392,20 @@ public class SanPhamView extends javax.swing.JPanel {
         txtTimSP.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtTimSP.setForeground(new java.awt.Color(51, 51, 51));
         txtTimSP.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(2, 172, 171)));
-        jPanel1.add(txtTimSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 32, 520, 32));
-
-        btnTimSP.setBackground(new java.awt.Color(2, 172, 171));
-        btnTimSP.setForeground(new java.awt.Color(255, 255, 255));
-        btnTimSP.setText("Tìm kiếm");
-        btnTimSP.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
-        btnTimSP.addActionListener(new java.awt.event.ActionListener() {
+        txtTimSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTimSPActionPerformed(evt);
+                txtTimSPActionPerformed(evt);
             }
         });
-        jPanel1.add(btnTimSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(784, 31, -1, -1));
+        txtTimSP.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTimSPKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTimSPKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtTimSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 32, 590, 32));
 
         gradientPanel1.setColor1(new java.awt.Color(240, 240, 240));
         gradientPanel1.setColor2(new java.awt.Color(240, 240, 240));
@@ -518,6 +524,30 @@ public class SanPhamView extends javax.swing.JPanel {
         });
         jPanel1.add(btnPre, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 510, 96, 40));
 
+        btnTimLoaiSP1.setBackground(new java.awt.Color(2, 172, 171));
+        btnTimLoaiSP1.setForeground(new java.awt.Color(255, 255, 255));
+        btnTimLoaiSP1.setText("Tìm kiếm");
+        btnTimLoaiSP1.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
+        btnTimLoaiSP1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTimLoaiSP1MouseClicked(evt);
+            }
+        });
+        btnTimLoaiSP1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimLoaiSP1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnTimLoaiSP1, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 30, -1, -1));
+
+        cboSort.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tăng dần", "Giảm dần" }));
+        cboSort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboSortActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cboSort, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 150, -1, -1));
+
         jTabbedPane1.addTab("SẢN PHẨM", jPanel1);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -571,6 +601,7 @@ public class SanPhamView extends javax.swing.JPanel {
         btnTimLoaiSP.setBackground(new java.awt.Color(2, 172, 171));
         btnTimLoaiSP.setForeground(new java.awt.Color(255, 255, 255));
         btnTimLoaiSP.setText("Tìm kiếm");
+        btnTimLoaiSP.setFocusable(false);
         btnTimLoaiSP.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
         btnTimLoaiSP.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -775,20 +806,27 @@ public class SanPhamView extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThemLSPActionPerformed
 
     private void tblSanPhamMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMousePressed
+
         updateDelButton();
         int index = tblSanPham.rowAtPoint(evt.getPoint());
         maSP = (String) tblSanPham.getValueAt(index, 1);
         if (evt.getClickCount() == 2) {
+            if (!Auth.accept(this)) {
+                return;
+            }
             openEditTTSP();
         }
     }//GEN-LAST:event_tblSanPhamMousePressed
 
     private void tblLoaiSPMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLoaiSPMousePressed
-        // TODO add your handling code here:
+
         updateDelButton();
         int index = tblLoaiSP.rowAtPoint(evt.getPoint());
         maLoai = (String) tblLoaiSP.getValueAt(index, 1);
         if (evt.getClickCount() == 2) {
+            if (!Auth.accept(this)) {
+                return;
+            }
             openTTLSP();
         }
     }//GEN-LAST:event_tblLoaiSPMousePressed
@@ -799,13 +837,12 @@ public class SanPhamView extends javax.swing.JPanel {
         int index = tblDanhMuc.rowAtPoint(evt.getPoint());
         maDanhMuc = (String) tblDanhMuc.getValueAt(index, 1);
         if (evt.getClickCount() == 2) {
+            if (!Auth.accept(this)) {
+                return;
+            }
             openTTDM();
         }
     }//GEN-LAST:event_tblDanhMucMousePressed
-
-    private void btnTimSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimSPActionPerformed
-        timSP();
-    }//GEN-LAST:event_btnTimSPActionPerformed
 
     private void btnTimLoaiSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTimLoaiSPMouseClicked
         fillToTableLoaiSP();
@@ -862,19 +899,49 @@ public class SanPhamView extends javax.swing.JPanel {
             return;
         }
         pageNumber--;
-        renderDataTable(sp.panigation(pageNumber, txtTimSP.getText(), 4, cboLoaiSP.getSelectedItem().toString() == "All" ? "" : cboLoaiSP.getSelectedItem().toString(), cboDanhMuc1.getSelectedItem().toString() == "All" ? "" : cboDanhMuc1.getSelectedItem().toString()));
-
+        fillToTableSanPham();
     }//GEN-LAST:event_btnPreActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         // TODO add your handling code here:
-        if (pageNumber == getPageNumber()) {
+
+        if (pageNumber >= sp.getPageNumber()) {
             return;
         }
         pageNumber++;
-        renderDataTable(sp.panigation(pageNumber, txtTimSP.getText(), 4, cboLoaiSP.getSelectedItem().toString() == "All" ? "" : cboLoaiSP.getSelectedItem().toString(), cboDanhMuc1.getSelectedItem().toString() == "All" ? "" : cboDanhMuc1.getSelectedItem().toString()));
-
+        fillToTableSanPham();
     }//GEN-LAST:event_btnNextActionPerformed
+
+    private void txtTimSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimSPActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txtTimSPActionPerformed
+
+    private void txtTimSPKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimSPKeyTyped
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txtTimSPKeyTyped
+
+    private void txtTimSPKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimSPKeyPressed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txtTimSPKeyPressed
+
+    private void btnTimLoaiSP1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTimLoaiSP1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTimLoaiSP1MouseClicked
+
+    private void btnTimLoaiSP1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimLoaiSP1ActionPerformed
+        // TODO add your handling code here:
+        cboLoaiSP.setSelectedIndex(0);
+        cboDanhMuc1.setSelectedIndex(0);
+        fillToTableSanPham();
+    }//GEN-LAST:event_btnTimLoaiSP1ActionPerformed
+
+    private void cboSortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboSortActionPerformed
+        // TODO add your handling code here:
+        fillToTableSanPham();
+    }//GEN-LAST:event_cboSortActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -885,13 +952,14 @@ public class SanPhamView extends javax.swing.JPanel {
     private com.boxcf.components.ButtonRound btnThemSP;
     private com.boxcf.components.ButtonRound btnTimDM;
     private com.boxcf.components.ButtonRound btnTimLoaiSP;
-    private com.boxcf.components.ButtonRound btnTimSP;
+    private com.boxcf.components.ButtonRound btnTimLoaiSP1;
     private com.boxcf.components.ButtonRound btnXoaDM;
     private com.boxcf.components.ButtonRound btnXoaLSP;
     private com.boxcf.components.ButtonRound btnXoaSP;
     private com.boxcf.components.Combobox cboDanhMuc1;
     private com.boxcf.components.Combobox cboDanhMuc2;
     private com.boxcf.components.Combobox cboLoaiSP;
+    private javax.swing.JComboBox<String> cboSort;
     private com.boxcf.components.GradientPanel gradientPanel1;
     private com.boxcf.components.GradientPanel gradientPanel2;
     private javax.swing.JButton jButton1;
@@ -921,41 +989,50 @@ public class SanPhamView extends javax.swing.JPanel {
 }
 
 class suport {
-    
+
+    public static int quantity = 1;
+
     public List<LoaiSP> selectDMLSP(String keyWord) {
         String sql = "select * from LoaiSP lsp inner join DanhMuc dm on lsp.MaDM=dm.MaDM where TenDM=?;";
         return new LoaiSPDao().selectBySql(sql, keyWord);
     }
-    
-    public List<SanPham> panigation(Integer pageCurrent, String keyWord, int type, String TenLoai, String TenDM) {
+
+    public List<SanPham> panigation(Integer pageCurrent, String keyWord, int type, String TenLoai, String TenDM, String sort) {
         String sql = "";
+        sort = sort.equals("Tăng dần") ? "ASC" : "DESC";
         switch (type) {
             case 0:
                 sql = "SELECT TOP 8 * FROM SanPham WHERE MaSP NOT IN (SELECT TOP " + (pageCurrent * 8 - 8) + " MaSP FROM SanPham)";
-                
+                quantity = new SanPhamDao().selectBySql(sql).size();
                 return new SanPhamDao().selectBySql(sql);
             case 1:
                 sql = "SELECT TOP 8 * FROM SanPham WHERE MaSP NOT IN (SELECT TOP " + (pageCurrent * 8 - 8) + " MaSP FROM SanPham) and MaSP like ?";
+                quantity = new SanPhamDao().selectBySql(sql, "%" + keyWord + "%").size();
                 return new SanPhamDao().selectBySql(sql, "%" + keyWord + "%");
             case 2:
                 sql = "SELECT TOP 8 * FROM SanPham WHERE MaSP NOT IN (SELECT TOP " + (pageCurrent * 8 - 8) + " MaSP FROM SanPham) and TenSP like ?";
+                quantity = new SanPhamDao().selectBySql(sql, "%" + keyWord + "%").size();
                 return new SanPhamDao().selectBySql(sql, "%" + keyWord + "%");
             case 3:
                 sql = "SELECT TOP 8 sp.* FROM SanPham sp inner join LoaiSP lsp on sp.MaLoai=lsp.MaLoai where MaSP NOT IN (SELECT TOP " + (pageCurrent * 8 - 8) + " MaSP FROM SanPham) and MaSP like ? and lsp.TenLoai like ?;";
+                quantity = new SanPhamDao().selectBySql(sql, "%" + keyWord + "%", "%" + TenLoai + "%").size();
                 return new SanPhamDao().selectBySql(sql, "%" + keyWord + "%", "%" + TenLoai + "%");
             case 4:
-                sql = "SELECT TOP 8 sp.* FROM SanPham sp inner join LoaiSP lsp on sp.MaLoai=lsp.MaLoai inner join DanhMuc dm on lsp.MaDM=dm.MaDM where MaSP NOT IN (SELECT TOP " + (pageCurrent * 8 - 8) + " MaSP FROM SanPham) and MaSP like ? and lsp.TenLoai like ? and dm.TenDM like ?;";
-                return new SanPhamDao().selectBySql(sql, "%" + keyWord + "%", "%" + TenLoai + "%", "%" + TenDM + "%");
+                sql = "SELECT TOP 8 sp.* FROM SanPham sp inner join LoaiSP lsp on sp.MaLoai=lsp.MaLoai inner join DanhMuc dm on lsp.MaDM=dm.MaDM "
+                        + "where MaSP NOT IN (SELECT TOP " + (pageCurrent * 8 - 8) + " MaSP FROM SanPham sp2 join LoaiSP lsp2 on sp2.MaLoai=lsp2.MaLoai join danhmuc dm2 on dm2.MaDM=lsp2.MaDM where (sp2.MaSP like ? or sp2.TenSP like ?) and lsp2.MaLoai like ? and dm2.TenDM like ?)"
+                        + "and (sp.MaSP like ? or sp.TenSP like ?) and lsp.TenLoai like ? and dm.TenDM like ? order by sp.Gia " + sort;
+                quantity = new SanPhamDao().selectBySql(sql, "%" + keyWord + "%", "%" + keyWord + "%", "%" + TenLoai + "%", "%" + TenDM + "%", "%" + keyWord + "%", "%" + keyWord + "%", "%" + TenLoai + "%", "%" + TenDM + "%").size();
+                return new SanPhamDao().selectBySql(sql, "%" + keyWord + "%", "%" + keyWord + "%", "%" + TenLoai + "%", "%" + TenDM + "%", "%" + keyWord + "%", "%" + keyWord + "%", "%" + TenLoai + "%", "%" + TenDM + "%");
             default:
                 return null;
         }
     }
-    
+
     public List<LoaiSP> getLSPFromDM(String tenDM) {
         String sql = "Select lsp.* from LoaiSP lsp inner join DanhMuc dm on lsp.MaDM = dm.MaDM where dm.TenDM like ?;";
         return new LoaiSPDao().selectBySql(sql, "%" + tenDM + "%");
     }
-    
+
     public DanhMuc DMFromLSP(String tenLoai) {
         String sql = "Select dm.* from LoaiSP lsp inner join DanhMuc dm on lsp.MaDM = dm.MaDM where lsp.TenLoai like ?;";
         DanhMuc dm = new DanhMuc();
@@ -969,5 +1046,8 @@ class suport {
         }
         return dm;
     }
-    
+
+    int getPageNumber() {
+        return (int) Math.ceil(quantity / 8) + 1;
+    }
 }

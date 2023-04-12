@@ -1,6 +1,7 @@
 package com.boxcf.components;
 
 import com.boxcf.components.material.BoxItem;
+import com.boxcf.components.material.ComboItem;
 import com.boxcf.components.material.ItemBill;
 import com.boxcf.components.material.ProductItem;
 import com.boxcf.constands.BoxState;
@@ -27,6 +28,15 @@ public class PanelItem extends JPanel {
                     product.repaint();
                 }
             }
+            
+            if (component instanceof ComboItem) {
+                ComboItem combo = (ComboItem) component;
+
+                if (combo != null) {
+                    combo.setSelected(false);
+                }
+            }
+            
             if (all) {
                 if (component instanceof BoxItem) {
                     BoxItem box = (BoxItem) component;

@@ -55,18 +55,29 @@ GO
 CREATE TABLE Combo(
 	MaCB VARCHAR(10) PRIMARY KEY NOT NULL,
 	TenCB NVARCHAR(50) NOT NULL,
-	Gia FLOAT,
-	MoTa NVARCHAR(100),
+	Gia FLOAT,	
 	MaLoaiBox VARCHAR(10) REFERENCES LoaiBox(MaLoaiBox) ON DELETE CASCADE,
-	SoLuong INT,
+	SoLuong_DoUong INT,
+	SoLuong_Mon INT,
+	MoTa NVARCHAR(100),
 )
+
+select * from ComboCT
+select * from HoaDonCT
+
+delete from ComboCT
+
+drop table ComboCT
+
 GO
 
 CREATE TABLE ComboCT(
+	MaHD INT NOT NULL REFERENCES HoaDon(MaHD),
 	MaCB VARCHAR(10) REFERENCES Combo(MaCB),
 	MaSP varchar(10) REFERENCES SanPham(MaSP),
 	GhiChu NVARCHAR(100),
-	CONSTRAINT PK_ComBoCT PRIMARY KEY (MaCB, MaSP)
+	CONSTRAINT PK_ComBoCT PRIMARY KEY (MaHD, MaSP, MaCB)
+
 )
 
 --Gía box lấy theo giá loại box
@@ -175,15 +186,16 @@ Insert into LoaiBox values ('L', N'Nhóm 4', 300000, null)
 Insert into LoaiBox values ('XL', N'Nhóm 6', 300000, null)
 
 --Combo
-Insert into Combo values ('CB01', N'',100000, 'abc', 'S', 5)
-Insert into Combo values ('CB02', N'',200000, 'abc', 'M', 2)
-Insert into Combo values ('CB03', N'',300000, 'abc', 'L', 3)
-Insert into Combo values ('CB04', N'',300000, 'abc', 'XL', 3)
-Insert into Combo values ('CB05', N'',100000, 'abc', 'S', 1)
+Insert into Combo values ('CB01S', N'Combo 1',100000, 'abc', 'S', 5, 2, 2)
+Insert into Combo values ('CB02M', N'Combo 2',200000, 'abc', 'M', 2, 2, 2)
+Insert into Combo values ('CB03L', N'Combo 3',300000, 'abc', 'L', 3, 2, 2)
+Insert into Combo values ('CB04XL', N'Combo 4',300000, 'abc', 'XL', 3, 1, 2)
+Insert into Combo values ('CB05S', N'Combo 5',100000, 'abc', 'S', 1, 2, 1)
 
+select * from Combo
 
 --ComboCT
-select * from ComboCT;
+select * from Combo;
 Insert into ComboCT values ('CB01','NE001', 'abc')
 Insert into ComboCT values ('CB02','NE002', 'hhh')
 Insert into ComboCT values ('CB03','ST001', 'ppp')
@@ -247,7 +259,11 @@ Insert into HoaDonCT values (9, 4, 3, null, 60000)
 Insert into HoaDonCT values (10, 5, 1, null, 15000)
 
 GO
+
 --------ha code------------
+
+
+-- proc
 create proc sp_DatBox @MaHD int, @MaBox varchar(10), @TenKH nvarchar(50), @GioBD DATETIME, @GioKT DATETIME, @soGio int, @TraTruoc int, @ThanhTien int, @TrangThai NVARCHAR(20), @ghiChu nvarchar(50)
 as 
 begin
@@ -273,19 +289,6 @@ begin
 	set TrangThai = 'active', ghichu = 'Đã thanh toán'
 	where MaBox = @MaBox and GioBD = @GioBD
 end
-
-
-select * from Box
-select * from phieudatbox
-select * from HoaDon
-select * from hoadonct
-select * from HoaDonCT
-select * from KhuyenMai
-select * from NhanVien
-
-
-select * from hoadon
-select * from phieudatbox
 Go
 
 --drop table DatTruoc
@@ -443,26 +446,16 @@ select * from PhieuDatBox
 where MaHD = 58
 order by SoLuong desc
 
-select * from NhanVien
 
-update NhanVien
-set TrangThai = 1
-where MaNV = 'NV01'
-
-update Box
-set HinhAnh = 'box.jpg'
-where MaBox = 'B001S'
+-- huy box--
 
 
-select SUM(ThanhTien * SoLuong) from HoaDonCT
-join HoaDon on HoaDon.MaHD = HoaDonCT.MaHD
-where NgayTao >= '2023-04-08' and HoaDonCT.MaHD =74
 
-select * from KhuyenMai
-where DieuKienGiam <= 100000 and TrangThai = 1 and SoLuot > 0
 
-select * from HoaDonCT
-select * from PhieuDatBox
+
+
+
+
 
 
 

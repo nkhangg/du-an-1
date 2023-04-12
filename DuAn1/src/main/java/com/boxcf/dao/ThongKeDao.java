@@ -1,4 +1,3 @@
-
 package com.boxcf.dao;
 
 import com.box.utils.JdbcHelper;
@@ -82,9 +81,9 @@ public class ThongKeDao {
         Date dateStart = XDate.getHour("23:59:59");
         Date dateEnd = XDate.getHour("00:00:00");
 
-        String sql = "select SUM(ThanhTien) from PhieuDatBox pd\n"
+        String sql = "select SUM(ThanhTien - TraTruoc) from PhieuDatBox pd\n"
                 + "join HoaDon hd on hd.MaHD = pd.MaHD \n"
-                + DateNowSql;
+                + DateNowSql + " and hd.MaHD not in (select ComboCT.MaHD from ComboCT)";
 
         try {
 
@@ -105,7 +104,23 @@ public class ThongKeDao {
     public double comboOfTheDay() {
 
         double revenue = 0;
-//        
+
+        String sql = "select SUM(TongTien) from HoaDon \n"
+                + DateNowSql + " and MaHD in (select MaHD from ComboCT) \n";
+
+        try {
+
+            ResultSet responce = JdbcHelper.query(sql);
+
+            // admission a ResultSet return a Box
+            if (responce.next()) {
+                revenue = responce.getDouble(1);
+            }
+            responce.getStatement().getConnection().close();
+        } catch (Exception e) {
+            System.out.println(e);
+            throw new Error("The Error in boxOfTheDay Combo !");
+        }
         return revenue;
     }
 
