@@ -14,6 +14,7 @@ public class Category extends javax.swing.JPanel {
     
     private LoaiSP dataProduct;
     private LoaiBox dataBox;
+    private String loai;
     private boolean active;
     
     public boolean isActive() {
@@ -67,6 +68,16 @@ public class Category extends javax.swing.JPanel {
     public void setLblTitle(JLabel lblTitle) {
         this.lblTitle = lblTitle;
     }
+
+    public String getLoai() {
+        return loai;
+    }
+
+    public void setLoai(String loai) {
+        this.loai = loai;
+    }
+    
+    
     
     public Category() {
         initComponents();
@@ -81,6 +92,11 @@ public class Category extends javax.swing.JPanel {
     public void addData(LoaiSP data) {
         this.dataProduct = data;
         lblTitle.setText(data.getTenLoai());
+    }
+    
+    public void addData(String data) {
+        this.loai = data;
+        lblTitle.setText(loai);
     }
     
     public void addData(LoaiBox data) {

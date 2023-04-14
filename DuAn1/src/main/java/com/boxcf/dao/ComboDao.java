@@ -23,6 +23,7 @@ public class ComboDao implements BoxCfDAO<Combo, String> {
                     responce.getString("TenCB"),
                     responce.getLong("Gia"),
                     responce.getString("MaLoaiBox"),
+                    responce.getInt("SoLuong"),
                     responce.getInt("SoLuong_DoUong"),
                     responce.getInt("SoLuong_Mon"),
                     responce.getString("MoTa")

@@ -12,7 +12,7 @@ import com.boxcf.models.ModelStatistical;
  */
 public class Messages {
 
-    public static String waitting = "waitting pay...";
+    public static String waitting = "chờ...";
     public static String notUse = "not used yet...";
 
     public static String chartMess(ModelStatistical data) {

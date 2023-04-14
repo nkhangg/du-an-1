@@ -8,7 +8,12 @@ import com.boxcf.models.Time;
 import com.boxcf.store.Store;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
@@ -46,6 +51,11 @@ public class XDate {
         return date;
     }
 
+    public static Date putHours(Date date, int hours) {
+        date.setTime(date.getTime() - (hours * 60 * 60 * 1000));
+        return date;
+    }
+
     public static Date addMinus(Date date, int minus) {
 
         date.setTime(date.getTime() + (minus * 60 * 1000));
@@ -53,26 +63,21 @@ public class XDate {
         return date;
     }
 
-    public static Time toTime(String textGioKT) {
+    public static Time toTime(String textGioKT) throws ExceptionInInitializerError {
         Time t = null;
-        try {
-            if (textGioKT.equals("")) {
-                return null;
-            }
-
-            Date endHour = XDate.toDate(textGioKT, "MM/dd/yyyy HH:mm:ss");
-            long millis = endHour.getTime();
-            long useHour = millis - XDate.now().getTime();
-            double totalSecond = Math.floor(useHour) / 1000;
-            int hour = (int) (Math.floor(totalSecond / 3600) % 24);
-            int minute = (int) (Math.floor(totalSecond / 60) % 60);
-            int second = (int) (Math.floor(totalSecond % 60));
-
-            t = new Time(hour, minute, second);
-        } catch (Exception e) {
-            System.out.println(e);
-            throw new Error("Error in getCurTime");
+        if (textGioKT.equals("")) {
+            return null;
         }
+
+        Date endHour = XDate.toDate(textGioKT, "MM/dd/yyyy HH:mm:ss");
+        long millis = endHour.getTime();
+        long useHour = millis - XDate.now().getTime();
+        double totalSecond = Math.floor(useHour) / 1000;
+        int hour = (int) (Math.floor(totalSecond / 3600) % 24);
+        int minute = (int) (Math.floor(totalSecond / 60) % 60);
+        int second = (int) (Math.floor(totalSecond % 60));
+
+        t = new Time(hour, minute, second);
         return t;
     }
 
@@ -143,9 +148,9 @@ public class XDate {
     }
 
     public static void main(String[] args) throws ParseException {
+        int hour = Integer.parseInt(XDate.toString(XDate.now(), "HH"));
 
-        System.out.println(XDate.convertHourAndMinusToDate(10, 20));
-
+        System.out.println("hour: " + hour);
     }
 
 }

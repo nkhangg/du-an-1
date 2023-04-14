@@ -105,4 +105,5 @@ public class Store {
     public static DatComBo dcbView = null;
 
     public static BoxStatus bStatus = null;
+
 }

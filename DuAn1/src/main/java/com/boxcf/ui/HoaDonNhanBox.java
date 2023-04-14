@@ -1,41 +1,41 @@
 package com.boxcf.ui;
 
-import com.box.utils.Auth;
 import com.box.utils.Formats;
 import com.box.utils.MsgBox;
 import com.box.utils.Validator;
 import com.box.utils.XDate;
 import com.boxcf.components.ScrollBar;
-import com.boxcf.components.material.ItemBill;
 import com.boxcf.components.material.Panigation;
-import com.boxcf.constands.BoxState;
 import com.boxcf.dao.BoxDao;
-import com.boxcf.dao.ComboCTDao;
-import com.boxcf.dao.HoaDonChiTietDao;
 import com.boxcf.dao.HoaDonDao;
 import com.boxcf.dao.LoaiBoxDao;
+import com.boxcf.dao.NhanVienDao;
 import com.boxcf.dao.PhieuDatBoxDao;
-import com.boxcf.models.ComboCT;
 import com.boxcf.models.HoaDon;
-import com.boxcf.models.HoaDonCT;
-import com.boxcf.models.KhuyenMai;
-import com.boxcf.models.ModelItem;
+import com.boxcf.models.PhieuDatBox;
 import com.boxcf.store.Store;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 public class HoaDonNhanBox extends javax.swing.JFrame {
 
     private DefaultTableModel model;
+    private PhieuDatBox data;
     private long total = 0;
     private long finalTotal = 0;
-    private KhuyenMai km;
     private int maHd;
     private int quantity = 0;
+
+    public HoaDonNhanBox(PhieuDatBox data) {
+        initComponents();
+        this.data = data;
+        clsoeButton1.initEvent(this);
+        init();
+    }
 
     public HoaDonNhanBox() {
         initComponents();
@@ -51,7 +51,6 @@ public class HoaDonNhanBox extends javax.swing.JFrame {
         clsoeButton1 = new com.boxcf.components.ClsoeButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        buttonRound1 = new com.boxcf.components.ButtonRound();
         lblDiscount = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -73,6 +72,8 @@ public class HoaDonNhanBox extends javax.swing.JFrame {
         lblNameCutomer = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         lblQuantity = new javax.swing.JLabel();
+        buttonRound2 = new com.boxcf.components.ButtonRound();
+        btnCreateBill = new com.boxcf.components.ButtonRound();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -92,16 +93,6 @@ public class HoaDonNhanBox extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(51, 51, 51));
         jLabel12.setText("Trả Trước");
-
-        buttonRound1.setBackground(new java.awt.Color(109, 191, 184));
-        buttonRound1.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound1.setText("IN HÓA ĐƠN");
-        buttonRound1.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        buttonRound1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonRound1ActionPerformed(evt);
-            }
-        });
 
         lblDiscount.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         lblDiscount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -143,7 +134,7 @@ public class HoaDonNhanBox extends javax.swing.JFrame {
 
         lblRedundant.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         lblRedundant.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblRedundant.setText("0 vnd");
+        lblRedundant.setText("0 VND");
 
         lblNameStaff.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         lblNameStaff.setText("Nguyễn Thị Lam Hà");
@@ -161,17 +152,17 @@ public class HoaDonNhanBox extends javax.swing.JFrame {
         tblHoaDon.setFont(new java.awt.Font("UTM BryantLG", 1, 12)); // NOI18N
         tblHoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, "1", "1000", "1", "1000"},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, "1", "1", "1000", null, "1000"},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Sản phẩm", "Đơn giá", "Số lượng (giờ)", "Thành tiền"
+                "STT", "Tên box", "GIờ", "Đơn giá", "Tiền cọc", "Thành tiền"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -200,41 +191,32 @@ public class HoaDonNhanBox extends javax.swing.JFrame {
 
         lblQuantity.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         lblQuantity.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblQuantity.setText("1 món");
+        lblQuantity.setText("1 box");
+
+        buttonRound2.setBackground(new java.awt.Color(109, 191, 184));
+        buttonRound2.setForeground(new java.awt.Color(255, 255, 255));
+        buttonRound2.setText("HỦY ĐẶT");
+        buttonRound2.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        buttonRound2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRound2ActionPerformed(evt);
+            }
+        });
+
+        btnCreateBill.setBackground(new java.awt.Color(109, 191, 184));
+        btnCreateBill.setForeground(new java.awt.Color(255, 255, 255));
+        btnCreateBill.setText("IN HÓA ĐƠN");
+        btnCreateBill.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        btnCreateBill.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateBillActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout gradientPanel1Layout = new javax.swing.GroupLayout(gradientPanel1);
         gradientPanel1.setLayout(gradientPanel1Layout);
         gradientPanel1Layout.setHorizontalGroup(
             gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(gradientPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblRedundant, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, gradientPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, gradientPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblTotal))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, gradientPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblDiscount))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, gradientPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblTotalMoney))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, gradientPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(scroll, javax.swing.GroupLayout.Alignment.LEADING))
-                .addGap(20, 20, 20))
             .addGroup(gradientPanel1Layout.createSequentialGroup()
                 .addGroup(gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(gradientPanel1Layout.createSequentialGroup()
@@ -261,11 +243,41 @@ public class HoaDonNhanBox extends javax.swing.JFrame {
                         .addGap(24, 24, 24)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(7, 7, 7)
-                        .addComponent(lblNameCutomer, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(gradientPanel1Layout.createSequentialGroup()
-                        .addGap(77, 77, 77)
-                        .addComponent(buttonRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblNameCutomer, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(gradientPanel1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(gradientPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(gradientPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblTotal))
+                    .addGroup(gradientPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblDiscount))
+                    .addGroup(gradientPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblTotalMoney))
+                    .addGroup(gradientPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(scroll)
+                    .addGroup(gradientPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblRedundant, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(gradientPanel1Layout.createSequentialGroup()
+                        .addComponent(buttonRound2, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCreateBill, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(20, 20, 20))
         );
         gradientPanel1Layout.setVerticalGroup(
             gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -321,9 +333,11 @@ public class HoaDonNhanBox extends javax.swing.JFrame {
                 .addGroup(gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
                     .addComponent(lblRedundant))
-                .addGap(23, 23, 23)
-                .addComponent(buttonRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+                .addGap(26, 26, 26)
+                .addGroup(gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnCreateBill, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonRound2, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
+                .addGap(22, 22, 22))
         );
 
         txtMoney.setBackground(new Color(0, 0, 0, 0));
@@ -360,9 +374,13 @@ public class HoaDonNhanBox extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonRound1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound1ActionPerformed
+    private void btnCreateBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateBillActionPerformed
         handlePrintBill();
-    }//GEN-LAST:event_buttonRound1ActionPerformed
+    }//GEN-LAST:event_btnCreateBillActionPerformed
+
+    private void buttonRound2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRound2ActionPerformed
+        cancelBox();
+    }//GEN-LAST:event_buttonRound2ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -399,7 +417,8 @@ public class HoaDonNhanBox extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.boxcf.components.ButtonRound buttonRound1;
+    private com.boxcf.components.ButtonRound btnCreateBill;
+    private com.boxcf.components.ButtonRound buttonRound2;
     private com.boxcf.components.ClsoeButton clsoeButton1;
     private com.boxcf.components.GradientPanel gradientPanel1;
     private com.boxcf.components.GradientPanel gradientPanel2;
@@ -432,6 +451,8 @@ public class HoaDonNhanBox extends javax.swing.JFrame {
         prepareUI();
         model = (DefaultTableModel) tblHoaDon.getModel();
         renderDataTable();
+        showInfo();
+        setState();
     }
 
     private void prepareUI() {
@@ -442,74 +463,52 @@ public class HoaDonNhanBox extends javax.swing.JFrame {
     private void renderDataTable() {
         model.setRowCount(0);
         int i = 1;
-        for (Component com : Store.globelPanelBill.getComponents()) {
-            if (com instanceof ItemBill) {
-                ItemBill item = (ItemBill) com;
-                ModelItem data = item.getData();
-
-                total += data.getSoLuong() * data.getGia();
-                Object[] row = new Object[]{i, data.getTen(), data.getGia(), data.getSoLuong(), data.getSoLuong() * data.getGia()};
-                model.addRow(row);
-
-                i++;
-            }
-        }
+        Object[] row = new Object[]{i, BoxDao.getInstance().selectById(data.getMaBox()), data.getSoGio(), Formats.toCurency(data.getThanhTien()), Formats.toCurency(data.getTraTruoc()), Formats.toCurency(data.getThanhTien() - data.getTraTruoc())};
+        model.addRow(row);
     }
 
-    private void createBill() {
-        //tao hoa don
-        HoaDon hd = new HoaDon(XDate.now(), lblNameCutomer.getText(), Auth.user.getMaNV(), "", finalTotal, km == null ? null : km.getMaKM());
-        maHd = HoaDonDao.getInstant().inserts(hd);
+    private void showInfo() {
+        HoaDon hd = HoaDonDao.getInstant().selectById(data.getMaHD());
+        lblId.setText(data.getMaHD() + "");
+        lblTimeNow.setText(XDate.toString(hd.getNgayTao(), Store.partten));
+        lblNameStaff.setText(NhanVienDao.getInstant().selectById(hd.getMaNV()).getTenNV());
+        lblNameCutomer.setText(data.getTenKH());
 
-        //tao hoa don chi tiet
-        for (ItemBill item : Store.globelPanelBill.getList()) {
-            ModelItem data = item.getData();
+        lblTotalMoney.setText(Formats.toCurency(data.getThanhTien()));
+        lblDiscount.setText(Formats.toCurency(data.getTraTruoc()));
 
-            data.setTrangThai(BoxState.active);
-            item.setData(data);
+        finalTotal = data.getThanhTien() - data.getTraTruoc();
+        lblTotal.setText(Formats.toCurency(finalTotal));
 
-            if (item.getData().getMaCB() != null) {
-                String maSP = data.getLoaiBox() == null ? data.getMaItem().toString() : null;
-                String maBox = data.getLoaiBox() != null ? data.getMaItem().toString() : null;
+        txtMoney.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
 
-                if (maSP != null) {
-                    ComboCT cbct = new ComboCT(maHd, data.getMaCB(), maSP, maBox, data.getSoLuong());
-                    ComboCTDao.getInstant().insert(cbct);
-                    //Tao hoa don chi tiet
-                    HoaDonCT hdct = new HoaDonCT(maHd, data.getMaItem().toString(), data.getSoLuong(), "", (long) (data.getGia()));
-                    HoaDonChiTietDao.getInstant().insert(hdct);
+                try {
+                    long money = Long.parseLong(txtMoney.getText());
+                    lblRedundant.setText(Formats.toCurency(money - finalTotal));
+                } catch (NumberFormatException ex) {
+                    lblRedundant.setText(Formats.toCurency(0));
                 }
-
-                if (maBox != null && data.getLoaiBox() != null && !data.getMaItem().equals(data.getMaCB())) {
-                    ComboCT cbct = new ComboCT(maHd, data.getMaCB(), maSP, maBox, data.getSoLuong());
-                    ComboCTDao.getInstant().insert(cbct);
-
-                    // set cua loai box ve 0 khi chen vi khi tinh tien chi tinh tien combo
-                    ModelItem newData = data;
-                    newData.getLoaiBox().setGiaLoai(0);
-
-                    PhieuDatBoxDao.getInstant().insertProc(maHd, newData, lblNameCutomer.getText());
-                }
-
-            } else if (data.getLoaiBox() != null) {
-                //Tao phieu dat box
-                PhieuDatBoxDao.getInstant().insertProc(maHd, item.getData(), lblNameCutomer.getText());
-
-            } else {
-                //Tao hoa don chi tiet
-                HoaDonCT hdct = new HoaDonCT(maHd, data.getMaItem().toString(), data.getSoLuong(), "", (long) (data.getGia()));
-                HoaDonChiTietDao.getInstant().insert(hdct);
             }
 
-        }
-        MsgBox.alert(Store.orderView, "Thanh toán thành công !");
+        });
+    }
 
+    private void updateBill() {
+        PhieuDatBoxDao dpd = PhieuDatBoxDao.getInstant();
+        dpd.receiveBox(data);
     }
 
     private boolean validator() {
         boolean flag = true;
         String mess = "";
         try {
+
+            if (finalTotal == 0) {
+                return true;
+            }
+
             long money = Long.parseLong(txtMoney.getText());
 
             if (Validator.isEmpty(txtMoney)) {
@@ -538,13 +537,37 @@ public class HoaDonNhanBox extends javax.swing.JFrame {
         if (!validator()) {
             return;
         }
+
         this.dispose();
-        createBill();
-        Store.globelPanelBill.clearList(false);
-        Store.orderView.initCategoryBox(true, LoaiBoxDao.getInstance().selectAll(), "Box");
+        updateBill();
         Store.orderView.initBoxData(BoxDao.getInstance().panigation(Panigation.current));
         Store.bStatus.fillState();
-        Store.orderView.getPanelItem().setTimer();
+        Store.dbView.dispose();
+        Store.dbView = null;
+
+    }
+
+    private void setState() {
+
+        if (XDate.now().after(data.getGioBD())) {
+            btnCreateBill.setEnabled(true);
+            btnCreateBill.setBackground(Color.decode("#6DBFB8"));
+        } else {
+            btnCreateBill.setEnabled(false);
+            btnCreateBill.setBackground(Color.decode("#e6ddce"));
+        }
+
+    }
+
+    private void cancelBox() {
+        PhieuDatBoxDao pdbd = PhieuDatBoxDao.getInstant();
+
+        pdbd.cancelBox(data);
+        MsgBox.alert(this, "Hủy thành công !");
+//        //fill lai box
+        Store.orderView.initBoxData(BoxDao.getInstance().panigation(Panigation.current));
+        Store.dbView.dispose();
+        this.dispose();
     }
 
 }

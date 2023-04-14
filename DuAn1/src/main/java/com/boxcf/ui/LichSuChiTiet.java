@@ -7,12 +7,15 @@ package com.boxcf.ui;
 import com.box.utils.Formats;
 import com.box.utils.XDate;
 import com.boxcf.dao.BoxDao;
+import com.boxcf.dao.ComboCTDao;
+import com.boxcf.dao.ComboDao;
 import com.boxcf.dao.HoaDonChiTietDao;
 import com.boxcf.dao.KhuyenMaiDao;
 import com.boxcf.dao.LoaiBoxDao;
 import com.boxcf.dao.PhieuDatBoxDao;
 import com.boxcf.dao.SanPhamDao;
 import com.boxcf.models.Box;
+import com.boxcf.models.Combo;
 import com.boxcf.models.HoaDonCT;
 import com.boxcf.models.KhuyenMai;
 import com.boxcf.models.LichSu;
@@ -31,6 +34,7 @@ public class LichSuChiTiet extends javax.swing.JDialog {
     private long total = 0;
     private long finalTotal = 0;
     private int quantity = 0;
+    private String cattegory;
 
     public LichSuChiTiet(java.awt.Frame parent) {
         super(parent, true);
@@ -373,32 +377,57 @@ public class LichSuChiTiet extends javax.swing.JDialog {
         DefaultTableModel model = (DefaultTableModel) tblHoaDon.getModel();
         model.setRowCount(0);
         int i = 1;
+
+        if (cattegory.equalsIgnoreCase("Combo")) {
+            String MaCB = ComboCTDao.getInstant().getMaCombo(mahd);
+
+            if (MaCB == null) {
+                return;
+            }
+
+            Combo combo = ComboDao.getInstant().selectById(MaCB);
+            total += combo.getGia();
+            Object[] row = new Object[]{i, combo.getTenCB(),
+                Formats.toCurency(combo.getGia()), combo.getSoluong(), Formats.toCurency(combo.getGia())};
+            model.addRow(row);
+            quantity += combo.getSoluong();
+            i++;
+
+        }
+
         for (HoaDonCT hd : list) {
 
             total += hd.getSoLuong() * hd.getThanhTien();
             Object[] row = new Object[]{i, SanPhamDao.getInstant().selectById(hd.getMaSP()).getTenSP(),
-                hd.getThanhTien(), hd.getSoLuong(), hd.getSoLuong() * hd.getThanhTien()};
+                Formats.toCurency(hd.getThanhTien()), hd.getSoLuong(), Formats.toCurency(hd.getSoLuong() * hd.getThanhTien())};
             model.addRow(row);
-            quantity += hd.getSoLuong();
+            if (!cattegory.equalsIgnoreCase("Combo")) {
+                quantity += hd.getSoLuong();
+            }
             i++;
         }
         for (PhieuDatBox pd : PhieuDatBoxDao.getInstant().selectByHd(mahd)) {
             Box b = BoxDao.getInstance().selectById(pd.getMaBox());
             LoaiBox lb = LoaiBoxDao.getInstance().selectById(b.getMaLoaiBox());
             int hour = pd.getSoGio();
-            quantity += 1;
+
+            if (!cattegory.equalsIgnoreCase("Combo")) {
+                quantity += 1;
+
+            }
             Object[] row = new Object[]{i,
                 b.getTenBox(),
-                lb.getGiaLoai(),
-                hour, hour * lb.getGiaLoai()};
+                cattegory.equalsIgnoreCase("Combo") ? Formats.toCurency(0) : Formats.toCurency(lb.getGiaLoai()),
+                hour, Formats.toCurency(pd.getTienThucNhan())};
             model.addRow(row);
-            total += hour * lb.getGiaLoai();
+            total += pd.getTienThucNhan();
             i++;
         }
 
     }
 
-    public void addInfo(LichSu hd) {
+    public void addInfo(LichSu hd, String category) {
+        this.cattegory = category;
         double discount = 0;
         KhuyenMai km = KhuyenMaiDao.getInstant().selectByIdIgnorState(hd.getMaKM());
 

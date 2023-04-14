@@ -94,6 +94,11 @@ public class OrderView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 800));
@@ -329,6 +334,10 @@ public class OrderView extends javax.swing.JFrame {
     private void cboDiscountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboDiscountActionPerformed
         handleFinalTotal();
     }//GEN-LAST:event_cboDiscountActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        Store.categoryName = Store.drink;
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
@@ -795,7 +804,7 @@ public class OrderView extends javax.swing.JFrame {
         for (Combo cb : list) {
             this.addComboData(new ModelItem(cb.getMaCB(), cb.getGia(), cb.getTenCB(), LoaiBoxDao.getInstance().selectById(cb.getMaLoaiBox()), cb.getSoLuongDoUong(), cb.getSoLuongDoAn()));
         }
-        panelBill.activeProductOnBill(panelItem);
+        panelBill.activeComboOnBill(panelItem);
 
     }
 

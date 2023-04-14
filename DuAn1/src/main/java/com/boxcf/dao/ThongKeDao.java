@@ -313,15 +313,22 @@ public class ThongKeDao {
         return list;
     }
 
-    public List<LichSu> history(String keyword) {
+    public List<LichSu> history(String keyword, String category) {
+
+        if (category.equalsIgnoreCase("Sản phẩm / Box")) {
+            category = " not in ";
+        } else {
+            category = " in ";
+        }
+
         List<LichSu> list = new ArrayList<>();
         String sqlKeyword = "select MaHD, NgayTao, TenKH, TenNV, TongTien, MaKM from HoaDon hd \n"
-                + "join NhanVien nv on nv.MaNV = hd.MaNV \n"
+                + "join NhanVien nv on nv.MaNV = hd.MaNV " + " and MaHD " + category + " (select MaHD from ComboCT) \n"
                 + "where hd.MaNV like ? or hd.NgayTao like ? or TenKH like ? or TenNV like ? or TongTien like ? or MaKM like ? or MaHD like ? \n"
                 + "order by NgayTao desc";
 
         String sql = "select MaHD, NgayTao, TenKH, TenNV, TongTien, MaKM from HoaDon hd\n"
-                + "join NhanVien nv on nv.MaNV = hd.MaNV\n"
+                + "join NhanVien nv on nv.MaNV = hd.MaNV " + " and MaHD " + category + " (select MaHD from ComboCT) \n"
                 + "order by NgayTao desc";
 
         try {
@@ -341,6 +348,34 @@ public class ThongKeDao {
         } catch (Exception e) {
             System.out.println(e);
             throw new Error("The Error in history ThongKe !");
+        }
+
+        return list;
+    }
+
+    public List<LichSu> historyWithCategory(String category) {
+        List<LichSu> list = new ArrayList<>();
+        String sql = "";
+
+        if (category.equalsIgnoreCase("Sảm phẩm / Box")) {
+            sql = "select MaHD, NgayTao, TenKH, TenNV, TongTien, MaKM from HoaDon\n"
+                    + "where MaHD not in (select MaHD from ComboCT)";
+        } else {
+            sql = "select MaHD, NgayTao, TenKH, TenNV, TongTien, MaKM from HoaDon\n"
+                    + "where MaHD  in (select MaHD from ComboCT)";
+        }
+
+        try {
+            ResultSet responce = JdbcHelper.query(sql);
+
+            // admission a ResultSet return a Box
+            while (responce.next()) {
+                list.add(new LichSu(responce.getInt(1), responce.getDate(2), responce.getString(3), responce.getString(4), responce.getLong(5), responce.getString(6)));
+            }
+            responce.getStatement().getConnection().close();
+        } catch (Exception e) {
+            System.out.println(e);
+            throw new Error("The Error in historyWithCategory ThongKe !");
         }
 
         return list;

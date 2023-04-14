@@ -590,10 +590,8 @@ public class HoaDonView extends javax.swing.JFrame {
         this.dispose();
         createBill();
         Store.globelPanelBill.clearList(false);
-        Store.orderView.initCategoryBox(true, LoaiBoxDao.getInstance().selectAll(), "Box");
         Store.orderView.initBoxData(BoxDao.getInstance().panigation(Panigation.current));
         Store.bStatus.fillState();
-        Store.orderView.getPanelItem().setTimer();
     }
 
 }

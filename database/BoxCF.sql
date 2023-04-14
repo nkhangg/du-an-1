@@ -196,13 +196,7 @@ Insert into Combo values ('CB05S', N'Combo 5',100000, 'abc', 'S', 1, 2, 1)
 select * from ComboCT
 select * from PhieuDatBox
 
---ComboCT
-select * from Combo;
-Insert into ComboCT values ('CB01','NE001', 'abc')
-Insert into ComboCT values ('CB02','NE002', 'hhh')
-Insert into ComboCT values ('CB03','ST001', 'ppp')
-Insert into ComboCT values ('CB04','TS001', 'ccc')
-Insert into ComboCT values ('CB05','NN001', 'ggg')
+
 
 GO
 
@@ -229,47 +223,38 @@ Insert into KhuyenMai values ('KM02', N'Khuyến mãi combo','2023/01/01', '2023
 Insert into KhuyenMai values ('KM03', N'Tri ân khách hàng','2023/02/14', '2023/02/15', 100, 15, 300000, 1)
 Insert into KhuyenMai values ('KM04', N'Tri ân khách hàng','2023/03/14', '2023/03/16', 100, 20, 500000, 1)
 
---Hóa đơn
-SELECT * FROM HoaDon
-
-Insert into HoaDon values('2023-03-10', N'Trần Phước Vinh', 'NV02', null, 270000, 'KM02')
-Insert into HoaDon values('2023-03-11', N'Nguyễn Ngọc Ngân', 'NV03', null, 180000, 'KM03')
-Insert into HoaDon values('2023-03-12', N'Phan Huỳnh Tuyết Nhi', 'NV01', null, 90000, 'KM04')
-Insert into HoaDon values('2023-03-10', N'Như Ý', 'NV02', null, 270000, 'KM02')
-Insert into HoaDon values('2023-03-10', N'Nguyễn Ngọc Anh', 'NV01', null, 90000, 'KM02')
-
---Đặt box
-SELECT * FROM PhieuDatBox
 
 
-Insert into PhieuDatBox values(1, 'B001S', N'Nguyễn Ngọc Anh', '2023/3/29 6:00:00', '2023/3/29 7:00:00', 2, 0, 200000, N'used', '')
-Insert into PhieuDatBox values(2, 'B002M', N'Như Ý', '2023/3/29 9:00:00', '2023/3/29 10:00:00', 2, 0, 100000, N'used', '')
-Insert into PhieuDatBox values(3, 'B003L', N'Nguyễn Ngọc Ngân', '2023/3/29 11:00:00', '2023/3/29 12:00:00', 1, 0, 100000, N'used', '')
-Insert into PhieuDatBox values(1, 'B004XL', N'Trần Phước Vinh', '2023/3/29 13:00:00', '2023/3/29 14:00:00', 3, 0, 100000, N'used', '')
-Insert into PhieuDatBox values(2, 'B005S', N'Phan Huỳnh Tuyết Nhi', '2023/3/29 18:00:00', '2023/3/29 19:00:00', 4, 0, 100000, N'used', '')
-
---Hóa đơn chi tiết
-delete from HOADON
-SELECT * FROM HOADON
-SELECT * FROM SanPham
 
 
-Insert into HoaDonCT values (6, 1, 1, null, 25000)
-Insert into HoaDonCT values (7, 2, 2, null, 20000)
-Insert into HoaDonCT values (8, 3, 1, null, 50000)
-Insert into HoaDonCT values (9, 4, 3, null, 60000)
-Insert into HoaDonCT values (10, 5, 1, null, 15000)
+
 
 GO
 
 --------ha code------------
 
 
--- proc
+-- start proc --
+
+
 create proc sp_DatBox @MaHD int, @MaBox varchar(10), @TenKH nvarchar(50), @GioBD DATETIME, @GioKT DATETIME, @soGio int, @TraTruoc int, @ThanhTien int,@TienThucNhan int, @TrangThai NVARCHAR(20), @ghiChu nvarchar(50)
 as 
 begin
 	Insert into PhieuDatBox values(@MaHD, @MaBox, @TenKH, @GioBD, @GioKT, @soGio, @TraTruoc, @ThanhTien, @TienThucNhan, @TrangThai, @ghiChu)
+end
+
+go
+
+create proc sp_nhan_box @MaHD int, @MaBox nvarchar(10), @thanhTien int
+as 
+begin
+	update HoaDon
+	set TongTien  = @thanhTien
+	where MaHD = @MaHD
+
+	update PhieuDatBox
+	set TrangThai = 'active', TienThucNhan = @thanhTien, GhiChu = N'Da thanh toan'
+	where MaHD = @MaHD and MaBox = @MaBox
 end
 
 go
@@ -292,23 +277,6 @@ begin
 	where MaBox = @MaBox and GioBD = @GioBD
 end
 Go
-
---drop table DatTruoc
---create table DatTruoc(
---	MaDT int identity primary key not null,
---	MaBox int REFERENCES Box(MaBox) ON DELETE CASCADE,
---	TenKH nvarchar(50),
---	GioBD datetime,
---	GioKT datetime,
---	TranThai bit default 1
---)
-
---ha code
-select top 1 trangthai
-from box a
-inner join phieudatbox b on b.mabox = a.mabox
-where a.mabox = 'b001s'
-order by GioKT DESC
 
 
 -- thong ke - start
@@ -427,40 +395,13 @@ go
 	end
 	exec sp_insert_bill N'Trần Phước Vinh', 'NV02', null, 270000, 'B0606101'
 
--- hoadon -- end
-
--- thong ke - end
-
--- lich sử hoạt động -- start
-
-select hd.MaHD, NgayTao, TenKH, TenNV, TenSP, SoLuong, ThanhTien, TongTien, PhanTram from HoaDon hd
-join HoaDonCT ct on ct.MaHD = hd.MaHD
-join NhanVien nv on nv.MaNV = hd.MaNV
-join SanPham sp on sp.MaSP = ct.MaSP
-join KhuyenMai km on km.MaKM = hd.MaKM
-where hd.MaHD like '' or TenKH like '' or TenNV like '' or ThanhTien like '%75000%' or TongTien like '' or PhanTram like ''
-order by NgayTao desc
-
--- lich sử hoạt động -- end
+-- end proc--
 
 
--- huy box--
 
 
-delete from ComboCT
-delete from HoaDonCT
-delete from PhieuDatBox
-delete from HoaDon
 
-select * from HoaDon
-select * from ComboCT
-select * from HoaDonCT
-select * from PhieuDatBox
 
-select * from Combo cb
-
-select * from HoaDon
-where NgayTao >= '2023-04-14'
 
 
 

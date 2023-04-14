@@ -53,28 +53,35 @@ public class Timer {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                box.setSelected(BoxState.active);
+                try {
+                    box.setSelected(BoxState.active);
 
-                Time t = XDate.toTime(XDate.toString(data.getGioKT(), "MM/dd/yyyy HH:mm:ss"));
+                    Time t = XDate.toTime(XDate.toString(data.getGioKT(), "MM/dd/yyyy HH:mm:ss"));
 
-                if (t.getHour() < 0 && t.getMinute() < 0 && t.getSecond() < 0) {
-                    PhieuDatBoxDao.getInstant().updateProc(box.getData(), BoxState.empty.toString(), box.getData().getGioKT());
+                    if (XDate.now().after(box.getData().getGioKT())) {
+                        System.out.println("in here...");
+                        PhieuDatBoxDao.getInstant().updateProc(box.getData(), BoxState.empty.toString(), box.getData().getGioKT());
+                        MsgBox.alert(Store.orderView, box.getData().getTen() + " đã hết thời gian !");
+                        box.clearSelected();
+                        timer.cancel();
+                        return;
+                    }
 
-                    MsgBox.alert(Store.orderView, box.getData().getTen() + " đã hết thời gian !");
-                    box.clearSelected();
+                    box.setRemainderTime(t);
+                } catch (Exception e) {
                     timer.cancel();
-                    return;
                 }
-
-                box.setRemainderTime(t);
             }
         };
 
-      
-        timer.scheduleAtFixedRate(task, 0, 1000);
-
+        try {
+            timer.scheduleAtFixedRate(task, 0, 1000);
+        } catch (Exception e) {
+            timer.cancel();
+            setTime();
+        }
     }
-    
+
     public synchronized void setTime2(PhieuDatBox nextBooked) {
         java.util.Timer timer = new java.util.Timer();
         TimerTask task = new TimerTask() {
@@ -83,13 +90,13 @@ public class Timer {
                 long currentTime = System.currentTimeMillis();
                 long limit = 1 * 60 * 1000;
                 long maxHour = limit + nextBooked.getGioBD().getTime();
-                
+
                 if (currentTime >= maxHour) {
-                    
+
                     ModelItem item = new ModelItem();
                     item.setGioKT(nextBooked.getGioKT());
                     item.setMaItem(nextBooked.getMaBox());
-                    
+
                     PhieuDatBoxDao.getInstant().updateProc(item, "used", new Date(currentTime));
                     Store.orderView.initBoxData(BoxDao.getInstance().panigation(Panigation.current));
                     MsgBox.alert(Store.orderView, BoxDao.getInstance().selectById(nextBooked.getMaBox()).getTenBox() + " đã quá giờ nhận box!");

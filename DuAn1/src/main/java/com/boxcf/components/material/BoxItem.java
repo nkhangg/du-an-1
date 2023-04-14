@@ -161,22 +161,22 @@ public class BoxItem extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(230, 200));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblTenBox.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        lblTenBox.setFont(new java.awt.Font("UTM Aptima", 1, 18)); // NOI18N
         lblTenBox.setForeground(new java.awt.Color(255, 255, 255));
         lblTenBox.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblTenBox.setText("Box 1");
         add(lblTenBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 13, 90, -1));
 
-        lblTimeRemainder.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        lblTimeRemainder.setFont(new java.awt.Font("UTM Aptima", 1, 18)); // NOI18N
         lblTimeRemainder.setForeground(new java.awt.Color(0, 51, 51));
         lblTimeRemainder.setText("01:30");
         add(lblTimeRemainder, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, 100, 30));
 
-        lblLoai.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        lblLoai.setFont(new java.awt.Font("UTM Aptima", 0, 16)); // NOI18N
         lblLoai.setForeground(new java.awt.Color(255, 255, 255));
         lblLoai.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblLoai.setText("Đơn");
-        add(lblLoai, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 110, 30));
+        add(lblLoai, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 100, 30));
 
         lblGia.setBackground(new java.awt.Color(255, 255, 255));
         lblGia.setFont(new java.awt.Font("UTM Aptima", 1, 16)); // NOI18N
@@ -194,7 +194,7 @@ public class BoxItem extends javax.swing.JPanel {
         lblGia3.setText("Đặt trước lúc");
         add(lblGia3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 100, 40));
 
-        lblGia4.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        lblGia4.setFont(new java.awt.Font("UTM Aptima", 1, 18)); // NOI18N
         lblGia4.setForeground(new java.awt.Color(0, 51, 51));
         lblGia4.setText("0");
         add(lblGia4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, 90, 40));

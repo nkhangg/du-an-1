@@ -7,15 +7,21 @@ package com.boxcf.ui;
 import com.box.utils.UI;
 import com.box.utils.XDate;
 import com.boxcf.components.ScrollBar;
+import com.boxcf.components.material.Category;
 import com.boxcf.dao.HoaDonDao;
 import com.boxcf.dao.ThongKeDao;
 import com.boxcf.models.HoaDon;
 import com.boxcf.models.LichSu;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Shape;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.util.List;
+import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,6 +31,8 @@ import javax.swing.table.DefaultTableModel;
 public class LichSuBanHangView extends javax.swing.JFrame {
 
     private ThongKeDao dTk = ThongKeDao.getInstant();
+
+    private String category = "Sản phẩm / Box";
 
     public LichSuBanHangView(java.awt.Frame parent, boolean modal) {
         initComponents();
@@ -48,6 +56,9 @@ public class LichSuBanHangView extends javax.swing.JFrame {
         lblMaNV = new javax.swing.JLabel();
         scroll = new javax.swing.JScrollPane();
         tblTableData = new javax.swing.JTable();
+        pnlCategory = new javax.swing.JPanel();
+        sp = new com.boxcf.components.material.Category();
+        cb = new com.boxcf.components.material.Category();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -57,17 +68,20 @@ public class LichSuBanHangView extends javax.swing.JFrame {
 
         gradientPanel2.setColor1(new java.awt.Color(245, 250, 255));
         gradientPanel2.setColor2(new java.awt.Color(245, 250, 255));
+        gradientPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         clsoeButton1.setBackground(new java.awt.Color(245, 250, 255));
         clsoeButton1.setDoubleBuffered(false);
         clsoeButton1.setFocusCycleRoot(true);
         clsoeButton1.setRequestFocusEnabled(false);
         clsoeButton1.setVerifyInputWhenFocusTarget(false);
+        gradientPanel2.add(clsoeButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 10, 40, 40));
 
         jLabel1.setFont(new java.awt.Font("UTM Aptima", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(40, 48, 84));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Lịch Sử Bán Hàng");
+        gradientPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(389, 13, 300, 40));
 
         txtFind.setBackground(new java.awt.Color(0, 153, 153));
         txtFind.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -79,11 +93,13 @@ public class LichSuBanHangView extends javax.swing.JFrame {
                 txtFindKeyReleased(evt);
             }
         });
+        gradientPanel2.add(txtFind, new org.netbeans.lib.awtextra.AbsoluteConstraints(103, 103, 325, 32));
 
         lblMaNV.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblMaNV.setForeground(new java.awt.Color(51, 51, 51));
         lblMaNV.setText("Tìm Kiếm");
+        gradientPanel2.add(lblMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 111, 86, -1));
 
         tblTableData.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
         tblTableData.setModel(new javax.swing.table.DefaultTableModel(
@@ -118,43 +134,13 @@ public class LichSuBanHangView extends javax.swing.JFrame {
         });
         scroll.setViewportView(tblTableData);
 
-        javax.swing.GroupLayout gradientPanel2Layout = new javax.swing.GroupLayout(gradientPanel2);
-        gradientPanel2.setLayout(gradientPanel2Layout);
-        gradientPanel2Layout.setHorizontalGroup(
-            gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(gradientPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 1022, Short.MAX_VALUE)
-                    .addGroup(gradientPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(305, 305, 305)
-                        .addComponent(clsoeButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(gradientPanel2Layout.createSequentialGroup()
-                        .addComponent(lblMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtFind, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        gradientPanel2Layout.setVerticalGroup(
-            gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(gradientPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(clsoeButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(50, 50, 50)
-                .addGroup(gradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(gradientPanel2Layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(lblMaNV))
-                    .addComponent(txtFind, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
-                .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        gradientPanel2.add(scroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 167, 1022, 450));
+
+        pnlCategory.setBackground(new java.awt.Color(245, 250, 255));
+        pnlCategory.add(sp);
+        pnlCategory.add(cb);
+
+        gradientPanel2.add(pnlCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 100, 300, 40));
 
         javax.swing.GroupLayout gradientPanel1Layout = new javax.swing.GroupLayout(gradientPanel1);
         gradientPanel1.setLayout(gradientPanel1Layout);
@@ -244,12 +230,15 @@ public class LichSuBanHangView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.boxcf.components.material.Category cb;
     private com.boxcf.components.ClsoeButton clsoeButton1;
     private com.boxcf.components.GradientPanel gradientPanel1;
     private com.boxcf.components.GradientPanel gradientPanel2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblMaNV;
+    private javax.swing.JPanel pnlCategory;
     private javax.swing.JScrollPane scroll;
+    private com.boxcf.components.material.Category sp;
     private javax.swing.JTable tblTableData;
     private javax.swing.JTextField txtFind;
     // End of variables declaration//GEN-END:variables
@@ -257,8 +246,46 @@ public class LichSuBanHangView extends javax.swing.JFrame {
     private void init() {
         clsoeButton1.initEvent(this);
         prepareUI();
-        renderDataTable(dTk.history(""));
+        initCategory();
 
+        renderDataTable(dTk.history("", category));
+    }
+
+    private void initCategory() {
+        sp.addData("Sản phẩm / Box");
+        cb.addData("Combo");
+
+        for (Component com : pnlCategory.getComponents()) {
+            if (com instanceof Category) {
+                Category ctgr = (Category) com;
+                if (ctgr.getLoai().equalsIgnoreCase(category)) {
+                    ctgr.setActive(true);
+                }
+
+                ctgr.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        clearActive();
+                        category = ctgr.getLoai();
+                        if (ctgr.getLoai().equalsIgnoreCase(category)) {
+
+                            renderDataTable(dTk.history(txtFind.getText(), category));
+                            ctgr.setActive(true);
+                        }
+                    }
+
+                });
+            }
+        }
+    }
+
+    private void clearActive() {
+        for (Component com : pnlCategory.getComponents()) {
+            if (com instanceof Category) {
+                Category ctgr = (Category) com;
+                ctgr.setActive(false);
+            }
+        }
     }
 
     private void prepareUI() {
@@ -290,10 +317,10 @@ public class LichSuBanHangView extends javax.swing.JFrame {
         String keyword = txtFind.getText();
 
         if (keyword == null || keyword.equals("")) {
-            renderDataTable(dTk.history(""));
+            renderDataTable(dTk.history("", category));
             return;
         }
-        renderDataTable(dTk.history(keyword));
+        renderDataTable(dTk.history(keyword, category));
     }
 
     private void handleShowDetail(MouseEvent evt) {
@@ -307,7 +334,7 @@ public class LichSuBanHangView extends javax.swing.JFrame {
 
         LichSu ls = new LichSu(hd, nameStaff);
         LichSuChiTiet hds = new LichSuChiTiet(this);
-        hds.addInfo(ls);
+        hds.addInfo(ls, category);
         hds.setVisible(true);
     }
 

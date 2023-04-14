@@ -6,6 +6,7 @@ public class Combo {
     String TenCB;
     long Gia;
     String MaLoaiBox;
+    int soluong;
     int soLuongDoUong;
     int SoLuongDoAn;
     String MoTa;
@@ -13,11 +14,12 @@ public class Combo {
     public Combo() {
     }
 
-    public Combo(String MaCB, String TenCB, long Gia, String MaLoaiBox, int soLuongDoUong, int SoLuongDoAn, String MoTa) {
+    public Combo(String MaCB, String TenCB, long Gia, String MaLoaiBox, int soluong, int soLuongDoUong, int SoLuongDoAn, String MoTa) {
         this.MaCB = MaCB;
         this.TenCB = TenCB;
         this.Gia = Gia;
         this.MaLoaiBox = MaLoaiBox;
+        this.soluong = soluong;
         this.soLuongDoUong = soLuongDoUong;
         this.SoLuongDoAn = SoLuongDoAn;
         this.MoTa = MoTa;
@@ -78,5 +80,15 @@ public class Combo {
     public void setMoTa(String MoTa) {
         this.MoTa = MoTa;
     }
+
+    public int getSoluong() {
+        return soluong;
+    }
+
+    public void setSoluong(int soluong) {
+        this.soluong = soluong;
+    }
+    
+    
 
 }

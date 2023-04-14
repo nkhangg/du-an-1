@@ -23,6 +23,7 @@ public class PhieuDatBox {
     int soGio;
     int traTruoc = 0;
     int thanhTien;
+    int tienThucNhan;
     String TrangThai;
     String ghiChu;
 
@@ -38,6 +39,20 @@ public class PhieuDatBox {
         this.soGio = soGio;
         this.traTruoc = tratruoc;
         this.thanhTien = thanhTien;
+        this.TrangThai = TrangThai;
+        this.ghiChu = ghiChu;
+    }
+
+    public PhieuDatBox(int maHD, String maBox, String TenKH, Timestamp GioBD, Timestamp GioKT, int soGio, int tratruoc, int thanhTien, int tienThucNhan, String TrangThai, String ghiChu) {
+        this.maHD = maHD;
+        this.maBox = maBox;
+        this.TenKH = TenKH;
+        this.GioBD = GioBD;
+        this.GioKT = GioKT;
+        this.soGio = soGio;
+        this.traTruoc = tratruoc;
+        this.thanhTien = thanhTien;
+        this.tienThucNhan = tienThucNhan;
         this.TrangThai = TrangThai;
         this.ghiChu = ghiChu;
     }
@@ -112,6 +127,22 @@ public class PhieuDatBox {
 
     public void setSoGio(int soGio) {
         this.soGio = soGio;
+    }
+
+    public int getTienThucNhan() {
+        return tienThucNhan;
+    }
+
+    public void setTienThucNhan(int tienThucNhan) {
+        this.tienThucNhan = tienThucNhan;
+    }
+
+    public String getGhiChu() {
+        return ghiChu;
+    }
+
+    public void setGhiChu(String ghiChu) {
+        this.ghiChu = ghiChu;
     }
 
     @Override

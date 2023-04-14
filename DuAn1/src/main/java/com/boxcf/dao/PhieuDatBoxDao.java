@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.boxcf.models.PhieuDatBox;
 import com.box.utils.JdbcHelper;
+import com.box.utils.XDate;
 import com.boxcf.constands.BoxState;
 import com.boxcf.models.ModelItem;
 import java.util.Date;
@@ -28,8 +29,9 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
                     responce.getInt(6),
                     responce.getInt(7),
                     responce.getInt(8),
-                    responce.getString(9),
-                    responce.getString(10)
+                    responce.getInt(9),
+                    responce.getString(10),
+                    responce.getString(11)
             );
 
         } catch (Exception e) {
@@ -114,13 +116,11 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
         }
     }
 
-    public void updateActive(PhieuDatBox model) {
-        String sql = "update PhieuDatBox\n"
-                + "set TrangThai = 'active'\n"
-                + "where  MaBox = ? and TrangThai = 'booked' and MaHD = ? ";
+    public void receiveBox(PhieuDatBox model) {
+        String sql = "{ call sp_nhan_box ( ?, ?, ?) }";
 
         try {
-            int responce = JdbcHelper.update(sql, model.getMaBox().toString(), model.getMaHD());
+            int responce = JdbcHelper.update(sql, model.getMaHD(), model.getMaBox().toString(), model.getThanhTien());
 
             if (responce == 0) {
                 throw new Error("The Error in updateActive DATBOX !");
@@ -133,11 +133,11 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
 
     public void cancelBox(PhieuDatBox model) {
         String sql = "update PhieuDatBox\n"
-                + "set TrangThai = 'used', GhiChu = 'da huy', GioKT = GETDATE()\n"
+                + "set TrangThai = 'used', GhiChu = 'da huy', GioKT = ?\n"
                 + "where  MaBox = ? and TrangThai = 'booked' and MaHD = ? ";
 
         try {
-            int responce = JdbcHelper.update(sql, model.getMaBox().toString(), model.getMaHD());
+            int responce = JdbcHelper.update(sql, XDate.now(), model.getMaBox().toString(), model.getMaHD());
 
             if (responce == 0) {
                 throw new Error("The Error in cancelBox DATBOX !");
@@ -199,7 +199,8 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
 
     @Override
     public PhieuDatBox selectById(Integer id) {
-        String sql = "select * from DATBOX where MaDat = ?";
+        String sql = "select * from PhieuDatBox \n"
+                + "where MaHD = ?";
         PhieuDatBox db = null;
         try {
 
@@ -418,5 +419,6 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
 
     //get ra phieu dat box thong qua maBox
     public static void main(String[] args) {
+        System.out.println("phieu dat: " + PhieuDatBoxDao.getInstant().selectById(186));
     }
 }
