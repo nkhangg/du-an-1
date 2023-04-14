@@ -522,12 +522,22 @@ public class HoaDonView extends javax.swing.JFrame {
                 String maBox = data.getLoaiBox() != null ? data.getMaItem().toString() : null;
 
                 if (maSP != null) {
-                    ComboCT cbct = new ComboCT(maHd, data.getMaCB(), "");
+                    ComboCT cbct = new ComboCT(maHd, data.getMaCB(), maSP, maBox, data.getSoLuong());
                     ComboCTDao.getInstant().insert(cbct);
-
                     //Tao hoa don chi tiet
                     HoaDonCT hdct = new HoaDonCT(maHd, data.getMaItem().toString(), data.getSoLuong(), "", (long) (data.getGia()));
                     HoaDonChiTietDao.getInstant().insert(hdct);
+                }
+
+                if (maBox != null && data.getLoaiBox() != null && !data.getMaItem().equals(data.getMaCB())) {
+                    ComboCT cbct = new ComboCT(maHd, data.getMaCB(), maSP, maBox, data.getSoLuong());
+                    ComboCTDao.getInstant().insert(cbct);
+
+                    // set cua loai box ve 0 khi chen vi khi tinh tien chi tinh tien combo
+                    ModelItem newData = data;
+                    newData.getLoaiBox().setGiaLoai(0);
+
+                    PhieuDatBoxDao.getInstant().insertProc(maHd, newData, lblNameCutomer.getText());
                 }
 
             } else if (data.getLoaiBox() != null) {

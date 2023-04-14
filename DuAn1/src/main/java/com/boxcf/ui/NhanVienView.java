@@ -282,6 +282,7 @@ public class NhanVienView extends javax.swing.JPanel {
             if (nv != null) {
                 tnNv.setModel(nv);
                 tnNv.setVisible(true);
+                tnNv.enableRole();
             }
         }
     }

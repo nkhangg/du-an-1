@@ -176,4 +176,7 @@ public class ComboDao implements BoxCfDAO<Combo, String> {
         return this.selectBySql(sql);
     }
 
+    public Integer getPageNumber() {
+        return (int) Math.ceil(this.selectAll().size() / 8) + 1;
+    }
 }

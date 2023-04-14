@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Main extends javax.swing.JFrame {
+
     NhanVienView nvView = new NhanVienView();
     SanPhamView spView = new SanPhamView();
     BoxView boxView = new BoxView();
@@ -32,7 +33,7 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         init();
-     
+
     }
 
     @SuppressWarnings("unchecked")
@@ -355,9 +356,12 @@ public class Main extends javax.swing.JFrame {
         if (!Auth.accept(this)) {
             return;
         }
+
         this.hidden(spView, nvView, boxView, kmView, cbView);
         tkView = new ThongKeView();
+
         this.active(tkView);
+
 
     }//GEN-LAST:event_buttonRound9ActionPerformed
 
@@ -547,4 +551,5 @@ public class Main extends javax.swing.JFrame {
             System.out.println(e);
         }
     }
+
 }

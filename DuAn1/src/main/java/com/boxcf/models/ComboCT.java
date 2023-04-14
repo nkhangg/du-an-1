@@ -4,15 +4,29 @@ public class ComboCT {
 
     int maHd;
     String MaCB;
+    String maSp;
+    String maBox;
+    int soLuong;
     String GhiChu;
 
     public ComboCT() {
     }
 
-    public ComboCT(int maHd, String MaCB, String GhiChu) {
+    public ComboCT(int maHd, String MaCB, String maSp, String maBox, int soLuong, String GhiChu) {
         this.maHd = maHd;
         this.MaCB = MaCB;
+        this.maSp = maSp;
+        this.maBox = maBox;
+        this.soLuong = soLuong;
         this.GhiChu = GhiChu;
+    }
+    
+    public ComboCT(int maHd, String MaCB, String maSp, String maBox, int soLuong) {
+        this.maHd = maHd;
+        this.MaCB = MaCB;
+        this.maSp = maSp;
+        this.maBox = maBox;
+        this.soLuong = soLuong;
     }
 
     public int getMaHd() {
@@ -31,6 +45,30 @@ public class ComboCT {
         this.MaCB = MaCB;
     }
 
+    public String getMaSp() {
+        return maSp;
+    }
+
+    public void setMaSp(String maSp) {
+        this.maSp = maSp;
+    }
+
+    public String getMaBox() {
+        return maBox;
+    }
+
+    public void setMaBox(String maBox) {
+        this.maBox = maBox;
+    }
+
+    public int getSoLuong() {
+        return soLuong;
+    }
+
+    public void setSoLuong(int soLuong) {
+        this.soLuong = soLuong;
+    }
+
     public String getGhiChu() {
         return GhiChu;
     }
@@ -41,7 +79,7 @@ public class ComboCT {
 
     @Override
     public String toString() {
-        return "ComboCT{" + "maHd=" + maHd + ", MaCB=" + MaCB + ", GhiChu=" + GhiChu + '}';
+        return "ComboCT{" + "maHd=" + maHd + ", MaCB=" + MaCB + ", maSp=" + maSp + ", maBox=" + maBox + ", soLuong=" + soLuong + ", GhiChu=" + GhiChu + '}';
     }
 
 }

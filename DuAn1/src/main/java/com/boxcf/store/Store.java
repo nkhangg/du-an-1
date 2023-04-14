@@ -63,6 +63,13 @@ public class Store {
 
         return maxId;
     }
+
+    public static String food = "ĐỒ ĂN";
+
+    public static String drink = "ĐỒ UỐNG";
+
+    public static String categoryName = drink;
+
     public static SanPhamView spView = null;
 
     public static KhuyenMaiView kmView = null;

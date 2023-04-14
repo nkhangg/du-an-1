@@ -10,6 +10,7 @@ import com.boxcf.components.material.PanelBill;
 import com.boxcf.components.material.Panigation;
 import com.boxcf.components.material.ProductItem;
 import com.boxcf.dao.BoxDao;
+import com.boxcf.dao.ComboDao;
 import com.boxcf.dao.SanPhamDao;
 import com.boxcf.events.interfaces.EventIncrease;
 import com.boxcf.models.SanPham;
@@ -163,6 +164,7 @@ public class StoreEvents {
                 // xóa các sản phẩm trước khi add vào mới không bị trùng sản phẩm
                 panelItem.removeAll();
 
+                // xu li phan loai box theo ma loai box
                 if (name.equals("BOX") && ctgr.getDataBox() != null) {
 
                     if (ctgr.getDataBox().getMaLoaiBox().equalsIgnoreCase(Store.idAllCategory)) {
@@ -176,8 +178,25 @@ public class StoreEvents {
                     return;
                 }
 
+                // xu li chia loai combo voi ma loai box
+                if (name.equals("COMBO") && ctgr.getDataBox() != null) {
+
+                    if (ctgr.getDataBox().getMaLoaiBox().equalsIgnoreCase(Store.idAllCategory)) {
+                        order.initComboData(ComboDao.getInstant().panigation(Panigation.current));
+                        loadPanigation(order);
+                        return;
+                    }
+
+                    order.removePanigation();
+                    order.initComboData(ComboDao.getInstant().selectByLoaiBox(ctgr.getDataBox().getMaLoaiBox()));
+                    return;
+
+                }
+
+                // xu li phan loai theo san pham
                 if (ctgr.getDataProduct() != null) {
                     if (ctgr.getDataProduct().getMaLoai().equalsIgnoreCase(Store.idAllCategory)) {
+                        Panigation.current = 1;
                         order.initProductData(SanPhamDao.getInstant().panigation(Panigation.current));
                         loadPanigation(order);
                         return;
@@ -241,9 +260,12 @@ public class StoreEvents {
 
                         if (order.mode.equals("product")) {
                             order.initProductData(SanPhamDao.getInstant().panigation(Panigation.current));
+                        } else if (order.mode.equals("Combo")) {
+                            order.initComboData(ComboDao.getInstant().panigation(Panigation.current));
                         } else {
                             order.initBoxData(BoxDao.getInstance().panigation(Panigation.current));
                         }
+
                     }
                 });
             }

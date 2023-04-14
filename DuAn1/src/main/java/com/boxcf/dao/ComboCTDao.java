@@ -19,7 +19,10 @@ public class ComboCTDao implements BoxCfDAO<ComboCT, String> {
             return new ComboCT(
                     responce.getInt(1),
                     responce.getString(2),
-                    responce.getString(3)
+                    responce.getString(3),
+                    responce.getString(4), 
+                    responce.getInt(5),
+                    responce.getString(6)
             );
         } catch (Exception e) {
             throw new Error("The Error in createObjecet ComboCT !");
@@ -44,10 +47,10 @@ public class ComboCTDao implements BoxCfDAO<ComboCT, String> {
 
     @Override
     public void insert(ComboCT e) {
-        String sql = "Insert into ComboCT values (?, ?, ?)";
+        String sql = "Insert into ComboCT values (?, ?, ?, ?, ?, '')";
 
         try {
-            int responce = JdbcHelper.update(sql, e.getMaHd(), e.getMaCB(), e.getGhiChu());
+            int responce = JdbcHelper.update(sql, e.getMaHd(), e.getMaCB(), e.getMaSp(), e.getMaBox(), e.getSoLuong());
 
             if (responce == 0) {
                 throw new Error("The Error in insert ComboCT !");

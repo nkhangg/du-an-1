@@ -5,6 +5,7 @@
 package com.boxcf.components.material;
 
 import com.boxcf.dao.BoxDao;
+import com.boxcf.dao.ComboDao;
 import com.boxcf.dao.SanPhamDao;
 import com.boxcf.ui.OrderView;
 
@@ -12,7 +13,7 @@ public class Panigation extends javax.swing.JPanel {
 
     public static Integer total;
     Integer pageProduct = SanPhamDao.getInstant().getPageNumber();
-    
+
     public static Integer current = 1;
 
     public Panigation() {
@@ -94,7 +95,10 @@ public class Panigation extends javax.swing.JPanel {
 
         if (OrderView.mode.equals("product")) {
             total = SanPhamDao.getInstant().getPageNumber();
-        }else {
+
+        } else if (OrderView.mode.equals("Combo")) {
+            total = ComboDao.getInstant().getPageNumber();
+        } else {
             total = BoxDao.getInstance().getPageNumber();
         }
         setPage();

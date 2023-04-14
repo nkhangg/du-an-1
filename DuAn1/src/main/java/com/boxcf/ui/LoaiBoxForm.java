@@ -112,7 +112,7 @@ public class LoaiBoxForm extends javax.swing.JFrame {
                 btnCloseActionPerformed(evt);
             }
         });
-        pnlBox.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 30, 50, 50));
+        pnlBox.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 20, 50, 50));
 
         txtMoTa.setColumns(20);
         txtMoTa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -124,7 +124,7 @@ public class LoaiBoxForm extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(40, 48, 84));
         jLabel1.setText("THÔNG TIN LOẠI BOX");
-        pnlBox.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, -1, -1));
+        pnlBox.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 40, -1, -1));
 
         btnLast.setBackground(new java.awt.Color(2, 172, 171));
         btnLast.setForeground(new java.awt.Color(255, 255, 255));

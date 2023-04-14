@@ -70,10 +70,25 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
     }
 
     public void insertProc(int maHD, ModelItem e, String nameCutomer) {
-        String sql = "{ call sp_DatBox ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
+        String sql = "{ call sp_DatBox ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) }";
 
         try {
-            int responce = JdbcHelper.update(sql, maHD, e.getMaItem(), nameCutomer, e.getGioBD(), e.getGioKT(), e.getSoLuong(), e.getTraTruoc(), e.getSoLuong() * e.getLoaiBox().getGiaLoai(), e.getTrangThai().toString(), e.getGhiChu());
+            int responce = JdbcHelper.update(sql, maHD, e.getMaItem(), nameCutomer, e.getGioBD(), e.getGioKT(), e.getSoLuong(), e.getTraTruoc(), e.getSoLuong() * e.getLoaiBox().getGiaLoai(), e.getSoLuong() * e.getLoaiBox().getGiaLoai(), e.getTrangThai().toString(), e.getGhiChu());
+
+            if (responce == 0) {
+                throw new Error("Them du lieu that bai!");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+            throw new Error("The Error in insertProc DATBOX !");
+        }
+    }
+
+    public void inserBooktProc(int maHD, ModelItem e, String nameCutomer) {
+        String sql = "{ call sp_DatBox ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) }";
+
+        try {
+            int responce = JdbcHelper.update(sql, maHD, e.getMaItem(), nameCutomer, e.getGioBD(), e.getGioKT(), e.getSoLuong(), e.getTraTruoc(), e.getSoLuong() * e.getLoaiBox().getGiaLoai(), e.getTraTruoc(), e.getTrangThai().toString(), e.getGhiChu());
 
             if (responce == 0) {
                 throw new Error("Them du lieu that bai!");
@@ -132,7 +147,7 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
             throw new Error("The Error in cancelBox DATBOX !");
         }
     }
-    
+
     public void cancelBoxWhenActive(PhieuDatBox model) {
         String sql = "update PhieuDatBox\n"
                 + "set TrangThai = 'used', GhiChu = 'tra som', GioKT = GETDATE()\n"

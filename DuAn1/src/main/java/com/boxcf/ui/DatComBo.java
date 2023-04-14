@@ -497,6 +497,7 @@ public class DatComBo extends javax.swing.JFrame {
         box.setSoLuong(1);
         box.setGia(0);
         box.setTenKH("");
+        box.setMaCB(this.combo.getMaCB());
     }
 
     private boolean validator() {
@@ -509,15 +510,7 @@ public class DatComBo extends javax.swing.JFrame {
     }
 
     private void handleDat(ModelItem item) {
-//        for (Component component : panelBill.getComponents()) {
-//            ItemBill itemBill = (ItemBill) component;
-//            if (itemBill.getData().getMaItem() == item.getMaItem()) {
-//                itemBill.setData(item);
-//                orderView.handleTotal();
-//                this.dispose();
-//                return;
-//            }
-//        }
+
         panelBill.setListCombo(item);
         panelBill.repaint();
         this.dispose();
@@ -607,7 +600,6 @@ public class DatComBo extends javax.swing.JFrame {
             s = (SanPham) cboDoAn6.getSelectedItem();
             ModelItem sp1 = new ModelItem(s.getMaSP(), "", 0, String.valueOf(cboDoAn6.getSelectedItem()), 1);
             sp1.setMaCB(this.combo.getMaCB());
-
             handleDat(sp1);
         }
     }

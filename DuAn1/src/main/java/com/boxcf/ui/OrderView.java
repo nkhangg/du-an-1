@@ -27,7 +27,6 @@ import com.boxcf.dao.LoaiBoxDao;
 import com.boxcf.dao.LoaiSPDao;
 import com.boxcf.dao.PhieuDatBoxDao;
 import com.boxcf.dao.SanPhamDao;
-import com.boxcf.events.interfaces.BoxEvents;
 import com.boxcf.models.Box;
 import com.boxcf.models.Combo;
 import com.boxcf.models.DanhMuc;
@@ -122,7 +121,7 @@ public class OrderView extends javax.swing.JFrame {
 
         buttonRound6.setBackground(new java.awt.Color(50, 130, 179));
         buttonRound6.setForeground(new java.awt.Color(255, 255, 255));
-        buttonRound6.setText("THU TIỀN");
+        buttonRound6.setText("THANH TOÁN");
         buttonRound6.setFocusable(false);
         buttonRound6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         buttonRound6.addActionListener(new java.awt.event.ActionListener() {
@@ -473,10 +472,12 @@ public class OrderView extends javax.swing.JFrame {
 
         if (categoryAll) {
             // loai tat ca
+
             panelCategory.add(Store.categoryAll(panelCategory, name, true));
 
             //--------------------ha code--------------------------------
             mode = "product";
+            Panigation.current = 1;
             initProductData(SanPhamDao.getInstant().panigation(1));
             addPanigation();
         }
@@ -500,8 +501,17 @@ public class OrderView extends javax.swing.JFrame {
         if (categoryAll) {
             panelCategory.add(Store.categoryAll(panelCategory, name, true));
             mode = "Combo";
-            initComboData(ComboDao.getInstant().panigation(Panigation.current));
+            Panigation.current = 1;
+            initComboData(ComboDao.getInstant().panigation(1));
             addPanigation();
+        }
+
+        for (LoaiBox lsp : list) {
+            Category ctgr = new Category();
+            StoreEvents.categoryActive(ctgr, panelCategory, name);
+            ctgr.setActive(false);
+            ctgr.addData(lsp);
+            panelCategory.add(ctgr);
         }
 
         panelCategory.repaint();
@@ -640,6 +650,10 @@ public class OrderView extends javax.swing.JFrame {
 
     private void handleCategory(String name) {
         panelCategory.removeAll();
+
+        Store.categoryName = name;
+        Panigation.current = 1;
+
         String sql = "select * from LoaiSP\n"
                 + "where MaDM = ?";
         // loai box

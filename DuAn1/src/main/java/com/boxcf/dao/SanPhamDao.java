@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.boxcf.models.SanPham;
 import com.box.utils.JdbcHelper;
+import com.boxcf.store.Store;
 
 public class SanPhamDao implements BoxCfDAO<SanPham, String> {
 
@@ -65,7 +66,7 @@ public class SanPhamDao implements BoxCfDAO<SanPham, String> {
         String sql = "Insert into SanPham values (?, ?, ?, ?, ?, ?)";
 
         try {
-            int responce = JdbcHelper.update(sql, e.getMaSP(),e.getTenSP(), e.getGia(), e.getHinhAnh(), e.getMoTa(), e.getMaLoai());
+            int responce = JdbcHelper.update(sql, e.getMaSP(), e.getTenSP(), e.getGia(), e.getHinhAnh(), e.getMoTa(), e.getMaLoai());
 
             if (responce == 0) {
                 throw new Error("The Error in insert SanPham !");
@@ -167,17 +168,27 @@ public class SanPhamDao implements BoxCfDAO<SanPham, String> {
             sql = "select * from SanPham where TenSP like ?";
         } else if (type == 1) {
             sql = "select * from SanPham where MaSP = ?";
-             return selectBySql(sql,keyWord);
+            return selectBySql(sql, keyWord);
         }
         return selectBySql(sql, "%" + keyWord + "%");
     }
 
     public List<SanPham> panigation(Integer pageCurrent) {
-        String sql = "SELECT TOP 8 * FROM SanPham WHERE MaSP NOT IN (SELECT TOP " + (pageCurrent * 8 - 8) + " MaSP FROM SanPham)";
-        return this.selectBySql(sql);
+        //        String sql = "SELECT TOP 8 * FROM SanPham WHERE MaSP NOT IN (SELECT TOP " + (pageCurrent * 8 - 8) + " MaSP FROM SanPham)";
+
+        String idCategory = DanhMucDao.getInstant().selectByName(Store.categoryName).getMaDM();
+
+        String sql = "SELECT TOP 8 * FROM SanPham WHERE MaSP NOT IN (SELECT TOP " + (pageCurrent * 8 - 8) + " MaSP FROM SanPham where MaLoai in (select MaLoai from  LoaiSP where MaDM = ?)) \n"
+                + " and MaLoai in (select MaLoai from  LoaiSP where MaDM = ?)";
+
+        return this.selectBySql(sql, idCategory, idCategory);
     }
 
     public Integer getPageNumber() {
-        return (int) Math.ceil(this.selectAll().size() / 8) + 1;
+        return (int) Math.ceil(this.selectByTenDanhMuc(Store.categoryName).size() / 8) + 1;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(SanPhamDao.getInstant().selectByTenDanhMuc(Store.food).size());
     }
 }

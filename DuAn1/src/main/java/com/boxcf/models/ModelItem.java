@@ -28,12 +28,12 @@ public class ModelItem {
     BoxState trangThai;
     LoaiBox loaiBox;
 
+    PhieuDatBox datTruoc;
+
     int traTruoc = 0;
+    int tienThucNhan = 0;
     String tenKH;
     String ghiChu;
-
-    java.sql.Timestamp gioBD2;
-    java.sql.Timestamp gioKT2;
 
     // cả hai đều có
     private int soLuong;
@@ -57,6 +57,14 @@ public class ModelItem {
     public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;
 
+    }
+
+    public int getTienThucNhan() {
+        return tienThucNhan;
+    }
+
+    public void setTienThucNhan(int tienThucNhan) {
+        this.tienThucNhan = tienThucNhan;
     }
 
     public String getHing() {
@@ -155,22 +163,6 @@ public class ModelItem {
         this.ghiChu = ghiChu;
     }
 
-    public Timestamp getGioBD2() {
-        return gioBD2;
-    }
-
-    public void setGioBD2(Timestamp gioBD2) {
-        this.gioBD2 = gioBD2;
-    }
-
-    public Timestamp getGioKT2() {
-        return gioKT2;
-    }
-
-    public void setGioKT2(Timestamp gioKT2) {
-        this.gioKT2 = gioKT2;
-    }
-
     // box
     public ModelItem(Object maItem, String ten, BoxState trangThai, LoaiBox loaiBox) {
         this.maItem = maItem;
@@ -215,7 +207,7 @@ public class ModelItem {
 
     @Override
     public String toString() {
-        return "ModelItem{" + "maItem=" + maItem + ", hinh=" + hinh + ", gia=" + gia + ", ten=" + ten + ", gioBD=" + gioBD + ", gioKT=" + gioKT + ", MaDat=" + MaDat + ", trangThai=" + trangThai + ", loaiBox=" + loaiBox + ", traTruoc=" + traTruoc + ", tenKH=" + tenKH + ", ghiChu=" + ghiChu + ", gioBD2=" + gioBD2 + ", gioKT2=" + gioKT2 + ", soLuong=" + soLuong + ", MaCB=" + MaCB + ", SLDoUong=" + SLDoUong + ", SLDoAn=" + SLDoAn + '}';
+        return "ModelItem{" + "maItem=" + maItem + ", hinh=" + hinh + ", gia=" + gia + ", ten=" + ten + ", gioBD=" + gioBD + ", gioKT=" + gioKT + ", MaDat=" + MaDat + ", trangThai=" + trangThai + ", loaiBox=" + loaiBox + ", traTruoc=" + traTruoc + ", tenKH=" + tenKH + ", ghiChu=" + ghiChu + ", soLuong=" + soLuong + ", MaCB=" + MaCB + ", SLDoUong=" + SLDoUong + ", SLDoAn=" + SLDoAn + '}';
     }
 
     ////////
@@ -251,6 +243,14 @@ public class ModelItem {
         this.SLDoUong = SLDoUong;
         this.SLDoAn = SLDoAn;
         this.MaCB = (String) maItem;
+    }
+
+    public PhieuDatBox getDatTruoc() {
+        return datTruoc;
+    }
+
+    public void setDatTruoc(PhieuDatBox datTruoc) {
+        this.datTruoc = datTruoc;
     }
 
 }

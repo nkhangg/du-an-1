@@ -62,23 +62,21 @@ CREATE TABLE Combo(
 	MoTa NVARCHAR(100),
 )
 
-select * from ComboCT
-select * from HoaDonCT
-
-delete from ComboCT
-
-drop table ComboCT
 
 GO
 
 CREATE TABLE ComboCT(
+	MaComboCT int not null identity,
 	MaHD INT NOT NULL REFERENCES HoaDon(MaHD),
 	MaCB VARCHAR(10) REFERENCES Combo(MaCB),
 	MaSP varchar(10) REFERENCES SanPham(MaSP),
+	MaBox VARCHAR(10) REFERENCES Box(MaBox),
+	SoLuong int,
 	GhiChu NVARCHAR(100),
-	CONSTRAINT PK_ComBoCT PRIMARY KEY (MaHD, MaSP, MaCB)
-
+	CONSTRAINT PK_ComBoCT PRIMARY KEY (MaComboCT ,MaHD, MaCB)
 )
+
+Go
 
 --Gía box lấy theo giá loại box
 --Ko đc xóa loại box khi có box thuộc loại box đó
@@ -114,6 +112,8 @@ CREATE TABLE HoaDon(
 )
 GO
 
+--drop table PhieuDatBox
+
 CREATE TABLE PhieuDatBox(
 	MaHD INT NOT NULL REFERENCES HoaDon(MaHD),
 	MaBox VARCHAR(10) NOT NULL REFERENCES Box(MaBox),
@@ -123,6 +123,7 @@ CREATE TABLE PhieuDatBox(
 	SoGio int,
 	TraTruoc INT,
 	ThanhTien INT,
+	TienThucNhan INT,
 	TrangThai NVARCHAR(20),
 	GhiChu NVARCHAR(50),
 	CONSTRAINT PK_PhieuDatBox PRIMARY KEY (MaHD, MaBox),
@@ -192,7 +193,8 @@ Insert into Combo values ('CB03L', N'Combo 3',300000, 'abc', 'L', 3, 2, 2)
 Insert into Combo values ('CB04XL', N'Combo 4',300000, 'abc', 'XL', 3, 1, 2)
 Insert into Combo values ('CB05S', N'Combo 5',100000, 'abc', 'S', 1, 2, 1)
 
-select * from Combo
+select * from ComboCT
+select * from PhieuDatBox
 
 --ComboCT
 select * from Combo;
@@ -264,10 +266,10 @@ GO
 
 
 -- proc
-create proc sp_DatBox @MaHD int, @MaBox varchar(10), @TenKH nvarchar(50), @GioBD DATETIME, @GioKT DATETIME, @soGio int, @TraTruoc int, @ThanhTien int, @TrangThai NVARCHAR(20), @ghiChu nvarchar(50)
+create proc sp_DatBox @MaHD int, @MaBox varchar(10), @TenKH nvarchar(50), @GioBD DATETIME, @GioKT DATETIME, @soGio int, @TraTruoc int, @ThanhTien int,@TienThucNhan int, @TrangThai NVARCHAR(20), @ghiChu nvarchar(50)
 as 
 begin
-	Insert into PhieuDatBox values(@MaHD, @MaBox, @TenKH, @GioBD, @GioKT, @soGio, @TraTruoc, @ThanhTien, @TrangThai, @ghiChu)
+	Insert into PhieuDatBox values(@MaHD, @MaBox, @TenKH, @GioBD, @GioKT, @soGio, @TraTruoc, @ThanhTien, @TienThucNhan, @TrangThai, @ghiChu)
 end
 
 go
@@ -349,6 +351,25 @@ exec sp_select_dt  '2022-01-03', '2022-12-31 '
 
 
 GO
+-- combo trong ngay
+create proc sp_combo_in_ngay @ngayBd datetime, @ngayKt datetime
+as
+begin
+
+declare @t table (mahd int, gia int)
+
+insert into @t
+select distinct MaHD, Gia from Combo cb
+join ComboCT ct on ct.MaCB = cb.MaCB
+where ct.MaHD in (select MaHD from HoaDon where NgayTao <= @ngayBd and NgayTao >= @ngayKt)
+
+select SUM(gia) as tongtien from @t
+
+end
+
+exec sp_combo_in_ngay '2023-04-13 23:59:59', '2023-04-13 00:00:00'
+
+-----
 
 -- doanh thu san pham theo khoan thoi gian
 
@@ -423,42 +444,23 @@ order by NgayTao desc
 -- lich sử hoạt động -- end
 
 
--- tinh tong -- start
-
-select * from KhuyenMai
-where DieuKienGiam <= 0 and TrangThai = 1 and SoLuot > 0
-
--- tinh tong -- end
-
-
-
-
-select MaHD, NgayTao, TenKH, TenNV, TongTien, MaKM from HoaDon hd
-join NhanVien nv on nv.MaNV = hd.MaNV
-where hd.MaNV like '' or hd.NgayTao like'' or TenKH like '' or TenNV like '' or TongTien like '' or MaKM like '' or MaHD like''
-order by NgayTao desc
-
-select * from HoaDonCT
-where MaHD = 57
-order by SoLuong desc
-
-select * from PhieuDatBox
-where MaHD = 58
-order by SoLuong desc
-
-
 -- huy box--
 
 
+delete from ComboCT
+delete from HoaDonCT
+delete from PhieuDatBox
+delete from HoaDon
 
+select * from HoaDon
+select * from ComboCT
+select * from HoaDonCT
+select * from PhieuDatBox
 
+select * from Combo cb
 
-
-
-
-
-
-
+select * from HoaDon
+where NgayTao >= '2023-04-14'
 
 
 

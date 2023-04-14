@@ -143,7 +143,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(40, 48, 84));
         jLabel1.setText("THÔNG TIN BOX");
-        pnlBox.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, -1, -1));
+        pnlBox.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 40, -1, -1));
 
         btnLast.setBackground(new java.awt.Color(2, 172, 171));
         btnLast.setForeground(new java.awt.Color(255, 255, 255));

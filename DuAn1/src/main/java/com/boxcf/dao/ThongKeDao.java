@@ -81,7 +81,7 @@ public class ThongKeDao {
         Date dateStart = XDate.getHour("23:59:59");
         Date dateEnd = XDate.getHour("00:00:00");
 
-        String sql = "select SUM(ThanhTien - TraTruoc) from PhieuDatBox pd\n"
+        String sql = "select SUM(TienThucNhan) from PhieuDatBox pd\n"
                 + "join HoaDon hd on hd.MaHD = pd.MaHD \n"
                 + DateNowSql + " and hd.MaHD not in (select ComboCT.MaHD from ComboCT)";
 
@@ -105,12 +105,11 @@ public class ThongKeDao {
 
         double revenue = 0;
 
-        String sql = "select SUM(TongTien) from HoaDon \n"
-                + DateNowSql + " and MaHD in (select MaHD from ComboCT) \n";
+        String sql = "{ call sp_combo_in_ngay ( ?, ? ) }";
 
         try {
 
-            ResultSet responce = JdbcHelper.query(sql);
+            ResultSet responce = JdbcHelper.query(sql, dateStart, dateEnd);
 
             // admission a ResultSet return a Box
             if (responce.next()) {
@@ -348,8 +347,6 @@ public class ThongKeDao {
     }
 
     public static void main(String[] args) {
-        for (LichSu object : ThongKeDao.getInstant().history("75000")) {
-            System.out.println(object);
-        }
+        System.out.println(ThongKeDao.getInstant().comboOfTheDay());
     }
 }

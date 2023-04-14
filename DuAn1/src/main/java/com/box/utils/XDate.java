@@ -15,13 +15,13 @@ import java.util.Date;
  * @author HP
  */
 public class XDate {
-    
+
     static SimpleDateFormat fm = new SimpleDateFormat();
-    
+
     public static Date now() {
         return new Date();
     }
-    
+
     public static Date toDate(String date, String pattern) {
         try {
             fm.applyPattern(pattern);
@@ -30,36 +30,36 @@ public class XDate {
             throw new RuntimeException(e);
         }
     }
-    
+
     public static String toString(Date date, String pattern) {
         fm.applyPattern(pattern);
         return fm.format(date);
     }
-    
+
     public static Date addDays(Date date, long days) {
         date.setTime(date.getTime() + days * 24 * 6 * 6 * 1000);
         return date;
     }
-    
+
     public static Date addHours(Date date, int hours) {
         date.setTime(date.getTime() + hours * 60 * 60 * 1000);
         return date;
     }
-    
+
     public static Date addMinus(Date date, int minus) {
-        
+
         date.setTime(date.getTime() + (minus * 60 * 1000));
-        
+
         return date;
     }
-    
+
     public static Time toTime(String textGioKT) {
         Time t = null;
         try {
             if (textGioKT.equals("")) {
                 return null;
             }
-            
+
             Date endHour = XDate.toDate(textGioKT, "MM/dd/yyyy HH:mm:ss");
             long millis = endHour.getTime();
             long useHour = millis - XDate.now().getTime();
@@ -67,7 +67,7 @@ public class XDate {
             int hour = (int) (Math.floor(totalSecond / 3600) % 24);
             int minute = (int) (Math.floor(totalSecond / 60) % 60);
             int second = (int) (Math.floor(totalSecond % 60));
-            
+
             t = new Time(hour, minute, second);
         } catch (Exception e) {
             System.out.println(e);
@@ -75,7 +75,7 @@ public class XDate {
         }
         return t;
     }
-    
+
     public static Date timeClose() {
         String date = XDate.toString(XDate.now(), "MM/dd/yyyy");
         // 23h đóng cửa nên nếu thời gian bắt đầu là lớn hơn 22h vd 22h10p thì sẻ không hợp lí
@@ -83,7 +83,7 @@ public class XDate {
         String timeClose = date + " 22:00:00";
         return XDate.toDate(timeClose, Store.partten);
     }
-    
+
     public static Date getHour(String hour) {
         String date = XDate.toString(XDate.now(), "MM/dd/yyyy");
         // 23h đóng cửa nên nếu thời gian bắt đầu là lớn hơn 22h vd 22h10p thì sẻ không hợp lí
@@ -91,56 +91,61 @@ public class XDate {
         String timeClose = date + " " + hour;
         return XDate.toDate(timeClose, Store.partten);
     }
-    
+
     public static int getHour(Date start, Date end) {
         long secondStart = start.getTime();
         long secondEnd = end.getTime();
-        
+
         long second = secondEnd - secondStart;
-        
+
         int hour = (int) (second / 60 / 60 / 1000);
-        
+
         return hour;
     }
-    
+
     public static boolean beforeTimeClose(Date date) {
         return XDate.timeClose().before(date);
     }
-    
+
     public static int fitHourWithTime(Date input) {
         int i = 1;
         while (true) {
             Date date = XDate.addHours(new Date(input.getTime()), i);
-            
+
             if (XDate.beforeTimeClose(date)) {
                 break;
             }
-            
+
             i++;
         }
         return i;
     }
-    
+
     public static int fitHourWithTime(Date input, Date limit) {
         int i = 1;
         while (true) {
             Date date = XDate.addHours(new Date(input.getTime()), i);
-            
+
             if (date.after(limit)) {
                 break;
             }
-            
+
             i++;
         }
         return i;
     }
-    
-    public static void main(String[] args) throws ParseException {
-        Date s = XDate.toDate("2023/04/06 01:28:03", Store.partten);
-        Date e = XDate.toDate(XDate.now().toString(), Store.parttenHour);
-        
-        System.out.println(e);
-        
+
+    public static Date convertHourAndMinusToDate(int hour, int minus) {
+        String date = XDate.toString(XDate.now(), "MM/dd/yyyy");
+
+        String timeClose = date + " " + hour + ":" + minus + ":00";
+        return XDate.toDate(timeClose, Store.partten);
     }
-    
+
+    public static void main(String[] args) throws ParseException {
+
+        System.out.println(XDate.convertHourAndMinusToDate(10, 20));
+
+    }
+
 }

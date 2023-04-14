@@ -18,7 +18,6 @@ public class Cleaner {
             @Override
             public void run() {
                 cleanInvalidDiscount();
-//                cleanInvalidBook();
 
             }
         };
@@ -54,11 +53,6 @@ public class Cleaner {
                 dDt.delete(dt.getMaDT());
                 flag = true;
             }
-        }
-
-        if (flag && Store.dbView != null) {
-            Store.dbView.renderDataTable();
-            Store.dbView.renderHour();
         }
 
     }
