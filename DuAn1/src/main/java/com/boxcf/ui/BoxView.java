@@ -1,5 +1,5 @@
 package com.boxcf.ui;
-
+import javax.swing.table.TableRowSorter;
 import com.box.utils.Auth;
 import com.box.utils.MsgBox;
 import com.box.utils.UI;
@@ -99,17 +99,17 @@ public class BoxView extends javax.swing.JPanel implements ActionListener {
                 txtSearchKeyReleased(evt);
             }
         });
-        jPanel1.add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 50, 600, 32));
+        jPanel1.add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 30, 600, 32));
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
         jLabel2.setText("Loại box");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 120, 80, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 100, 80, 30));
 
         lblMaNV.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblMaNV.setForeground(new java.awt.Color(51, 51, 51));
         lblMaNV.setText("Box");
-        jPanel1.add(lblMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 86, -1));
+        jPanel1.add(lblMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 40, 86, -1));
 
         tblBox.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
         tblBox.setModel(new javax.swing.table.DefaultTableModel(
@@ -147,6 +147,7 @@ public class BoxView extends javax.swing.JPanel implements ActionListener {
             tblBox.getColumnModel().getColumn(0).setResizable(false);
             tblBox.getColumnModel().getColumn(0).setPreferredWidth(20);
         }
+        tblBox.setRowSorter(new TableRowSorter(tblBox.getModel()));
 
         jPanel1.add(scrollbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 930, 260));
 
@@ -158,7 +159,7 @@ public class BoxView extends javax.swing.JPanel implements ActionListener {
                 cboLoaiBoxActionPerformed(evt);
             }
         });
-        jPanel1.add(cboLoaiBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 110, 220, -1));
+        jPanel1.add(cboLoaiBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 90, 220, -1));
 
         jTabbedPane1.addTab("BOX", jPanel1);
 
@@ -403,6 +404,8 @@ public class BoxView extends javax.swing.JPanel implements ActionListener {
 
     private void openBoxInfo() {
         BoxForm form = new BoxForm();
+        form.getCboLoaiBox().setEnabled(true);
+        form.getBtnCapNhatSP().setVisible(true);
         form.setVisible(true);
     }
 

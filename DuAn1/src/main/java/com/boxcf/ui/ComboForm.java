@@ -7,30 +7,24 @@ package com.boxcf.ui;
 import com.box.utils.MsgBox;
 import com.box.utils.UI;
 import com.box.utils.Validator;
-import com.box.utils.XImage;
-import com.boxcf.dao.BoxDao;
+import com.boxcf.components.ButtonRound;
+import com.boxcf.components.Combobox;
 import com.boxcf.dao.ComboDao;
 import com.boxcf.dao.LoaiBoxDao;
-import com.boxcf.models.Box;
 import com.boxcf.models.Combo;
 import com.boxcf.models.LoaiBox;
 import com.boxcf.store.Store;
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
-import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 public class ComboForm extends javax.swing.JFrame implements ActionListener {
-
+    
     public static int i = -1;
     List<Combo> list = ComboDao.getInstant().selectAll();
 //    ComboView cbView = Store.CbView;
@@ -41,12 +35,12 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
         cboLoaiBox.addActionListener(this);
         setNextId();
     }
-
+    
     public ComboForm(Combo Combo) {
         initComponents();
         init();
     }
-
+    
     @SuppressWarnings(value = "unchecked")
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -127,6 +121,7 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
         pnlBox.add(txtTenCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, 550, 38));
 
         cboLoaiBox.setEditable(true);
+        cboLoaiBox.setEnabled(false);
         cboLoaiBox.setFocusable(false);
         cboLoaiBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         pnlBox.add(cboLoaiBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 360, 290, -1));
@@ -376,19 +371,21 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
         this.updateStatus();
         this.fillComboBox();
     }
-
+    
     private void prepareUI() {
         Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
         this.setShape(shape);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         UI.changeTransBG(new Color(0, 0, 0, 0), txtMaCombo, txtTenCombo, txtGiaCombo, txtSLDoAn, txtSLDoUong);
         txtMaCombo.setEditable(false);
+        
+        btnCapNhatSP.setVisible(false);
     }
-
+    
     private void exit() {
         this.dispose();
     }
-
+    
     public void fillComboBox() {
         cboLoaiBox.removeAllItems();
         List<LoaiBox> list = LoaiBoxDao.getInstance().selectAll();
@@ -396,8 +393,12 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
             cboLoaiBox.addItem(loaiBox);
         }
     }
-
+    
     public void setForm(Combo Combo) {
+        if (Combo == null) {
+            return;
+        }
+        
         txtMaCombo.setText(Combo.getMaCB());
         txtTenCombo.setText(Combo.getTenCB());
         txtGiaCombo.setText(String.valueOf(Combo.getGia()));
@@ -406,7 +407,7 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
         txtSLDoAn.setText(String.valueOf(Combo.getSoLuongDoAn()));
         txtMoTa.setText(Combo.getMoTa());
     }
-
+    
     private Combo getForm() {
         LoaiBox loaiBox = (LoaiBox) cboLoaiBox.getSelectedItem();
         Combo Combo = new Combo();
@@ -419,17 +420,17 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
         Combo.setMoTa(txtMoTa.getText());
         return Combo;
     }
-
+    
     public boolean validation() {
         boolean flag = true;
         String mess = "";
-
+        
         if (Validator.isEmpty(txtTenCombo)) {
             mess += "Bạn chưa nhập tên cho Combo \n";
             flag = false;
-
+            
         }
-
+        
         if (Validator.isEmpty(txtGiaCombo)) {
             mess += "Bạn chưa nhập giá cho Combo \n";
             flag = false;
@@ -445,7 +446,7 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
                 flag = false;
             }
         }
-
+        
         if (Validator.isEmpty(txtSLDoUong)) {
             mess += "Bạn chưa nhập số lượng đồ uống \n";
             flag = false;
@@ -455,7 +456,7 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
                 if (!Validator.isPositiveNumber(b)) {
                     mess += "Số lượng đồ uống không thể âm\n";
                     flag = false;
-
+                    
                 }
                 if (Double.parseDouble(txtSLDoUong.getText()) > 6) {
                     mess += "Số lượng đồ uống tối đa là 6\n";
@@ -466,7 +467,7 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
                 flag = false;
             }
         }
-
+        
         if (Validator.isEmpty(txtSLDoAn)) {
             mess += "Bạn chưa nhập số lượng đồ ăn \n";
             flag = false;
@@ -489,10 +490,10 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
         if (!flag) {
             MsgBox.alert(this, mess);
         }
-
+        
         return flag;
     }
-
+    
     private void insert() {
         if (validation()) {
             ComboDao.getInstant().insert(getForm());
@@ -502,7 +503,7 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
             this.dispose();
         }
     }
-
+    
     private void clear() {
         this.setNextId();
         txtMaCombo.setText("");
@@ -511,21 +512,23 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
         txtSLDoUong.setText("");
         txtSLDoAn.setText("");
         txtMoTa.setText("");
-
+        
+        cboLoaiBox.setEnabled(true);
+        
         i = -1;
         updateStatus();
     }
-
+    
     private void updateStatus() {
         boolean edit = i >= 0;
         boolean first = i > 0;
         boolean last = i < list.size() - 1;
-
+        
         btnUpdate.setEnabled(edit);
         btnUpdate.setBackground(edit ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnAdd.setEnabled(!edit);
         btnAdd.setBackground(!edit ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
-
+        
         btnFirst.setEnabled(edit && first);
         btnFirst.setBackground(edit && first ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnPre.setEnabled(edit && first);
@@ -535,7 +538,7 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
         btnNext.setEnabled(edit && last);
         btnNext.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
     }
-
+    
     private void control(String btn) {
         switch (btn) {
             case "|<":
@@ -560,7 +563,7 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
         this.setForm(list.get(i));
         this.updateStatus();
     }
-
+    
     private void update() {
         if (MsgBox.confirm(this, "Bạn có chắc muốn cập nhật dữ liệu này?")) {
             if (validation()) {
@@ -573,16 +576,29 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
             }
         }
     }
-
+    
+    private void setNextId() {
+        String maxId;
+        
+        try {
+            maxId = ComboDao.getInstant().getMaxId();
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+        
+        LoaiBox loaiBox = (LoaiBox) cboLoaiBox.getSelectedItem();
+        txtMaCombo.setText(getNextId(maxId, loaiBox.getMaLoaiBox()));
+    }
+    
     public String getNextId(String maxId, String maLoaiBox) {
         if (maxId.length() < 4) {
             return " ";
         }
         String first = maxId.substring(0, 2);
-        String middle = maxId.substring(2, 4);
+        String middle = maxId.substring(2, 5);
         Integer number = Integer.parseInt(middle);
         Integer log = number / 10;
-
+        
         if (log == 0) {
             maxId = first + "00" + ++number + maLoaiBox;
         } else if (log > 10) {
@@ -590,25 +606,29 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
         } else if (log > 0) {
             maxId = first + "0" + ++number + maLoaiBox;
         }
-
+        
         return maxId;
     }
-
-    private void setNextId() {
-        String maxId;
-
-        try {
-            maxId = ComboDao.getInstant().getMaxId();
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
-
-        LoaiBox loaiBox = (LoaiBox) cboLoaiBox.getSelectedItem();
-        txtMaCombo.setText(getNextId(maxId, loaiBox.getMaLoaiBox()));
-    }
-
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         setNextId();
     }
+    
+    public Combobox getCboLoaiBox() {
+        return cboLoaiBox;
+    }
+    
+    public void setCboLoaiBox(Combobox cboLoaiBox) {
+        this.cboLoaiBox = cboLoaiBox;
+    }
+    
+    public ButtonRound getBtnCapNhatSP() {
+        return btnCapNhatSP;
+    }
+    
+    public void setBtnCapNhatSP(ButtonRound btnCapNhatSP) {
+        this.btnCapNhatSP = btnCapNhatSP;
+    }
+    
 }

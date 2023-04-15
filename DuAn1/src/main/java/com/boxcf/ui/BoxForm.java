@@ -8,6 +8,8 @@ import com.box.utils.Auth;
 import com.box.utils.MsgBox;
 import com.box.utils.UI;
 import com.box.utils.XImage;
+import com.boxcf.components.ButtonRound;
+import com.boxcf.components.Combobox;
 import com.boxcf.dao.BoxDao;
 import com.boxcf.dao.LoaiBoxDao;
 import com.boxcf.models.Box;
@@ -28,21 +30,21 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 public class BoxForm extends javax.swing.JFrame implements ActionListener {
-
+    
     String maBox;
     public static int i = -1;
     List<Box> list = BoxDao.getInstance().selectAll();
-
+    
     public BoxForm() {
         initComponents();
         init();
     }
-
+    
     public BoxForm(Box box) {
         initComponents();
         init();
     }
-
+    
     @SuppressWarnings(value = "unchecked")
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -119,7 +121,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         txtTenBox.setOpaque(false);
         pnlBox.add(txtTenBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 340, 550, 38));
 
-        cboLoaiBox.setEditable(true);
+        cboLoaiBox.setEnabled(false);
         cboLoaiBox.setFocusable(false);
         cboLoaiBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         pnlBox.add(cboLoaiBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 140, 290, -1));
@@ -343,7 +345,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         this.updateStatus();
         UI.accept(btnAdd, btnCapNhatSP, btnUpdate);
     }
-
+    
     private void prepareUI() {
         Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
         this.setShape(shape);
@@ -351,28 +353,29 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         UI.changeTransBG(new Color(0, 0, 0, 0), txtMaBox, txtTenBox);
         cboLoaiBox.addActionListener(this);
         txtMaBox.setEditable(false);
+        btnCapNhatSP.setVisible(false);
     }
-
+    
     private void exit() {
         this.dispose();
     }
-
+    
     public void fillComboBox() {
         DefaultComboBoxModel cbo = (DefaultComboBoxModel) cboLoaiBox.getModel();
         cbo.removeAllElements();
-
+        
         List<LoaiBox> list = LoaiBoxDao.getInstance().selectAll();
         for (LoaiBox loaiBox : list) {
             cbo.addElement(loaiBox);
         }
     }
-
+    
     public void setForm(Box box) {
         cboLoaiBox.setSelectedItem(LoaiBoxDao.getInstance().selectById(box.getMaLoaiBox()));
         txtMaBox.setText(box.getMaBox());
         txtTenBox.setText(box.getTenBox());
         txtMoTa.setText(box.getMoTa());
-
+        
         String url = box.getHinhAnh();
         if (url != null) {
             lblHinhAnh.setToolTipText(url);
@@ -384,7 +387,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
             lblHinhAnh.setIcon(null);
         }
     }
-
+    
     private Box getForm() {
         Box box = new Box();
         LoaiBox loaiBox = (LoaiBox) cboLoaiBox.getSelectedItem();
@@ -393,57 +396,58 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         box.setTenBox(txtTenBox.getText());
         box.setHinhAnh(lblHinhAnh.getToolTipText());
         box.setMoTa(txtMoTa.getText());
-
+        
         return box;
     }
-
+    
     public boolean validation() {
         String tenBox = txtTenBox.getText();
         if (tenBox.isEmpty()) {
             MsgBox.alert(this, "Bạn chưa nhập tên box!");
             return false;
         }
-
-        if (lblHinhAnh.getToolTipText().isEmpty()) {
+        
+        if (lblHinhAnh.getToolTipText() == null || lblHinhAnh.getToolTipText().equals("")) {
             MsgBox.alert(this, "Bạn chưa chọn ảnh cho Box!");
             return false;
         }
-
+        
         return true;
     }
-
+    
     private void insert() {
         if (validation()) {
             BoxDao.getInstance().insert(getForm());
             MsgBox.alert(this, "Thêm thành công!");
             clear();
+            Store.boxView.fillTableBox(BoxDao.getInstance().selectAll());
             this.dispose();
         }
     }
-
+    
     private void clear() {
         this.setNextId();
-        txtMaBox.setText("");
+        
         txtTenBox.setText("");
         txtMoTa.setText("");
         lblHinhAnh.setToolTipText("");
         lblHinhAnh.setIcon(null);
-
+        
         i = -1;
         updateStatus();
     }
-
+    
     private void updateStatus() {
-
+        
         boolean edit = i >= 0;
         boolean first = i > 0;
         boolean last = i < list.size() - 1;
-
+        
         btnUpdate.setEnabled(edit);
         btnUpdate.setBackground(edit ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnAdd.setEnabled(!edit);
         btnAdd.setBackground(!edit ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
-
+        
         btnFirst.setEnabled(edit && first);
         btnFirst.setBackground(edit && first ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnPre.setEnabled(edit && first);
@@ -452,9 +456,9 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         btnLast.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnNext.setEnabled(edit && last);
         btnNext.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
-
+        
     }
-
+    
     private void control(String btn) {
         switch (btn) {
             case "|<":
@@ -479,14 +483,14 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         this.setForm(list.get(i));
         this.updateStatus();
         UI.accept(btnAdd, btnCapNhatSP, btnUpdate);
-
+        
     }
-
+    
     private void chooseImage() {
         JFileChooser chooser = new JFileChooser();
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
-
+            
             XImage.save(file);
             ImageIcon icon = XImage.read(file.getName());
             Image img = XImage.resize(icon.getImage(), lblHinhAnh.getWidth(), lblHinhAnh.getHeight());
@@ -495,7 +499,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
             lblHinhAnh.setToolTipText(file.getName());
         }
     }
-
+    
     private void update() {
         if (MsgBox.confirm(this, "Bạn có chắc muốn cập nhật dữ liệu này?")) {
             Box box = getForm();
@@ -506,7 +510,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
             this.dispose();
         }
     }
-
+    
     public String getNextId(String maxId, String maLoaiBox) {
         if (maxId.length() < 4) {
             return " ";
@@ -515,7 +519,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         String middle = maxId.substring(1, 4);
         Integer number = Integer.parseInt(middle);
         Integer log = number / 10;
-
+        
         if (log == 0) {
             maxId = first + "00" + ++number + maLoaiBox;
         } else if (log > 10) {
@@ -523,25 +527,42 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         } else if (log > 0) {
             maxId = first + "0" + ++number + maLoaiBox;
         }
-
+        
         return maxId;
     }
-
+    
     private void setNextId() {
         String maxId;
-
+        
         try {
             maxId = BoxDao.getInstance().getMaxId();
         } catch (SQLException e) {
             throw new RuntimeException();
         }
-
+        
         LoaiBox loaiBox = (LoaiBox) cboLoaiBox.getSelectedItem();
         txtMaBox.setText(getNextId(maxId, loaiBox.getMaLoaiBox()));
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         this.setNextId();
     }
+    
+    public ButtonRound getBtnCapNhatSP() {
+        return btnCapNhatSP;
+    }
+    
+    public void setBtnCapNhatSP(ButtonRound btnCapNhatSP) {
+        this.btnCapNhatSP = btnCapNhatSP;
+    }
+    
+    public Combobox getCboLoaiBox() {
+        return cboLoaiBox;
+    }
+    
+    public void setCboLoaiBox(Combobox cboLoaiBox) {
+        this.cboLoaiBox = cboLoaiBox;
+    }
+    
 }

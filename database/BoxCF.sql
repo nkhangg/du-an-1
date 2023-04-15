@@ -40,7 +40,12 @@ CREATE TABLE SanPham(
 	HinhAnh VARCHAR(100),
 	MoTa NVARCHAR(100),
 	MaLoai VARCHAR(10) REFERENCES LoaiSP(MaLoai) ON DELETE NO ACTION,
+	TrangThai bit
 )
+
+
+ 
+
 GO
 
 CREATE TABLE LoaiBox(
@@ -64,7 +69,7 @@ CREATE TABLE Combo(
 )
 
 
-select * from Combo
+select * from ComboCT
 
 GO
 
@@ -168,16 +173,16 @@ Insert into LoaiSP values ('LSP07', N'Trà sữa', 'DM02')
 
 --Sản phẩm
 
-Insert into SanPham values ('NE001',N'Nước Cam' , 25000, 'nuoccam.jpg', '123', 'LSP02')
-Insert into SanPham values ('NE002',N'Nước Ép Táo' , 20000, 'eptao.jpg', '234', 'LSP02')
-Insert into SanPham values ('BN001',N'Bánh Gato' , 50000, 'gato.jpg', '345', 'LSP06')
-Insert into SanPham values ('BN002',N'Bông Lan Trứng Muối' , 60000, 'bonglantrungmuoi.jpg', '678','LSP06')
-Insert into SanPham values ('NN001',N'Coca' , 15000, 'coca.jpg', '922', 'LSP01')
-Insert into SanPham values ('NN002',N'Pesi' , 15000, 'pesi.jfif', '922', 'LSP01')
-Insert into SanPham values ('NN003',N'7up' , 15000, '7up.jfif', '922', 'LSP01')
-Insert into SanPham values ('TS001',N'Trà sữa truyền thống' , 25000, 'trasua.jpg', '922', 'LSP07')
-Insert into SanPham values ('ST001',N'Sinh tố bơ' , 18000, 'bo.jpg', '922', 'LSP03')
-Insert into SanPham values ('ST002',N'Sinh tố dâu' , 18000, 'dau.jpg', '922', 'LSP03')
+Insert into SanPham values ('NE001',N'Nước Cam' , 25000, 'nuoccam.jpg', '123', 'LSP02', 1)
+Insert into SanPham values ('NE002',N'Nước Ép Táo' , 20000, 'eptao.jpg', '234', 'LSP02', 1)
+Insert into SanPham values ('BN001',N'Bánh Gato' , 50000, 'gato.jpg', '345', 'LSP06', 1)
+Insert into SanPham values ('BN002',N'Bông Lan Trứng Muối' , 60000, 'bonglantrungmuoi.jpg', '678','LSP06', 1)
+Insert into SanPham values ('NN001',N'Coca' , 15000, 'coca.jpg', '922', 'LSP01', 1)
+Insert into SanPham values ('NN002',N'Pesi' , 15000, 'pesi.jfif', '922', 'LSP01', 1)
+Insert into SanPham values ('NN003',N'7up' , 15000, '7up.jfif', '922', 'LSP01', 1)
+Insert into SanPham values ('TS001',N'Trà sữa truyền thống' , 25000, 'trasua.jpg', '922', 'LSP07', 1)
+Insert into SanPham values ('ST001',N'Sinh tố bơ' , 18000, 'bo.jpg', '922', 'LSP03', 1)
+Insert into SanPham values ('ST002',N'Sinh tố dâu' , 18000, 'dau.jpg', '922', 'LSP03', 1)
 
 select * from SanPham
 

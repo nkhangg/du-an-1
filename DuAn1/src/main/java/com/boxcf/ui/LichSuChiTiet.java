@@ -417,7 +417,7 @@ public class LichSuChiTiet extends javax.swing.JDialog {
             }
             Object[] row = new Object[]{i,
                 b.getTenBox(),
-                cattegory.equalsIgnoreCase("Combo") ? Formats.toCurency(0) : Formats.toCurency(lb.getGiaLoai()),
+                cattegory.equalsIgnoreCase("Combo") ? Formats.toCurency(0) : Formats.toCurency(lb.getGiaLoai() * hour),
                 hour, Formats.toCurency(pd.getTienThucNhan())};
             model.addRow(row);
             total += pd.getTienThucNhan();
@@ -434,7 +434,7 @@ public class LichSuChiTiet extends javax.swing.JDialog {
         renderDataTable(HoaDonChiTietDao.getInstant().selectByHd(hd.getMaHD()), hd.getMaHD());
 
         lblId.setText(hd.getMaHD() + "");
-        lblTimeNow.setText(XDate.toString(hd.getNgayTao(), Store.partten));
+        lblTimeNow.setText(XDate.toString(hd.getNgayTao(), "dd/mm/yyyy HH:mm:ss"));
         lblNameStaff.setText(hd.getTenNV());
         lblNameCutomer.setText(hd.getTenKH());
         lblQuantity.setText(this.quantity + "");

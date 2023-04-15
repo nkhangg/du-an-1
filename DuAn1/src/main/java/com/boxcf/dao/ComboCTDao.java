@@ -22,9 +22,10 @@ public class ComboCTDao implements BoxCfDAO<ComboCT, String> {
                     responce.getString(3),
                     responce.getString(4),
                     responce.getInt(5),
-                    responce.getString(6)
+                    responce.getString(6)              
             );
         } catch (Exception e) {
+            System.out.println(e);
             throw new Error("The Error in createObjecet ComboCT !");
         }
     }

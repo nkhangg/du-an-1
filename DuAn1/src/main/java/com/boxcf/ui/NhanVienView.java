@@ -294,7 +294,7 @@ public class NhanVienView extends javax.swing.JPanel {
             return;
         }
 
-        boolean check = MsgBox.confirm(Store.globelMain, "Điều này sẽ làm mất đi " + list.length + " nhân viên của cửa hàng đó >.<");
+        boolean check = MsgBox.confirm(Store.globelMain, "Điều này sẽ làm mất đi " + list.length + " nhân viên của cửa hàng đó  ");
 
         if (!check) {
             tblNhanVien.clearSelection();

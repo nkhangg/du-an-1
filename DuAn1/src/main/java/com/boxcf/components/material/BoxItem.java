@@ -62,6 +62,7 @@ public class BoxItem extends javax.swing.JPanel {
 
         PhieuDatBox pd = list.get(0);
         lblGia4.setText(XDate.toString(pd.getGioBD(), Store.parttenHour));
+        repaint();
     }
 
     public void setData(ModelItem box) {
@@ -184,12 +185,12 @@ public class BoxItem extends javax.swing.JPanel {
         lblGia.setText("20.000 / 1h");
         add(lblGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 41, -1, 30));
 
-        lblGia2.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        lblGia2.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
         lblGia2.setForeground(new java.awt.Color(0, 51, 51));
         lblGia2.setText("Còn lại");
         add(lblGia2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, 30));
 
-        lblGia3.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        lblGia3.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
         lblGia3.setForeground(new java.awt.Color(0, 51, 51));
         lblGia3.setText("Đặt trước lúc");
         add(lblGia3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 100, 40));

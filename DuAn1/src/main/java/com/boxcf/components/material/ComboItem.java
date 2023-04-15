@@ -84,7 +84,7 @@ public class ComboItem extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(230, 200));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblTenCB.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        lblTenCB.setFont(new java.awt.Font("UTM Aptima", 1, 18)); // NOI18N
         lblTenCB.setForeground(new java.awt.Color(255, 255, 255));
         lblTenCB.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblTenCB.setText("Combo1");

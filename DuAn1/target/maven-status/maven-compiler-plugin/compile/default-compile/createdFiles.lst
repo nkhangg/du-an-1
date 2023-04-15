@@ -8,8 +8,10 @@ com\boxcf\components\ComboSuggestionUI$1.class
 com\boxcf\ui\DatBoxView$5.class
 com\box\utils\MsgBox.class
 com\boxcf\components\Spiner.class
+com\boxcf\ui\LichSuBanHangView$5.class
 com\boxcf\ui\OrderView$9.class
 com\raven\chart\LegendItem.class
+com\boxcf\ui\SanPhamAn.class
 com\boxcf\ui\DangNhapView$2.class
 com\boxcf\ui\BoxView.class
 combo_suggestion\ComboBoxSuggestion.class
@@ -31,6 +33,8 @@ com\boxcf\ui\LichSuChiTiet.class
 com\boxcf\ui\ThongTinDM$7.class
 com\boxcf\models\DatTruoc.class
 com\boxcf\ui\ThongTinSP.class
+com\boxcf\ui\DatBoxView$12.class
+com\boxcf\ui\OrderView$11.class
 combo_suggestion\ComboSuggestionUI$ArrowButton.class
 com\boxcf\components\Combobox$ComboUI$1.class
 com\boxcf\components\material\NewJPanel.class
@@ -41,6 +45,7 @@ com\boxcf\components\ClsoeButton.class
 com\boxcf\ui\DatComBo$2.class
 com\boxcf\components\material\BoxStatus.class
 com\boxcf\components\CheckBoxCustom.class
+com\boxcf\ui\HoaDonNhanBox.class
 com\boxcf\ui\ThongTinLoaiSP$4.class
 com\boxcf\models\ModelOverview.class
 com\boxcf\components\material\Panigation.class
@@ -52,9 +57,11 @@ com\boxcf\ui\BoxForm$6.class
 com\boxcf\components\FormHome$2.class
 com\boxcf\ui\ComboView$6.class
 com\boxcf\ui\SanPhamView$9.class
+com\boxcf\ui\SanPhamView$24.class
 com\box\utils\Auth.class
 com\boxcf\components\material\CategoryChartItem.class
 com\boxcf\ui\BoxForm.class
+com\boxcf\ui\HoaDonNhanBox$2.class
 com\boxcf\ui\SanPhamView$11.class
 com\boxcf\ui\ThongTinSP$7.class
 com\boxcf\ui\ThongTinKM$1.class
@@ -72,11 +79,14 @@ com\boxcf\dao\LoaiSPDao.class
 com\boxcf\ui\NhanVienView$6.class
 com\boxcf\components\PasswordField.class
 com\boxcf\ui\ComboView$1.class
+com\boxcf\ui\SanPhamView$34.class
 com\boxcf\models\Combo.class
+com\boxcf\ui\SanPhamView$29.class
 com\boxcf\models\SanPham.class
 com\boxcf\ui\BoxForm$8.class
 com\boxcf\components\TextField$2.class
 com\boxcf\components\WindowButton$1.class
+com\boxcf\ui\SanPhamView$26.class
 com\boxcf\ui\LoaiBoxForm$4.class
 com\boxcf\components\PasswordField$2.class
 com\box\utils\Cleaner$1.class
@@ -88,12 +98,14 @@ com\boxcf\components\ImageAvatar.class
 com\boxcf\ui\NhanVienView$4.class
 com\boxcf\ui\KhuyenMaiView$7.class
 com\boxcf\events\interfaces\BoxEvents.class
+com\boxcf\ui\SanPhamView$32.class
 com\boxcf\components\Combobox$ComboUI$3.class
 com\boxcf\ui\Main$2.class
 com\boxcf\ui\ThongTinLoaiSP$6.class
 com\boxcf\ui\ChonKhoanThoiGianView$1.class
 com\boxcf\components\PasswordField$1.class
 com\boxcf\constands\BoxState.class
+com\boxcf\ui\HoaDonNhanBox$4.class
 com\boxcf\ui\ThongTinKM$3.class
 com\boxcf\ui\HoaDonView.class
 com\boxcf\components\material\ItemBill$1.class
@@ -129,8 +141,10 @@ com\boxcf\components\WindowButton$4.class
 com\boxcf\ui\NhanVienView$1.class
 com\boxcf\ui\ThongKeView$1.class
 com\boxcf\components\ComboSuggestionUI$3.class
+com\boxcf\ui\support.class
 com\boxcf\components\Combobox$ComboUI$5.class
 com\boxcf\ui\DatBoxView$3.class
+com\boxcf\ui\SanPhamView$30.class
 com\boxcf\ui\ThongTinNV$8.class
 com\box\utils\Sort$1.class
 com\boxcf\ui\Main$5.class
@@ -149,6 +163,7 @@ com\boxcf\ui\LoaiBoxForm$1.class
 com\boxcf\models\HoaDonCT.class
 com\boxcf\ui\SanPhamView$21.class
 com\box\utils\XDate.class
+com\boxcf\ui\Main$14.class
 com\boxcf\ui\ThongTinDM$9.class
 com\boxcf\components\Spiner$4.class
 com\boxcf\ui\DatBoxView$10.class
@@ -182,6 +197,7 @@ com\boxcf\models\Timer$2.class
 com\boxcf\ui\HoaDonView$1.class
 com\boxcf\models\KhuyenMai.class
 com\boxcf\models\ModelCbo.class
+com\boxcf\ui\OrderView$10.class
 com\boxcf\ui\SanPhamView$20.class
 com\boxcf\ui\Main.class
 com\boxcf\ui\Main$9.class
@@ -199,6 +215,7 @@ com\boxcf\ui\BoxForm$3.class
 com\boxcf\ui\Main$11.class
 com\boxcf\components\material\test$1.class
 com\boxcf\ui\BoxForm$7.class
+com\boxcf\ui\SanPhamView$38.class
 com\boxcf\ui\ThongTinLoaiSP$5.class
 com\boxcf\models\Box.class
 com\raven\chart\blankchart\BlankPlotChatRender.class
@@ -210,9 +227,13 @@ com\boxcf\components\WindowButton.class
 com\boxcf\ui\Main$1.class
 com\boxcf\components\FormHome$1.class
 com\boxcf\ui\ComboView$5.class
+com\boxcf\ui\SanPhamView$25.class
 com\boxcf\components\material\ItemBill.class
 com\boxcf\components\Item.class
 com\boxcf\ui\LichSuChiTiet$1.class
+com\boxcf\ui\HoaDonNhanBox$3.class
+com\boxcf\ui\SanPhamAn$1.class
+com\boxcf\ui\ThongTinSP$10.class
 com\boxcf\ui\LoaiBoxForm$3.class
 com\boxcf\ui\LichSuBanHangView$4$1.class
 com\boxcf\ui\DatComBo$1.class
@@ -232,6 +253,7 @@ com\boxcf\ui\DatBoxView$11.class
 com\boxcf\ui\SanPhamView$12.class
 com\boxcf\ui\ThungRac.class
 combo_suggestion\ComboSuggestionUI$Border.class
+com\boxcf\ui\SanPhamAn$6.class
 com\boxcf\components\ComboSuggestionUI$2.class
 com\boxcf\ui\ThongTinSP$6.class
 com\boxcf\ui\ThongTinDM.class
@@ -243,6 +265,7 @@ com\boxcf\models\ModelStatistical.class
 com\boxcf\ui\SanPhamView$3.class
 com\boxcf\ui\SanPhamView$19.class
 com\box\utils\XImage.class
+com\boxcf\ui\SanPhamView$31.class
 com\boxcf\events\StoreEvents$1.class
 com\boxcf\ui\KhuyenMaiView$6.class
 com\boxcf\ui\ChiTietThongKeView$3.class
@@ -250,6 +273,7 @@ com\boxcf\components\ClsoeButton$3.class
 com\boxcf\ui\BoxView$2.class
 com\raven\chart\ModelLegend.class
 com\boxcf\ui\ThongTinNV$6.class
+com\boxcf\ui\HoaDonNhanBox$5.class
 com\boxcf\models\NhanVien.class
 com\boxcf\ui\ThongTinDM$3.class
 com\boxcf\components\material\Category.class
@@ -279,6 +303,7 @@ com\boxcf\ui\ComboView$3.class
 com\boxcf\ui\ThongTinLoaiSP$7.class
 com\boxcf\ui\ThongTinSP$9.class
 com\boxcf\components\Combobox$ComboUI$2.class
+com\boxcf\ui\SanPhamView$33.class
 com\boxcf\models\Timer.class
 com\boxcf\models\DatBox.class
 com\boxcf\ui\ThongTinNV$4.class
@@ -296,6 +321,7 @@ com\boxcf\components\ModelItem.class
 com\boxcf\ui\ThongTinSP$8.class
 com\boxcf\dao\BoxCfDAO.class
 com\boxcf\ui\ComboView$2.class
+com\boxcf\ui\SanPhamView$27.class
 com\boxcf\components\ComboSuggestionUI$ArrowButton.class
 com\boxcf\ui\ChiTietThongKeView$1.class
 com\boxcf\ui\OrderView.class
@@ -304,13 +330,16 @@ com\boxcf\ui\ThongTinNV$2.class
 com\boxcf\ui\LoaiBoxForm$6.class
 com\boxcf\ui\SanPhamView.class
 com\raven\chart\Chart$2.class
+com\boxcf\ui\SanPhamView$28.class
 com\boxcf\ui\ThongTinLoaiSP$2.class
 com\boxcf\ui\LichSuBanHangView$2.class
 com\boxcf\ui\SanPhamView$7.class
+com\boxcf\ui\SanPhamAn$4.class
 com\boxcf\ui\ThongTinKM$5.class
 com\boxcf\ui\NhanVienView$7.class
 combo_suggestion\ModernScrollBarUI$ScrollBarButton.class
 com\boxcf\ui\ThongTinSP$3.class
+com\boxcf\ui\SanPhamView$35.class
 com\boxcf\components\ComboBoxSuggestion.class
 com\boxcf\components\material\BoxItem.class
 com\boxcf\ui\BoxView$4.class
@@ -325,8 +354,8 @@ com\boxcf\ui\SanPhamView$1.class
 com\boxcf\components\material\PanelItemBill.class
 com\boxcf\dao\ComboCTDao.class
 com\boxcf\dao\SanPhamDao.class
+com\boxcf\ui\SanPhamView$36.class
 com\boxcf\ui\BoxView$3.class
-com\boxcf\ui\ComboForm$9.class
 com\boxcf\dao\ComboDao.class
 com\boxcf\dao\NhanVienDao.class
 com\boxcf\ui\OrderView$1.class
@@ -350,6 +379,7 @@ com\boxcf\ui\ThongTinLoaiSP$3.class
 com\boxcf\ui\BoxView$9.class
 com\boxcf\ui\ThongTinKM$6.class
 com\boxcf\dao\PhieuDatBoxDao.class
+com\boxcf\ui\HoaDonNhanBox$1.class
 com\boxcf\components\material\PanelBill.class
 com\boxcf\ui\ComboForm$7.class
 com\boxcf\ui\BoxView$5.class
@@ -362,6 +392,7 @@ com\boxcf\events\StoreEvents$4.class
 com\boxcf\models\LoaiSP.class
 com\boxcf\ui\KhuyenMaiView$3.class
 com\boxcf\components\WrapLayout.class
+com\boxcf\ui\SanPhamView$37.class
 com\boxcf\ui\ThongTinKM$7.class
 com\boxcf\ui\OrderView$5.class
 com\boxcf\ui\ThongTinLoaiSP$1.class
@@ -371,6 +402,7 @@ com\boxcf\ui\ThongTinSP$1.class
 com\boxcf\models\PhieuDatBox.class
 combo_suggestion\ModernScrollBarUI.class
 com\boxcf\components\PictureBox.class
+com\boxcf\ui\SanPhamAn$5.class
 com\boxcf\components\Background.class
 com\boxcf\ui\suport.class
 com\boxcf\ui\OrderView$2.class
@@ -379,6 +411,7 @@ com\boxcf\models\LoaiBox.class
 com\boxcf\ui\ThongTinSP$4.class
 com\boxcf\ui\DatComBo.class
 com\boxcf\ui\ThongTinSP$2.class
+com\boxcf\ui\SanPhamAn$2.class
 com\boxcf\events\StoreEvents$6.class
 com\boxcf\ui\OrderView$4.class
 com\boxcf\dao\KhuyenMaiDao.class
@@ -397,3 +430,5 @@ com\boxcf\ui\SanPhamView$6.class
 com\boxcf\components\material\ProductItem$2.class
 com\boxcf\models\Time.class
 com\boxcf\ui\BoxView$6.class
+com\boxcf\ui\SanPhamAn$3.class
+com\boxcf\ui\SanPhamView$39.class

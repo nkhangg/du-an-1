@@ -112,6 +112,7 @@ D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\dao\HoaDonDao.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\material\MainPanelOrder.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\material\OverviewItem.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\DoiMatKhauView.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\SanPhamAn.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\PanelItem.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\models\DanhMuc.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\Main.java
@@ -133,5 +134,6 @@ D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\material\Box
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\events\interfaces\EventItem.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\WrapLayout.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\dao\LoaiBoxDao.java
+D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\HoaDonNhanBox.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\ui\KhuyenMaiView.java
 D:\Study\Ki IV\du an thiet\DuAn1\src\main\java\com\boxcf\components\TextField.java

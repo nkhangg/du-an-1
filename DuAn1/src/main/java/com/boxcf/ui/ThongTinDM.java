@@ -4,7 +4,6 @@
  */
 package com.boxcf.ui;
 
-import com.box.utils.Auth;
 import com.box.utils.UI;
 import com.boxcf.dao.DanhMucDao;
 import com.boxcf.dao.LoaiSPDao;
@@ -89,8 +88,6 @@ public class ThongTinDM extends javax.swing.JFrame {
         btnLast.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnNext.setEnabled(edit && last);
         btnNext.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
-
-        UI.accept(btnCapNhat, btnThem, btnReset);
     }
 
     void editw() {
@@ -212,40 +209,61 @@ public class ThongTinDM extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        gradientPanel2 = new com.boxcf.components.GradientPanel();
+        gradientPanel3 = new com.boxcf.components.GradientPanel();
+        gradientPanel4 = new com.boxcf.components.GradientPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        btnThem = new com.boxcf.components.ButtonRound();
-        btnCapNhat = new com.boxcf.components.ButtonRound();
-        btnFirst = new com.boxcf.components.ButtonRound();
-        btnPre = new com.boxcf.components.ButtonRound();
-        btnNext = new com.boxcf.components.ButtonRound();
-        btnLast = new com.boxcf.components.ButtonRound();
-        btnReset = new com.boxcf.components.ButtonRound();
         lblMaNV = new javax.swing.JLabel();
         txtMaDM = new com.boxcf.components.TextField();
         lblMaNV2 = new javax.swing.JLabel();
         txtTenDM = new com.boxcf.components.TextField();
+        jPanel1 = new javax.swing.JPanel();
+        btnThem = new com.boxcf.components.ButtonRound();
+        btnCapNhat = new com.boxcf.components.ButtonRound();
+        btnReset = new com.boxcf.components.ButtonRound();
+        jPanel2 = new javax.swing.JPanel();
+        btnFirst = new com.boxcf.components.ButtonRound();
+        btnPre = new com.boxcf.components.ButtonRound();
+        btnNext = new com.boxcf.components.ButtonRound();
+        btnLast = new com.boxcf.components.ButtonRound();
         btnClose = new com.boxcf.components.ButtonRound();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        gradientPanel2.setBackground(new java.awt.Color(204, 204, 204));
-        gradientPanel2.setColor1(new java.awt.Color(245, 250, 255));
-        gradientPanel2.setColor2(new java.awt.Color(245, 250, 255));
-        gradientPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        gradientPanel3.setColor1(new java.awt.Color(102, 102, 102));
+        gradientPanel3.setColor2(new java.awt.Color(102, 102, 102));
+        gradientPanel3.setPreferredSize(new java.awt.Dimension(800, 400));
+
+        gradientPanel4.setColor1(new java.awt.Color(245, 250, 255));
+        gradientPanel4.setColor2(new java.awt.Color(245, 250, 255));
+        gradientPanel4.setPreferredSize(new java.awt.Dimension(800, 408));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(40, 48, 84));
         jLabel1.setText("THÔNG TIN DANH MỤC");
-        gradientPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, -1, -1));
+
+        lblMaNV.setBackground(new java.awt.Color(102, 0, 204));
+        lblMaNV.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblMaNV.setForeground(new java.awt.Color(27, 51, 61));
+        lblMaNV.setText("Mã danh mục");
+
+        txtMaDM.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtMaDM.setLabelText("");
+
+        lblMaNV2.setBackground(new java.awt.Color(102, 0, 204));
+        lblMaNV2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblMaNV2.setForeground(new java.awt.Color(27, 51, 61));
+        lblMaNV2.setText("Tên danh mục");
+
+        txtTenDM.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTenDM.setLabelText("");
 
         btnThem.setBackground(new java.awt.Color(2, 172, 171));
         btnThem.setForeground(new java.awt.Color(255, 255, 255));
         btnThem.setText("THÊM");
         btnThem.setFocusable(false);
-        btnThem.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnThem.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemActionPerformed(evt);
@@ -256,62 +274,18 @@ public class ThongTinDM extends javax.swing.JFrame {
         btnCapNhat.setForeground(new java.awt.Color(255, 255, 255));
         btnCapNhat.setText("CẬP NHẬT");
         btnCapNhat.setFocusable(false);
-        btnCapNhat.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnCapNhat.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
         btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCapNhatActionPerformed(evt);
             }
         });
 
-        btnFirst.setBackground(new java.awt.Color(2, 172, 171));
-        btnFirst.setForeground(new java.awt.Color(255, 255, 255));
-        btnFirst.setText("|<");
-        btnFirst.setFocusable(false);
-        btnFirst.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        btnFirst.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFirstActionPerformed(evt);
-            }
-        });
-
-        btnPre.setBackground(new java.awt.Color(2, 172, 171));
-        btnPre.setForeground(new java.awt.Color(255, 255, 255));
-        btnPre.setText("<<");
-        btnPre.setFocusable(false);
-        btnPre.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        btnPre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPreActionPerformed(evt);
-            }
-        });
-
-        btnNext.setBackground(new java.awt.Color(2, 172, 171));
-        btnNext.setForeground(new java.awt.Color(255, 255, 255));
-        btnNext.setText(">>");
-        btnNext.setFocusable(false);
-        btnNext.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        btnNext.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNextActionPerformed(evt);
-            }
-        });
-
-        btnLast.setBackground(new java.awt.Color(2, 172, 171));
-        btnLast.setForeground(new java.awt.Color(255, 255, 255));
-        btnLast.setText(">|");
-        btnLast.setFocusable(false);
-        btnLast.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
-        btnLast.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLastActionPerformed(evt);
-            }
-        });
-
         btnReset.setBackground(new java.awt.Color(2, 172, 171));
         btnReset.setForeground(new java.awt.Color(255, 255, 255));
-        btnReset.setText("MỚI");
+        btnReset.setText("LÀM MỚI");
         btnReset.setFocusable(false);
-        btnReset.setFont(new java.awt.Font("UTM BryantLG", 1, 14)); // NOI18N
+        btnReset.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
         btnReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnResetActionPerformed(evt);
@@ -323,21 +297,13 @@ public class ThongTinDM extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
+                .addGap(38, 38, 38)
                 .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
-                .addComponent(btnFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnPre, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnLast, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(101, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -346,35 +312,80 @@ public class ThongTinDM extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
+
+        btnFirst.setBackground(new java.awt.Color(2, 172, 171));
+        btnFirst.setForeground(new java.awt.Color(255, 255, 255));
+        btnFirst.setText("|<");
+        btnFirst.setFocusable(false);
+        btnFirst.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
+
+        btnPre.setBackground(new java.awt.Color(2, 172, 171));
+        btnPre.setForeground(new java.awt.Color(255, 255, 255));
+        btnPre.setText("<<");
+        btnPre.setFocusable(false);
+        btnPre.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
+        btnPre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreActionPerformed(evt);
+            }
+        });
+
+        btnNext.setBackground(new java.awt.Color(2, 172, 171));
+        btnNext.setForeground(new java.awt.Color(255, 255, 255));
+        btnNext.setText(">>");
+        btnNext.setFocusable(false);
+        btnNext.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
+
+        btnLast.setBackground(new java.awt.Color(2, 172, 171));
+        btnLast.setForeground(new java.awt.Color(255, 255, 255));
+        btnLast.setText(">|");
+        btnLast.setFocusable(false);
+        btnLast.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(32, Short.MAX_VALUE)
+                .addComponent(btnFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnPre, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnLast, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPre, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLast, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnLast, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
-
-        gradientPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 490, 740, 80));
-
-        lblMaNV.setBackground(new java.awt.Color(102, 0, 204));
-        lblMaNV.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        lblMaNV.setForeground(new java.awt.Color(27, 51, 61));
-        lblMaNV.setText("Mã danh mục");
-        gradientPanel2.add(lblMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 120, -1));
-
-        txtMaDM.setLabelText("");
-        txtMaDM.setOpaque(false);
-        gradientPanel2.add(txtMaDM, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 760, 38));
-
-        lblMaNV2.setBackground(new java.awt.Color(102, 0, 204));
-        lblMaNV2.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        lblMaNV2.setForeground(new java.awt.Color(27, 51, 61));
-        lblMaNV2.setText("Tên danh mục");
-        gradientPanel2.add(lblMaNV2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, 120, -1));
-
-        txtTenDM.setLabelText("");
-        txtTenDM.setOpaque(false);
-        gradientPanel2.add(txtTenDM, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 760, 38));
 
         btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/boxcf/images/icon/exit (1).png"))); // NOI18N
         btnClose.setFocusPainted(false);
@@ -383,40 +394,86 @@ public class ThongTinDM extends javax.swing.JFrame {
                 btnCloseActionPerformed(evt);
             }
         });
-        gradientPanel2.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 10, 50, 50));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        javax.swing.GroupLayout gradientPanel4Layout = new javax.swing.GroupLayout(gradientPanel4);
+        gradientPanel4.setLayout(gradientPanel4Layout);
+        gradientPanel4Layout.setHorizontalGroup(
+            gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(gradientPanel4Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(gradientPanel4Layout.createSequentialGroup()
+                        .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(gradientPanel4Layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(88, 88, 88)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblMaNV2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTenDM, javax.swing.GroupLayout.PREFERRED_SIZE, 774, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 41, Short.MAX_VALUE))
+                    .addGroup(gradientPanel4Layout.createSequentialGroup()
+                        .addComponent(txtMaDM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(32, 32, 32))
+                    .addGroup(gradientPanel4Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(256, 256, 256)
+                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(17, 17, 17))))
+        );
+        gradientPanel4Layout.setVerticalGroup(
+            gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanel4Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(48, 48, 48)
+                .addComponent(lblMaNV)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtMaDM, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addComponent(lblMaNV2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtTenDM, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
+                .addGroup(gradientPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(73, 73, 73))
+        );
+
+        javax.swing.GroupLayout gradientPanel3Layout = new javax.swing.GroupLayout(gradientPanel3);
+        gradientPanel3.setLayout(gradientPanel3Layout);
+        gradientPanel3Layout.setHorizontalGroup(
+            gradientPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(gradientPanel3Layout.createSequentialGroup()
                 .addGap(2, 2, 2)
-                .addComponent(gradientPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 860, Short.MAX_VALUE)
+                .addComponent(gradientPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
                 .addGap(2, 2, 2))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        gradientPanel3Layout.setVerticalGroup(
+            gradientPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(gradientPanel3Layout.createSequentialGroup()
                 .addGap(2, 2, 2)
-                .addComponent(gradientPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(gradientPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
+                .addGap(2, 2, 2))
         );
+
+        getContentPane().add(gradientPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-1, -1, 850, 560));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        if (!Auth.accept(this)) {
-            return;
-        }
+        // TODO add your handling code here:
         insert();
 
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
-        if (!Auth.accept(this)) {
-            return;
-        }
+        // TODO add your handling code here:
         update();
     }//GEN-LAST:event_btnCapNhatActionPerformed
 
@@ -441,10 +498,6 @@ public class ThongTinDM extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLastActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
-
-        if (!Auth.accept(this)) {
-            return;
-        }
         clear();
     }//GEN-LAST:event_btnResetActionPerformed
 
@@ -541,6 +594,70 @@ public class ThongTinDM extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -559,9 +676,11 @@ public class ThongTinDM extends javax.swing.JFrame {
     private com.boxcf.components.ButtonRound btnPre;
     private com.boxcf.components.ButtonRound btnReset;
     private com.boxcf.components.ButtonRound btnThem;
-    private com.boxcf.components.GradientPanel gradientPanel2;
+    private com.boxcf.components.GradientPanel gradientPanel3;
+    private com.boxcf.components.GradientPanel gradientPanel4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblMaNV;
     private javax.swing.JLabel lblMaNV2;
     private com.boxcf.components.TextField txtMaDM;

@@ -324,6 +324,9 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhanVienActionPerformed
+        if (!Auth.accept(this)) {
+            return;
+        }
         this.hidden(spView, boxView, kmView, tkView, cbView);
         this.active(nvView);
     }//GEN-LAST:event_btnNhanVienActionPerformed
@@ -529,7 +532,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void handleLogout() {
-        boolean flag = MsgBox.confirm(this, "Bạn sẽ không thể thao tác với tài khoản này khi đăng xuất >.<");
+        boolean flag = MsgBox.confirm(this, "Bạn sẽ không thể thao tác với tài khoản này khi đăng xuất  ");
 
         if (flag) {
             Auth.clear();

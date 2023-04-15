@@ -195,12 +195,12 @@ public class DoiMatKhauView extends javax.swing.JFrame {
         String mess = "";
 
         if (Validator.isEmpty(txtOldPass)) {
-            mess += "Bạn chưa nhập mật khẩu củ >.< \n";
+            mess += "Bạn chưa nhập mật khẩu củ   \n";
             flag = false;
         }
 
         if (Validator.isEmpty(txtNewPass)) {
-            mess += "Bạn chưa nhập mật khẩu mới >.< \n";
+            mess += "Bạn chưa nhập mật khẩu mới   \n";
             flag = false;
         } else {
             if (!Validator.isValidPass(new String(txtNewPass.getPassword()))) {

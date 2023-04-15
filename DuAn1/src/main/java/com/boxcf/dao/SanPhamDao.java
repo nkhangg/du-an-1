@@ -6,7 +6,9 @@ import java.util.List;
 
 import com.boxcf.models.SanPham;
 import com.box.utils.JdbcHelper;
+import com.boxcf.models.LoaiBox;
 import com.boxcf.store.Store;
+import java.sql.SQLException;
 
 public class SanPhamDao implements BoxCfDAO<SanPham, String> {
 
@@ -46,7 +48,7 @@ public class SanPhamDao implements BoxCfDAO<SanPham, String> {
     }
 
     public void delete(String id) {
-        String sql = "delete SanPham where MaSP = ?";
+        String sql = "update SanPham set TrangThai = 0 where MaSP = ?";
 
         try {
             int responce = JdbcHelper.update(sql, id);
@@ -63,7 +65,7 @@ public class SanPhamDao implements BoxCfDAO<SanPham, String> {
 
     @Override
     public void insert(SanPham e) {
-        String sql = "Insert into SanPham values (?, ?, ?, ?, ?, ?)";
+        String sql = "Insert into SanPham values (?, ?, ?, ?, ?, ?, 1)";
 
         try {
             int responce = JdbcHelper.update(sql, e.getMaSP(), e.getTenSP(), e.getGia(), e.getHinhAnh(), e.getMoTa(), e.getMaLoai());
@@ -72,7 +74,7 @@ public class SanPhamDao implements BoxCfDAO<SanPham, String> {
                 throw new Error("The Error in insert SanPham !");
             }
         } catch (Exception ex) {
-            throw new Error("The Error in insert SanPham !");
+            throw new Error(ex.getMessage());
         }
     }
 
@@ -123,16 +125,23 @@ public class SanPhamDao implements BoxCfDAO<SanPham, String> {
         List<SanPham> list = new ArrayList<>();
 
         try {
-            ResultSet responce = JdbcHelper.query(sql, args);
+            ResultSet rs = JdbcHelper.query(sql, args);
+            while (rs.next()) {
+                SanPham sanpham = new SanPham();
 
-            while (responce.next()) {
-                list.add(createObjecet(responce));
+                sanpham.setMaSP(rs.getString("MaSP"));
+                sanpham.setTenSP(rs.getString("TenSP"));
+                sanpham.setGia(rs.getLong("Gia"));
+                sanpham.setHinhAnh(rs.getString("HinhAnh"));
+                sanpham.setMaLoai(rs.getString("MaLoai"));
+                sanpham.setMoTa(rs.getString("MoTa"));
+                list.add(sanpham);
             }
-
-            responce.getStatement().getConnection().close();
-        } catch (Exception e) {
-            throw new Error("The Error in selectBySql SanPham !");
+            rs.getStatement().getConnection().close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
         return list;
     }
 
@@ -188,7 +197,4 @@ public class SanPhamDao implements BoxCfDAO<SanPham, String> {
         return (int) Math.ceil(this.selectByTenDanhMuc(Store.categoryName).size() / 8) + 1;
     }
 
-    public static void main(String[] args) {
-        System.out.println(SanPhamDao.getInstant().selectByTenDanhMuc(Store.food).size());
-    }
 }

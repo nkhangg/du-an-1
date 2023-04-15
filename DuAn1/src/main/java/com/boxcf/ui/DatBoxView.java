@@ -166,9 +166,10 @@ public class DatBoxView extends javax.swing.JFrame {
         jLabel4.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         pnlDatBox.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, -1, 30));
 
+        txtKhachHang.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtKhachHang.setLabelText("");
         txtKhachHang.setOpaque(false);
-        pnlDatBox.add(txtKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, 480, 33));
+        pnlDatBox.add(txtKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 23, 480, 40));
 
         txtTraTruoc.setEditable(false);
         txtTraTruoc.setLabelText("");
@@ -178,6 +179,7 @@ public class DatBoxView extends javax.swing.JFrame {
         btnDatBox.setBackground(new java.awt.Color(109, 191, 184));
         btnDatBox.setForeground(new java.awt.Color(255, 255, 255));
         btnDatBox.setText("ĐẶT BOX");
+        btnDatBox.setFocusable(false);
         btnDatBox.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         btnDatBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -225,7 +227,8 @@ public class DatBoxView extends javax.swing.JFrame {
 
         btnHuyBox.setBackground(new java.awt.Color(109, 191, 184));
         btnHuyBox.setForeground(new java.awt.Color(255, 255, 255));
-        btnHuyBox.setText("HỦY BOX");
+        btnHuyBox.setText("TRẨ BOX");
+        btnHuyBox.setFocusable(false);
         btnHuyBox.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         btnHuyBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -234,22 +237,25 @@ public class DatBoxView extends javax.swing.JFrame {
         });
         pnlDatBox.add(btnHuyBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 310, 120, 50));
 
+        txtLoaiBox.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtLoaiBox.setLabelText("");
         txtLoaiBox.setOpaque(false);
-        pnlDatBox.add(txtLoaiBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 90, 180, 33));
+        pnlDatBox.add(txtLoaiBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 83, 180, 40));
 
         jLabel10.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel10.setText("Loại:");
         jLabel10.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         pnlDatBox.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 90, -1, 30));
 
+        txtTenBox.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtTenBox.setLabelText("");
         txtTenBox.setOpaque(false);
-        pnlDatBox.add(txtTenBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 180, 33));
+        pnlDatBox.add(txtTenBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 83, 180, 40));
 
         btnDatTruoc.setBackground(new java.awt.Color(109, 191, 184));
         btnDatTruoc.setForeground(new java.awt.Color(255, 255, 255));
         btnDatTruoc.setText("ĐẶT TRƯỚC");
+        btnDatTruoc.setFocusable(false);
         btnDatTruoc.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         btnDatTruoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -393,9 +399,6 @@ public class DatBoxView extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(DatBoxView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -507,14 +510,14 @@ public class DatBoxView extends javax.swing.JFrame {
 
     private void cancelBox() {
         if (this.box.getTrangThai() == BoxState.active) {
-            if (!MsgBox.confirm(this, "Bạn có chắt muốn hủy ?")) {
+            if (!MsgBox.confirm(this, "Bạn có muốn trả box ?")) {
                 return;
             }
             PhieuDatBox pdb = PhieuDatBoxDao.getInstant().getUsing(this.box.getMaItem().toString());
 
             PhieuDatBoxDao.getInstant().cancelBoxWhenActive(pdb);
 
-            MsgBox.alert(this, "Hủy thành công !");
+            MsgBox.alert(this, "Trả thành công !");
             //fill lai box
             Store.orderView.initBoxData(BoxDao.getInstance().panigation(Panigation.current));
             this.dispose();
@@ -664,8 +667,21 @@ public class DatBoxView extends javax.swing.JFrame {
         Date timeEnd = XDate.getHour(lblGioKT.getText());
 
         for (int i = 0; i < list.size(); i++) {
+
+            if (curentTime.before(XDate.now())) {
+                mess += "Thời gian không phù hợp ! \n";
+                flag = false;
+                break;
+            }
+
+            if (XDate.beforeTimeClose(timeEnd)) {
+                mess += "Thời gian không phù hợp. Đã quá giờ mỡ cửa ! \n";
+                flag = false;
+                break;
+            }
+
             if (curentTime.after(list.get(i).getGioBD()) && curentTime.before(list.get(i).getGioKT())) {
-                mess += "Thời gian đã được đặt trước ! 1 \n";
+                mess += "Thời gian đã được đặt trước ! \n";
                 flag = false;
                 break;
             }
@@ -687,7 +703,7 @@ public class DatBoxView extends javax.swing.JFrame {
             if (nextPd.getGioBD().getTime() - list.get(i).getGioKT().getTime() >= 3600000) {
 
                 if (timeEnd.after(nextPd.getGioBD())) {
-                    mess += "Thời gian đã được đặt trước ! 4 \n";
+                    mess += "Thời gian đã được đặt trước ! \n";
                     flag = false;
                     break;
                 }
@@ -769,6 +785,10 @@ public class DatBoxView extends javax.swing.JFrame {
         int hour = Integer.parseInt(XDate.toString(XDate.now(), "HH"));
         int minus = Integer.parseInt(XDate.toString(XDate.now(), "mm"));
 
+        if (cboHour.getSelectedItem() == null) {
+            return;
+        }
+
         int hourCbo = Integer.parseInt(cboHour.getSelectedItem().toString());
 
         if (hour != Integer.parseInt(cboHour.getSelectedItem().toString())) {
@@ -820,8 +840,8 @@ public class DatBoxView extends javax.swing.JFrame {
             mess = "Trả trước ( 100% )";
             txtTraTruoc.setText(Formats.toCurency(this.box.getLoaiBox().getGiaLoai() * soGio));
         } else {
-            mess = "Trả trước ( 20% )";
-            txtTraTruoc.setText(Formats.toCurency(this.box.getLoaiBox().getGiaLoai() * soGio * 0.2));
+            mess = "Trả trước ( 60% )";
+            txtTraTruoc.setText(Formats.toCurency(this.box.getLoaiBox().getGiaLoai() * soGio * 0.6));
         }
 
         lblTitleDeposits.setText(mess);
@@ -832,7 +852,7 @@ public class DatBoxView extends javax.swing.JFrame {
         if (soGio <= 2) {
             return this.box.getLoaiBox().getGiaLoai() * soGio;
         } else {
-            return (long) (this.box.getLoaiBox().getGiaLoai() * soGio * 0.2);
+            return (long) (this.box.getLoaiBox().getGiaLoai() * soGio * 0.6);
         }
     }
 

@@ -95,17 +95,17 @@ public class ComboView extends javax.swing.JPanel implements ActionListener {
                 txtSearchKeyReleased(evt);
             }
         });
-        jPanel1.add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 60, 600, 32));
+        jPanel1.add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 30, 600, 32));
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
         jLabel2.setText("Loại box");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 120, 80, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 100, 80, 30));
 
         lblMaNV.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblMaNV.setForeground(new java.awt.Color(51, 51, 51));
         lblMaNV.setText("Combo");
-        jPanel1.add(lblMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 86, -1));
+        jPanel1.add(lblMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, 86, -1));
 
         tblCombo.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
         tblCombo.setModel(new javax.swing.table.DefaultTableModel(
@@ -142,6 +142,7 @@ public class ComboView extends javax.swing.JPanel implements ActionListener {
         if (tblCombo.getColumnModel().getColumnCount() > 0) {
             tblCombo.getColumnModel().getColumn(0).setResizable(false);
             tblCombo.getColumnModel().getColumn(0).setPreferredWidth(20);
+            tblCombo.getColumnModel().getColumn(2).setMinWidth(200);
         }
 
         jPanel1.add(scrollbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 940, 260));
@@ -154,7 +155,7 @@ public class ComboView extends javax.swing.JPanel implements ActionListener {
                 cboLoaiBoxActionPerformed(evt);
             }
         });
-        jPanel1.add(cboLoaiBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 110, 220, -1));
+        jPanel1.add(cboLoaiBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 90, 220, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -261,6 +262,8 @@ public class ComboView extends javax.swing.JPanel implements ActionListener {
 
     private void openComboInfo() {
         ComboForm form = new ComboForm();
+        form.getCboLoaiBox().setEnabled(true);
+        form.getBtnCapNhatSP().setVisible(true);
         form.setVisible(true);
     }
 

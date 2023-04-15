@@ -240,7 +240,7 @@ public class KhuyenMaiView extends javax.swing.JPanel {
             return;
         }
         
-        boolean check = MsgBox.confirm(Store.globelMain, "Điều này sẽ làm mất đi " + list.length + " khuyến mãi của cửa hàng >.<");
+        boolean check = MsgBox.confirm(Store.globelMain, "Điều này sẽ làm mất đi " + list.length + " khuyến mãi của cửa hàng  ");
         
         if (!check) {
             tblDiscount.clearSelection();
@@ -261,7 +261,7 @@ public class KhuyenMaiView extends javax.swing.JPanel {
         KhuyenMai km = dKm.selectById(id);
         
         if (km == null) {
-            MsgBox.alert(Store.globelMain, "Có lỗi khi thao tác >.<");
+            MsgBox.alert(Store.globelMain, "Có lỗi khi thao tác  ");
             return;
         }
         

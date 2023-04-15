@@ -65,7 +65,6 @@ public class HoaDonView extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         lblId = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
@@ -78,7 +77,6 @@ public class HoaDonView extends javax.swing.JFrame {
         tblHoaDon = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
         lblTotalMoney = new javax.swing.JLabel();
-        lblNameCutomer = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         lblQuantity = new javax.swing.JLabel();
 
@@ -129,10 +127,6 @@ public class HoaDonView extends javax.swing.JFrame {
         lblTotal.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTotal.setText("1.001.000.000");
-
-        jLabel4.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel4.setText("Khách hàng:");
 
         jLabel16.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(51, 51, 51));
@@ -199,9 +193,6 @@ public class HoaDonView extends javax.swing.JFrame {
         lblTotalMoney.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTotalMoney.setText("1.000.000.000");
 
-        lblNameCutomer.setFont(new java.awt.Font("UTM Aptima", 0, 14)); // NOI18N
-        lblNameCutomer.setText("Phạm Nhứt Khang");
-
         jLabel5.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(51, 51, 51));
         jLabel5.setText("Tổng số lượng:");
@@ -266,11 +257,6 @@ public class HoaDonView extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(lblNameStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(gradientPanel1Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(7, 7, 7)
-                        .addComponent(lblNameCutomer, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(gradientPanel1Layout.createSequentialGroup()
                         .addGap(77, 77, 77)
                         .addComponent(buttonRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -296,14 +282,7 @@ public class HoaDonView extends javax.swing.JFrame {
                 .addGroup(gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
                     .addComponent(lblNameStaff))
-                .addGroup(gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(gradientPanel1Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(jLabel4))
-                    .addGroup(gradientPanel1Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(lblNameCutomer, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(19, 19, 19)
+                .addGap(71, 71, 71)
                 .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addGroup(gradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -417,13 +396,11 @@ public class HoaDonView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel lblDiscount;
     private javax.swing.JLabel lblId;
-    private javax.swing.JLabel lblNameCutomer;
     private javax.swing.JLabel lblNameStaff;
     private javax.swing.JLabel lblQuantity;
     private javax.swing.JLabel lblRedundant;
@@ -478,7 +455,7 @@ public class HoaDonView extends javax.swing.JFrame {
         int nextId = HoaDonDao.getInstant().getNextId();
 
         lblId.setText(nextId + "");
-        lblTimeNow.setText(XDate.toString(XDate.now(), Store.partten));
+        lblTimeNow.setText(XDate.toString(XDate.now(), "dd/mm/yyyy HH:mm:ss"));
         lblQuantity.setText(Store.globelPanelBill.getQuantityBill() + "");
         lblNameStaff.setText(Auth.user.getTenNV());
 
@@ -507,7 +484,7 @@ public class HoaDonView extends javax.swing.JFrame {
 
     private void createBill() {
         //tao hoa don
-        HoaDon hd = new HoaDon(XDate.now(), lblNameCutomer.getText(), Auth.user.getMaNV(), "", finalTotal, km == null ? null : km.getMaKM());
+        HoaDon hd = new HoaDon(XDate.now(), "", Auth.user.getMaNV(), "", finalTotal, km == null ? null : km.getMaKM());
         maHd = HoaDonDao.getInstant().inserts(hd);
 
         //tao hoa don chi tiet
@@ -537,12 +514,12 @@ public class HoaDonView extends javax.swing.JFrame {
                     ModelItem newData = data;
                     newData.getLoaiBox().setGiaLoai(0);
 
-                    PhieuDatBoxDao.getInstant().insertProc(maHd, newData, lblNameCutomer.getText());
+                    PhieuDatBoxDao.getInstant().insertProc(maHd, newData, "");
                 }
 
             } else if (data.getLoaiBox() != null) {
                 //Tao phieu dat box
-                PhieuDatBoxDao.getInstant().insertProc(maHd, item.getData(), lblNameCutomer.getText());
+                PhieuDatBoxDao.getInstant().insertProc(maHd, item.getData(), "");
 
             } else {
                 //Tao hoa don chi tiet
@@ -562,17 +539,17 @@ public class HoaDonView extends javax.swing.JFrame {
             long money = Long.parseLong(txtMoney.getText());
 
             if (Validator.isEmpty(txtMoney)) {
-                mess = "Chưa có tiền khách trả >.<";
+                mess = "Chưa có tiền khách trả  ";
                 flag = false;
             }
 
             if (money - finalTotal < 0) {
-                mess = "Tiền không đủ >.<";
+                mess = "Tiền không đủ  ";
                 flag = false;
             }
 
         } catch (Exception e) {
-            mess = "Tiền không hợp lệ >.<";
+            mess = "Tiền không hợp lệ  ";
             flag = false;
         }
 

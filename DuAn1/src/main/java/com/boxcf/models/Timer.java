@@ -59,7 +59,6 @@ public class Timer {
                     Time t = XDate.toTime(XDate.toString(data.getGioKT(), "MM/dd/yyyy HH:mm:ss"));
 
                     if (XDate.now().after(box.getData().getGioKT())) {
-                        System.out.println("in here...");
                         PhieuDatBoxDao.getInstant().updateProc(box.getData(), BoxState.empty.toString(), box.getData().getGioKT());
                         MsgBox.alert(Store.orderView, box.getData().getTen() + " đã hết thời gian !");
                         box.clearSelected();

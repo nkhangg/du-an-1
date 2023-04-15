@@ -280,7 +280,7 @@ public class ThongTinKM extends javax.swing.JFrame {
         lblMaNV7.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV7.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblMaNV7.setForeground(new java.awt.Color(27, 51, 61));
-        lblMaNV7.setText("Mức giảm");
+        lblMaNV7.setText("ĐK giảm");
         pnlNhanVien.add(lblMaNV7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 430, 100, 20));
 
         cboLevel.setFont(new java.awt.Font("UTM Aptima", 0, 14)); // NOI18N

@@ -164,6 +164,7 @@ public class OrderView extends javax.swing.JFrame {
         jPanel1.add(lblFinalTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 710, 280, -1));
 
         cboDiscount.setForeground(new java.awt.Color(16, 108, 130));
+        cboDiscount.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
         cboDiscount.setFocusable(false);
         cboDiscount.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         cboDiscount.addActionListener(new java.awt.event.ActionListener() {
@@ -245,6 +246,7 @@ public class OrderView extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Loại");
 

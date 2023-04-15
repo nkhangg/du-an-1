@@ -13,6 +13,7 @@ import com.boxcf.dao.NhanVienDao;
 import com.boxcf.dao.PhieuDatBoxDao;
 import com.boxcf.models.HoaDon;
 import com.boxcf.models.PhieuDatBox;
+import com.boxcf.models.Time;
 import com.boxcf.store.Store;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.Color;
@@ -470,7 +471,7 @@ public class HoaDonNhanBox extends javax.swing.JFrame {
     private void showInfo() {
         HoaDon hd = HoaDonDao.getInstant().selectById(data.getMaHD());
         lblId.setText(data.getMaHD() + "");
-        lblTimeNow.setText(XDate.toString(hd.getNgayTao(), Store.partten));
+        lblTimeNow.setText(XDate.toString(hd.getNgayTao(), "dd/mm/yyyy HH:mm:ss"));
         lblNameStaff.setText(NhanVienDao.getInstant().selectById(hd.getMaNV()).getTenNV());
         lblNameCutomer.setText(data.getTenKH());
 
@@ -512,17 +513,17 @@ public class HoaDonNhanBox extends javax.swing.JFrame {
             long money = Long.parseLong(txtMoney.getText());
 
             if (Validator.isEmpty(txtMoney)) {
-                mess = "Chưa có tiền khách trả >.<";
+                mess = "Chưa có tiền khách trả  ";
                 flag = false;
             }
 
             if (money - finalTotal < 0) {
-                mess = "Tiền không đủ >.<";
+                mess = "Tiền không đủ  ";
                 flag = false;
             }
 
         } catch (Exception e) {
-            mess = "Tiền không hợp lệ >.<";
+            mess = "Tiền không hợp lệ  ";
             flag = false;
         }
 
@@ -552,9 +553,14 @@ public class HoaDonNhanBox extends javax.swing.JFrame {
         if (XDate.now().after(data.getGioBD())) {
             btnCreateBill.setEnabled(true);
             btnCreateBill.setBackground(Color.decode("#6DBFB8"));
+            btnCreateBill.setText("IN HÓA ĐƠN");
+
         } else {
             btnCreateBill.setEnabled(false);
             btnCreateBill.setBackground(Color.decode("#e6ddce"));
+            Time t = XDate.toTime(XDate.toString(data.getGioBD(), "MM/dd/yyyy HH:mm:ss"));
+            btnCreateBill.setText("Còn " + t.getHour() + " giờ " + t.getMinute() + " phút");
+
         }
 
     }
@@ -562,9 +568,15 @@ public class HoaDonNhanBox extends javax.swing.JFrame {
     private void cancelBox() {
         PhieuDatBoxDao pdbd = PhieuDatBoxDao.getInstant();
 
+        boolean check = MsgBox.confirm(this, "Điều này sẽ làm hủy bỏ đặt trước !");
+
+        if (!check) {
+            return;
+        }
+
         pdbd.cancelBox(data);
         MsgBox.alert(this, "Hủy thành công !");
-//        //fill lai box
+        //fill lai box
         Store.orderView.initBoxData(BoxDao.getInstance().panigation(Panigation.current));
         Store.dbView.dispose();
         this.dispose();

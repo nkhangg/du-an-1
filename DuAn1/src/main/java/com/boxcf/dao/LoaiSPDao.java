@@ -37,7 +37,6 @@ public class LoaiSPDao implements BoxCfDAO<LoaiSP, String> {
                 throw new Error("The Error in delete LoaiSP !");
             }
         } catch (Exception e) {
-            System.out.println(e);
             throw new Error("The Error in delete LoaiSP !");
         }
 

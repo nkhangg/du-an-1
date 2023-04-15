@@ -144,12 +144,12 @@ public class DangNhapView extends javax.swing.JFrame {
         String mess = "";
         
         if (Validator.isEmpty(txtUsername)) {
-            mess += "Bạn chưa nhập username 🙂 🙂 🙂 \n";
+            mess += "Bạn chưa nhập username \n";
             flag = false;
         }
         
         if (Validator.isEmpty(txtPassword)) {
-            mess += "Bạn chưa nhập password 🙂 🙂 🙂 \n";
+            mess += "Bạn chưa nhập password \n";
             flag = false;
         }
         

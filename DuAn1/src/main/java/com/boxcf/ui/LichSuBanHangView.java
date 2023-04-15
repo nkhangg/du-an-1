@@ -4,6 +4,7 @@
  */
 package com.boxcf.ui;
 
+import com.box.utils.Formats;
 import com.box.utils.UI;
 import com.box.utils.XDate;
 import com.boxcf.components.ScrollBar;
@@ -305,7 +306,7 @@ public class LichSuBanHangView extends javax.swing.JFrame {
                 XDate.toString(ls.getNgayTao(), "dd/MM/yyyy"),
                 ls.getTenKH(),
                 ls.getTenNV(),
-                ls.getTONGTIEN(),
+                Formats.toCurency(ls.getTONGTIEN()),
                 ls.getMaKM()};
             modelTable.addRow(row);
             i++;
