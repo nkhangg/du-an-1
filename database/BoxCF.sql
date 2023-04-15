@@ -57,11 +57,14 @@ CREATE TABLE Combo(
 	TenCB NVARCHAR(50) NOT NULL,
 	Gia FLOAT,	
 	MaLoaiBox VARCHAR(10) REFERENCES LoaiBox(MaLoaiBox) ON DELETE CASCADE,
+	SoLuong int,
 	SoLuong_DoUong INT,
 	SoLuong_Mon INT,
 	MoTa NVARCHAR(100),
 )
 
+
+select * from Combo
 
 GO
 
