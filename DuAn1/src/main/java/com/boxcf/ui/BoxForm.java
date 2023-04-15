@@ -30,21 +30,21 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 public class BoxForm extends javax.swing.JFrame implements ActionListener {
-    
+
     String maBox;
     public static int i = -1;
     List<Box> list = BoxDao.getInstance().selectAll();
-    
+
     public BoxForm() {
         initComponents();
         init();
     }
-    
+
     public BoxForm(Box box) {
         initComponents();
         init();
     }
-    
+
     @SuppressWarnings(value = "unchecked")
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -68,7 +68,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         btnPre = new com.boxcf.components.ButtonRound();
         btnFirst = new com.boxcf.components.ButtonRound();
         btnAdd = new com.boxcf.components.ButtonRound();
-        btnCapNhatSP = new com.boxcf.components.ButtonRound();
+        btnRefresh = new com.boxcf.components.ButtonRound();
         btnUpdate = new com.boxcf.components.ButtonRound();
         lblHinhAnh = new javax.swing.JLabel();
 
@@ -207,17 +207,17 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         });
         pnlBox.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 590, 96, 40));
 
-        btnCapNhatSP.setBackground(new java.awt.Color(2, 172, 171));
-        btnCapNhatSP.setForeground(new java.awt.Color(255, 255, 255));
-        btnCapNhatSP.setText("MỚI");
-        btnCapNhatSP.setFocusable(false);
-        btnCapNhatSP.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
-        btnCapNhatSP.addActionListener(new java.awt.event.ActionListener() {
+        btnRefresh.setBackground(new java.awt.Color(2, 172, 171));
+        btnRefresh.setForeground(new java.awt.Color(255, 255, 255));
+        btnRefresh.setText("MỚI");
+        btnRefresh.setFocusable(false);
+        btnRefresh.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCapNhatSPActionPerformed(evt);
+                btnRefreshActionPerformed(evt);
             }
         });
-        pnlBox.add(btnCapNhatSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 590, 96, 40));
+        pnlBox.add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 590, 96, 40));
 
         btnUpdate.setBackground(new java.awt.Color(2, 172, 171));
         btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
@@ -287,9 +287,9 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         this.control(evt.getActionCommand());
     }//GEN-LAST:event_btnFirstActionPerformed
 
-    private void btnCapNhatSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatSPActionPerformed
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         this.clear();
-    }//GEN-LAST:event_btnCapNhatSPActionPerformed
+    }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         if (!Auth.accept(this)) {
@@ -317,12 +317,12 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.boxcf.components.ButtonRound btnAdd;
-    private com.boxcf.components.ButtonRound btnCapNhatSP;
     private com.boxcf.components.ButtonRound btnClose;
     private com.boxcf.components.ButtonRound btnFirst;
     private com.boxcf.components.ButtonRound btnLast;
     private com.boxcf.components.ButtonRound btnNext;
     private com.boxcf.components.ButtonRound btnPre;
+    private com.boxcf.components.ButtonRound btnRefresh;
     private com.boxcf.components.ButtonRound btnUpdate;
     private com.boxcf.components.Combobox cboLoaiBox;
     private com.boxcf.components.GradientPanel gradientPanel1;
@@ -343,9 +343,9 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         this.prepareUI();
         this.fillComboBox();
         this.updateStatus();
-        UI.accept(btnAdd, btnCapNhatSP, btnUpdate);
+        UI.accept(btnAdd, btnRefresh, btnUpdate);
     }
-    
+
     private void prepareUI() {
         Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
         this.setShape(shape);
@@ -353,29 +353,29 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         UI.changeTransBG(new Color(0, 0, 0, 0), txtMaBox, txtTenBox);
         cboLoaiBox.addActionListener(this);
         txtMaBox.setEditable(false);
-        btnCapNhatSP.setVisible(false);
+//        btnRefresh.setVisible(false);
     }
-    
+
     private void exit() {
         this.dispose();
     }
-    
+
     public void fillComboBox() {
         DefaultComboBoxModel cbo = (DefaultComboBoxModel) cboLoaiBox.getModel();
         cbo.removeAllElements();
-        
+
         List<LoaiBox> list = LoaiBoxDao.getInstance().selectAll();
         for (LoaiBox loaiBox : list) {
             cbo.addElement(loaiBox);
         }
     }
-    
+
     public void setForm(Box box) {
         cboLoaiBox.setSelectedItem(LoaiBoxDao.getInstance().selectById(box.getMaLoaiBox()));
         txtMaBox.setText(box.getMaBox());
         txtTenBox.setText(box.getTenBox());
         txtMoTa.setText(box.getMoTa());
-        
+
         String url = box.getHinhAnh();
         if (url != null) {
             lblHinhAnh.setToolTipText(url);
@@ -387,7 +387,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
             lblHinhAnh.setIcon(null);
         }
     }
-    
+
     private Box getForm() {
         Box box = new Box();
         LoaiBox loaiBox = (LoaiBox) cboLoaiBox.getSelectedItem();
@@ -396,25 +396,25 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         box.setTenBox(txtTenBox.getText());
         box.setHinhAnh(lblHinhAnh.getToolTipText());
         box.setMoTa(txtMoTa.getText());
-        
+
         return box;
     }
-    
+
     public boolean validation() {
         String tenBox = txtTenBox.getText();
         if (tenBox.isEmpty()) {
             MsgBox.alert(this, "Bạn chưa nhập tên box!");
             return false;
         }
-        
+
         if (lblHinhAnh.getToolTipText() == null || lblHinhAnh.getToolTipText().equals("")) {
             MsgBox.alert(this, "Bạn chưa chọn ảnh cho Box!");
             return false;
         }
-        
+
         return true;
     }
-    
+
     private void insert() {
         if (validation()) {
             BoxDao.getInstance().insert(getForm());
@@ -424,30 +424,31 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
             this.dispose();
         }
     }
-    
+
     private void clear() {
         this.setNextId();
-        
+
         txtTenBox.setText("");
         txtMoTa.setText("");
         lblHinhAnh.setToolTipText("");
         lblHinhAnh.setIcon(null);
-        
+
         i = -1;
+        cboLoaiBox.setEnabled(true);
         updateStatus();
     }
-    
+
     private void updateStatus() {
-        
+
         boolean edit = i >= 0;
         boolean first = i > 0;
         boolean last = i < list.size() - 1;
-        
+
         btnUpdate.setEnabled(edit);
         btnUpdate.setBackground(edit ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnAdd.setEnabled(!edit);
         btnAdd.setBackground(!edit ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
-        
+
         btnFirst.setEnabled(edit && first);
         btnFirst.setBackground(edit && first ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnPre.setEnabled(edit && first);
@@ -456,9 +457,9 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         btnLast.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnNext.setEnabled(edit && last);
         btnNext.setBackground(edit && last ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
-        
+
     }
-    
+
     private void control(String btn) {
         switch (btn) {
             case "|<":
@@ -482,15 +483,15 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         }
         this.setForm(list.get(i));
         this.updateStatus();
-        UI.accept(btnAdd, btnCapNhatSP, btnUpdate);
-        
+        UI.accept(btnAdd, btnRefresh, btnUpdate);
+
     }
-    
+
     private void chooseImage() {
         JFileChooser chooser = new JFileChooser();
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
-            
+
             XImage.save(file);
             ImageIcon icon = XImage.read(file.getName());
             Image img = XImage.resize(icon.getImage(), lblHinhAnh.getWidth(), lblHinhAnh.getHeight());
@@ -499,18 +500,19 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
             lblHinhAnh.setToolTipText(file.getName());
         }
     }
-    
+
     private void update() {
-        if (MsgBox.confirm(this, "Bạn có chắc muốn cập nhật dữ liệu này?")) {
-            Box box = getForm();
-//            box.setMaBox(maBox);
-            BoxDao.getInstance().update(box);
-            MsgBox.alert(this, "Cập nhật thành công!");
-            clear();
-            this.dispose();
+        if (validation()) {
+            if (MsgBox.confirm(this, "Bạn có chắc muốn cập nhật dữ liệu này?")) {
+                Box box = getForm();
+                BoxDao.getInstance().update(box);
+                MsgBox.alert(this, "Cập nhật thành công!");
+                clear();
+                this.dispose();
+            }
         }
     }
-    
+
     public String getNextId(String maxId, String maLoaiBox) {
         if (maxId.length() < 4) {
             return " ";
@@ -519,7 +521,7 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         String middle = maxId.substring(1, 4);
         Integer number = Integer.parseInt(middle);
         Integer log = number / 10;
-        
+
         if (log == 0) {
             maxId = first + "00" + ++number + maLoaiBox;
         } else if (log > 10) {
@@ -527,42 +529,42 @@ public class BoxForm extends javax.swing.JFrame implements ActionListener {
         } else if (log > 0) {
             maxId = first + "0" + ++number + maLoaiBox;
         }
-        
+
         return maxId;
     }
-    
+
     private void setNextId() {
         String maxId;
-        
+
         try {
             maxId = BoxDao.getInstance().getMaxId();
         } catch (SQLException e) {
             throw new RuntimeException();
         }
-        
+
         LoaiBox loaiBox = (LoaiBox) cboLoaiBox.getSelectedItem();
         txtMaBox.setText(getNextId(maxId, loaiBox.getMaLoaiBox()));
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
         this.setNextId();
     }
-    
+
     public ButtonRound getBtnCapNhatSP() {
-        return btnCapNhatSP;
+        return btnRefresh;
     }
-    
+
     public void setBtnCapNhatSP(ButtonRound btnCapNhatSP) {
-        this.btnCapNhatSP = btnCapNhatSP;
+        this.btnRefresh = btnCapNhatSP;
     }
-    
+
     public Combobox getCboLoaiBox() {
         return cboLoaiBox;
     }
-    
+
     public void setCboLoaiBox(Combobox cboLoaiBox) {
         this.cboLoaiBox = cboLoaiBox;
     }
-    
+
 }

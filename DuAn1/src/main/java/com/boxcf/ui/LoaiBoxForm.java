@@ -6,6 +6,7 @@ package com.boxcf.ui;
 
 import com.box.utils.MsgBox;
 import com.box.utils.UI;
+import com.boxcf.components.TextField;
 import com.boxcf.dao.LoaiBoxDao;
 import com.boxcf.models.LoaiBox;
 import com.boxcf.store.Store;
@@ -95,6 +96,7 @@ public class LoaiBoxForm extends javax.swing.JFrame {
         lblMaNV8.setText(" Mã loại");
         pnlBox.add(lblMaNV8, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, 90, -1));
 
+        txtMaLoai.setEnabled(false);
         txtMaLoai.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtMaLoai.setLabelText("");
         txtMaLoai.setOpaque(false);
@@ -262,7 +264,6 @@ public class LoaiBoxForm extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         this.insert();
-        Store.boxView.fillTableLoaiBox(LoaiBoxDao.getInstance().selectAll());
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
@@ -270,8 +271,7 @@ public class LoaiBoxForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-//        this.update();
-//        Store.loaiBoxView.fillTable(BoxDao.getInstance().selectAll());
+        this.update();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
 
@@ -314,7 +314,6 @@ public class LoaiBoxForm extends javax.swing.JFrame {
         this.dispose();
     }
 
-
     public void setForm(LoaiBox loaiBox) {
         txtMaLoai.setText(loaiBox.getMaLoaiBox());
         txtTenLoai.setText(loaiBox.getTenLoaiBox());
@@ -324,7 +323,7 @@ public class LoaiBoxForm extends javax.swing.JFrame {
 
     private LoaiBox getForm() {
         LoaiBox loaiBox = new LoaiBox();
-        
+
         loaiBox.setMaLoaiBox(txtMaLoai.getText());
         loaiBox.setTenLoaiBox(txtTenLoai.getText());
         loaiBox.setGiaLoai(Long.parseLong(txtGia.getText()));
@@ -332,30 +331,35 @@ public class LoaiBoxForm extends javax.swing.JFrame {
 
         return loaiBox;
     }
-    
+
     public boolean validation() {
         String maLoai = txtMaLoai.getText();
         String tenLoai = txtTenLoai.getText();
         String giaLoai = txtGia.getText();
         String message = "Bạn chưa nhập ";
         boolean valid = true;
-        
+
         if (maLoai.isEmpty()) {
             message += "Mã loại, ";
             valid = false;
+        } else {
+            if (maLoai.length() > 10) {
+                MsgBox.alert(this, "Mã loại phải ít hơn 10 ký tự");
+                return false;
+            }
         }
 
         if (tenLoai.isEmpty()) {
             message += "Tên loại, ";
             valid = false;
         }
-        
+
         if (giaLoai.isEmpty()) {
             message += "Giá, ";
             valid = false;
-        }else {
+        } else {
             try {
-                if(Long.parseLong(giaLoai) <= 0) {
+                if (Long.parseLong(giaLoai) <= 0) {
                     MsgBox.alert(this, "Giá phải > 0");
                     return false;
                 }
@@ -368,19 +372,20 @@ public class LoaiBoxForm extends javax.swing.JFrame {
         if (!valid) {
             MsgBox.alert(this, message);
         }
-        
+
         return valid;
     }
 
     private void insert() {
         if (validation()) {
-            if(LoaiBoxDao.getInstance().selectById(txtMaLoai.getText()) != null) {
+            if (LoaiBoxDao.getInstance().selectById(txtMaLoai.getText()) != null) {
                 MsgBox.alert(this, "Mã đã tồn tại, vui lòng kiểm tra lại!");
                 return;
             }
-            
+
             LoaiBoxDao.getInstance().insert(getForm());
             MsgBox.alert(this, "Thêm thành công!");
+            Store.boxView.fillTableLoaiBox(LoaiBoxDao.getInstance().selectAll());
             clear();
         }
     }
@@ -391,6 +396,7 @@ public class LoaiBoxForm extends javax.swing.JFrame {
 
         i = -1;
         updateStatus();
+        txtMaLoai.setEnabled(true);
     }
 
     private void updateStatus() {
@@ -438,16 +444,18 @@ public class LoaiBoxForm extends javax.swing.JFrame {
         this.updateStatus();
     }
 
-
-//    private void update() {
-//        if (MsgBox.confirm(this, "Bạn có chắc muốn cập nhật dữ liệu này?")) {
-//            Box loaiBox = getForm();
-//            loaiBox.setMaBox(maBox);
-//            BoxDao.getInstance().update(loaiBox);
-//            MsgBox.alert(this, "Cập nhật thành công!");
-//            clear();
-//        }
-//    }
+    private void update() {
+        if (validation()) {
+            if (MsgBox.confirm(this, "Bạn có chắc muốn cập nhật dữ liệu này?")) {
+            LoaiBox loaiBox = getForm();
+            LoaiBoxDao.getInstance().update(loaiBox);
+            MsgBox.alert(this, "Cập nhật thành công!");
+            Store.boxView.fillTableLoaiBox(LoaiBoxDao.getInstance().selectAll());
+            clear();
+            this.dispose();
+            }
+        }
+    }
 //
 //    public String getNextId(String maxId, String maLoaiBox) {
 //        String first = maxId.substring(0, 1);
@@ -484,4 +492,12 @@ public class LoaiBoxForm extends javax.swing.JFrame {
 //    public void actionPerformed(ActionEvent e) {
 //        this.setNextId();
 //    }
+
+    public TextField getTxtMaLoai() {
+        return txtMaLoai;
+    }
+
+    public void setTxtMaLoai(TextField txtMaLoai) {
+        this.txtMaLoai = txtMaLoai;
+    }
 }

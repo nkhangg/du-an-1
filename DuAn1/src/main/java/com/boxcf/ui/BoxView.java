@@ -517,6 +517,7 @@ public class BoxView extends javax.swing.JPanel implements ActionListener {
 
     private void openLoaiBoxForm() {
         LoaiBoxForm form = new LoaiBoxForm();
+        form.getTxtMaLoai().setEnabled(true);
         form.setVisible(true);
     }
 

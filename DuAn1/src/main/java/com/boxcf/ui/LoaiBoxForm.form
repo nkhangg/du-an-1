@@ -169,6 +169,7 @@
             </Component>
             <Component class="com.boxcf.components.TextField" name="txtMaLoai">
               <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="16" style="0"/>
                 </Property>

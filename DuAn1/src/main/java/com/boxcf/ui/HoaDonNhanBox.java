@@ -8,7 +8,6 @@ import com.boxcf.components.ScrollBar;
 import com.boxcf.components.material.Panigation;
 import com.boxcf.dao.BoxDao;
 import com.boxcf.dao.HoaDonDao;
-import com.boxcf.dao.LoaiBoxDao;
 import com.boxcf.dao.NhanVienDao;
 import com.boxcf.dao.PhieuDatBoxDao;
 import com.boxcf.models.HoaDon;
@@ -19,7 +18,6 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 public class HoaDonNhanBox extends javax.swing.JFrame {
@@ -568,7 +566,7 @@ public class HoaDonNhanBox extends javax.swing.JFrame {
     private void cancelBox() {
         PhieuDatBoxDao pdbd = PhieuDatBoxDao.getInstant();
 
-        boolean check = MsgBox.confirm(this, "Điều này sẽ làm hủy bỏ đặt trước !");
+        boolean check = MsgBox.confirm(this, "Bạn muốn hủy ?");
 
         if (!check) {
             return;

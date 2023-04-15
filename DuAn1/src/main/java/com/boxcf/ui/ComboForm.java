@@ -64,7 +64,7 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
         btnPre = new com.boxcf.components.ButtonRound();
         btnFirst = new com.boxcf.components.ButtonRound();
         btnAdd = new com.boxcf.components.ButtonRound();
-        btnCapNhatSP = new com.boxcf.components.ButtonRound();
+        btnRefrest = new com.boxcf.components.ButtonRound();
         btnUpdate = new com.boxcf.components.ButtonRound();
         lblMaNV2 = new javax.swing.JLabel();
         txtGiaCombo = new com.boxcf.components.TextField();
@@ -207,17 +207,17 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
         });
         pnlBox.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 590, 96, 40));
 
-        btnCapNhatSP.setBackground(new java.awt.Color(2, 172, 171));
-        btnCapNhatSP.setForeground(new java.awt.Color(255, 255, 255));
-        btnCapNhatSP.setText("MỚI");
-        btnCapNhatSP.setFocusable(false);
-        btnCapNhatSP.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
-        btnCapNhatSP.addActionListener(new java.awt.event.ActionListener() {
+        btnRefrest.setBackground(new java.awt.Color(2, 172, 171));
+        btnRefrest.setForeground(new java.awt.Color(255, 255, 255));
+        btnRefrest.setText("MỚI");
+        btnRefrest.setFocusable(false);
+        btnRefrest.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
+        btnRefrest.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCapNhatSPActionPerformed(evt);
+                btnRefrestActionPerformed(evt);
             }
         });
-        pnlBox.add(btnCapNhatSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 590, 96, 40));
+        pnlBox.add(btnRefrest, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 590, 96, 40));
 
         btnUpdate.setBackground(new java.awt.Color(2, 172, 171));
         btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
@@ -317,10 +317,10 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
         this.control(evt.getActionCommand());
     }//GEN-LAST:event_btnFirstActionPerformed
 
-    private void btnCapNhatSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatSPActionPerformed
+    private void btnRefrestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefrestActionPerformed
         this.clear();
         this.setNextId();
-    }//GEN-LAST:event_btnCapNhatSPActionPerformed
+    }//GEN-LAST:event_btnRefrestActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         this.insert();
@@ -338,12 +338,12 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.boxcf.components.ButtonRound btnAdd;
-    private com.boxcf.components.ButtonRound btnCapNhatSP;
     private com.boxcf.components.ButtonRound btnClose;
     private com.boxcf.components.ButtonRound btnFirst;
     private com.boxcf.components.ButtonRound btnLast;
     private com.boxcf.components.ButtonRound btnNext;
     private com.boxcf.components.ButtonRound btnPre;
+    private com.boxcf.components.ButtonRound btnRefrest;
     private com.boxcf.components.ButtonRound btnUpdate;
     private com.boxcf.components.Combobox cboLoaiBox;
     private com.boxcf.components.GradientPanel gradientPanel1;
@@ -379,7 +379,7 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
         UI.changeTransBG(new Color(0, 0, 0, 0), txtMaCombo, txtTenCombo, txtGiaCombo, txtSLDoAn, txtSLDoUong);
         txtMaCombo.setEditable(false);
         
-        btnCapNhatSP.setVisible(false);
+        btnRefrest.setVisible(false);
     }
     
     private void exit() {
@@ -624,11 +624,11 @@ public class ComboForm extends javax.swing.JFrame implements ActionListener {
     }
     
     public ButtonRound getBtnCapNhatSP() {
-        return btnCapNhatSP;
+        return btnRefrest;
     }
     
     public void setBtnCapNhatSP(ButtonRound btnCapNhatSP) {
-        this.btnCapNhatSP = btnCapNhatSP;
+        this.btnRefrest = btnCapNhatSP;
     }
     
 }

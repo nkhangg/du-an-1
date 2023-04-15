@@ -104,7 +104,7 @@ public class DatBoxView extends javax.swing.JFrame {
         gradientPanel2.setColor1(new java.awt.Color(255, 255, 255));
         gradientPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tblDatTruoc.setFont(new java.awt.Font("UTM BryantLG", 0, 12)); // NOI18N
+        tblDatTruoc.setFont(new java.awt.Font("UTM BryantLG", 1, 12)); // NOI18N
         tblDatTruoc.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -172,6 +172,7 @@ public class DatBoxView extends javax.swing.JFrame {
         pnlDatBox.add(txtKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 23, 480, 40));
 
         txtTraTruoc.setEditable(false);
+        txtTraTruoc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtTraTruoc.setLabelText("");
         txtTraTruoc.setOpaque(false);
         pnlDatBox.add(txtTraTruoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 220, 160, 33));
@@ -478,6 +479,22 @@ public class DatBoxView extends javax.swing.JFrame {
             return;
         }
 
+        List<PhieuDatBox> list = PhieuDatBoxDao.getInstant().getBookedListProc(this.box.getMaItem().toString());
+
+        if (!list.isEmpty()) {
+            PhieuDatBox pd = list.get(0);
+
+            Date gBd = XDate.getHour(lblGioBd.getText());
+            Date gKt = XDate.getHour(lblGioKT.getText());
+
+            if (gBd.after(pd.getGioBD()) || gKt.before(pd.getGioKT())) {
+                MsgBox.alert(this, "Thời gian đã đc đặt trước !");
+                isBooked = true;
+                setState(isBooked);
+                return;
+            }
+        }
+
         for (Component component : panelBill.getComponents()) {
             ItemBill itemBill = (ItemBill) component;
             if (itemBill.getData().getMaItem() == data.getMaItem()) {
@@ -663,13 +680,14 @@ public class DatBoxView extends javax.swing.JFrame {
         int hour = Integer.parseInt(cboHour.getSelectedItem().toString());
         int minus = Integer.parseInt(cboMinus.getSelectedItem().toString());
 
+        //gio bd
         Date curentTime = XDate.getHour(hour + ":" + minus + ":00");
         Date timeEnd = XDate.getHour(lblGioKT.getText());
 
         for (int i = 0; i < list.size(); i++) {
 
             if (curentTime.before(XDate.now())) {
-                mess += "Thời gian không phù hợp ! \n";
+                mess += "Thời gian không phù hợp 1 ! \n";
                 flag = false;
                 break;
             }
@@ -680,8 +698,14 @@ public class DatBoxView extends javax.swing.JFrame {
                 break;
             }
 
+            if (curentTime.equals(list.get(i).getGioBD()) && timeEnd.equals(list.get(i).getGioKT())) {
+                mess += "Thời gian đã được đặt trước 2 ! \n";
+                flag = false;
+                break;
+            }
+
             if (curentTime.after(list.get(i).getGioBD()) && curentTime.before(list.get(i).getGioKT())) {
-                mess += "Thời gian đã được đặt trước ! \n";
+                mess += "Thời gian đã được đặt trước 3 ! \n";
                 flag = false;
                 break;
             }
@@ -702,30 +726,35 @@ public class DatBoxView extends javax.swing.JFrame {
 
             if (nextPd.getGioBD().getTime() - list.get(i).getGioKT().getTime() >= 3600000) {
 
+                System.out.println("in: " + i);
+
                 if (timeEnd.after(nextPd.getGioBD())) {
-                    mess += "Thời gian đã được đặt trước ! \n";
+                    mess += "Thời gian đã được đặt trước 4 ! \n";
                     flag = false;
                     break;
                 }
 
                 if (curentTime.after(nextPd.getGioBD())) {
-                    System.out.println("next time: " + (nextPd.getGioBD()));
                     if (nextPd.getGioBD().getTime() - curentTime.getTime() < 3600000) {
-
-                        mess += "Thời gian đã được đặt trước ! 2 \n";
+                        mess += "Thời gian đã được đặt trước 5 !  \n";
                         flag = false;
                         break;
                     }
 
                     if (timeEnd.after(nextPd.getGioBD())) {
-                        mess += "Thời gian đã được đặt trước ! 3 \n";
+                        mess += "Thời gian đã được đặt trước 6 !  \n";
                         flag = false;
                         break;
                     }
                 }
 
+            } else {
+                if (curentTime.after(list.get(i).getGioKT()) && curentTime.before(nextPd.getGioBD())) {
+                    mess += "Thời gian đã được đặt trước !!!!!  \n";
+                    flag = false;
+                    break;
+                }
             }
-
         }
 
         if (Validator.isEmpty(txtKhachHang)) {
@@ -797,6 +826,7 @@ public class DatBoxView extends javax.swing.JFrame {
 
         if (this.box.getTrangThai() == BoxState.active) {
             minus = Integer.parseInt(XDate.toString(this.box.getGioKT(), "mm"));
+
         }
 
         if (hourCbo == 22) {
