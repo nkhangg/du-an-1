@@ -141,6 +141,9 @@ public class ThongTinDM extends javax.swing.JFrame {
         if (!validateForm()) {
             return;
         }
+        if (!confirmUpdate()) {
+            return;
+        }
         try {
             dmDAO.update(getModel());
             spview.fillToTableDanhMuc();
@@ -182,8 +185,19 @@ public class ThongTinDM extends javax.swing.JFrame {
         StringBuilder sb = new StringBuilder();
         sb.append(txtMaDM.getText().isEmpty() ? "Mã danh mục không thể trống!" : "");
         sb.append(txtTenDM.getText().isEmpty() ? "\nTên danh mục không thể trống!" : "");
+
+        sb.append(txtMaDM.getText().length() > 7 ? "\nMã danh mục không quá 7 kí tự!" : "");
+
         if (sb.length() > 0) {
             JOptionPane.showMessageDialog(this, sb);
+            return false;
+        }
+        return true;
+    }
+
+    boolean confirmUpdate() {
+        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có muốn câp nhật dữ liệu này ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.NO_OPTION) {
             return false;
         }
         return true;

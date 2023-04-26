@@ -56,13 +56,13 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
     private void prepareUI() {
         Shape shape = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
         this.setShape(shape);
-        UI.changeTransBG(new Color(0, 0, 0, 0), txtMaLSP, txtTenLSP);
+        UI.changeTransBG(new Color(0, 0, 0, 0), txtMaLoaiSP, txtTenLSP);
 
     }
 
     void fillComboBox() {
         for (DanhMuc dm : dmDAO.selectAll()) {
-            cboDanhMuc.addItem(dm.getTenDM());
+            txtMaDM.addItem(dm.getTenDM());
         }
     }
 
@@ -84,7 +84,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         boolean edit = this.index >= 0;
         boolean first = this.index > 0;
         boolean last = this.index < list.size() - 1;
-        txtMaLSP.setEditable(!edit);
+        txtMaLoaiSP.setEditable(!edit);
         btnCapNhat.setEnabled(edit);
         btnCapNhat.setBackground(edit ? Color.decode("#02ACAB") : Color.decode("#e6ddce"));
         btnThem.setEnabled(!edit);
@@ -117,17 +117,17 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
 
         DanhMuc dm = dmDAO.selectById(lsp.getMaDM());
 
-        txtMaLSP.setText("" + lsp.getMaLoai());
+        txtMaLoaiSP.setText("" + lsp.getMaLoai());
         txtTenLSP.setText("" + lsp.getTenLoai());
 
-        cboDanhMuc.setSelectedItem(dm.getTenDM());
+        txtMaDM.setSelectedItem(dm.getTenDM());
 
     }
 
     LoaiSP getModel() {
         LoaiSP lsp = new LoaiSP();
-        DanhMuc dm = dmDAO.selectByName((String) cboDanhMuc.getSelectedItem());
-        lsp.setMaLoai(txtMaLSP.getText());
+        DanhMuc dm = dmDAO.selectByName((String) txtMaDM.getSelectedItem());
+        lsp.setMaLoai(txtMaLoaiSP.getText());
         lsp.setTenLoai(txtTenLSP.getText());
         lsp.setMaDM(dm.getMaDM());
         return lsp;
@@ -158,6 +158,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         if (!validateForm()) {
             return;
         }
+        if(!confirmUpdate()) return;
         try {
             lspDAO.update(getModel());
             spview.fillToTableLoaiSP();
@@ -189,32 +190,39 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
     }
 
     void clear() {
-        txtMaLSP.setText("");
+        txtMaLoaiSP.setText("");
         txtTenLSP.setText("");
-        cboDanhMuc.setSelectedIndex(0);
+        txtMaDM.setSelectedIndex(0);
         index = -1;
         setStatus();
     }
 
     boolean validateForm() {
         StringBuilder sb = new StringBuilder();
-        sb.append(txtMaLSP.getText().isEmpty() ? "Mã loại sản phẩm không thể trống!" : "");
+        sb.append(txtMaLoaiSP.getText().isEmpty() ? "Mã loại sản phẩm không thể trống!" : "");
         sb.append(txtTenLSP.getText().isEmpty() ? "\nTên loại sản phẩm không thể trống!" : "");
+        sb.append(txtMaLoaiSP.getText().length() > 7 ? "\nMã loai sản phẩm không thể lớn hon 7 kí tự!" : "");
 
-        if (txtMaLSP.getText().length() > 10) {
+
+        if (txtMaLoaiSP.getText().length() > 10) {
             JOptionPane.showMessageDialog(this, "Mã loại không quá 10 kí tự !");
             return false;
         }
 
-        if (sb.length() > 0) {
-            JOptionPane.showMessageDialog(this, sb);
+   
+        return true;
+    }
+    
+    boolean confirmUpdate(){
+        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có muốn câp nhật dữ liệu này ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.NO_OPTION) {
             return false;
         }
         return true;
     }
 
     boolean checkTrungID() {
-        String maLoaiSP = txtMaLSP.getText();
+        String maLoaiSP = txtMaLoaiSP.getText();
         for (LoaiSP lsp : list) {
             if (maLoaiSP.equals(lsp.getMaLoai())) {
                 return false;
@@ -237,9 +245,9 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         btnClose = new com.boxcf.components.ButtonRound();
         jLabel1 = new javax.swing.JLabel();
         lblMaNV8 = new javax.swing.JLabel();
-        cboDanhMuc = new com.boxcf.components.Combobox();
+        txtMaDM = new com.boxcf.components.Combobox();
         lblMaNV = new javax.swing.JLabel();
-        txtMaLSP = new com.boxcf.components.TextField();
+        txtMaLoaiSP = new com.boxcf.components.TextField();
         lblMaNV2 = new javax.swing.JLabel();
         txtTenLSP = new com.boxcf.components.TextField();
         jPanel1 = new javax.swing.JPanel();
@@ -281,15 +289,15 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
         lblMaNV8.setForeground(new java.awt.Color(27, 51, 61));
         lblMaNV8.setText("Danh mục");
 
-        cboDanhMuc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtMaDM.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         lblMaNV.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblMaNV.setForeground(new java.awt.Color(27, 51, 61));
         lblMaNV.setText("Mã loại sản phẩm");
 
-        txtMaLSP.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtMaLSP.setLabelText("");
+        txtMaLoaiSP.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtMaLoaiSP.setLabelText("");
 
         lblMaNV2.setBackground(new java.awt.Color(102, 0, 204));
         lblMaNV2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -323,7 +331,7 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
 
         btnReset.setBackground(new java.awt.Color(2, 172, 171));
         btnReset.setForeground(new java.awt.Color(255, 255, 255));
-        btnReset.setText("RESET");
+        btnReset.setText("LÀM MỚI");
         btnReset.setFocusable(false);
         btnReset.setFont(new java.awt.Font("UTM BryantLG", 1, 16)); // NOI18N
         btnReset.addActionListener(new java.awt.event.ActionListener() {
@@ -446,9 +454,9 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(lblMaNV8, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cboDanhMuc, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMaDM, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtMaLSP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtMaLoaiSP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblMaNV2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtTenLSP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 19, Short.MAX_VALUE)))
@@ -464,11 +472,11 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addComponent(lblMaNV8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cboDanhMuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtMaDM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(lblMaNV)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtMaLSP, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtMaLoaiSP, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(lblMaNV2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -587,7 +595,6 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
     private com.boxcf.components.ButtonRound btnPre;
     private com.boxcf.components.ButtonRound btnReset;
     private com.boxcf.components.ButtonRound btnThem;
-    private com.boxcf.components.Combobox cboDanhMuc;
     private com.boxcf.components.GradientPanel gradientPanel3;
     private com.boxcf.components.GradientPanel gradientPanel4;
     private javax.swing.JLabel jLabel1;
@@ -596,7 +603,8 @@ public class ThongTinLoaiSP extends javax.swing.JFrame {
     private javax.swing.JLabel lblMaNV;
     private javax.swing.JLabel lblMaNV2;
     private javax.swing.JLabel lblMaNV8;
-    private com.boxcf.components.TextField txtMaLSP;
+    private com.boxcf.components.Combobox txtMaDM;
+    private com.boxcf.components.TextField txtMaLoaiSP;
     private com.boxcf.components.TextField txtTenLSP;
     // End of variables declaration//GEN-END:variables
 }

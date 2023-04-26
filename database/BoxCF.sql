@@ -43,7 +43,8 @@ CREATE TABLE SanPham(
 	TrangThai bit
 )
 
-
+update SanPham
+set TrangThai  = 1
  
 
 GO
@@ -195,11 +196,11 @@ Insert into LoaiBox values ('L', N'Nhóm 4', 300000, null)
 Insert into LoaiBox values ('XL', N'Nhóm 6', 300000, null)
 
 --Combo
-Insert into Combo values ('CB01S', N'Combo 1',100000, 'abc', 'S', 5, 2, 2)
-Insert into Combo values ('CB02M', N'Combo 2',200000, 'abc', 'M', 2, 2, 2)
-Insert into Combo values ('CB03L', N'Combo 3',300000, 'abc', 'L', 3, 2, 2)
-Insert into Combo values ('CB04XL', N'Combo 4',300000, 'abc', 'XL', 3, 1, 2)
-Insert into Combo values ('CB05S', N'Combo 5',100000, 'abc', 'S', 1, 2, 1)
+Insert into Combo values ('CB002S', N'Combo 1',100000, 'abc', 'S', 5, 2, 2)
+Insert into Combo values ('CB003M', N'Combo 2',200000, 'abc', 'M', 2, 2, 2)
+Insert into Combo values ('CB004L', N'Combo 3',300000, 'abc', 'L', 3, 2, 2)
+Insert into Combo values ('CB005XL', N'Combo 4',300000, 'abc', 'XL', 3, 1, 2)
+Insert into Combo values ('CB006S', N'Combo 5',100000, 'abc', 'S', 1, 2, 1)
 
 select * from ComboCT
 select * from PhieuDatBox
@@ -411,7 +412,4 @@ go
 
 
 
-
-
-
-
+select * from NhanVien

@@ -228,6 +228,7 @@ public class SanPhamView extends javax.swing.JPanel {
         dmDAO.delete(maDanhMuc);
         JOptionPane.showMessageDialog(this, "Xóa thành công!");
         fillToTableDanhMuc();
+        fillCBBDM();
     }
 
     void xoaLoaiSP() {
@@ -247,6 +248,7 @@ public class SanPhamView extends javax.swing.JPanel {
             lspDAO.delete(maLoai);
             JOptionPane.showMessageDialog(this, "Xóa thành công!");
             fillToTableLoaiSP();
+            fillCBBLoaiSP();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi liên kết dữ liệu!");
         }

@@ -98,9 +98,9 @@
                                       <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="lblMaNV8" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
-                                  <Component id="cboDanhMuc" alignment="0" min="-2" pref="741" max="-2" attributes="0"/>
+                                  <Component id="txtMaDM" alignment="0" min="-2" pref="741" max="-2" attributes="0"/>
                                   <Component id="lblMaNV" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
-                                  <Component id="txtMaLSP" max="32767" attributes="0"/>
+                                  <Component id="txtMaLoaiSP" max="32767" attributes="0"/>
                                   <Component id="lblMaNV2" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
                                   <Component id="txtTenLSP" alignment="0" max="32767" attributes="0"/>
                               </Group>
@@ -122,11 +122,11 @@
                       <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                       <Component id="lblMaNV8" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cboDanhMuc" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtMaDM" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                       <Component id="lblMaNV" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtMaLSP" min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="txtMaLoaiSP" min="-2" pref="38" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Component id="lblMaNV2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -178,7 +178,7 @@
                 <Property name="text" type="java.lang.String" value="Danh m&#x1ee5;c"/>
               </Properties>
             </Component>
-            <Component class="com.boxcf.components.Combobox" name="cboDanhMuc">
+            <Component class="com.boxcf.components.Combobox" name="txtMaDM">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="0"/>
@@ -199,7 +199,7 @@
                 <Property name="text" type="java.lang.String" value="M&#xe3; lo&#x1ea1;i s&#x1ea3;n ph&#x1ea9;m"/>
               </Properties>
             </Component>
-            <Component class="com.boxcf.components.TextField" name="txtMaLSP">
+            <Component class="com.boxcf.components.TextField" name="txtMaLoaiSP">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="0"/>
@@ -304,7 +304,7 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="RESET"/>
+                    <Property name="text" type="java.lang.String" value="L&#xc0;M M&#x1eda;I"/>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="UTM BryantLG" size="16" style="1"/>

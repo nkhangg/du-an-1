@@ -148,9 +148,10 @@ public class XDate {
     }
 
     public static void main(String[] args) throws ParseException {
-        int hour = Integer.parseInt(XDate.toString(XDate.now(), "HH"));
+        Date t1 = XDate.getHour("18:00:00");
+        Date t2 = XDate.getHour("18:01:00");
 
-        System.out.println("hour: " + hour);
+        System.out.println("hour: " +(t2.getTime() - t1.getTime()));
     }
 
 }

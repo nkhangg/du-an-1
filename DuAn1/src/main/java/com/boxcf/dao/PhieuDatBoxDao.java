@@ -264,6 +264,12 @@ public class PhieuDatBoxDao implements BoxCfDAO<PhieuDatBox, Integer> {
         return selectBySql(sql, id);
     }
 
+    public List<PhieuDatBox> selectWithBooked() {
+        String sql = "select * from PhieuDatBox\n"
+                + "where TrangThai = 'booked'";
+        return selectBySql(sql);
+    }
+
     @Override
     public List<PhieuDatBox> selectBySql(String sql, Object... args) {
         List<PhieuDatBox> list = new ArrayList<>();

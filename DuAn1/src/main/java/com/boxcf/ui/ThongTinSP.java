@@ -49,6 +49,14 @@ public class ThongTinSP extends javax.swing.JFrame {
 
     }
 
+    boolean confirmUpdate() {
+        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có muốn câp nhật sản phẩm " + maSP + " ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.NO_OPTION) {
+            return false;
+        }
+        return true;
+    }
+
     boolean validateForm() {
         //check null
         StringBuilder sb = new StringBuilder();
@@ -224,6 +232,10 @@ public class ThongTinSP extends javax.swing.JFrame {
 
     void update() {
         if (!validateForm()) {
+            return;
+        }
+
+        if (!confirmUpdate()) {
             return;
         }
 
