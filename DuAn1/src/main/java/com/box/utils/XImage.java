@@ -18,10 +18,10 @@ import javax.swing.ImageIcon;
  */
 public class XImage {
 
-   // luu 1 file vao thuc muc co ten la logo
-       //tao doi tuong File dst tro toi thu muc logos, lay ten la ten file ma ngta dua vo
-      public static void save(File src) {
-       //sau do kiem tra xem thu muc logos ton tai hay chua ==> neu chua tao moi
+    // luu 1 file vao thuc muc co ten la logo
+    //tao doi tuong File dst tro toi thu muc logos, lay ten la ten file ma ngta dua vo
+    public static void save(File src) {
+        //sau do kiem tra xem thu muc logos ton tai hay chua ==> neu chua tao moi
         File dst = new File("logos", src.getName());
         //dst.getParentFile() thu muc chua cai file do
         if (!dst.getParentFile().exists()) {
@@ -42,10 +42,11 @@ public class XImage {
         File path = new File("logos", fileName);
         return new ImageIcon(path.getAbsolutePath());
     }
-    
+
     public static Image resize(Image image, int width, int height) {
         return image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
     }
+
+    
+
 }
-
-
